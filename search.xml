@@ -217,6 +217,9 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 </ul>
 <p>通过这些内容我们可以对网络扫描和网络侦查有一个很好的了解。</p>
 ]]></content>
+      <categories>
+        <category>security</category>
+      </categories>
       <tags>
         <tag>security</tag>
       </tags>
@@ -281,6 +284,9 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <h1>0x06 小结</h1>
 <p>提出了一个新的更简单的实例分割框架Condinst。不同于以往的方法，如Mask R-CNN，它使用固定权重的任务头，CondInst将掩码头设置在实例上，并动态生成掩码头的过滤器。这不仅降低了掩模头的参数和计算复杂度，而且消除了ROI操作，从而形成了一个更快、更简单的实例分割框架。</p>
 ]]></content>
+      <categories>
+        <category>CV</category>
+      </categories>
       <tags>
         <tag>CV</tag>
       </tags>
@@ -340,6 +346,9 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <p>SPP网络，这个方法的思想在R-CNN、Fast RCNN， Faster RCNN上都起了举足轻重的作用，对于检测算法，论文中是这样做到：使用ss生成~2k个候选框，缩放图像min(w,h)=s之后提取特征，每个候选框使用一个4层的空间金字塔池化特征，网络使用的是ZF-5的SPPNet形式。之后将12800d的特征输入全连接层，SVM的输入为全连接层的输出。这个算法可以应用到多尺度的特征提取：先将图片resize到五个尺度：480，576，688，864，1200，加自己6个。然后在map window to feature map一步中，选择ROI框尺度在｛6个尺度｝中大小最接近224x224的那个尺度下的feature maps中提取对应的roi feature。这样做可以提高系统的准确率。</p>
 <p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
 ]]></content>
+      <categories>
+        <category>CV</category>
+      </categories>
       <tags>
         <tag>CV</tag>
       </tags>
@@ -519,6 +528,9 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 </ul>
 <p>通过这次的实验我对网络嗅探有了比较充分的了解，对网络中的协议如ARP，FTP等又有了更深的了解。可以更加熟练的使用WireShark, 了解了暴力破解网站和压缩文件的基本操作。以及对于密码安全防护的意识加强。<strong>收益良多</strong></p>
 ]]></content>
+      <categories>
+        <category>security</category>
+      </categories>
       <tags>
         <tag>security</tag>
       </tags>
