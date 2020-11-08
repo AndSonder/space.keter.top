@@ -96,7 +96,7 @@
        
   <p>@一个在写实验报告的人，/(ㄒoㄒ)/~~</p>
 <h1>0x01 网络嗅探相关概念</h1>
-<h2 id="1x01-网络嗅探概述">1x01 网络嗅探概述</h2>
+<h2 id="1x01-网络嗅探概述"><a class="header-anchor" href="#1x01-网络嗅探概述">¶</a>1x01 网络嗅探概述</h2>
 <p>Sniffer（嗅探器）工作在OSI模型的第二层，利用计算机的网卡截获网络数据报文的一种工具，<strong>可用来监听网络中的数据，分析网络的流量，以便找出所关心的网络中潜在的问题</strong>。例如,假设网络的某一段运行得不是很好,报文的发送比较慢,而我们又不知道问题出在什么地方,此时就可以用嗅探器确定不同网络协议、不同用户的通信流量，相互主机的报文传送间隔时间等，这些信息为管理员判断网络问题、管理网络区域提供了非常宝贵的信息。<br>
 在正常情况下，一个合法的网络接口应该只响应这样的两种数据帧：</p>
 <ul>
@@ -106,12 +106,12 @@
 <p>如果网卡处于混杂（promiscuous）模式，那么它就可以捕获网络上所有的数据帧，处于对网络的“监听”状态，如果一台机器被配置成这样的方式，它（包括其软件）就是一个嗅探器。<br>
 在交换型以太网中，上述条件2是不满足的。所有的主机连接到SWITCH，<strong>SWITCH比HUB更聪明</strong>，它知道每台计算机的MAC地址信息和与之相连的特定端口，发给某个主机的数据包会被SWITCH从特定的端口送出，而不是象HUB那样，广播给网络上所有的机器。这种传输形式使交换型以太网的性能大大提高，同时还有一个附加的作用：使传统的嗅探器无法工作。<br>
 交换型网络环境嗅探的核心问题是：如何使本不应到达的数据包到达本地。通常的方法有<strong>MAC洪水包和ARP欺骗</strong>。其中MAC洪水包是向交换机发送大量含有虚构MAC地址和IP地址的IP包，使交换机无法处理如此多的信息，致使交换机就进入了所谓的&quot;打开失效&quot;模式，也就是开始了类似于集线器的工作方式，向网络上所有的机器广播数据包。</p>
-<h2 id="1x02-arp欺骗">1x02 ARP欺骗</h2>
+<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
 <p>每一个主机都有一个ARP高速缓存，此缓存中记录了最近一段时间内其它IP地址与其MAC地址的对应关系。如果本机想与某台主机通信，则首先在ARP高速缓存中查找此台主机的IP和MAC信息，如果存在，则直接利用此MAC地址构造以太帧；如果不存在，则向本网络上每一个主机广播一个ARP请求报文，其意义是&quot;如果你有此IP地址，请告诉我你的MAC地址&quot;，目的主机收到此请求包后，发送一个ARP响应报文，本机收到此响应后，把相关信息记录在ARP高速缓存中，以下的步骤同上。<br>
 <strong>ARP报文格式：</strong><br>
 <img src="https://img-blog.csdnimg.cn/20201104213312881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <p>可以看出，ARP协议是有缺点的，第三方主机可以构造一个ARP欺骗报文，而源主机却无法分辨真假。如果发送者硬件地址字段填入攻击者的硬件地址，而发送者IP地址填入被假冒者的IP地址，那么就构造出了一个用于欺骗的ARP请求报文。那么被欺骗主机的ARP高速缓存，被假冒者的IP地址与其MAC地址的对应关系就会更改为欺骗者的，从而达到ARP欺骗的目的。特别的，如果攻击者冒充网关，将转发子网内到外网的所有通信量，以达到捕获其他主机的通信量，从而破坏数据传输的保密性。</p>
-<h2 id="1x03-密码安全">1x03 密码安全</h2>
+<h2 id="1x03-密码安全"><a class="header-anchor" href="#1x03-密码安全">¶</a>1x03 密码安全</h2>
 <p>在现实网络中，攻击事件发生的频率越来越高，其中相当多的都是由于网站密码泄露的缘故，或是人为因素导致，或是口令遭到破解，所以从某种角度而言，密码的安全问题不仅仅是技术上的问题，更主要的是人的安全意识问题。</p>
 <ul>
 <li>口令破解方法<br>
@@ -129,7 +129,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 </ul>
 <h1>0x02 网络嗅探部分</h1>
 <p><img src="https://img-blog.csdnimg.cn/20201104213552527.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x01-sinffer-wireshark抓包">1x01 sinffer（Wireshark抓包）</h2>
+<h2 id="1x01-sinffer-wireshark抓包"><a class="header-anchor" href="#1x01-sinffer-wireshark抓包">¶</a>1x01 sinffer（Wireshark抓包）</h2>
 <p>A主机上外网，B运行sinffer(Wireshark)选定只抓源为A的数据)。</p>
 <p>我们选择Metasploit2主机作为A，Kali作为B。首先我们需要确认kali和Windows处于同一网段（可相互ping通的状态)。<strong>（PS：这一步是使用的Metasploit2，后面因为需要到网页里面提交数据就换成了win7）</strong></p>
 <p><img src="https://img-blog.csdnimg.cn/20201104223018979.png#pic_center" alt="在这里插入图片描述"><br>
@@ -138,7 +138,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 接下来我们使用A去ping B观察一下wireshark的反应。<br>
 <img src="https://img-blog.csdnimg.cn/20201104224124598.png#pic_center" alt="在这里插入图片描述"></p>
 <p>但是如果A ping的是百度，或者往某一个网址发送包含账号和密码的HTTP报文。就可以获取相应信息。</p>
-<h2 id="1x02-arp欺骗">1x02 ARP欺骗</h2>
+<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
 <p>关于ARP的原理已经攻击原理我在以前的一篇博客中有写到：<br>
 <a target="_blank" rel="noopener" href="https://blog.csdn.net/python_LC_nohtyp/article/details/109270741">【白帽子学习笔记20】arp协议原理与攻击应用</a></p>
 <p>为了欺骗B，让B把报文全部发到A这里来。A需要冒充局域网中交换机的角色。<strong>（此时B为Win7主机）</strong><br>
@@ -183,7 +183,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <img src="https://img-blog.csdnimg.cn/20201105012432476.png#pic_center" alt="在这里插入图片描述"><br>
 在数据报里面成功的发现我过程输入的账号和密码的明文信息。<br>
 <img src="https://img-blog.csdnimg.cn/20201105012544392.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x03-wireshark分析文件">1x03 WireShark分析文件</h2>
+<h2 id="1x03-wireshark分析文件"><a class="header-anchor" href="#1x03-wireshark分析文件">¶</a>1x03 WireShark分析文件</h2>
 <p><strong>1.如何发现有FTP服务器？且找到FTP服务器的IP地址？</strong></p>
 <p>通过观察流量数据，可以发现有大量基于FTP协议传输的数据库，所以推测有FTP服务器。<br>
 <img src="https://img-blog.csdnimg.cn/20201105013341403.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
@@ -227,13 +227,13 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <img src="https://img-blog.csdnimg.cn/20200812141849955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
 爆破成功啦！<br>
 <img src="https://img-blog.csdnimg.cn/20200812141942854.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-md5破解">1x04 MD5破解</h2>
+<h2 id="1x04-md5破解"><a class="header-anchor" href="#1x04-md5破解">¶</a>1x04 MD5破解</h2>
 <p>打开一个在线md5解密网站就可以解开简单的md5码。<br>
 <img src="https://img-blog.csdnimg.cn/20201105025933699.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x05-john-the-ripper">1x05 John the Ripper</h2>
+<h2 id="1x05-john-the-ripper"><a class="header-anchor" href="#1x05-john-the-ripper">¶</a>1x05 John the Ripper</h2>
 <p>John the Ripper 是一款速度很快的密码破解工具，目前可用于 Unix、macOS、Windows、DOS、BeOS 与 OpenVMS 等多种操作系统。最初其主要目的是检测弱 Unix 密码，而现在，除了支持许多 Unix crypt(3) 密码哈希类型，John the Ripper “-jumbo”版本还支持数百种其它哈希类型和密码。</p>
 <h1>0x03 做有所得</h1>
-<h2 id="1x01-如何防止arp攻击">1x01 如何防止ARP攻击</h2>
+<h2 id="1x01-如何防止arp攻击"><a class="header-anchor" href="#1x01-如何防止arp攻击">¶</a>1x01 如何防止ARP攻击</h2>
 <ul>
 <li>
 <p>终端对网关的绑定要坚实可靠，这个绑定能够抵制被病毒捣毁。</p>
@@ -245,15 +245,15 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <p>网络内要有一个最可依赖的机构，提供对网关IP-MAC最强大的保护。它既能够分发正确的网关信息，又能够对出现的假网关信息立即封杀。</p>
 </li>
 </ul>
-<h2 id="1x02-安全的密码-口令-应遵守的原则">1x02 安全的密码（口令）应遵守的原则</h2>
+<h2 id="1x02-安全的密码-口令-应遵守的原则"><a class="header-anchor" href="#1x02-安全的密码-口令-应遵守的原则">¶</a>1x02 安全的密码（口令）应遵守的原则</h2>
 <ul>
 <li>避免出现弱密码</li>
 <li>记住的密码才是好密码</li>
 <li>每个平台密码最好能够有一定的区别</li>
 </ul>
-<h2 id="1x03-字典的重要性">1x03 字典的重要性</h2>
+<h2 id="1x03-字典的重要性"><a class="header-anchor" href="#1x03-字典的重要性">¶</a>1x03 字典的重要性</h2>
 <p>在破解密码或密钥时，逐一尝试用户自定义词典中的可能密码（单词或短语）的攻击方式。与暴力破解的区别是，暴力破解会逐一尝试所有可能的组合密码，而字典式攻击会使用一个预先定义好的单词列表（可能的密码）。对于暴力破解<strong>社会工程学</strong>是经常用到的方法。根据社会工程学生成的字典可以极大的增大密码破译的成功率。</p>
-<h2 id="1x04-小结">1x04 小结</h2>
+<h2 id="1x04-小结"><a class="header-anchor" href="#1x04-小结">¶</a>1x04 小结</h2>
 <p>通过本次的实验我们学习到了以下内容：</p>
 <ul>
 <li>什么是网络嗅探</li>
