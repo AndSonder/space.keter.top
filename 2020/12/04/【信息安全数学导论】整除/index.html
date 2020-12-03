@@ -74,7 +74,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.1k</span>
+            <span class="post-count">1.3k</span>
         </span>
     </span>
 
@@ -83,7 +83,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">4 min</span>
+            <span class="post-count">5 min</span>
         </span>
     </span>
 </div>
@@ -158,7 +158,9 @@
 <li>最大公因数：因数中最大的一个，a和b的最大公因数记作（a，b）</li>
 <li>一堆不全为0的数的公因数与这堆数加上绝对值后的公因数相同</li>
 <li>Bezout等式的计算 ==》太难说明了，结合矩阵图理解吧</li>
+<li>广义欧几里得算法：简单的来说就是当两个数比较大的时候来求这两个数的最大公因子，时间复杂度为O(n)</li>
 </ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">广义欧拉定理的实现</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line">j = []</span><br><span class="line">s_j = []</span><br><span class="line">t_j = []</span><br><span class="line">q_j_1 = []</span><br><span class="line">r_j_1 = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># 规定a和b</span></span><br><span class="line">a = <span class="number">3589</span></span><br><span class="line">b = <span class="number">1613</span></span><br><span class="line">temp_a = a</span><br><span class="line">temp_b = b</span><br><span class="line"><span class="comment"># 先求r_j_1和q_j_1</span></span><br><span class="line">r_j_1.append(temp_a)</span><br><span class="line">r_j_1.append(temp_b)</span><br><span class="line"><span class="keyword">while</span> temp_a % temp_b != <span class="number">0</span>:</span><br><span class="line">    <span class="comment"># 向下取整</span></span><br><span class="line">    q = math.floor(temp_a / temp_b)</span><br><span class="line">    q_j_1.append(q)</span><br><span class="line">    r_j_1.append(temp_a - temp_b * q)</span><br><span class="line">    temp = temp_b</span><br><span class="line">    temp_b = temp_a - temp_b * q</span><br><span class="line">    temp_a = temp</span><br><span class="line"><span class="comment"># r_j_1.append(0)</span></span><br><span class="line"><span class="comment"># q_j_1.append(math.floor(a / b))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 求s_j 和 t_j    q12</span></span><br><span class="line"><span class="comment"># 初始化s_j 和 t_j</span></span><br><span class="line">s_j.append(<span class="number">1</span>)</span><br><span class="line">t_j.append(<span class="number">0</span>)</span><br><span class="line">s_j.append(<span class="number">0</span>)</span><br><span class="line">t_j.append(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(q_j_1)):</span><br><span class="line">    s_j.append(-q_j_1[i] * s_j[i + <span class="number">1</span>] + s_j[i])</span><br><span class="line">    t_j.append(-q_j_1[i] * t_j[i + <span class="number">1</span>] + t_j[i])</span><br><span class="line"></span><br><span class="line">print(r_j_1)</span><br><span class="line">print(q_j_1)</span><br><span class="line">print(s_j)</span><br><span class="line">print(t_j)</span><br><span class="line">print(s_j[<span class="number">-1</span>] * a + t_j[<span class="number">-1</span>] * b)</span><br></pre></td></tr></table></figure>
 </li>
 <li>
 <p><strong>最大公因子进一步的性质</strong></p>
