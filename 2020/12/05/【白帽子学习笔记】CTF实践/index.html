@@ -100,14 +100,15 @@
        
   <h1>【白帽子学习笔记】CTF实践</h1>
 <h2 id="0x01-实验知识点"><a class="header-anchor" href="#0x01-实验知识点">¶</a>0x01 实验知识点</h2>
-<h3 id="1x01-什么是CTF？"><a class="header-anchor" href="#1x01-什么是CTF？">¶</a>1x01 什么是CTF？</h3>
+<h3 id="1x01-什么是ctf？"><a class="header-anchor" href="#1x01-什么是ctf？">¶</a>1x01 什么是CTF？</h3>
 <p>CTF（Capture The Flag）中文一般译作夺旗赛，在网络安全领域中指的是网络安全技术人员之间进行技术竞技的一种比赛形式。CTF起源于1996年DEFCON全球黑客大会，以代替之前黑客们通过互相发起真实攻击进行技术比拼的方式。发展至今，已经成为全球范围网络安全圈流行的竞赛形式，2013年全球举办了超过五十场国际性CTF赛事。而DEFCON作为CTF赛制的发源地，DEFCON CTF也成为了目前全球最高技术水平和影响力的CTF竞赛，类似于CTF赛场中的“世界杯”。</p>
-<h3 id="1x02-CTF竞赛模式"><a class="header-anchor" href="#1x02-CTF竞赛模式">¶</a>1x02 CTF竞赛模式</h3>
+<h3 id="1x02-ctf竞赛模式"><a class="header-anchor" href="#1x02-ctf竞赛模式">¶</a>1x02 CTF竞赛模式</h3>
 <p>（1）解题模式（Jeopardy）在解题模式CTF赛制中，参赛队伍可以通过互联网或者现场网络参与，这种模式的CTF竞赛与ACM编程竞赛、信息学奥赛比较类似，以解决网络安全技术挑战题目的分值和时间来排名，通常用于在线选拔赛。题目主要包含逆向、漏洞挖掘与利用、Web渗透、密码、取证、隐写、安全编程等类别。</p>
 <p>（2）攻防模式（Attack-Defense）在攻防模式CTF赛制中，参赛队伍在网络空间互相进行攻击和防守，挖掘网络服务漏洞并攻击对手服务来得分，修补自身服务漏洞进行防御来避免丢分。攻防模式CTF赛制可以实时通过得分反映出比赛情况，最终也以得分直接分出胜负，是一种竞争激烈，具有很强观赏性和高度透明性的网络安全赛制。在这种赛制中，不仅仅是比参赛队员的智力和技术，也比体力（因为比赛一般都会持续48小时及以上），同时也比团队之间的分工配合与合作。</p>
-<p>（3）混合模式（Mix）结合了解题模式与攻防模式的CTF赛制，比如参赛队伍通过解题可以获取一些初始分数，然后通过攻防对抗进行得分增减的零和游戏，最终以得分高低分出胜负。采用混合模式CTF赛制的典型代表如iCTF国际CTF竞赛。<br>
-1.2 CTF各大题型简介</p>
-<h3 id="1x03-CTF各大题型简介"><a class="header-anchor" href="#1x03-CTF各大题型简介">¶</a>1x03 CTF各大题型简介</h3>
+<p>（3）混合模式（Mix）结合了解题模式与攻防模式的CTF赛制，比如参赛队伍通过解题可以获取一些初始分数，然后通过攻防对抗进行得分增减的零和游戏，最终以得分高低分出胜负。采用混合模式CTF赛制的典型代表如iCTF国际CTF竞赛。</p>
+<a id="more"></a>
+<p>1.2 CTF各大题型简介</p>
+<h3 id="1x03-ctf各大题型简介"><a class="header-anchor" href="#1x03-ctf各大题型简介">¶</a>1x03 CTF各大题型简介</h3>
 <p><strong>MISC（安全杂项）</strong><br>
 全称Miscellaneous。题目涉及流量分析、电子取证、人肉搜索、数据分析、大数据统计等等，覆盖面比较广。我们平时看到的社工类题目；给你一个流量包让你分析的题目；取证分析题目，都属于这类题目。主要考查参赛选手的各种基础综合知识，考察范围比较广。</p>
 <p><strong>PPC（编程类）</strong><br>
@@ -122,11 +123,11 @@
 PWN在黑客俚语中代表着攻破，取得权限，在CTF比赛中它代表着溢出类的题目，其中常见类型溢出漏洞有栈溢出、堆溢出。在CTF比赛中，线上比赛会有，但是比例不会太重，进入线下比赛，逆向和溢出则是战队实力的关键。主要考察参数选手漏洞挖掘和利用能力。</p>
 <p><strong>WEB（web类）</strong><br>
 WEB应用在今天越来越广泛，也是CTF夺旗竞赛中的主要题型，题目涉及到常见的Web漏洞，诸如注入、XSS、文件包含、代码审计、上传等漏洞。这些题目都不是简单的注入、上传题目，至少会有一层的安全过滤，需要选手想办法绕过。且Web题目是国内比较多也是大家比较喜欢的题目。因为大多数人开始安全都是从web*站开始的。</p>
-<h2 id="0x02-获取Web-Developer中的flag"><a class="header-anchor" href="#0x02-获取Web-Developer中的flag">¶</a>0x02 获取Web Developer中的flag</h2>
-<h3 id="1x01-Net-Discover"><a class="header-anchor" href="#1x01-Net-Discover">¶</a>1x01 Net Discover</h3>
+<h2 id="0x02-获取web-developer中的flag"><a class="header-anchor" href="#0x02-获取web-developer中的flag">¶</a>0x02 获取Web Developer中的flag</h2>
+<h3 id="1x01-net-discover"><a class="header-anchor" href="#1x01-net-discover">¶</a>1x01 Net Discover</h3>
 <p>首先通过namp扫描存活的主机，成功发现了Web Developer；<br>
 <img src="https://img-blog.csdnimg.cn/20201205181221959.png" alt="在这里插入图片描述"></p>
-<h3 id="1x02-Nmap信息收集"><a class="header-anchor" href="#1x02-Nmap信息收集">¶</a>1x02 Nmap信息收集</h3>
+<h3 id="1x02-nmap信息收集"><a class="header-anchor" href="#1x02-nmap信息收集">¶</a>1x02 Nmap信息收集</h3>
 <p>接下来使用Nmap扫描Web Developer检查一下端口的开放情况；<br>
 <code>nmap 10.34.80.3</code><br>
 <img src="https://img-blog.csdnimg.cn/20201205183029858.png" alt="在这里插入图片描述"><br>
@@ -141,7 +142,7 @@ WEB应用在今天越来越广泛，也是CTF夺旗竞赛中的主要题型，�
 从内容信息中可以得到，该网站的CMS为WordPress；</p>
 <h2 id="1x05-wpscan"><a class="header-anchor" href="#1x05-wpscan">¶</a>1x05 wpscan</h2>
 <p>WPScan是Kali Linux默认自带的一款漏洞扫描工具，它采用Ruby编写，能够扫描WordPress网站中的多种安全漏洞，其中包括WordPress本身的漏洞、插件漏洞和主题漏洞。</p>
-<h2 id="1x06-Dirb爆破"><a class="header-anchor" href="#1x06-Dirb爆破">¶</a>1x06 Dirb爆破</h2>
+<h2 id="1x06-dirb爆破"><a class="header-anchor" href="#1x06-dirb爆破">¶</a>1x06 Dirb爆破</h2>
 <p>使用dirb来爆破网站的根目录；<br>
 <code>dirb -u http://10.34.80.3</code><br>
 <img src="https://img-blog.csdnimg.cn/20201205203124928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
@@ -168,7 +169,7 @@ WEB应用在今天越来越广泛，也是CTF夺旗竞赛中的主要题型，�
 <img src="https://img-blog.csdnimg.cn/20201205211252488.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h2 id="1x08-使用wordpress的插件漏洞进行提权"><a class="header-anchor" href="#1x08-使用wordpress的插件漏洞进行提权">¶</a>1x08 使用wordpress的插件漏洞进行提权</h2>
 <p>这里可以使用三种方案进行实现：</p>
-<h3 id="2x01-MeterSploit-reflex-gallery"><a class="header-anchor" href="#2x01-MeterSploit-reflex-gallery">¶</a>2x01 MeterSploit + reflex gallery</h3>
+<h3 id="2x01-metersploit-reflex-gallery"><a class="header-anchor" href="#2x01-metersploit-reflex-gallery">¶</a>2x01 MeterSploit + reflex gallery</h3>
 <p>首先我们先需要给这个wordpress安装reflex gallery插件；<br>
 去plugins界面搜索一下reflex，安装上去就好；<br>
 <img src="https://img-blog.csdnimg.cn/20201205212109389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
@@ -184,7 +185,7 @@ WEB应用在今天越来越广泛，也是CTF夺旗竞赛中的主要题型，�
 <img src="https://img-blog.csdnimg.cn/20201205215206975.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
 可以在里面找到<strong>数据库</strong>的用户和密码：<br>
 <img src="https://img-blog.csdnimg.cn/20201205215438538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="2x02-反弹Shell"><a class="header-anchor" href="#2x02-反弹Shell">¶</a>2x02 反弹Shell</h3>
+<h3 id="2x02-反弹shell"><a class="header-anchor" href="#2x02-反弹shell">¶</a>2x02 反弹Shell</h3>
 <p>上传反弹shell。<a target="_blank" rel="noopener" href="http://pentestmonkey.net/tools/web-shells/php-reverse-shell">http://pentestmonkey.net/tools/web-shells/php-reverse-shell</a><br>
 【目的：PHP网站渗透；实现途径：上传网站后，URL访问(含有)该反弹shell的页面。<br>
 功能：该脚本会发起反弹TCP连接到攻击者（脚本中指定攻击者IP地址和端口号）。】</p>
@@ -203,7 +204,7 @@ WEB应用在今天越来越广泛，也是CTF夺旗竞赛中的主要题型，�
 <img src="https://img-blog.csdnimg.cn/20201205224229463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
 经过路径的探寻后找到了wp_config.php 文件<br>
 <img src="https://img-blog.csdnimg.cn/20201205224535747.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="2x03-利用文件管理插件（File-manager）漏洞"><a class="header-anchor" href="#2x03-利用文件管理插件（File-manager）漏洞">¶</a>2x03 利用文件管理插件（File manager）漏洞</h3>
+<h3 id="2x03-利用文件管理插件-file-manager-漏洞"><a class="header-anchor" href="#2x03-利用文件管理插件-file-manager-漏洞">¶</a>2x03 利用文件管理插件（File manager）漏洞</h3>
 <p>这个没啥技术含量，安装了插件之后直接就可以查看了；这里就不写了</p>
 <h2 id="1x09-ssh登陆该网站"><a class="header-anchor" href="#1x09-ssh登陆该网站">¶</a>1x09 ssh登陆该网站</h2>
 <p>这里我们尝试用上一步中获取的数据库密码来登陆</p>
