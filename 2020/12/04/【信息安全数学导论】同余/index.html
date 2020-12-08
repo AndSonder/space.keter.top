@@ -74,7 +74,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">3k</span>
+            <span class="post-count">3.1k</span>
         </span>
     </span>
 
@@ -262,6 +262,11 @@
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>p</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">!</mo><mo>≡</mo><mo>−</mo><mn>1</mn><mo stretchy="false">(</mo><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mi>p</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(p-1)! \equiv -1(mod \ p)
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord">1</span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord mathdefault">p</span><span class="mclose">)</span></span></span></span></span></p>
 <p><code>看到数字连乘的时候可以考虑使用Wilson定理</code></p>
+<h3 id="模重复平方法"><a class="header-anchor" href="#模重复平方法">¶</a>模重复平方法</h3>
+<blockquote>
+<p>用于求大数平方的模</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">模重复平方法</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 求解一个数的n次方的模</span></span><br><span class="line"><span class="comment"># 比如12996的227次方模37909同余的结果</span></span><br><span class="line">a = <span class="number">1</span></span><br><span class="line">num = <span class="number">12996</span></span><br><span class="line">n = <span class="number">227</span></span><br><span class="line">c = <span class="number">37909</span></span><br><span class="line"><span class="keyword">while</span> n:</span><br><span class="line">    <span class="keyword">if</span> n % <span class="number">2</span> == <span class="number">1</span>:</span><br><span class="line">        a = a * num % c</span><br><span class="line">    num = (num ** <span class="number">2</span>) % c</span><br><span class="line">    n //= <span class="number">2</span></span><br><span class="line">print(a)</span><br></pre></td></tr></table></figure>
 <h1>重要知识点：</h1>
 <h3 id="判断两个数是否同余？"><a class="header-anchor" href="#判断两个数是否同余？">¶</a>判断两个数是否同余？</h3>
 <ol>
