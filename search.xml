@@ -308,12 +308,174 @@ x \equiv (mod \ m_k) \\
 对于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>b</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">b^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span>来说，如果按照正常的算法，那么需要运算n次，如果按照本算法，就只需要<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>n</mi></mrow><annotation encoding="application/x-tex">log_2n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">n</span></span></span></span>次，时间复杂度大大减少；</p>
 <p>C实现：</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fastpow</span><span class="params">(<span class="keyword">int</span> base,<span class="keyword">int</span> n,<span class="keyword">int</span> mod)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ans=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(n)&#123;</span><br><span class="line">		<span class="keyword">if</span>(n&amp;<span class="number">1</span>) ans*=base%mod;</span><br><span class="line">		base*=base;</span><br><span class="line">		n&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans%mod;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="如何求解一个数的逆元？"><a class="header-anchor" href="#如何求解一个数的逆元？">¶</a>如何求解一个数的逆元？</h3>
+<ul>
+<li>
+<p>枚举法：对于比较小的数可以通过肉眼 “看” 的方式直接口算出他的逆元</p>
+</li>
+<li>
+<p>费马小定理：如果m为素数则逆元可以表达为：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mrow><mi>m</mi><mo>−</mo><mn>2</mn></mrow></msup><mtext> </mtext><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mi>m</mi></mrow><annotation encoding="application/x-tex">a^{m-2} \ mod \ m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mbin mtight">−</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mspace"> </span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord mathdefault">m</span></span></span></span></p>
+</li>
+<li>
+<p>拓展欧几里得算法：</p>
+<p>x是a的逆元可以表示为：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>x</mi><mo>=</mo><mn>1</mn><mo stretchy="false">(</mo><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">ax=1(mod \ n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> ；</p>
+<p>然后可以得到：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>x</mi><mo>−</mo><mi>n</mi><mi>y</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">ax-ny = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>;</p>
+<p>之后运用拓展欧几里得算法求得：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>x</mi><mo>+</mo><mi>n</mi><mi>y</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">ax+ny=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>的解即可</p>
+<p><code>注意逆元存在的条件为（a，n）= 1 </code></p>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>信息安全数学基础</category>
       </categories>
       <tags>
         <tag>信息安全数学基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【白帽子学习笔记】CTF实践</title>
+    <url>/2020/12/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91CTF%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>【白帽子学习笔记】CTF实践</h1>
+<h2 id="0x01-实验知识点"><a class="header-anchor" href="#0x01-实验知识点">¶</a>0x01 实验知识点</h2>
+<h3 id="1x01-什么是ctf？"><a class="header-anchor" href="#1x01-什么是ctf？">¶</a>1x01 什么是CTF？</h3>
+<p>CTF（Capture The Flag）中文一般译作夺旗赛，在网络安全领域中指的是网络安全技术人员之间进行技术竞技的一种比赛形式。CTF起源于1996年DEFCON全球黑客大会，以代替之前黑客们通过互相发起真实攻击进行技术比拼的方式。发展至今，已经成为全球范围网络安全圈流行的竞赛形式，2013年全球举办了超过五十场国际性CTF赛事。而DEFCON作为CTF赛制的发源地，DEFCON CTF也成为了目前全球最高技术水平和影响力的CTF竞赛，类似于CTF赛场中的“世界杯”。</p>
+<h3 id="1x02-ctf竞赛模式"><a class="header-anchor" href="#1x02-ctf竞赛模式">¶</a>1x02 CTF竞赛模式</h3>
+<p>（1）解题模式（Jeopardy）在解题模式CTF赛制中，参赛队伍可以通过互联网或者现场网络参与，这种模式的CTF竞赛与ACM编程竞赛、信息学奥赛比较类似，以解决网络安全技术挑战题目的分值和时间来排名，通常用于在线选拔赛。题目主要包含逆向、漏洞挖掘与利用、Web渗透、密码、取证、隐写、安全编程等类别。</p>
+<p>（2）攻防模式（Attack-Defense）在攻防模式CTF赛制中，参赛队伍在网络空间互相进行攻击和防守，挖掘网络服务漏洞并攻击对手服务来得分，修补自身服务漏洞进行防御来避免丢分。攻防模式CTF赛制可以实时通过得分反映出比赛情况，最终也以得分直接分出胜负，是一种竞争激烈，具有很强观赏性和高度透明性的网络安全赛制。在这种赛制中，不仅仅是比参赛队员的智力和技术，也比体力（因为比赛一般都会持续48小时及以上），同时也比团队之间的分工配合与合作。</p>
+<p>（3）混合模式（Mix）结合了解题模式与攻防模式的CTF赛制，比如参赛队伍通过解题可以获取一些初始分数，然后通过攻防对抗进行得分增减的零和游戏，最终以得分高低分出胜负。采用混合模式CTF赛制的典型代表如iCTF国际CTF竞赛。</p>
+<a id="more"></a>
+<p>1.2 CTF各大题型简介</p>
+<h3 id="1x03-ctf各大题型简介"><a class="header-anchor" href="#1x03-ctf各大题型简介">¶</a>1x03 CTF各大题型简介</h3>
+<p><strong>MISC（安全杂项）</strong><br>
+全称Miscellaneous。题目涉及流量分析、电子取证、人肉搜索、数据分析、大数据统计等等，覆盖面比较广。我们平时看到的社工类题目；给你一个流量包让你分析的题目；取证分析题目，都属于这类题目。主要考查参赛选手的各种基础综合知识，考察范围比较广。</p>
+<p><strong>PPC（编程类）</strong><br>
+全称Professionally Program Coder。题目涉及到程序编写、编程算法实现。算法的逆向编写，批量处理等，有时候用编程去处理问题，会方便的多。当然PPC相比ACM来说，还是较为容易的。至于编程语言嘛，推荐使用Python来尝试。这部分主要考察选手的快速编程能力。</p>
+<p><strong>CRYPTO（密码学）</strong><br>
+全称Cryptography。题目考察各种加解密技术，包括古典加密技术、现代加密技术甚至出题者自创加密技术。这样的题目汇集的最多。这部分主要考查参赛选手密码学相关知识点。</p>
+<p><strong>REVERSE（逆向）</strong><br>
+题目涉及到软件逆向、破解技术等，要求有较强的反汇编、反编译扎实功底。需要掌握汇编，堆栈、寄存器方面的知识。有好的逻辑思维能力。主要考查参赛选手的逆向分析能力。此类题目也是线下比赛的考察重点。</p>
+<p><strong>STEGA（隐写）</strong><br>
+全称Steganography。题目的Flag会隐藏到图片、音频、视频等各类数据载体中供参赛选手获取。载体就是图片、音频、视频等，可能是修改了这些载体来隐藏flag，也可能将flag隐藏在这些载体的二进制空白位置。有时候需要你侦探精神足够的强，才能发现。此类题目主要考查参赛选手的对各种隐写工具、隐写算法的熟悉程度。</p>
+<p><strong>PWN（溢出）</strong><br>
+PWN在黑客俚语中代表着攻破，取得权限，在CTF比赛中它代表着溢出类的题目，其中常见类型溢出漏洞有栈溢出、堆溢出。在CTF比赛中，线上比赛会有，但是比例不会太重，进入线下比赛，逆向和溢出则是战队实力的关键。主要考察参数选手漏洞挖掘和利用能力。</p>
+<p><strong>WEB（web类）</strong><br>
+WEB应用在今天越来越广泛，也是CTF夺旗竞赛中的主要题型，题目涉及到常见的Web漏洞，诸如注入、XSS、文件包含、代码审计、上传等漏洞。这些题目都不是简单的注入、上传题目，至少会有一层的安全过滤，需要选手想办法绕过。且Web题目是国内比较多也是大家比较喜欢的题目。因为大多数人开始安全都是从web*站开始的。</p>
+<h2 id="0x02-获取web-developer中的flag"><a class="header-anchor" href="#0x02-获取web-developer中的flag">¶</a>0x02 获取Web Developer中的flag</h2>
+<h3 id="1x01-net-discover"><a class="header-anchor" href="#1x01-net-discover">¶</a>1x01 Net Discover</h3>
+<p>首先通过namp扫描存活的主机，成功发现了Web Developer；<br>
+<img src="https://img-blog.csdnimg.cn/20201205181221959.png" alt="在这里插入图片描述"></p>
+<h3 id="1x02-nmap信息收集"><a class="header-anchor" href="#1x02-nmap信息收集">¶</a>1x02 Nmap信息收集</h3>
+<p>接下来使用Nmap扫描Web Developer检查一下端口的开放情况；<br>
+<code>nmap 10.34.80.3</code><br>
+<img src="https://img-blog.csdnimg.cn/20201205183029858.png" alt="在这里插入图片描述"><br>
+可以看到开放了80端口和22端口，这两个端口的作用分别是http端口（网页）和ssh端口（远程登陆）；</p>
+<h3 id="1x03-访问网站"><a class="header-anchor" href="#1x03-访问网站">¶</a>1x03 访问网站</h3>
+<p>因为网站开放了80端口，所以可以尝试登陆http端口<br>
+<img src="https://img-blog.csdnimg.cn/20201205183407180.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+发现有一个搭建了一个个人模块网站，这个网站应该是一个比较经典的CMS了，记得我当初刚买服务器的时候@visualDust给我搭了这一个这个网站。</p>
+<h2 id="1x04-whatweb探寻"><a class="header-anchor" href="#1x04-whatweb探寻">¶</a>1x04 whatweb探寻</h2>
+<p>通过whatweb进行检测可以发现该网站的如下信息：<br>
+<img src="https://img-blog.csdnimg.cn/2020120520233257.png" alt="在这里插入图片描述"><br>
+从内容信息中可以得到，该网站的CMS为WordPress；</p>
+<h2 id="1x05-wpscan"><a class="header-anchor" href="#1x05-wpscan">¶</a>1x05 wpscan</h2>
+<p>WPScan是Kali Linux默认自带的一款漏洞扫描工具，它采用Ruby编写，能够扫描WordPress网站中的多种安全漏洞，其中包括WordPress本身的漏洞、插件漏洞和主题漏洞。</p>
+<h2 id="1x06-dirb爆破"><a class="header-anchor" href="#1x06-dirb爆破">¶</a>1x06 Dirb爆破</h2>
+<p>使用dirb来爆破网站的根目录；<br>
+<code>dirb -u http://10.34.80.3</code><br>
+<img src="https://img-blog.csdnimg.cn/20201205203124928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+找到一个 <code>http://10.34.80.3/ipdata/</code> 感觉这个很像流量信息，进去看一看吧<br>
+<img src="https://img-blog.csdnimg.cn/20201205203544184.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="1x07-wireshark数据分析"><a class="header-anchor" href="#1x07-wireshark数据分析">¶</a>1x07 wireshark数据分析</h2>
+<p>在获取了网站数据流信息后，我们尝试使用wireshark进行一次分析；尝试搜索一下login，结果有惊奇的发现；<br>
+<img src="https://img-blog.csdnimg.cn/20201205204031475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+成功找到了登陆界面:<br>
+<img src="https://img-blog.csdnimg.cn/20201205204320279.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+我们随便提交一个，找到信息post去的地址：<br>
+<img src="https://img-blog.csdnimg.cn/20201205204422711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+确定了之后就去找发送到相应url下的post信息；</p>
+<p>尝试筛选http请求类型为post的请求，找到了这两个：<br>
+<img src="https://img-blog.csdnimg.cn/20201205204715278.png" alt="在这里插入图片描述"><br>
+可以看到账号密码就在这里，密码好像是做了一定的加密，当时这个不是问题；<br>
+<img src="https://img-blog.csdnimg.cn/20201205204805507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+我们把burp打开，然后随便输入一个账号和密码，在burp里面给他改一下，然后再把请求放过去就可以了；<br>
+下图是我们的请求；<br>
+<img src="https://img-blog.csdnimg.cn/20201205210923584.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+很明显可以发现，log对应的是用户名，pwd对应的是密码；然后我们把他给改掉<br>
+<img src="https://img-blog.csdnimg.cn/2020120521112145.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+成功进入网站后台!<br>
+<img src="https://img-blog.csdnimg.cn/20201205211252488.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="1x08-使用wordpress的插件漏洞进行提权"><a class="header-anchor" href="#1x08-使用wordpress的插件漏洞进行提权">¶</a>1x08 使用wordpress的插件漏洞进行提权</h2>
+<p>这里可以使用三种方案进行实现：</p>
+<h3 id="2x01-metersploit-reflex-gallery"><a class="header-anchor" href="#2x01-metersploit-reflex-gallery">¶</a>2x01 MeterSploit + reflex gallery</h3>
+<p>首先我们先需要给这个wordpress安装reflex gallery插件；<br>
+去plugins界面搜索一下reflex，安装上去就好；<br>
+<img src="https://img-blog.csdnimg.cn/20201205212109389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+当然了你也可以选择本地上传安装；<br>
+安装成功之后记得把插件激活一下！<br>
+<img src="https://img-blog.csdnimg.cn/20201205213047657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+接下来使用msf来控制漏洞：</p>
+<p><img src="https://img-blog.csdnimg.cn/20201205214714430.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+出现meterpreter&gt;说明可以控制了，我们可以在这里输入Linux命令来查看一些文件：</p>
+<p>回退到<code>/var/www/html</code>之后可以看到wp-config.php；<br>
+<img src="https://img-blog.csdnimg.cn/20201205214857248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+查看一下里面的内容：<br>
+<img src="https://img-blog.csdnimg.cn/20201205215206975.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+可以在里面找到<strong>数据库</strong>的用户和密码：<br>
+<img src="https://img-blog.csdnimg.cn/20201205215438538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="2x02-反弹shell"><a class="header-anchor" href="#2x02-反弹shell">¶</a>2x02 反弹Shell</h3>
+<p>上传反弹shell。<a href="http://pentestmonkey.net/tools/web-shells/php-reverse-shell">http://pentestmonkey.net/tools/web-shells/php-reverse-shell</a><br>
+【目的：PHP网站渗透；实现途径：上传网站后，URL访问(含有)该反弹shell的页面。<br>
+功能：该脚本会发起反弹TCP连接到攻击者（脚本中指定攻击者IP地址和端口号）。】</p>
+<p>我们把代码稍微修改一下，ip改成10.34.80.3, 反弹端口设为4444；</p>
+<p>首先需要把这里的theme给修改为Twenty Sixteen，<strong>记得点击Select，然后点击Leave！</strong><br>
+<img src="https://img-blog.csdnimg.cn/20201205222009796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+然后将php文件复制粘贴过来==》记得upload！<br>
+注意一下，因为我实在找不到404.PHP的url路径，所以我就改了search.php，效果就是搜索的时候触发<br>
+<img src="https://img-blog.csdnimg.cn/20201205222315732.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+还有一件事! , 因为刚才修改了theme，这里需要把对应的主界面也改了；（不改好像也行）<br>
+<img src="https://img-blog.csdnimg.cn/20201205225319137.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>接下来我们使用kali的nc监听刚才设置的4444端口。<br>
+<img src="https://img-blog.csdnimg.cn/20201205222458581.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+现在我们search一下就可以发现nc里面已经可以操作了！<br>
+<img src="https://img-blog.csdnimg.cn/20201205225349205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20201205224229463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+经过路径的探寻后找到了wp_config.php 文件<br>
+<img src="https://img-blog.csdnimg.cn/20201205224535747.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="2x03-利用文件管理插件-file-manager-漏洞"><a class="header-anchor" href="#2x03-利用文件管理插件-file-manager-漏洞">¶</a>2x03 利用文件管理插件（File manager）漏洞</h3>
+<p>这个没啥技术含量，安装了插件之后直接就可以查看了；这里就不写了</p>
+<h2 id="1x09-ssh登陆该网站"><a class="header-anchor" href="#1x09-ssh登陆该网站">¶</a>1x09 ssh登陆该网站</h2>
+<p>这里我们尝试用上一步中获取的数据库密码来登陆</p>
+<p>结果发现遇到了这个问题：<br>
+<img src="https://img-blog.csdnimg.cn/20201205231137148.png" alt="在这里插入图片描述"><br>
+这里我们进行一下修改配置文件，<code>sudo vim /etc/ssh/ssh_config</code>打开这个文件，然后在最下面添加：</p>
+<p><code># StrictHostKeyChecking ask</code>改成<code>StrictHostKeyChecking no</code><br>
+<img src="https://img-blog.csdnimg.cn/20201205232430170.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+然后输入：<code>ssh webdeveloper@10.34.80.3</code><br>
+<img src="https://img-blog.csdnimg.cn/20201205232601234.png" alt="在这里插入图片描述"><br>
+成功登录了进来!<br>
+<img src="https://img-blog.csdnimg.cn/20201205232649772.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+尝试查看发现权限不足：<br>
+<img src="https://img-blog.csdnimg.cn/20201205232827221.png" alt="在这里插入图片描述"><br>
+查看一下可以执行的sudo命令<br>
+<img src="https://img-blog.csdnimg.cn/20201205232910627.png" alt="在这里插入图片描述"><br>
+发现可以root权限执行tcpdump命令<br>
+创建攻击文件<br>
+<img src="https://img-blog.csdnimg.cn/2020120523373429.png" alt="在这里插入图片描述"><br>
+tcpdump命令详解：</p>
+<ul>
+<li>-i eth0 从指定网卡捕获数据包</li>
+<li>-w /dev/null 将捕获到的数据包输出到空设备（不输出数据包结果）</li>
+<li>-z [command] 运行指定的命令</li>
+<li>-Z [user] 指定用户执行命令</li>
+<li>-G [rotate_seconds] 每rotate_seconds秒一次的频率执行-w指定的转储</li>
+<li>-W [num] 指定抓包数量</li>
+</ul>
+]]></content>
+      <categories>
+        <category>security</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
       </tags>
   </entry>
   <entry>
@@ -517,152 +679,6 @@ x \equiv (mod \ m_k) \\
       </tags>
   </entry>
   <entry>
-    <title>【白帽子学习笔记】CTF实践</title>
-    <url>/2020/12/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91CTF%E5%AE%9E%E8%B7%B5/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>【白帽子学习笔记】CTF实践</h1>
-<h2 id="0x01-实验知识点"><a class="header-anchor" href="#0x01-实验知识点">¶</a>0x01 实验知识点</h2>
-<h3 id="1x01-什么是ctf？"><a class="header-anchor" href="#1x01-什么是ctf？">¶</a>1x01 什么是CTF？</h3>
-<p>CTF（Capture The Flag）中文一般译作夺旗赛，在网络安全领域中指的是网络安全技术人员之间进行技术竞技的一种比赛形式。CTF起源于1996年DEFCON全球黑客大会，以代替之前黑客们通过互相发起真实攻击进行技术比拼的方式。发展至今，已经成为全球范围网络安全圈流行的竞赛形式，2013年全球举办了超过五十场国际性CTF赛事。而DEFCON作为CTF赛制的发源地，DEFCON CTF也成为了目前全球最高技术水平和影响力的CTF竞赛，类似于CTF赛场中的“世界杯”。</p>
-<h3 id="1x02-ctf竞赛模式"><a class="header-anchor" href="#1x02-ctf竞赛模式">¶</a>1x02 CTF竞赛模式</h3>
-<p>（1）解题模式（Jeopardy）在解题模式CTF赛制中，参赛队伍可以通过互联网或者现场网络参与，这种模式的CTF竞赛与ACM编程竞赛、信息学奥赛比较类似，以解决网络安全技术挑战题目的分值和时间来排名，通常用于在线选拔赛。题目主要包含逆向、漏洞挖掘与利用、Web渗透、密码、取证、隐写、安全编程等类别。</p>
-<p>（2）攻防模式（Attack-Defense）在攻防模式CTF赛制中，参赛队伍在网络空间互相进行攻击和防守，挖掘网络服务漏洞并攻击对手服务来得分，修补自身服务漏洞进行防御来避免丢分。攻防模式CTF赛制可以实时通过得分反映出比赛情况，最终也以得分直接分出胜负，是一种竞争激烈，具有很强观赏性和高度透明性的网络安全赛制。在这种赛制中，不仅仅是比参赛队员的智力和技术，也比体力（因为比赛一般都会持续48小时及以上），同时也比团队之间的分工配合与合作。</p>
-<p>（3）混合模式（Mix）结合了解题模式与攻防模式的CTF赛制，比如参赛队伍通过解题可以获取一些初始分数，然后通过攻防对抗进行得分增减的零和游戏，最终以得分高低分出胜负。采用混合模式CTF赛制的典型代表如iCTF国际CTF竞赛。</p>
-<a id="more"></a>
-<p>1.2 CTF各大题型简介</p>
-<h3 id="1x03-ctf各大题型简介"><a class="header-anchor" href="#1x03-ctf各大题型简介">¶</a>1x03 CTF各大题型简介</h3>
-<p><strong>MISC（安全杂项）</strong><br>
-全称Miscellaneous。题目涉及流量分析、电子取证、人肉搜索、数据分析、大数据统计等等，覆盖面比较广。我们平时看到的社工类题目；给你一个流量包让你分析的题目；取证分析题目，都属于这类题目。主要考查参赛选手的各种基础综合知识，考察范围比较广。</p>
-<p><strong>PPC（编程类）</strong><br>
-全称Professionally Program Coder。题目涉及到程序编写、编程算法实现。算法的逆向编写，批量处理等，有时候用编程去处理问题，会方便的多。当然PPC相比ACM来说，还是较为容易的。至于编程语言嘛，推荐使用Python来尝试。这部分主要考察选手的快速编程能力。</p>
-<p><strong>CRYPTO（密码学）</strong><br>
-全称Cryptography。题目考察各种加解密技术，包括古典加密技术、现代加密技术甚至出题者自创加密技术。这样的题目汇集的最多。这部分主要考查参赛选手密码学相关知识点。</p>
-<p><strong>REVERSE（逆向）</strong><br>
-题目涉及到软件逆向、破解技术等，要求有较强的反汇编、反编译扎实功底。需要掌握汇编，堆栈、寄存器方面的知识。有好的逻辑思维能力。主要考查参赛选手的逆向分析能力。此类题目也是线下比赛的考察重点。</p>
-<p><strong>STEGA（隐写）</strong><br>
-全称Steganography。题目的Flag会隐藏到图片、音频、视频等各类数据载体中供参赛选手获取。载体就是图片、音频、视频等，可能是修改了这些载体来隐藏flag，也可能将flag隐藏在这些载体的二进制空白位置。有时候需要你侦探精神足够的强，才能发现。此类题目主要考查参赛选手的对各种隐写工具、隐写算法的熟悉程度。</p>
-<p><strong>PWN（溢出）</strong><br>
-PWN在黑客俚语中代表着攻破，取得权限，在CTF比赛中它代表着溢出类的题目，其中常见类型溢出漏洞有栈溢出、堆溢出。在CTF比赛中，线上比赛会有，但是比例不会太重，进入线下比赛，逆向和溢出则是战队实力的关键。主要考察参数选手漏洞挖掘和利用能力。</p>
-<p><strong>WEB（web类）</strong><br>
-WEB应用在今天越来越广泛，也是CTF夺旗竞赛中的主要题型，题目涉及到常见的Web漏洞，诸如注入、XSS、文件包含、代码审计、上传等漏洞。这些题目都不是简单的注入、上传题目，至少会有一层的安全过滤，需要选手想办法绕过。且Web题目是国内比较多也是大家比较喜欢的题目。因为大多数人开始安全都是从web*站开始的。</p>
-<h2 id="0x02-获取web-developer中的flag"><a class="header-anchor" href="#0x02-获取web-developer中的flag">¶</a>0x02 获取Web Developer中的flag</h2>
-<h3 id="1x01-net-discover"><a class="header-anchor" href="#1x01-net-discover">¶</a>1x01 Net Discover</h3>
-<p>首先通过namp扫描存活的主机，成功发现了Web Developer；<br>
-<img src="https://img-blog.csdnimg.cn/20201205181221959.png" alt="在这里插入图片描述"></p>
-<h3 id="1x02-nmap信息收集"><a class="header-anchor" href="#1x02-nmap信息收集">¶</a>1x02 Nmap信息收集</h3>
-<p>接下来使用Nmap扫描Web Developer检查一下端口的开放情况；<br>
-<code>nmap 10.34.80.3</code><br>
-<img src="https://img-blog.csdnimg.cn/20201205183029858.png" alt="在这里插入图片描述"><br>
-可以看到开放了80端口和22端口，这两个端口的作用分别是http端口（网页）和ssh端口（远程登陆）；</p>
-<h3 id="1x03-访问网站"><a class="header-anchor" href="#1x03-访问网站">¶</a>1x03 访问网站</h3>
-<p>因为网站开放了80端口，所以可以尝试登陆http端口<br>
-<img src="https://img-blog.csdnimg.cn/20201205183407180.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-发现有一个搭建了一个个人模块网站，这个网站应该是一个比较经典的CMS了，记得我当初刚买服务器的时候@visualDust给我搭了这一个这个网站。</p>
-<h2 id="1x04-whatweb探寻"><a class="header-anchor" href="#1x04-whatweb探寻">¶</a>1x04 whatweb探寻</h2>
-<p>通过whatweb进行检测可以发现该网站的如下信息：<br>
-<img src="https://img-blog.csdnimg.cn/2020120520233257.png" alt="在这里插入图片描述"><br>
-从内容信息中可以得到，该网站的CMS为WordPress；</p>
-<h2 id="1x05-wpscan"><a class="header-anchor" href="#1x05-wpscan">¶</a>1x05 wpscan</h2>
-<p>WPScan是Kali Linux默认自带的一款漏洞扫描工具，它采用Ruby编写，能够扫描WordPress网站中的多种安全漏洞，其中包括WordPress本身的漏洞、插件漏洞和主题漏洞。</p>
-<h2 id="1x06-dirb爆破"><a class="header-anchor" href="#1x06-dirb爆破">¶</a>1x06 Dirb爆破</h2>
-<p>使用dirb来爆破网站的根目录；<br>
-<code>dirb -u http://10.34.80.3</code><br>
-<img src="https://img-blog.csdnimg.cn/20201205203124928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-找到一个 <code>http://10.34.80.3/ipdata/</code> 感觉这个很像流量信息，进去看一看吧<br>
-<img src="https://img-blog.csdnimg.cn/20201205203544184.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="1x07-wireshark数据分析"><a class="header-anchor" href="#1x07-wireshark数据分析">¶</a>1x07 wireshark数据分析</h2>
-<p>在获取了网站数据流信息后，我们尝试使用wireshark进行一次分析；尝试搜索一下login，结果有惊奇的发现；<br>
-<img src="https://img-blog.csdnimg.cn/20201205204031475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-成功找到了登陆界面:<br>
-<img src="https://img-blog.csdnimg.cn/20201205204320279.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-我们随便提交一个，找到信息post去的地址：<br>
-<img src="https://img-blog.csdnimg.cn/20201205204422711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-确定了之后就去找发送到相应url下的post信息；</p>
-<p>尝试筛选http请求类型为post的请求，找到了这两个：<br>
-<img src="https://img-blog.csdnimg.cn/20201205204715278.png" alt="在这里插入图片描述"><br>
-可以看到账号密码就在这里，密码好像是做了一定的加密，当时这个不是问题；<br>
-<img src="https://img-blog.csdnimg.cn/20201205204805507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-我们把burp打开，然后随便输入一个账号和密码，在burp里面给他改一下，然后再把请求放过去就可以了；<br>
-下图是我们的请求；<br>
-<img src="https://img-blog.csdnimg.cn/20201205210923584.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-很明显可以发现，log对应的是用户名，pwd对应的是密码；然后我们把他给改掉<br>
-<img src="https://img-blog.csdnimg.cn/2020120521112145.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-成功进入网站后台!<br>
-<img src="https://img-blog.csdnimg.cn/20201205211252488.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="1x08-使用wordpress的插件漏洞进行提权"><a class="header-anchor" href="#1x08-使用wordpress的插件漏洞进行提权">¶</a>1x08 使用wordpress的插件漏洞进行提权</h2>
-<p>这里可以使用三种方案进行实现：</p>
-<h3 id="2x01-metersploit-reflex-gallery"><a class="header-anchor" href="#2x01-metersploit-reflex-gallery">¶</a>2x01 MeterSploit + reflex gallery</h3>
-<p>首先我们先需要给这个wordpress安装reflex gallery插件；<br>
-去plugins界面搜索一下reflex，安装上去就好；<br>
-<img src="https://img-blog.csdnimg.cn/20201205212109389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-当然了你也可以选择本地上传安装；<br>
-安装成功之后记得把插件激活一下！<br>
-<img src="https://img-blog.csdnimg.cn/20201205213047657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-接下来使用msf来控制漏洞：</p>
-<p><img src="https://img-blog.csdnimg.cn/20201205214714430.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-出现meterpreter&gt;说明可以控制了，我们可以在这里输入Linux命令来查看一些文件：</p>
-<p>回退到<code>/var/www/html</code>之后可以看到wp-config.php；<br>
-<img src="https://img-blog.csdnimg.cn/20201205214857248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-查看一下里面的内容：<br>
-<img src="https://img-blog.csdnimg.cn/20201205215206975.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-可以在里面找到<strong>数据库</strong>的用户和密码：<br>
-<img src="https://img-blog.csdnimg.cn/20201205215438538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="2x02-反弹shell"><a class="header-anchor" href="#2x02-反弹shell">¶</a>2x02 反弹Shell</h3>
-<p>上传反弹shell。<a href="http://pentestmonkey.net/tools/web-shells/php-reverse-shell">http://pentestmonkey.net/tools/web-shells/php-reverse-shell</a><br>
-【目的：PHP网站渗透；实现途径：上传网站后，URL访问(含有)该反弹shell的页面。<br>
-功能：该脚本会发起反弹TCP连接到攻击者（脚本中指定攻击者IP地址和端口号）。】</p>
-<p>我们把代码稍微修改一下，ip改成10.34.80.3, 反弹端口设为4444；</p>
-<p>首先需要把这里的theme给修改为Twenty Sixteen，<strong>记得点击Select，然后点击Leave！</strong><br>
-<img src="https://img-blog.csdnimg.cn/20201205222009796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-然后将php文件复制粘贴过来==》记得upload！<br>
-注意一下，因为我实在找不到404.PHP的url路径，所以我就改了search.php，效果就是搜索的时候触发<br>
-<img src="https://img-blog.csdnimg.cn/20201205222315732.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-还有一件事! , 因为刚才修改了theme，这里需要把对应的主界面也改了；（不改好像也行）<br>
-<img src="https://img-blog.csdnimg.cn/20201205225319137.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>接下来我们使用kali的nc监听刚才设置的4444端口。<br>
-<img src="https://img-blog.csdnimg.cn/20201205222458581.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-现在我们search一下就可以发现nc里面已经可以操作了！<br>
-<img src="https://img-blog.csdnimg.cn/20201205225349205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-<img src="https://img-blog.csdnimg.cn/20201205224229463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-经过路径的探寻后找到了wp_config.php 文件<br>
-<img src="https://img-blog.csdnimg.cn/20201205224535747.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="2x03-利用文件管理插件-file-manager-漏洞"><a class="header-anchor" href="#2x03-利用文件管理插件-file-manager-漏洞">¶</a>2x03 利用文件管理插件（File manager）漏洞</h3>
-<p>这个没啥技术含量，安装了插件之后直接就可以查看了；这里就不写了</p>
-<h2 id="1x09-ssh登陆该网站"><a class="header-anchor" href="#1x09-ssh登陆该网站">¶</a>1x09 ssh登陆该网站</h2>
-<p>这里我们尝试用上一步中获取的数据库密码来登陆</p>
-<p>结果发现遇到了这个问题：<br>
-<img src="https://img-blog.csdnimg.cn/20201205231137148.png" alt="在这里插入图片描述"><br>
-这里我们进行一下修改配置文件，<code>sudo vim /etc/ssh/ssh_config</code>打开这个文件，然后在最下面添加：</p>
-<p><code># StrictHostKeyChecking ask</code>改成<code>StrictHostKeyChecking no</code><br>
-<img src="https://img-blog.csdnimg.cn/20201205232430170.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-然后输入：<code>ssh webdeveloper@10.34.80.3</code><br>
-<img src="https://img-blog.csdnimg.cn/20201205232601234.png" alt="在这里插入图片描述"><br>
-成功登录了进来!<br>
-<img src="https://img-blog.csdnimg.cn/20201205232649772.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-尝试查看发现权限不足：<br>
-<img src="https://img-blog.csdnimg.cn/20201205232827221.png" alt="在这里插入图片描述"><br>
-查看一下可以执行的sudo命令<br>
-<img src="https://img-blog.csdnimg.cn/20201205232910627.png" alt="在这里插入图片描述"><br>
-发现可以root权限执行tcpdump命令<br>
-创建攻击文件<br>
-<img src="https://img-blog.csdnimg.cn/2020120523373429.png" alt="在这里插入图片描述"><br>
-tcpdump命令详解：</p>
-<ul>
-<li>-i eth0 从指定网卡捕获数据包</li>
-<li>-w /dev/null 将捕获到的数据包输出到空设备（不输出数据包结果）</li>
-<li>-z [command] 运行指定的命令</li>
-<li>-Z [user] 指定用户执行命令</li>
-<li>-G [rotate_seconds] 每rotate_seconds秒一次的频率执行-w指定的转储</li>
-<li>-W [num] 指定抓包数量</li>
-</ul>
-]]></content>
-      <categories>
-        <category>security</category>
-      </categories>
-      <tags>
-        <tag>security</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【白帽子学习笔记】加油NPT</title>
     <url>/2020/12/06/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8A%A0%E6%B2%B9NPT/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>【白帽子学习笔记】加油NPT</h1>
@@ -862,74 +878,6 @@ tcpdump命令详解：</p>
       </categories>
       <tags>
         <tag>security</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【论文阅读】Conditional Convolutions for InstanceSegmentation</title>
-    <url>/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>0x01 概要</h1>
-<p>Mask R-CNN等性能最好的实例分割方法依赖于ROI操作（通常是ROIPool或roalign）来获得最终的实例掩码。相比之下，我们建议从一个新的角度来解决站姿分割问题。我们不使用实例级roi作为固定权重网络的输入，而是使用基于实例的动态感知网络。CondInst有两个优点：1）通过完全卷积网络。</p>
-<a id="more"></a>
-<p>CondInst有两个优点：<br>
-1）通过完全卷积网络解决实例分割，消除了ROI裁剪和特征对齐的需要；<br>
-2）由于动态生成条件卷积的能力大大提高，掩模头可以非常紧凑（例如，3转换层，每个只有8个通道），导致明显更快的推断。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201030000730950.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1>0x02 Mask-RCNN的缺点</h1>
-<p>实例分割是计算机视觉中的一项基本而又具有挑战性的任务，它需要一种算法来预测图像中每个感兴趣的实例的每像素掩模。尽管最近提出了一些工作，但实例分割的主流框架仍然是两阶段方法Mask R-CNN，它将实例分割转化为两阶段的检测和分割任务。Mask R-CNN首先使用一个更快的对象检测器R-CNN来预测每个实例的边界框。然后在每个实例中，使用roiallign操作从网络的特征图中裁剪出感兴趣的区域（roi）。为了预测每个实例的最终掩模，将一个紧凑的全卷积网络（FCN）（即掩模头）应用到这些roi上，以执行前景/背景分割。</p>
-<p>1） 由于ROI通常是轴对齐的边界框，对于形状不规则的对象，它们可能包含大量不相关的图像内容，包括背景和其他实例。这个使用旋转roi可以缓解这个问题，但代价是更复杂的管道。</p>
-<p>2） 为了区分前景实例和背景内容或实例，掩码头需要一个相对较大的接受域来编码足够大的上下文信息。因此，在掩模头中需要一组3×3的卷积（例如，掩模R-CNN中有4个3×3卷积，256个通道）。它大大增加了掩模头的计算复杂度，导致推理时间在实例数上有显著变化。</p>
-<p>3） ROI的大小通常不同。为了在现代深度学习框架中使用有效的批处理计算，通常需要调整大小操作来将裁剪区域调整为相同大小的补丁。例如，Mask R-CNN会将所有裁剪区域的大小调整为14×14（使用反褶积将采样率提高到28×28），这限制了实例分段的输出分辨率，因为大型实例需要更高的分辨率来保留边界的细节</p>
-<h1>0x03 为什么FCNs在实例分割上的效果不好</h1>
-<p>我们发现，将模糊神经网络应用于实例分割的主要困难在于相似图像的出现可能需要不同的预测，但FCNs难以实现这一点。例如，如果在一个input image中有两个外观相似的人A和B，那么在预测A的实例掩码时，FCN需要将B预测为background w.r.t.A，这可能很困难，因为它们在外观。因此，ROI操作用于裁剪感兴趣的人，即A；并过滤掉B，实例分段需要两种类型的in队形：</p>
-<p>1） 用于对对象进行分类的外观信息；</p>
-<p>2）用于区分属于同一类别的多个对象的位置信息。几乎所有的方法都依赖于ROI裁剪，对实例的位置信息进行显式编码。相比之下，CondInst通过使用敏感卷积滤波器以及显示在特征地图上的相对坐标来利用位置信息。</p>
-<p>因此，我们提倡一种新的解决方案，即使用实例感知FCNs进行实例任务预测。换言之，与使用一组固定卷积滤波器的标准ConvNet作为掩码头来预测所有实例，而是根据要预测的实例来调整网络参数。在动态过滤网络[20]和CondConv[41]的启发下，对于每个实例，控制器子网络（见图3）动态生成掩码FCN网络参数（以实例的中心区域为条件），然后使用该参数预测该实例的掩码。预计网络参数可以对该实例的特征（例如相对位置、形状和外观）进行编码，并且只对该实例的像素进行激发，从而绕过了上述困难。这些条件掩模头被应用到整个特征映射中，消除了对ROI操作的需要。乍一看，这个想法可能行不通，因为如果某些图像包含多达几十个实例，则实例掩码头可能会产生大量的网络参数。然而，我们发现，一个非常紧凑的FCN掩模头和动态生成的滤波器已经可以优于先前基于ROI的mask R-CNN，从而大大降低了Mask-CNN中掩模头的每一瞬间的计算复杂度。</p>
-<h1>0x04 主要贡献</h1>
-<ul>
-<li>试图从一个新的角度来解决实例分割问题。为此，我们提出了CondInst实例分割框架，该框架比现有的Mask R-CNN等方法在提高实例分割速度的同时，提高了实例分割的性能。据我们所知，这是第一次一个新的实例分割框架在精确度和速度上都优于最新的技术</li>
-<li>CondInst是完全卷积的，并且避免了许多现有方法中使用的上述调整大小操作，因为CondInst不依赖ROI。不必调整特征图的大小，就可以获得高分辨率的分辨率，并具有更精确的边缘。</li>
-<li>与以前的方法不同，一旦训练完所有实例，掩码头中的过滤器都是固定的，而我们的掩码头中的过滤器是动态生成的，并根据实例进行调整。因此，只需记住一个过滤器，就可以大大减少所要求的过滤器的负载。因此，Mask head 可以非常轻量，显著减少推理时间。与bounding box检测器FCOS相比，CondInst只需要多10%的计算时间，甚至可以处理每个图像的最大实例数（即100个实例）。</li>
-</ul>
-<h1>0x05 CondInst的实例分割</h1>
-<h2 id="1x01-网络总体结构"><a class="header-anchor" href="#1x01-网络总体结构">¶</a>1x01 网络总体结构</h2>
-<p>回想一下mask R-CNN使用一个对象检测器来预测输入图像中实例的边界框。边界框实际上就是掩码R-CNN表示实例的方式。类似地，CondInst使用实例感知过滤器来表示实例。换句话说，CondInst没有将实例概念编码到边界框中，而是隐式地将其编码到掩码头的参数中，这是一种更灵活的方式。例如，它可以很容易地表示不规则的形状，而这些不规则形状是很难被表示的,）被边界框紧紧包围。这是CondInst相对于以前基于ROI的方法的优势之一。</p>
-<p>与基于ROI的方法获取边界框的方式类似，实例感知滤波器也可以通过对象检测器获得。在这项工作中，由于CondInst的简单性和灵活性，CondInst在流行的目标检测器FCOS上构建CondInst。同时，在FCOS中消除锚盒也可以节省参数的数目和条件的计算量。如图</p>
-<p><img src="https://img-blog.csdnimg.cn/20201030005947312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-利用特征金字塔网络的特征映射{P3、P4、P5、P6、P7}，其下采样率分别为8、16、32、64和128。如图3所示，在FPN的每个特征层上，应用一些功能层（在虚线框中）来进行实例相关的预测。例如，目标实例的类和实例的动态生成的筛选器。从这个意义上讲，CondInst可以看作是Mask R-CNN，它们都是先处理图像中的实例，然后预测实例的像素级掩码（即实例优先），除了检测器，如图所示，还有一个掩模分支，<strong>它提供了我们生成的掩码头作为输入来预测所需实例掩码的特征映射。</strong></p>
-<p>特征图表示为：<br>
-<img src="https://img-blog.csdnimg.cn/20201030012049379.png#pic_center" alt="在这里插入图片描述"><br>
-掩模分支连接到FPN level p3，因此其输出分辨率为输入图像分辨率的18。掩模分支在最后一层之前有四个3×3的卷积，有128个通道。之后，为了减少生成参数的数量，掩码分支的最后一层将信道数从128减少到8（即，Cmask＝8）。令人惊讶的是，使用cmask=8已经可以获得优异的性能，而使用更大的cmask（例如16）并不能提高性能，如我们的实验所示。更严重的是，使用cmask=2只会使mask AP的性能降低0.3%。此外，如图3所示，fmaski与坐标图相结合，这些坐标是fmask上所有位置到位置（x，y）的相对坐标（即，生成遮罩头的滤波器的位置）。然后，将组合发送到掩码头以预测实例掩码。如我们的实验所示，相对坐标为预测实例掩模提供了强有力的线索。此外，单个sigmoid被用作掩模头的最终输出，因此掩模预测是类无关的。<strong>实例的类别由分类头与控制器并行预测。</strong></p>
-<p>原始掩模预测的分辨率与F mask的分辨率相同，后者是输入图像分辨率的八分之一。为了产生高分辨率的实例掩模，使用双线性上采样将maskprediction上采样到4，得到400×512掩模预测（如果输入图像大小为800×1024）。我们将在实验中证明上采样对CondInst的最终瞬间分段性能至关重要。需要注意的是，该掩模的分辨率比掩模R-CNN（如前所述仅为28×28）高得多。</p>
-<h2 id="1x02-网络输出和训练标签"><a class="header-anchor" href="#1x02-网络输出和训练标签">¶</a>1x02 网络输出和训练标签</h2>
-<p>CondInst 具有如下的输出头：</p>
-<ul>
-<li>
-<p>Classiofication Head：<br>
-分类头预测实例的分类，ground-truth标签为类别信息或者0（背景）即背景）。在FCOS中，网络预测一个C-D vector <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>用于分类，每个元素在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>对应于一个二进制分类器，其中C表示类别的数量。</p>
-</li>
-<li>
-<p>Controller  Head<br>
-控制器头与上述分类头具有相同的结构，用于预测该位置实例的Mask head的参数。Mask head 预测这个物体Mask。为了预测参数，我们将滤波器的所有参数（即权重和偏差）串联在一起作为一个N-D向量 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，其中N是参数的总数。因此，控制器头部没有输出信道。掩模头是一种非常紧凑的fcn结构，它有三个1×1的卷积，每个卷积有8个通道，除了最后一个外，都使用ReLU作为激活函数。这里没有使用诸如批处理规范化之类的规范化层。最后一层有1个输出信道，使用sigmoid来预测前景的概率。任务头总共有169个参数（#权重=（8+2）×8（conv1）+8×8（conv2）+8×1（conv3）和#biaes=8（conv1）+8（conv2）+1（conv3））。如前所述，生成的过滤器包含关于实例所在位置的信息，因此，理想情况下，带有过滤器的遮罩头将只对实例的像素点进行触发，甚至将整个特征映射作为输入。</p>
-</li>
-<li>
-<p>Center-ness  and  Box  Heads.<br>
-从概念上讲，CondInst可以消除box head，因为CondInst不需要ROIs。然而，我们发现如果使用基于Box的NMS，推理时间将大大减少。因此，我们仍然预测CondInst中的Box。我们要强调的是，预测框仅在NMS中使用，不涉及任何ROI操作。</p>
-</li>
-</ul>
-<h2 id="1x03-损失函数"><a class="header-anchor" href="#1x03-损失函数">¶</a>1x03 损失函数</h2>
-<p><img src="https://img-blog.csdnimg.cn/20201030062801683.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-<img src="https://img-blog.csdnimg.cn/20201030063548336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-推理"><a class="header-anchor" href="#1x04-推理">¶</a>1x04 推理</h2>
-<p>给定一幅输入图像，通过网络进行转发，得到包含分类置信度的输出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, 中心度得分，box预测 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">t_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9011879999999999em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>和生成的参数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, 我们首先按照FCOS中的步骤来获得Box。然后，使用阈值为0.6的基于Box的NMS来消除重复检测，然后使用前100个框计算掩码。与FCOS不同，这些方框还与控制器生成的过滤器相关联。让我们假设在NMS之后还有K个box，因此我们有生成的K个过滤器组。这一组滤波器用于产生特定于实例的Mask-head。这些特定于实例的掩码头以FCNs的方式应用于与<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>（即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>s</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{mask}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>O</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">O_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>的组合）来预测实例的掩码。由于任务头是一个非常紧凑的网络（3个1×1卷积，共有8个信道和169个参数），计算掩码的开销非常小。例如，即使有100次检测（即MS-COCO上每个图像的最大检测次数），掩模头上总共也只有不到5毫秒的时间，这只给基本检测器FCOS增加了10%的计算时间。相比之下，Mask R-CNN的Mask head有4个3×3的256个通道，参数大于2.3M，计算时间较长。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201030065343641.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1>0x06 小结</h1>
-<p>提出了一个新的更简单的实例分割框架Condinst。不同于以往的方法，如Mask R-CNN，它使用固定权重的任务头，CondInst将掩码头设置在实例上，并动态生成掩码头的过滤器。这不仅降低了掩模头的参数和计算复杂度，而且消除了ROI操作，从而形成了一个更快、更简单的实例分割框架。</p>
-]]></content>
-      <categories>
-        <category>CV</category>
-      </categories>
-      <tags>
-        <tag>CV</tag>
       </tags>
   </entry>
   <entry>
@@ -1212,6 +1160,74 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <h2 id="0x05-spp-net在目标检测上的应用"><a class="header-anchor" href="#0x05-spp-net在目标检测上的应用">¶</a>0x05 Spp-Net在目标检测上的应用</h2>
 <p>SPP网络，这个方法的思想在R-CNN、Fast RCNN， Faster RCNN上都起了举足轻重的作用，对于检测算法，论文中是这样做到：使用ss生成~2k个候选框，缩放图像min(w,h)=s之后提取特征，每个候选框使用一个4层的空间金字塔池化特征，网络使用的是ZF-5的SPPNet形式。之后将12800d的特征输入全连接层，SVM的输入为全连接层的输出。这个算法可以应用到多尺度的特征提取：先将图片resize到五个尺度：480，576，688，864，1200，加自己6个。然后在map window to feature map一步中，选择ROI框尺度在｛6个尺度｝中大小最接近224x224的那个尺度下的feature maps中提取对应的roi feature。这样做可以提高系统的准确率。</p>
 <p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>CV</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【论文阅读】Conditional Convolutions for InstanceSegmentation</title>
+    <url>/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>0x01 概要</h1>
+<p>Mask R-CNN等性能最好的实例分割方法依赖于ROI操作（通常是ROIPool或roalign）来获得最终的实例掩码。相比之下，我们建议从一个新的角度来解决站姿分割问题。我们不使用实例级roi作为固定权重网络的输入，而是使用基于实例的动态感知网络。CondInst有两个优点：1）通过完全卷积网络。</p>
+<a id="more"></a>
+<p>CondInst有两个优点：<br>
+1）通过完全卷积网络解决实例分割，消除了ROI裁剪和特征对齐的需要；<br>
+2）由于动态生成条件卷积的能力大大提高，掩模头可以非常紧凑（例如，3转换层，每个只有8个通道），导致明显更快的推断。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201030000730950.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1>0x02 Mask-RCNN的缺点</h1>
+<p>实例分割是计算机视觉中的一项基本而又具有挑战性的任务，它需要一种算法来预测图像中每个感兴趣的实例的每像素掩模。尽管最近提出了一些工作，但实例分割的主流框架仍然是两阶段方法Mask R-CNN，它将实例分割转化为两阶段的检测和分割任务。Mask R-CNN首先使用一个更快的对象检测器R-CNN来预测每个实例的边界框。然后在每个实例中，使用roiallign操作从网络的特征图中裁剪出感兴趣的区域（roi）。为了预测每个实例的最终掩模，将一个紧凑的全卷积网络（FCN）（即掩模头）应用到这些roi上，以执行前景/背景分割。</p>
+<p>1） 由于ROI通常是轴对齐的边界框，对于形状不规则的对象，它们可能包含大量不相关的图像内容，包括背景和其他实例。这个使用旋转roi可以缓解这个问题，但代价是更复杂的管道。</p>
+<p>2） 为了区分前景实例和背景内容或实例，掩码头需要一个相对较大的接受域来编码足够大的上下文信息。因此，在掩模头中需要一组3×3的卷积（例如，掩模R-CNN中有4个3×3卷积，256个通道）。它大大增加了掩模头的计算复杂度，导致推理时间在实例数上有显著变化。</p>
+<p>3） ROI的大小通常不同。为了在现代深度学习框架中使用有效的批处理计算，通常需要调整大小操作来将裁剪区域调整为相同大小的补丁。例如，Mask R-CNN会将所有裁剪区域的大小调整为14×14（使用反褶积将采样率提高到28×28），这限制了实例分段的输出分辨率，因为大型实例需要更高的分辨率来保留边界的细节</p>
+<h1>0x03 为什么FCNs在实例分割上的效果不好</h1>
+<p>我们发现，将模糊神经网络应用于实例分割的主要困难在于相似图像的出现可能需要不同的预测，但FCNs难以实现这一点。例如，如果在一个input image中有两个外观相似的人A和B，那么在预测A的实例掩码时，FCN需要将B预测为background w.r.t.A，这可能很困难，因为它们在外观。因此，ROI操作用于裁剪感兴趣的人，即A；并过滤掉B，实例分段需要两种类型的in队形：</p>
+<p>1） 用于对对象进行分类的外观信息；</p>
+<p>2）用于区分属于同一类别的多个对象的位置信息。几乎所有的方法都依赖于ROI裁剪，对实例的位置信息进行显式编码。相比之下，CondInst通过使用敏感卷积滤波器以及显示在特征地图上的相对坐标来利用位置信息。</p>
+<p>因此，我们提倡一种新的解决方案，即使用实例感知FCNs进行实例任务预测。换言之，与使用一组固定卷积滤波器的标准ConvNet作为掩码头来预测所有实例，而是根据要预测的实例来调整网络参数。在动态过滤网络[20]和CondConv[41]的启发下，对于每个实例，控制器子网络（见图3）动态生成掩码FCN网络参数（以实例的中心区域为条件），然后使用该参数预测该实例的掩码。预计网络参数可以对该实例的特征（例如相对位置、形状和外观）进行编码，并且只对该实例的像素进行激发，从而绕过了上述困难。这些条件掩模头被应用到整个特征映射中，消除了对ROI操作的需要。乍一看，这个想法可能行不通，因为如果某些图像包含多达几十个实例，则实例掩码头可能会产生大量的网络参数。然而，我们发现，一个非常紧凑的FCN掩模头和动态生成的滤波器已经可以优于先前基于ROI的mask R-CNN，从而大大降低了Mask-CNN中掩模头的每一瞬间的计算复杂度。</p>
+<h1>0x04 主要贡献</h1>
+<ul>
+<li>试图从一个新的角度来解决实例分割问题。为此，我们提出了CondInst实例分割框架，该框架比现有的Mask R-CNN等方法在提高实例分割速度的同时，提高了实例分割的性能。据我们所知，这是第一次一个新的实例分割框架在精确度和速度上都优于最新的技术</li>
+<li>CondInst是完全卷积的，并且避免了许多现有方法中使用的上述调整大小操作，因为CondInst不依赖ROI。不必调整特征图的大小，就可以获得高分辨率的分辨率，并具有更精确的边缘。</li>
+<li>与以前的方法不同，一旦训练完所有实例，掩码头中的过滤器都是固定的，而我们的掩码头中的过滤器是动态生成的，并根据实例进行调整。因此，只需记住一个过滤器，就可以大大减少所要求的过滤器的负载。因此，Mask head 可以非常轻量，显著减少推理时间。与bounding box检测器FCOS相比，CondInst只需要多10%的计算时间，甚至可以处理每个图像的最大实例数（即100个实例）。</li>
+</ul>
+<h1>0x05 CondInst的实例分割</h1>
+<h2 id="1x01-网络总体结构"><a class="header-anchor" href="#1x01-网络总体结构">¶</a>1x01 网络总体结构</h2>
+<p>回想一下mask R-CNN使用一个对象检测器来预测输入图像中实例的边界框。边界框实际上就是掩码R-CNN表示实例的方式。类似地，CondInst使用实例感知过滤器来表示实例。换句话说，CondInst没有将实例概念编码到边界框中，而是隐式地将其编码到掩码头的参数中，这是一种更灵活的方式。例如，它可以很容易地表示不规则的形状，而这些不规则形状是很难被表示的,）被边界框紧紧包围。这是CondInst相对于以前基于ROI的方法的优势之一。</p>
+<p>与基于ROI的方法获取边界框的方式类似，实例感知滤波器也可以通过对象检测器获得。在这项工作中，由于CondInst的简单性和灵活性，CondInst在流行的目标检测器FCOS上构建CondInst。同时，在FCOS中消除锚盒也可以节省参数的数目和条件的计算量。如图</p>
+<p><img src="https://img-blog.csdnimg.cn/20201030005947312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+利用特征金字塔网络的特征映射{P3、P4、P5、P6、P7}，其下采样率分别为8、16、32、64和128。如图3所示，在FPN的每个特征层上，应用一些功能层（在虚线框中）来进行实例相关的预测。例如，目标实例的类和实例的动态生成的筛选器。从这个意义上讲，CondInst可以看作是Mask R-CNN，它们都是先处理图像中的实例，然后预测实例的像素级掩码（即实例优先），除了检测器，如图所示，还有一个掩模分支，<strong>它提供了我们生成的掩码头作为输入来预测所需实例掩码的特征映射。</strong></p>
+<p>特征图表示为：<br>
+<img src="https://img-blog.csdnimg.cn/20201030012049379.png#pic_center" alt="在这里插入图片描述"><br>
+掩模分支连接到FPN level p3，因此其输出分辨率为输入图像分辨率的18。掩模分支在最后一层之前有四个3×3的卷积，有128个通道。之后，为了减少生成参数的数量，掩码分支的最后一层将信道数从128减少到8（即，Cmask＝8）。令人惊讶的是，使用cmask=8已经可以获得优异的性能，而使用更大的cmask（例如16）并不能提高性能，如我们的实验所示。更严重的是，使用cmask=2只会使mask AP的性能降低0.3%。此外，如图3所示，fmaski与坐标图相结合，这些坐标是fmask上所有位置到位置（x，y）的相对坐标（即，生成遮罩头的滤波器的位置）。然后，将组合发送到掩码头以预测实例掩码。如我们的实验所示，相对坐标为预测实例掩模提供了强有力的线索。此外，单个sigmoid被用作掩模头的最终输出，因此掩模预测是类无关的。<strong>实例的类别由分类头与控制器并行预测。</strong></p>
+<p>原始掩模预测的分辨率与F mask的分辨率相同，后者是输入图像分辨率的八分之一。为了产生高分辨率的实例掩模，使用双线性上采样将maskprediction上采样到4，得到400×512掩模预测（如果输入图像大小为800×1024）。我们将在实验中证明上采样对CondInst的最终瞬间分段性能至关重要。需要注意的是，该掩模的分辨率比掩模R-CNN（如前所述仅为28×28）高得多。</p>
+<h2 id="1x02-网络输出和训练标签"><a class="header-anchor" href="#1x02-网络输出和训练标签">¶</a>1x02 网络输出和训练标签</h2>
+<p>CondInst 具有如下的输出头：</p>
+<ul>
+<li>
+<p>Classiofication Head：<br>
+分类头预测实例的分类，ground-truth标签为类别信息或者0（背景）即背景）。在FCOS中，网络预测一个C-D vector <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>用于分类，每个元素在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>对应于一个二进制分类器，其中C表示类别的数量。</p>
+</li>
+<li>
+<p>Controller  Head<br>
+控制器头与上述分类头具有相同的结构，用于预测该位置实例的Mask head的参数。Mask head 预测这个物体Mask。为了预测参数，我们将滤波器的所有参数（即权重和偏差）串联在一起作为一个N-D向量 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，其中N是参数的总数。因此，控制器头部没有输出信道。掩模头是一种非常紧凑的fcn结构，它有三个1×1的卷积，每个卷积有8个通道，除了最后一个外，都使用ReLU作为激活函数。这里没有使用诸如批处理规范化之类的规范化层。最后一层有1个输出信道，使用sigmoid来预测前景的概率。任务头总共有169个参数（#权重=（8+2）×8（conv1）+8×8（conv2）+8×1（conv3）和#biaes=8（conv1）+8（conv2）+1（conv3））。如前所述，生成的过滤器包含关于实例所在位置的信息，因此，理想情况下，带有过滤器的遮罩头将只对实例的像素点进行触发，甚至将整个特征映射作为输入。</p>
+</li>
+<li>
+<p>Center-ness  and  Box  Heads.<br>
+从概念上讲，CondInst可以消除box head，因为CondInst不需要ROIs。然而，我们发现如果使用基于Box的NMS，推理时间将大大减少。因此，我们仍然预测CondInst中的Box。我们要强调的是，预测框仅在NMS中使用，不涉及任何ROI操作。</p>
+</li>
+</ul>
+<h2 id="1x03-损失函数"><a class="header-anchor" href="#1x03-损失函数">¶</a>1x03 损失函数</h2>
+<p><img src="https://img-blog.csdnimg.cn/20201030062801683.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20201030063548336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x04-推理"><a class="header-anchor" href="#1x04-推理">¶</a>1x04 推理</h2>
+<p>给定一幅输入图像，通过网络进行转发，得到包含分类置信度的输出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, 中心度得分，box预测 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">t_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9011879999999999em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>和生成的参数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, 我们首先按照FCOS中的步骤来获得Box。然后，使用阈值为0.6的基于Box的NMS来消除重复检测，然后使用前100个框计算掩码。与FCOS不同，这些方框还与控制器生成的过滤器相关联。让我们假设在NMS之后还有K个box，因此我们有生成的K个过滤器组。这一组滤波器用于产生特定于实例的Mask-head。这些特定于实例的掩码头以FCNs的方式应用于与<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>（即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>s</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{mask}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>O</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">O_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>的组合）来预测实例的掩码。由于任务头是一个非常紧凑的网络（3个1×1卷积，共有8个信道和169个参数），计算掩码的开销非常小。例如，即使有100次检测（即MS-COCO上每个图像的最大检测次数），掩模头上总共也只有不到5毫秒的时间，这只给基本检测器FCOS增加了10%的计算时间。相比之下，Mask R-CNN的Mask head有4个3×3的256个通道，参数大于2.3M，计算时间较长。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201030065343641.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1>0x06 小结</h1>
+<p>提出了一个新的更简单的实例分割框架Condinst。不同于以往的方法，如Mask R-CNN，它使用固定权重的任务头，CondInst将掩码头设置在实例上，并动态生成掩码头的过滤器。这不仅降低了掩模头的参数和计算复杂度，而且消除了ROI操作，从而形成了一个更快、更简单的实例分割框架。</p>
 ]]></content>
       <categories>
         <category>CV</category>
