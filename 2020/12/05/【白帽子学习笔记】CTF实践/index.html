@@ -74,7 +74,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">2.6k</span>
+            <span class="post-count">2.7k</span>
         </span>
     </span>
 
@@ -233,6 +233,18 @@ tcpdump命令详解：</p>
 <li>-G [rotate_seconds] 每rotate_seconds秒一次的频率执行-w指定的转储</li>
 <li>-W [num] 指定抓包数量</li>
 </ul>
+<h2 id="0x03-实验小结"><a class="header-anchor" href="#0x03-实验小结">¶</a>0x03 实验小结</h2>
+<p>本次的实验中完整的做了一次从发现目标主机到获取flag的过程，在实现的过程中包括了</p>
+<ul>
+<li>通过扫描发现目标主机</li>
+<li>根据主机开放的80端口找到其的网页</li>
+<li>通过扫描网页目录找到流量包</li>
+<li>Wireshark解析流量包</li>
+<li>获取管理员密码</li>
+<li>根据网页的cms找到通用漏洞</li>
+<li>tcpdump提权</li>
+</ul>
+<p>总之这次的实验做的很爽</p>
  
       <!-- reward -->
       
