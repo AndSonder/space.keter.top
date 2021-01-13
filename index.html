@@ -144,6 +144,124 @@
     
     
     <article
+  id="post-SQL-Learning"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/01/12/SQL-Learning/"
+    >SQL Learning</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/01/12/SQL-Learning/" class="article-date">
+  <time datetime="2021-01-12T06:00:19.000Z" itemprop="datePublished">2021-01-12</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1>Mysql tutorial for beginners</h1>
+<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
+<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
+<p>Get all the custmers who’s patterns start with b/B</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>get all the custmers who’s last name start with brush</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> <span class="keyword">name</span> <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>don’t care about the first character but the second character is y</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> <span class="keyword">name</span> <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>% :  any number of characters</li>
+<li>_  :  single character</li>
+</ul>
+<p>EXERCISE</p>
+<ol>
+<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Phone numbers end with 9</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
+<p>REGEXP: regular expression</p>
+<p>REGEXP is similar with LIKE</p>
+<p>Get all the customers who’s last name start with field</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who’s last name end with field</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SLECT * </span><br><span class="line">FROM customers</span><br><span class="line">WHERE last_name REGEXP &#x27;field$&#x27;</span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words field,mac or rose in their last name</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words ge,me or ie in their last name</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>^ beginning</li>
+<li>$ end</li>
+<li>| logical or</li>
+<li>[abcd]</li>
+<li>[a-f]</li>
+</ul>
+<p>EXERCISE</p>
+<p>GET the customers whose</p>
+<ol>
+<li>first names are ELKA or AMBUR</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>last names end with EY or ON</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Last names start with MY or contains SE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>last name contain B followed by R or U</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
+<p>search who does not have a phone</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+<p>EXERCISE</p>
+<p>get the orders that are not shipped</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SEARCH *</span><br><span class="line">FROM orders</span><br><span class="line">WHERE shipped_date IS NULL</span><br></pre></td></tr></table></figure>
+<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
+<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
+<p>Search customers order by first_name</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
+<p>or you want to reverse the sort order</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<p>sort by multiple columns, for example</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name</span><br></pre></td></tr></table></figure>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-【信息安全数学基础】二次同余式与平方剩余"
   class="article article-type-post"
   itemscope
@@ -766,64 +884,6 @@ Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），�
   <h1>0x01 概要</h1>
 <p>Mask R-CNN等性能最好的实例分割方法依赖于ROI操作（通常是ROIPool或roalign）来获得最终的实例掩码。相比之下，我们建议从一个新的角度来解决站姿分割问题。我们不使用实例级roi作为固定权重网络的输入，而是使用基于实例的动态感知网络。CondInst有两个优点：1）通过完全卷积网络。</p> 
       <a class="article-more-link" href="/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/"
-        >阅读更多...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CV/" rel="tag">CV</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-</article>
-
-    
-    <article
-  id="post-空间金字塔池化网络SPP-Net"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/"
-    >空间金字塔池化网络SPP-Net</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/" class="article-date">
-  <time datetime="2020-10-29T12:57:31.000Z" itemprop="datePublished">2020-10-29</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/CV/">CV</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>@[toc]</p>
-<h2 id="0x01概要介绍"><a class="header-anchor" href="#0x01概要介绍">¶</a>0x01概要介绍</h2>
-<p>现有的深卷积神经网络（CNNs）需要一个固定大小（如224×224）的输入图像。这种要求是“人为的”，可能会降低对任意大小/比例的图像或子图像的识别精度。在这项工作中，我们为网络配备了另一种池策略“空间金字塔池”，以消除上述要求。这种新的网络结构称为SPP网，它可以生成一个固定长度的表示，而不考虑图像的大小/比例。金字塔池对对象变形也很健壮。有了这些优势，SPP网应该在总体上改进所有基于CNN的图像分类方法。</p> 
-      <a class="article-more-link" href="/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/"
         >阅读更多...</a
       >
        
