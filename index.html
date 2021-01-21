@@ -144,6 +144,60 @@
     
     
     <article
+  id="post-【论文阅读】神经对抗攻击综述论文"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/01/20/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E7%A5%9E%E7%BB%8F%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB%E7%BB%BC%E8%BF%B0%E8%AE%BA%E6%96%87/"
+    >神经对抗攻击综述论文</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/01/20/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E7%A5%9E%E7%BB%8F%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB%E7%BB%BC%E8%BF%B0%E8%AE%BA%E6%96%87/" class="article-date">
+  <time datetime="2021-01-20T01:40:53.000Z" itemprop="datePublished">2021-01-20</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>最近的研究表明，它们很容易受到对抗性攻击，因为输入的细微扰动会导致模型预测不正确的输出。 对于图像来说，这样的扰动往往太小而难以察觉，但它们完全欺骗了深度学习模型</p>
+<h2 id="inroduction"><a class="header-anchor" href="#inroduction">¶</a>Inroduction</h2>
+<p>尽管深度学习以非凡的准确性执行各种各样的计算机视觉任务，Szegedy等人[22]首先发现了深度神经网络在图像分类背景下的一个有趣的弱点。他们发现，尽管现代深度网络的准确性很高，但却令人惊讶地容易受到对抗性攻击，这种攻击的形式是对人类视觉系统(几乎)察觉不到的图像的微小干扰。</p>
+<p>即使是3d打印现实世界的物体也可以欺骗深度神经网络分类器</p>
+<p>在第2节中，我们首先用计算机视觉的说法描述了与对抗性攻击有关的常见术语。在第3节，我们回顾了对抗性攻击任务的图像分类和超越。一个单独的部分是奉献给处理对抗攻击的方法在现实世界的条件。第4节将审查这些方法。在文献中，也有主要分析对抗性攻击存在性的著作。我们将在第5节讨论这些贡献。防御对手攻击的方法是</p> 
+      <a class="article-more-link" href="/2021/01/20/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E7%A5%9E%E7%BB%8F%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB%E7%BB%BC%E8%BF%B0%E8%AE%BA%E6%96%87/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-SQL-Learning"
   class="article article-type-post"
   itemscope
@@ -793,63 +847,6 @@ Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），�
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/" rel="tag">security</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-</article>
-
-    
-    <article
-  id="post-【论文阅读】Conditional-Convolutions-for-InstanceSegmentation"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/"
-    >【论文阅读】Conditional Convolutions for InstanceSegmentation</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/" class="article-date">
-  <time datetime="2020-10-29T22:57:18.000Z" itemprop="datePublished">2020-10-30</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/CV/">CV</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1>0x01 概要</h1>
-<p>Mask R-CNN等性能最好的实例分割方法依赖于ROI操作（通常是ROIPool或roalign）来获得最终的实例掩码。相比之下，我们建议从一个新的角度来解决站姿分割问题。我们不使用实例级roi作为固定权重网络的输入，而是使用基于实例的动态感知网络。CondInst有两个优点：1）通过完全卷积网络。</p> 
-      <a class="article-more-link" href="/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/"
-        >阅读更多...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CV/" rel="tag">CV</a></li></ul>
 
     </footer>
   </div>
