@@ -144,6 +144,142 @@
     
     
     <article
+  id="post-【白帽子学习笔记】XSS和SQL注入"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/17/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91XSS%E5%92%8CSQL%E6%B3%A8%E5%85%A5/"
+    >【白帽子学习笔记】XSS和SQL注入</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/11/17/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91XSS%E5%92%8CSQL%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2020-11-17T09:10:23.000Z" itemprop="datePublished">2020-11-17</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/security/">security</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1>【白帽子学习笔记】XSS和SQL注入</h1>
+<table>
+<thead>
+<tr>
+<th>yysy姚总布置的实验报告越来越难写了，菜菜的我要写好久，┭┮﹏┭┮</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<p>@[toc]</p>
+<h2 id="0x01-实验知识点"><a class="header-anchor" href="#0x01-实验知识点">¶</a>0x01 实验知识点</h2>
+<h3 id="1x01-什么是xss？"><a class="header-anchor" href="#1x01-什么是xss？">¶</a>1x01 什么是XSS？</h3>
+<p>XSS又叫CSS (Cross Site Script) 也称为跨站，它是指<strong>攻击者利用网站程序对用户输入过滤不足，输入可以显示在页面上对其他用户造成影响的HTML代码，从而盗取用户资料、利用用户身份进行某种动作或者对访问者进行病毒侵害的一种攻击方式。</strong></p>
+<p><strong>XSS攻击</strong>是指入侵者在远程WEB页面的HTML代码中插入具有恶意目的的数据，用户认为该页面是可信赖的，但是当浏览器下载该页面，嵌入其中的脚本将被解释执行,由于HTML语言允许使用脚本进行简单交互，入侵者便通过技术手段在某个页面里插入一个恶意HTML代码，例如记录论坛保存的用户信息（Cookie），由于Cookie保存了完整的用户名和密码资料，用户就会遭受安全损失。如这句简单的Java脚本就能轻易获取用户信息：alert(document.cookie)，它会弹出一个包含用户信息的消息框。入侵者运用脚本就能把用户信息发送到他们自己的记录页面中，稍做分析便获取了用户的敏感信息。</p>
+<h3 id="1x02-什么是cookie？"><a class="header-anchor" href="#1x02-什么是cookie？">¶</a>1x02 什么是Cookie？</h3>
+<p>Cookie，有时也用其复数形式Cookies，指某些网站<strong>为了辨别用户身份</strong>、进行session跟踪而储存在用户本地终端上的数据（通常经过加密）。定义于RFC2109（已废弃），最新取代的规范是RFC2965。Cookie最早是网景公司的前雇员Lou Montulli在1993年3月的发明。<br>
+Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），浏览器会将Cookie的key/value保存到某个目录下的文本文件内，下次请求同一网站时就发送该Cookie给服务器（前提是浏览器设置为启用Cookie）。Cookie名称和值可以由服务器端开发自己定义，对于JSP而言也可以直接写入jsessionid，这样服务器可以知道该用户是否为合法用户以及是否需要重新登录等。</p> 
+      <a class="article-more-link" href="/2020/11/17/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91XSS%E5%92%8CSQL%E6%B3%A8%E5%85%A5/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/" rel="tag">security</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-【白帽子学习笔记】网络嗅探与身份验证"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E5%97%85%E6%8E%A2%E4%B8%8E%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/"
+    >【白帽子学习笔记】网络嗅探与身份验证</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/11/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E5%97%85%E6%8E%A2%E4%B8%8E%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/" class="article-date">
+  <time datetime="2020-11-04T23:20:59.000Z" itemprop="datePublished">2020-11-05</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/security/">security</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>@一个在写实验报告的人，/(ㄒoㄒ)/~~</p>
+<h1>0x01 网络嗅探相关概念</h1>
+<h2 id="1x01-网络嗅探概述"><a class="header-anchor" href="#1x01-网络嗅探概述">¶</a>1x01 网络嗅探概述</h2>
+<p>Sniffer（嗅探器）工作在OSI模型的第二层，利用计算机的网卡截获网络数据报文的一种工具，<strong>可用来监听网络中的数据，分析网络的流量，以便找出所关心的网络中潜在的问题</strong>。例如,假设网络的某一段运行得不是很好,报文的发送比较慢,而我们又不知道问题出在什么地方,此时就可以用嗅探器确定不同网络协议、不同用户的通信流量，相互主机的报文传送间隔时间等，这些信息为管理员判断网络问题、管理网络区域提供了非常宝贵的信息。<br>
+在正常情况下，一个合法的网络接口应该只响应这样的两种数据帧：</p>
+<ul>
+<li>帧的目标区域具有和本地网络接口相匹配的硬件地址；</li>
+<li>帧的目标区域具有“广播地址”。</li>
+</ul> 
+      <a class="article-more-link" href="/2020/11/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E5%97%85%E6%8E%A2%E4%B8%8E%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/" rel="tag">security</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-【论文阅读】Conditional-Convolutions-for-InstanceSegmentation"
   class="article article-type-post"
   itemscope
