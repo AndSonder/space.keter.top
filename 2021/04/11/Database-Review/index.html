@@ -70,7 +70,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">303</span>
+            <span class="post-count">395</span>
         </span>
     </span>
 
@@ -98,7 +98,7 @@
 <h2 id="关系代数"><a class="header-anchor" href="#关系代数">¶</a>关系代数</h2>
 <p>选择： <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>F</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sigma_{F}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">F</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span>   <code>SELECT * FROM R WHERE F</code></p>
 <p>投影：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∏</mo><mi>A</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\prod_{A}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0497100000000001em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.17862099999999992em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span> <code>SELECT R FROM A</code></p>
-<h3 id="三种连接："><a class="header-anchor" href="#三种连接：">¶</a>三种连接：</h3>
+<h3 id="连接："><a class="header-anchor" href="#连接：">¶</a>连接：</h3>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20210411154757image-20210411154521617.png" alt="image-20210411154521617" style="zoom:50%;" />
 <h4 id="笛卡尔积："><a class="header-anchor" href="#笛卡尔积：">¶</a>笛卡尔积：</h4>
 <p>现在有两个表如下：</p>
@@ -108,10 +108,22 @@
 <p>笛卡尔积的连接会对两个表的每一列进行排列组合</p>
 <h4 id="等值连接"><a class="header-anchor" href="#等值连接">¶</a>等值连接</h4>
 <p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span></span></span></span> 为“＝” 的连接运算称为等值连接。它是从关系R与S的笛卡尔积中选取A、B属性值相等的那些元组。即等值连接为：</p>
-<img src="/Users/keter/Documents/image/image-20210411160451967.png" alt="image-20210411160451967" style="zoom:50%;" />
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210412142812image-20210411160451967.png" alt="image-20210411160451967" style="zoom:50%;" />
 <h4 id="自然连接"><a class="header-anchor" href="#自然连接">¶</a>自然连接</h4>
 <p>自然连接（Natural join）是一种特殊的等值连接，它要求两个关系中进行比较的分量必须是相同的属性组，并且要在结果中把重复的属性去掉。即若R和S具有相同的属性组B，则自然连接可记作：</p>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20210411160114image-20210411160105845.png" alt="image-20210411160105845" style="zoom:50%;" />
+<h4 id="外连接"><a class="header-anchor" href="#外连接">¶</a>外连接</h4>
+<h5 id="左连接"><a class="header-anchor" href="#左连接">¶</a>左连接</h5>
+<img src="/Users/keter/Documents/image/image-20210412145806331.png" alt="image-20210412145806331" style="zoom:50%;" />
+<p>在自然连接的基础上补上左集合中没有的列。没有对应值的项补null</p>
+<h5 id="右连接"><a class="header-anchor" href="#右连接">¶</a>右连接</h5>
+<img src="/Users/keter/Documents/image/image-20210412145819956.png" alt="image-20210412145819956" style="zoom:50%;" />
+<p>在自然连接的基础上补上右集合中没有的列。没有对应值的项补null</p>
+<p>外连接就是左连接和右连接的组合。</p>
+<img src="/Users/keter/Documents/image/image-20210412145832564.png" alt="image-20210412145832564" style="zoom:50%;" />
+<h4 id="除法"><a class="header-anchor" href="#除法">¶</a>除法</h4>
+<p>去看： <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d80dbaef637e">https://www.jianshu.com/p/d80dbaef637e</a> 讲的好啊</p>
+<hr>
  
       <!-- reward -->
       
