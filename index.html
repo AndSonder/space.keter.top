@@ -144,6 +144,117 @@
     
     
     <article
+  id="post-Database-Review"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/04/11/Database-Review/"
+    >Database Review</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/04/11/Database-Review/" class="article-date">
+  <time datetime="2021-04-11T07:29:27.000Z" itemprop="datePublished">2021-04-11</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1>DataBase Review</h1>
+<h2 id="关系代数"><a class="header-anchor" href="#关系代数">¶</a>关系代数</h2>
+<p>选择： <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>F</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sigma_{F}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">F</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span>   <code>SELECT * FROM R WHERE F</code></p>
+<p>投影：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∏</mo><mi>A</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\prod_{A}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0497100000000001em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.17862099999999992em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span> <code>SELECT R FROM A</code></p>
+<h3 id="三种连接："><a class="header-anchor" href="#三种连接：">¶</a>三种连接：</h3>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210411154757image-20210411154521617.png" alt="image-20210411154521617" style="zoom:50%;" />
+<h4 id="笛卡尔积："><a class="header-anchor" href="#笛卡尔积：">¶</a>笛卡尔积：</h4>
+<p>现在有两个表如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from S;</span><br><span class="line">+------+------+</span><br><span class="line">| A    | B    |</span><br><span class="line">+------+------+</span><br><span class="line">|    1 |    2 |</span><br><span class="line">|    3 |    3 |</span><br><span class="line">|    5 |    9 |</span><br><span class="line">+------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from R;</span><br><span class="line">+------+------+</span><br><span class="line">| B    | C    |</span><br><span class="line">+------+------+</span><br><span class="line">|    2 |    1 |</span><br><span class="line">|    7 |    2 |</span><br><span class="line">|    3 |    5 |</span><br><span class="line">+------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>进行笛卡尔积操作后为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from S,R;</span><br><span class="line">+------+------+------+------+</span><br><span class="line">| A    | B    | B    | C    |</span><br><span class="line">+------+------+------+------+</span><br><span class="line">|    1 |    2 |    2 |    1 |</span><br><span class="line">|    3 |    3 |    2 |    1 |</span><br><span class="line">|    5 |    9 |    2 |    1 |</span><br><span class="line">|    1 |    2 |    7 |    2 |</span><br><span class="line">|    3 |    3 |    7 |    2 |</span><br><span class="line">|    5 |    9 |    7 |    2 |</span><br><span class="line">|    1 |    2 |    3 |    5 |</span><br><span class="line">|    3 |    3 |    3 |    5 |</span><br><span class="line">|    5 |    9 |    3 |    5 |</span><br><span class="line">+------+------+------+------+</span><br><span class="line">9 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>笛卡尔积的连接会对两个表的每一列进行排列组合</p>
+<h4 id="等值连接"><a class="header-anchor" href="#等值连接">¶</a>等值连接</h4>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span></span></span></span> 为“＝” 的连接运算称为等值连接。它是从关系R与S的笛卡尔积中选取A、B属性值相等的那些元组。即等值连接为：</p>
+<img src="/Users/keter/Documents/image/image-20210411160451967.png" alt="image-20210411160451967" style="zoom:50%;" />
+<h4 id="自然连接"><a class="header-anchor" href="#自然连接">¶</a>自然连接</h4>
+<p>自然连接（Natural join）是一种特殊的等值连接，它要求两个关系中进行比较的分量必须是相同的属性组，并且要在结果中把重复的属性去掉。即若R和S具有相同的属性组B，则自然连接可记作：</p>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210411160114image-20210411160105845.png" alt="image-20210411160105845" style="zoom:50%;" />
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-DP-Learning"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/03/20/DP-Learning/"
+    >DP Learning</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/03/20/DP-Learning/" class="article-date">
+  <time datetime="2021-03-20T14:40:01.000Z" itemprop="datePublished">2021-03-20</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="闫氏dp分析法"><a class="header-anchor" href="#闫氏dp分析法">¶</a>闫氏DP分析法</h2>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-【论文阅读】Real-World-Adversarial-attack"
   class="article article-type-post"
   itemscope
@@ -708,156 +819,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/" rel="tag">security</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-</article>
-
-    
-    <article
-  id="post-【信息安全数学导论】同余"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/12/04/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%AF%BC%E8%AE%BA%E3%80%91%E5%90%8C%E4%BD%99/"
-    >【信息安全数学导论】同余</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/12/04/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%AF%BC%E8%AE%BA%E3%80%91%E5%90%8C%E4%BD%99/" class="article-date">
-  <time datetime="2020-12-03T18:03:43.000Z" itemprop="datePublished">2020-12-04</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/">信息安全数学基础</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1>第二章 同余</h1>
-<blockquote>
-<p>我感觉我已经快学到去世了，呜呜呜</p>
-</blockquote>
-<h2 id="同余的定义"><a class="header-anchor" href="#同余的定义">¶</a>同余的定义</h2>
-<p>如果a - b 被 m 整除，或 m｜a - b，就记作 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>≡</mo><mi>b</mi><mo stretchy="false">(</mo><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \equiv b(mod\ n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 叫做a，b摸n同余。</p>
-<p><code>a，b模n同余的意思翻译过来其实就是a-b可以被n整除；</code></p>
-<h2 id="同余的判断"><a class="header-anchor" href="#同余的判断">¶</a>同余的判断</h2>
-<p>如何判断两个数是否同余呢？`》 判断是否存在一个整数q使得：</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mi>b</mi><mo>+</mo><mi>q</mi><mo>⋅</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">a = b + q \cdot m
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.63889em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span></span></span></span></span></p>
-<p>其一点从定义中就很容易的可以推出来；</p>
-<ul>
-<li>模同余的等价关系（自反性，对称性，传递性）<strong>可以用来快速的判断a和b是否模m同余；</strong></li>
-</ul>
-<p>（1）对于任意整数a 都有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>≡</mo><mi>a</mi><mo stretchy="false">(</mo><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \equiv a(mod\ m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">a</span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span></p>
-<p>（2）<code>若 </code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>≡</mo><mi>b</mi><mo stretchy="false">(</mo><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \equiv b(mod \ n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>,则 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>≡</mo><mi>a</mi><mo stretchy="false">(</mo><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">b \equiv a(mod \ n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">a</span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>；<strong>这个做题有时候还是会遇到的，需要注意一下；</strong></p>
-<p>（3）若<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>≡</mo><mi>b</mi><mo stretchy="false">(</mo><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \equiv b(mod \ m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>≡</mo><mi>c</mi><mo stretchy="false">(</mo><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">b \equiv c(mod \ m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span>，则<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>≡</mo><mi>c</mi><mo stretchy="false">(</mo><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">a \equiv c(mod \ m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≡</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span></p> 
-      <a class="article-more-link" href="/2020/12/04/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%AF%BC%E8%AE%BA%E3%80%91%E5%90%8C%E4%BD%99/"
-        >阅读更多...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/" rel="tag">信息安全数学基础</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-</article>
-
-    
-    <article
-  id="post-【信息安全数学导论】整除"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/12/04/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%AF%BC%E8%AE%BA%E3%80%91%E6%95%B4%E9%99%A4/"
-    >【信息安全数学导论】整除</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/12/04/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%AF%BC%E8%AE%BA%E3%80%91%E6%95%B4%E9%99%A4/" class="article-date">
-  <time datetime="2020-12-03T18:03:25.000Z" itemprop="datePublished">2020-12-04</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/">信息安全数学基础</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h1>整除的可能性</h1>
-<blockquote>
-<p>我也不知道应该怎么整理这个笔记，先整理着试一试吧</p>
-</blockquote>
-<h2 id="整除的一些概念"><a class="header-anchor" href="#整除的一些概念">¶</a>整除的一些概念</h2>
-<ul>
-<li>
-<p>b整除a记作 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi mathvariant="normal">∣</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">b|a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mord">∣</span><span class="mord mathdefault">a</span></span></span></span>，不能整除记作<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>∤</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">b\nmid a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.99253em;vertical-align:-0.25142em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel amsrm">∤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span></span></span></span></p>
-</li>
-<li>
-<p>当b遍历整数a的所有因子时，-b和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mi>a</mi><mi>b</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{a}{b}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.040392em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>也遍历a的所有因数</p>
-</li>
-<li>
-<p><strong>特殊数字的整除：</strong></p>
-<ul>
-<li>0是任何非零整数的倍数</li>
-<li>1是任何整数的因数</li>
-<li>任何非零整数a数其自身的倍数，也是其自身的因数</li>
-</ul>
-</li>
-<li>
-<p><strong>整除具有传递性：</strong></p> 
-      <a class="article-more-link" href="/2020/12/04/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%AF%BC%E8%AE%BA%E3%80%91%E6%95%B4%E9%99%A4/"
-        >阅读更多...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/" rel="tag">信息安全数学基础</a></li></ul>
 
     </footer>
   </div>
