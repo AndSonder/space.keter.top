@@ -7,11 +7,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>【English】词根词缀</title>
-    <url>/2021/04/20/%E3%80%90English%E3%80%91%E8%AF%8D%E6%A0%B9%E8%AF%8D%E7%BC%80/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-  </entry>
-  <entry>
     <title>SQL Learning</title>
     <url>/2021/01/12/SQL-Learning/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>Mysql tutorial for beginners</h1>
@@ -132,6 +127,11 @@
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id = c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id = c.customer_id</span><br></pre></td></tr></table></figure>
 <h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
 ]]></content>
+  </entry>
+  <entry>
+    <title>【English】词根词缀</title>
+    <url>/2021/04/20/%E3%80%90English%E3%80%91%E8%AF%8D%E6%A0%B9%E8%AF%8D%E7%BC%80/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
   </entry>
   <entry>
     <title>【信息安全数学基础】 群</title>
@@ -816,210 +816,6 @@ x \equiv b2 \ (mod \ 29) \\
       </tags>
   </entry>
   <entry>
-    <title>【白帽子学习笔记】加油NPT</title>
-    <url>/2020/12/06/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8A%A0%E6%B2%B9NPT/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>【白帽子学习笔记】加油NPT</h1>
-<blockquote>
-<p>考试复习内容，看到这篇博客的小伙伴要加油啊！冲冲冲！</p>
-</blockquote>
-<h2 id="0x01-pets标准"><a class="header-anchor" href="#0x01-pets标准">¶</a>0x01 PETS标准</h2>
-<p>整个渗透测试过程大致可以分为7个阶段：</p>
-<ul>
-<li>前期与客户的交流阶段：确认是对目标的哪些设备和哪些问题进行测试，商讨过程中的主要因素有如下几个：
-<ul>
-<li>渗透测试的目标</li>
-<li>进行渗透测试所需要的条件</li>
-<li>渗透测试过程中的限制条件</li>
-<li>渗透测试过程的工期</li>
-<li>渗透测试费用</li>
-<li>渗透测试过程的预期目标</li>
-</ul>
-</li>
-<li>情报的收集阶段：使用各种资源尽可能地获得要测试目标的相关信息
-<ul>
-<li>被动扫描</li>
-<li>主动扫描</li>
-</ul>
-</li>
-<li>威胁建模阶段：这个阶段主要解释了如下的问题
-<ul>
-<li>哪些资产所目标中的重要资产</li>
-<li>攻击时采用的技术和手段</li>
-<li>哪些群里可能会对目标系统造成攻击</li>
-<li>这些群体会使用哪些方法进行破坏</li>
-</ul>
-</li>
-<li>漏洞分析阶段</li>
-<li>漏洞利用阶段</li>
-<li>后渗透攻击阶段：尽可能地将目标被渗透后所可能产生的后果模拟出来，来给客户展示当前网络存在的问题会带来的风险
-<ul>
-<li>控制权限的提升</li>
-<li>登录凭证的窃取</li>
-<li>重要信息的获取</li>
-<li>利用目标作为跳板</li>
-<li>建立长期的控制通道</li>
-</ul>
-</li>
-<li>报告阶段</li>
-</ul>
-<a id="more"></a>
-<h2 id="0x02-ethical-hacking的意义"><a class="header-anchor" href="#0x02-ethical-hacking的意义">¶</a>0x02 ethical hacking的意义</h2>
-<h2 id="0x03-kali基础"><a class="header-anchor" href="#0x03-kali基础">¶</a>0x03 Kali基础</h2>
-<h3 id="1x01-nat和桥接的区别"><a class="header-anchor" href="#1x01-nat和桥接的区别">¶</a>1x01 NAT和桥接的区别</h3>
-<p><strong>桥接模式：<strong>在桥接模式下，VMWare虚拟出来的操作系统就像是局域网中的</strong>一台独立的主机</strong>（主机和虚拟机处于对等地位），<strong>它可以访问网内任何一台机器</strong>。在桥接模式下，我们往往需要为虚拟主机配置ＩＰ地址、子网掩码等（注意虚拟主机的iｐ地址要和主机ｉｐ地址在同一网段）。使用桥接模式的虚拟系统和主机的关系，就<strong>如同连接在一个集线器上的两台电脑</strong>；要让他们通讯就需要为虚拟系统配置ip地址和子网掩码。如果我们需要在局域网内建立一个虚拟服务器，并为局域网用户提供服务，那就要选择桥接模式。</p>
-<p><strong>NAT：<strong>是</strong>Network Address Translation</strong>的缩写，意即<strong>网络地址转换</strong>。使用NAT模式虚拟系统可把物理主机作为路由器访问互联网，NAT模式也是VMware创建虚拟机的默认网络连接模式。使用NAT模式网络连接时，VMware会在主机上建立单独的专用网络，用以在主机和虚拟机之间相互通信**。虚拟机向外部网络发送的请求数据’包裹’，都会交由NAT网络适配器加上’特殊标记’并以主机的名义转发出去**，外部网络返回的响应数据’包裹’，也<strong>是先由主机接收，然后交由NAT网络适配器根据’特殊标记’进行识别并转发给对应的虚拟机</strong>，因此，虚拟机在外部网络中不必具有自己的IP地址。**从外部网络来看，虚拟机和主机在共享一个IP地址，默认情况下，外部网络终端也无法访问到虚拟机。**此外，在一台主机上只允许有一个NAT模式的虚拟网络。因此，<strong>同一台主机上的多个采用NAT模式网络连接的虚拟机也是可以相互访问的。</strong></p>
-<h3 id="1x02-基本操作"><a class="header-anchor" href="#1x02-基本操作">¶</a>1x02 基本操作</h3>
-<ul>
-<li>ifconfig：查看IP信息</li>
-<li>netstat -r：查看网关</li>
-</ul>
-<p><code>如何判断两台主机时候在同一网段？</code></p>
-<p>将两台主机的IP分别与子网掩码进行与运算，比较运算结果是否相同；</p>
-<h2 id="0x04-被动扫描"><a class="header-anchor" href="#0x04-被动扫描">¶</a>0x04 被动扫描</h2>
-<h3 id="1x01-什么是被动扫描？"><a class="header-anchor" href="#1x01-什么是被动扫描？">¶</a>1x01 什么是被动扫描？</h3>
-<p>主要指的是在目标无法察觉的情况下进行的信息收集</p>
-<ul>
-<li>目标网站的所有者信息，例如：姓名、地址、电话、电子邮件等</li>
-<li>目标网站的电子邮箱</li>
-<li>目标网站的社交信息：QQ、微博、微信、论坛发帖等</li>
-</ul>
-<h3 id="1x02-zoomeye"><a class="header-anchor" href="#1x02-zoomeye">¶</a>1x02 zoomeye</h3>
-<p>ZoomEye是一款针对网络空间的搜索引擎，收录了互联网空间中的设备、网站及其使用的服务或组件等信息。</p>
-<h3 id="1x03-google-hacking"><a class="header-anchor" href="#1x03-google-hacking">¶</a>1x03 Google Hacking</h3>
-<ul>
-<li>site ： 指定域名</li>
-<li>inurl：url存在关键字的网页</li>
-<li>intext：网页正文中的关键字</li>
-<li>filetype：指定文件类型</li>
-<li>intitle：网页标题中的关键字</li>
-</ul>
-<h2 id="0x05-主动扫描"><a class="header-anchor" href="#0x05-主动扫描">¶</a>0x05 主动扫描</h2>
-<p>主动扫描的范围要小得多。主动扫描一般都是针对目标发送特制的数据包，然后根据目标的反应来获得一些信息。这些信息主要包括目标主机是否在线、目标主机的指定端口是否开放、目标主机的操作系统、目标主机上运行的服务等。</p>
-<h3 id="nmap的应用"><a class="header-anchor" href="#nmap的应用">¶</a>NMAP的应用</h3>
-<p><strong>扫描操作系统:</strong></p>
-<p><code>nmap -O IP</code></p>
-<p><strong>判断所在网络存活主机：</strong></p>
-<p>扫描192.168.0.0/24网段上有哪些主机的存活的</p>
-<p><code>nmap -sP 192.168.0.0/24</code></p>
-<p><strong>扫描主机开放了哪些端口：</strong></p>
-<p>TCP端口扫描：scan tcp</p>
-<p><code>nmap -sT IP</code></p>
-<p>UDP端口扫描：scan udp</p>
-<p><code>nmap -sU IP</code></p>
-<p>扫描全部端口：</p>
-<p><code>nmap-p &quot;*&quot; ip</code></p>
-<p>扫描前n的端口：</p>
-<p><code>nmap-top-ports n IP</code></p>
-<p>扫描指定的端口：</p>
-<p><code>nmap -P IP</code></p>
-<p><strong>扫描目标开启了哪些服务：</strong></p>
-<p><code>nmap -sV IP</code></p>
-<p><strong>将扫描结果保存为xml文件：</strong></p>
-<p><code>nmap -oX a.xml IP</code></p>
-<h2 id="0x06-身份认证攻击"><a class="header-anchor" href="#0x06-身份认证攻击">¶</a>0x06 身份认证攻击</h2>
-<h3 id="1x01-burpsuite"><a class="header-anchor" href="#1x01-burpsuite">¶</a>1x01 BurpSuite</h3>
-<p>主要需要知道一个作用就是Proxy：</p>
-<p>拦截HTTP/S的代理服务器，作为一个在浏览器和目标应用程序之间的中间人，允许你拦截，查看，修改在两个方向上的原始数据流。</p>
-<p>其他常用的功能还有：</p>
-<ul>
-<li>Spider(蜘蛛)——应用智能感应的网络爬虫，它能完整的枚举应用程序的内容和功能。</li>
-<li>Scanner(扫描器)——高级工具，执行后，它能自动地发现web 应用程序的安全漏洞。</li>
-<li>Intruder(入侵)——一个定制的高度可配置的工具，对web应用程序进行自动化攻击，如：枚举标识符，收集有用的数据，以及使用fuzzing 技术探测常规漏洞。</li>
-<li>Repeater(中继器)——一个靠手动操作来触发单独的HTTP 请求，并分析应用程序响应的工具。</li>
-</ul>
-<h3 id="如何设置安全的密码？"><a class="header-anchor" href="#如何设置安全的密码？">¶</a>如何设置安全的密码？</h3>
-<ul>
-<li>避开若口令</li>
-<li>能记住的密码才是好密码</li>
-<li>密码中包含数字，大小写英文</li>
-<li>增加密码的长度</li>
-<li>每个应用的密码都设置的具有一定差异</li>
-</ul>
-<h2 id="0x07-网络数据嗅探与欺骗"><a class="header-anchor" href="#0x07-网络数据嗅探与欺骗">¶</a>0x07 网络数据嗅探与欺骗</h2>
-<h3 id="1x01-如何利于wireshark恢复数据流中的文件"><a class="header-anchor" href="#1x01-如何利于wireshark恢复数据流中的文件">¶</a>1x01 如何利于Wireshark恢复数据流中的文件</h3>
-<p>利用WireShark的包筛选去筛选出需要的包 ==&gt; 跟踪数据流 ==&gt; 找到需要的数据，选择原数据进行保存</p>
-<p>常用的WireShark语句：</p>
-<p><code>tcp</code>：tcp流；</p>
-<p><code>http</code>：http数据流；</p>
-<p><code>http.request.method</code>：筛选HTTP数据流的请求方式；</p>
-<p><code>ip.src</code>：对于数据源地址进行筛选</p>
-<p><code>ip.dst</code>：对于目的地址筛选</p>
-<h3 id="1x02-arpspoof"><a class="header-anchor" href="#1x02-arpspoof">¶</a>1x02 arpspoof</h3>
-<p>开启端口转发，允许本机像路由器那样转发数据包</p>
-<p><code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code></p>
-<p>ARP投毒</p>
-<p><code>arpspoof -i eth0 -t IP1 IP2</code>(IP1是我们的攻击目标、IP2是网关IP地址)</p>
-<p>-i eth0表示选择eth0这个网卡；</p>
-<p>ARP攻击原理：</p>
-<p>在局域网内的攻击方式主要有两种：</p>
-<p>.<img src=" https://img-blog.csdn.net/20181013134230611?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RDMTI1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" style="zoom:67%;" /></p>
-<p>(1) PC1：PC2不断的向PC1发送欺骗包，欺骗其为网关路由，最后导致PC1的ARP表遭到攻击；</p>
-<p>(2) Route：PC2不断的向Route(网关路由)发送欺骗包，欺骗其为PC1；</p>
-<p><code>因为arp欺骗想把原理写明白需要很大的篇幅，这里就不细说了</code></p>
-<h2 id="0x08-远程控制"><a class="header-anchor" href="#0x08-远程控制">¶</a>0x08 远程控制</h2>
-<h3 id="1x01-正向连接和反向连接的区别"><a class="header-anchor" href="#1x01-正向连接和反向连接的区别">¶</a>1x01 正向连接和反向连接的区别</h3>
-<p>反向连接：攻击机设置一个端口（LPORT）和IP（LHOST），Payload在测试机执行连接攻击机IP的端口，这时如果在攻击机监听该端口会发现测试机已经连接。<br>
-正向连接：攻击机设置一个端口（LPORT），Payload在测试机执行打开该端口，以便攻击机可以接入。</p>
-<h3 id="1x02-反向连接的实施过程"><a class="header-anchor" href="#1x02-反向连接的实施过程">¶</a>1x02 反向连接的实施过程</h3>
-<p>攻击者先通过某个手段在目标机器上植入恶意代码，并且该代码可以被触法。攻击者设置一个端口和一个IP，当被攻击者执行了恶意代码后攻击者的机器就会获取被攻击者的代码。</p>
-<h2 id="0x09-漏洞扫描"><a class="header-anchor" href="#0x09-漏洞扫描">¶</a>0x09 漏洞扫描</h2>
-<h3 id="1x01-工具们"><a class="header-anchor" href="#1x01-工具们">¶</a>1x01 工具们</h3>
-<p>工具：</p>
-<ul>
-<li>
-<p>AWVS：漏洞扫描工具</p>
-</li>
-<li>
-<p>Beef：XSS漏洞利用工具</p>
-</li>
-<li>
-<p>SQLMAP：自动话sql注入工具：</p>
-<ul>
-<li>查询当前数据库：<code>sqlmap -u &quot;IP&quot; --cookie &quot;xxx&quot; --current-db</code></li>
-<li>查询当前使用者：<code>--current user</code></li>
-<li>爆破数据表：<code>-D xx --tables</code></li>
-<li>爆破数据表表头：<code>-D xx -T xx --columns</code></li>
-<li>爆破具体的列：<code>-D xx -T xx -C xx</code></li>
-</ul>
-</li>
-<li>
-<p>Whatweb: 查询网页的基本信息 <code>whatweb IP</code></p>
-</li>
-<li>
-<p>Wpscan:可以扫描WordPress中的多种安全漏洞</p>
-</li>
-<li>
-<p>Dirb：爆破用  <code>dirb -u http://IP</code></p>
-</li>
-<li>
-<p>MeterSploit:功能非常强大的渗透工具</p>
-</li>
-</ul>
-<h3 id="1x02-xss攻击-sql注入"><a class="header-anchor" href="#1x02-xss攻击-sql注入">¶</a>1x02 XSS攻击/SQL注入</h3>
-<p>**XSS攻击：**XSS攻击通常指的是通过利用<a href="https://baike.baidu.com/item/%E7%BD%91%E9%A1%B5/99347">网页</a>开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻击者可能得到包括但不限于更高的权限（如执行一些操作）、私密网页内容、会话和cookie等各种内容。</p>
-<p><strong>SQL注入</strong>攻击的原理：恶意用户在提交查询请求的过程中将SQL语句插入到请求内容中，同时程序本身对用户输入内容过分信任而未对恶意用户插入的SQL语句进行过滤，导致SQL语句直接被服务端执行。</p>
-<h2 id="0x10-owasp-top-10"><a class="header-anchor" href="#0x10-owasp-top-10">¶</a>0x10 OWASP TOP 10</h2>
-<ol>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A1_2017-Injection"><strong>Injection</strong></a>. Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication"><strong>Broken Authentication</strong></a>. Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users’ identities temporarily or permanently.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure"><strong>Sensitive Data Exposure</strong></a>. Many web applications and APIs do not properly protect sensitive data, such as financial, healthcare, and PII. Attackers may steal or modify such weakly protected data to conduct credit card fraud, identity theft, or other crimes. Sensitive data may be compromised without extra protection, such as encryption at rest or in transit, and requires special precautions when exchanged with the browser.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A4_2017-XML_External_Entities_(XXE)"><strong>XML External Entities (XXE)</strong></a>. Many older or poorly configured XML processors evaluate external entity references within XML documents. External entities can be used to disclose internal files using the file URI handler, internal file shares, internal port scanning, remote code execution, and denial of service attacks.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control"><strong>Broken Access Control</strong></a>. Restrictions on what authenticated users are allowed to do are often not properly enforced. Attackers can exploit these flaws to access unauthorized functionality and/or data, such as access other users’ accounts, view sensitive files, modify other users’ data, change access rights, etc.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration"><strong>Security Misconfiguration</strong></a>. Security misconfiguration is the most commonly seen issue. This is commonly a result of insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages containing sensitive information. Not only must all operating systems, frameworks, libraries, and applications be securely configured, but they must be patched/upgraded in a timely fashion.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)"><strong>Cross-Site Scripting XSS</strong></a>. XSS flaws occur whenever an application includes untrusted data in a new web page without proper validation or escaping, or updates an existing web page with user-supplied data using a browser API that can create HTML or JavaScript. XSS allows attackers to execute scripts in the victim’s browser which can hijack user sessions, deface web sites, or redirect the user to malicious sites.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization"><strong>Insecure Deserialization</strong></a>. Insecure deserialization often leads to remote code execution. Even if deserialization flaws do not result in remote code execution, they can be used to perform attacks, including replay attacks, injection attacks, and privilege escalation attacks.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities"><strong>Using Components with Known Vulnerabilities</strong></a>. Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%26Monitoring"><strong>Insufficient Logging &amp; Monitoring</strong></a>. Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data. Most breach studies show time to detect a breach is over 200 days, typically detected by external parties rather than internal processes or monitoring.</li>
-</ol>
-]]></content>
-      <categories>
-        <category>security</category>
-      </categories>
-      <tags>
-        <tag>security</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【白帽子学习笔记】网络扫描与网络侦查</title>
     <url>/2020/10/29/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F%E4%B8%8E%E7%BD%91%E7%BB%9C%E4%BE%A6%E6%9F%A5/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>[toc]</p>
@@ -1236,6 +1032,210 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <li>Winhex等16进制软件的使用（文件修复，查看隐藏信息）</li>
 </ul>
 <p>通过这些内容我们可以对网络扫描和网络侦查有一个很好的了解。</p>
+]]></content>
+      <categories>
+        <category>security</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【白帽子学习笔记】加油NPT</title>
+    <url>/2020/12/06/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8A%A0%E6%B2%B9NPT/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>【白帽子学习笔记】加油NPT</h1>
+<blockquote>
+<p>考试复习内容，看到这篇博客的小伙伴要加油啊！冲冲冲！</p>
+</blockquote>
+<h2 id="0x01-pets标准"><a class="header-anchor" href="#0x01-pets标准">¶</a>0x01 PETS标准</h2>
+<p>整个渗透测试过程大致可以分为7个阶段：</p>
+<ul>
+<li>前期与客户的交流阶段：确认是对目标的哪些设备和哪些问题进行测试，商讨过程中的主要因素有如下几个：
+<ul>
+<li>渗透测试的目标</li>
+<li>进行渗透测试所需要的条件</li>
+<li>渗透测试过程中的限制条件</li>
+<li>渗透测试过程的工期</li>
+<li>渗透测试费用</li>
+<li>渗透测试过程的预期目标</li>
+</ul>
+</li>
+<li>情报的收集阶段：使用各种资源尽可能地获得要测试目标的相关信息
+<ul>
+<li>被动扫描</li>
+<li>主动扫描</li>
+</ul>
+</li>
+<li>威胁建模阶段：这个阶段主要解释了如下的问题
+<ul>
+<li>哪些资产所目标中的重要资产</li>
+<li>攻击时采用的技术和手段</li>
+<li>哪些群里可能会对目标系统造成攻击</li>
+<li>这些群体会使用哪些方法进行破坏</li>
+</ul>
+</li>
+<li>漏洞分析阶段</li>
+<li>漏洞利用阶段</li>
+<li>后渗透攻击阶段：尽可能地将目标被渗透后所可能产生的后果模拟出来，来给客户展示当前网络存在的问题会带来的风险
+<ul>
+<li>控制权限的提升</li>
+<li>登录凭证的窃取</li>
+<li>重要信息的获取</li>
+<li>利用目标作为跳板</li>
+<li>建立长期的控制通道</li>
+</ul>
+</li>
+<li>报告阶段</li>
+</ul>
+<a id="more"></a>
+<h2 id="0x02-ethical-hacking的意义"><a class="header-anchor" href="#0x02-ethical-hacking的意义">¶</a>0x02 ethical hacking的意义</h2>
+<h2 id="0x03-kali基础"><a class="header-anchor" href="#0x03-kali基础">¶</a>0x03 Kali基础</h2>
+<h3 id="1x01-nat和桥接的区别"><a class="header-anchor" href="#1x01-nat和桥接的区别">¶</a>1x01 NAT和桥接的区别</h3>
+<p><strong>桥接模式：<strong>在桥接模式下，VMWare虚拟出来的操作系统就像是局域网中的</strong>一台独立的主机</strong>（主机和虚拟机处于对等地位），<strong>它可以访问网内任何一台机器</strong>。在桥接模式下，我们往往需要为虚拟主机配置ＩＰ地址、子网掩码等（注意虚拟主机的iｐ地址要和主机ｉｐ地址在同一网段）。使用桥接模式的虚拟系统和主机的关系，就<strong>如同连接在一个集线器上的两台电脑</strong>；要让他们通讯就需要为虚拟系统配置ip地址和子网掩码。如果我们需要在局域网内建立一个虚拟服务器，并为局域网用户提供服务，那就要选择桥接模式。</p>
+<p><strong>NAT：<strong>是</strong>Network Address Translation</strong>的缩写，意即<strong>网络地址转换</strong>。使用NAT模式虚拟系统可把物理主机作为路由器访问互联网，NAT模式也是VMware创建虚拟机的默认网络连接模式。使用NAT模式网络连接时，VMware会在主机上建立单独的专用网络，用以在主机和虚拟机之间相互通信**。虚拟机向外部网络发送的请求数据’包裹’，都会交由NAT网络适配器加上’特殊标记’并以主机的名义转发出去**，外部网络返回的响应数据’包裹’，也<strong>是先由主机接收，然后交由NAT网络适配器根据’特殊标记’进行识别并转发给对应的虚拟机</strong>，因此，虚拟机在外部网络中不必具有自己的IP地址。**从外部网络来看，虚拟机和主机在共享一个IP地址，默认情况下，外部网络终端也无法访问到虚拟机。**此外，在一台主机上只允许有一个NAT模式的虚拟网络。因此，<strong>同一台主机上的多个采用NAT模式网络连接的虚拟机也是可以相互访问的。</strong></p>
+<h3 id="1x02-基本操作"><a class="header-anchor" href="#1x02-基本操作">¶</a>1x02 基本操作</h3>
+<ul>
+<li>ifconfig：查看IP信息</li>
+<li>netstat -r：查看网关</li>
+</ul>
+<p><code>如何判断两台主机时候在同一网段？</code></p>
+<p>将两台主机的IP分别与子网掩码进行与运算，比较运算结果是否相同；</p>
+<h2 id="0x04-被动扫描"><a class="header-anchor" href="#0x04-被动扫描">¶</a>0x04 被动扫描</h2>
+<h3 id="1x01-什么是被动扫描？"><a class="header-anchor" href="#1x01-什么是被动扫描？">¶</a>1x01 什么是被动扫描？</h3>
+<p>主要指的是在目标无法察觉的情况下进行的信息收集</p>
+<ul>
+<li>目标网站的所有者信息，例如：姓名、地址、电话、电子邮件等</li>
+<li>目标网站的电子邮箱</li>
+<li>目标网站的社交信息：QQ、微博、微信、论坛发帖等</li>
+</ul>
+<h3 id="1x02-zoomeye"><a class="header-anchor" href="#1x02-zoomeye">¶</a>1x02 zoomeye</h3>
+<p>ZoomEye是一款针对网络空间的搜索引擎，收录了互联网空间中的设备、网站及其使用的服务或组件等信息。</p>
+<h3 id="1x03-google-hacking"><a class="header-anchor" href="#1x03-google-hacking">¶</a>1x03 Google Hacking</h3>
+<ul>
+<li>site ： 指定域名</li>
+<li>inurl：url存在关键字的网页</li>
+<li>intext：网页正文中的关键字</li>
+<li>filetype：指定文件类型</li>
+<li>intitle：网页标题中的关键字</li>
+</ul>
+<h2 id="0x05-主动扫描"><a class="header-anchor" href="#0x05-主动扫描">¶</a>0x05 主动扫描</h2>
+<p>主动扫描的范围要小得多。主动扫描一般都是针对目标发送特制的数据包，然后根据目标的反应来获得一些信息。这些信息主要包括目标主机是否在线、目标主机的指定端口是否开放、目标主机的操作系统、目标主机上运行的服务等。</p>
+<h3 id="nmap的应用"><a class="header-anchor" href="#nmap的应用">¶</a>NMAP的应用</h3>
+<p><strong>扫描操作系统:</strong></p>
+<p><code>nmap -O IP</code></p>
+<p><strong>判断所在网络存活主机：</strong></p>
+<p>扫描192.168.0.0/24网段上有哪些主机的存活的</p>
+<p><code>nmap -sP 192.168.0.0/24</code></p>
+<p><strong>扫描主机开放了哪些端口：</strong></p>
+<p>TCP端口扫描：scan tcp</p>
+<p><code>nmap -sT IP</code></p>
+<p>UDP端口扫描：scan udp</p>
+<p><code>nmap -sU IP</code></p>
+<p>扫描全部端口：</p>
+<p><code>nmap-p &quot;*&quot; ip</code></p>
+<p>扫描前n的端口：</p>
+<p><code>nmap-top-ports n IP</code></p>
+<p>扫描指定的端口：</p>
+<p><code>nmap -P IP</code></p>
+<p><strong>扫描目标开启了哪些服务：</strong></p>
+<p><code>nmap -sV IP</code></p>
+<p><strong>将扫描结果保存为xml文件：</strong></p>
+<p><code>nmap -oX a.xml IP</code></p>
+<h2 id="0x06-身份认证攻击"><a class="header-anchor" href="#0x06-身份认证攻击">¶</a>0x06 身份认证攻击</h2>
+<h3 id="1x01-burpsuite"><a class="header-anchor" href="#1x01-burpsuite">¶</a>1x01 BurpSuite</h3>
+<p>主要需要知道一个作用就是Proxy：</p>
+<p>拦截HTTP/S的代理服务器，作为一个在浏览器和目标应用程序之间的中间人，允许你拦截，查看，修改在两个方向上的原始数据流。</p>
+<p>其他常用的功能还有：</p>
+<ul>
+<li>Spider(蜘蛛)——应用智能感应的网络爬虫，它能完整的枚举应用程序的内容和功能。</li>
+<li>Scanner(扫描器)——高级工具，执行后，它能自动地发现web 应用程序的安全漏洞。</li>
+<li>Intruder(入侵)——一个定制的高度可配置的工具，对web应用程序进行自动化攻击，如：枚举标识符，收集有用的数据，以及使用fuzzing 技术探测常规漏洞。</li>
+<li>Repeater(中继器)——一个靠手动操作来触发单独的HTTP 请求，并分析应用程序响应的工具。</li>
+</ul>
+<h3 id="如何设置安全的密码？"><a class="header-anchor" href="#如何设置安全的密码？">¶</a>如何设置安全的密码？</h3>
+<ul>
+<li>避开若口令</li>
+<li>能记住的密码才是好密码</li>
+<li>密码中包含数字，大小写英文</li>
+<li>增加密码的长度</li>
+<li>每个应用的密码都设置的具有一定差异</li>
+</ul>
+<h2 id="0x07-网络数据嗅探与欺骗"><a class="header-anchor" href="#0x07-网络数据嗅探与欺骗">¶</a>0x07 网络数据嗅探与欺骗</h2>
+<h3 id="1x01-如何利于wireshark恢复数据流中的文件"><a class="header-anchor" href="#1x01-如何利于wireshark恢复数据流中的文件">¶</a>1x01 如何利于Wireshark恢复数据流中的文件</h3>
+<p>利用WireShark的包筛选去筛选出需要的包 ==&gt; 跟踪数据流 ==&gt; 找到需要的数据，选择原数据进行保存</p>
+<p>常用的WireShark语句：</p>
+<p><code>tcp</code>：tcp流；</p>
+<p><code>http</code>：http数据流；</p>
+<p><code>http.request.method</code>：筛选HTTP数据流的请求方式；</p>
+<p><code>ip.src</code>：对于数据源地址进行筛选</p>
+<p><code>ip.dst</code>：对于目的地址筛选</p>
+<h3 id="1x02-arpspoof"><a class="header-anchor" href="#1x02-arpspoof">¶</a>1x02 arpspoof</h3>
+<p>开启端口转发，允许本机像路由器那样转发数据包</p>
+<p><code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code></p>
+<p>ARP投毒</p>
+<p><code>arpspoof -i eth0 -t IP1 IP2</code>(IP1是我们的攻击目标、IP2是网关IP地址)</p>
+<p>-i eth0表示选择eth0这个网卡；</p>
+<p>ARP攻击原理：</p>
+<p>在局域网内的攻击方式主要有两种：</p>
+<p>.<img src=" https://img-blog.csdn.net/20181013134230611?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RDMTI1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" style="zoom:67%;" /></p>
+<p>(1) PC1：PC2不断的向PC1发送欺骗包，欺骗其为网关路由，最后导致PC1的ARP表遭到攻击；</p>
+<p>(2) Route：PC2不断的向Route(网关路由)发送欺骗包，欺骗其为PC1；</p>
+<p><code>因为arp欺骗想把原理写明白需要很大的篇幅，这里就不细说了</code></p>
+<h2 id="0x08-远程控制"><a class="header-anchor" href="#0x08-远程控制">¶</a>0x08 远程控制</h2>
+<h3 id="1x01-正向连接和反向连接的区别"><a class="header-anchor" href="#1x01-正向连接和反向连接的区别">¶</a>1x01 正向连接和反向连接的区别</h3>
+<p>反向连接：攻击机设置一个端口（LPORT）和IP（LHOST），Payload在测试机执行连接攻击机IP的端口，这时如果在攻击机监听该端口会发现测试机已经连接。<br>
+正向连接：攻击机设置一个端口（LPORT），Payload在测试机执行打开该端口，以便攻击机可以接入。</p>
+<h3 id="1x02-反向连接的实施过程"><a class="header-anchor" href="#1x02-反向连接的实施过程">¶</a>1x02 反向连接的实施过程</h3>
+<p>攻击者先通过某个手段在目标机器上植入恶意代码，并且该代码可以被触法。攻击者设置一个端口和一个IP，当被攻击者执行了恶意代码后攻击者的机器就会获取被攻击者的代码。</p>
+<h2 id="0x09-漏洞扫描"><a class="header-anchor" href="#0x09-漏洞扫描">¶</a>0x09 漏洞扫描</h2>
+<h3 id="1x01-工具们"><a class="header-anchor" href="#1x01-工具们">¶</a>1x01 工具们</h3>
+<p>工具：</p>
+<ul>
+<li>
+<p>AWVS：漏洞扫描工具</p>
+</li>
+<li>
+<p>Beef：XSS漏洞利用工具</p>
+</li>
+<li>
+<p>SQLMAP：自动话sql注入工具：</p>
+<ul>
+<li>查询当前数据库：<code>sqlmap -u &quot;IP&quot; --cookie &quot;xxx&quot; --current-db</code></li>
+<li>查询当前使用者：<code>--current user</code></li>
+<li>爆破数据表：<code>-D xx --tables</code></li>
+<li>爆破数据表表头：<code>-D xx -T xx --columns</code></li>
+<li>爆破具体的列：<code>-D xx -T xx -C xx</code></li>
+</ul>
+</li>
+<li>
+<p>Whatweb: 查询网页的基本信息 <code>whatweb IP</code></p>
+</li>
+<li>
+<p>Wpscan:可以扫描WordPress中的多种安全漏洞</p>
+</li>
+<li>
+<p>Dirb：爆破用  <code>dirb -u http://IP</code></p>
+</li>
+<li>
+<p>MeterSploit:功能非常强大的渗透工具</p>
+</li>
+</ul>
+<h3 id="1x02-xss攻击-sql注入"><a class="header-anchor" href="#1x02-xss攻击-sql注入">¶</a>1x02 XSS攻击/SQL注入</h3>
+<p>**XSS攻击：**XSS攻击通常指的是通过利用<a href="https://baike.baidu.com/item/%E7%BD%91%E9%A1%B5/99347">网页</a>开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻击者可能得到包括但不限于更高的权限（如执行一些操作）、私密网页内容、会话和cookie等各种内容。</p>
+<p><strong>SQL注入</strong>攻击的原理：恶意用户在提交查询请求的过程中将SQL语句插入到请求内容中，同时程序本身对用户输入内容过分信任而未对恶意用户插入的SQL语句进行过滤，导致SQL语句直接被服务端执行。</p>
+<h2 id="0x10-owasp-top-10"><a class="header-anchor" href="#0x10-owasp-top-10">¶</a>0x10 OWASP TOP 10</h2>
+<ol>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A1_2017-Injection"><strong>Injection</strong></a>. Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication"><strong>Broken Authentication</strong></a>. Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users’ identities temporarily or permanently.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure"><strong>Sensitive Data Exposure</strong></a>. Many web applications and APIs do not properly protect sensitive data, such as financial, healthcare, and PII. Attackers may steal or modify such weakly protected data to conduct credit card fraud, identity theft, or other crimes. Sensitive data may be compromised without extra protection, such as encryption at rest or in transit, and requires special precautions when exchanged with the browser.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A4_2017-XML_External_Entities_(XXE)"><strong>XML External Entities (XXE)</strong></a>. Many older or poorly configured XML processors evaluate external entity references within XML documents. External entities can be used to disclose internal files using the file URI handler, internal file shares, internal port scanning, remote code execution, and denial of service attacks.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control"><strong>Broken Access Control</strong></a>. Restrictions on what authenticated users are allowed to do are often not properly enforced. Attackers can exploit these flaws to access unauthorized functionality and/or data, such as access other users’ accounts, view sensitive files, modify other users’ data, change access rights, etc.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration"><strong>Security Misconfiguration</strong></a>. Security misconfiguration is the most commonly seen issue. This is commonly a result of insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages containing sensitive information. Not only must all operating systems, frameworks, libraries, and applications be securely configured, but they must be patched/upgraded in a timely fashion.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)"><strong>Cross-Site Scripting XSS</strong></a>. XSS flaws occur whenever an application includes untrusted data in a new web page without proper validation or escaping, or updates an existing web page with user-supplied data using a browser API that can create HTML or JavaScript. XSS allows attackers to execute scripts in the victim’s browser which can hijack user sessions, deface web sites, or redirect the user to malicious sites.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization"><strong>Insecure Deserialization</strong></a>. Insecure deserialization often leads to remote code execution. Even if deserialization flaws do not result in remote code execution, they can be used to perform attacks, including replay attacks, injection attacks, and privilege escalation attacks.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities"><strong>Using Components with Known Vulnerabilities</strong></a>. Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%26Monitoring"><strong>Insufficient Logging &amp; Monitoring</strong></a>. Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data. Most breach studies show time to detect a breach is over 200 days, typically detected by external parties rather than internal processes or monitoring.</li>
+</ol>
 ]]></content>
       <categories>
         <category>security</category>
@@ -2189,6 +2189,9 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <p>,<img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423173637055.png" alt="image-20210423173637055" style="zoom:50%;" /></p>
 <p><code>如果三个一组推不出来的话，就再加变成4个一组</code></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">闭包：BD的闭包 是指由BD能推出来的所有属性</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>主属性： 候选码中的属性都是主属性</p>
+</blockquote>
 <h3 id="第一范式"><a class="header-anchor" href="#第一范式">¶</a>第一范式</h3>
 <p>定义：第一范式，在设计表存储数据的时候，如果表中设计的字段存储的数据，在取出来使用之前还需要额外的处理（拆分）就不符合1NF，第一范式就是<strong>处理数据颗粒度大的问题</strong></p>
 <p>1.案例:设计一张学生选修课成绩表</p>
@@ -2228,7 +2231,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 </tr>
 </tbody>
 </table>
-<p>2.以上表设计是一种非常常见的数据,但是如果想要知道学生上课的开始时间和结束时间,那就意味着这个学习时间取出之后需要再进行拆分,因此就不符合1NF。要保证数据取出来就可以直接使用,就需要将学习时间进行拆分。</p>
+2.以上表设计是一种非常常见的数据,但是如果想要知道学生上课的开始时间和结束时间,那就意味着这个学习时间取出之后需要再进行拆分,因此就不符合1NF。要保证数据取出来就可以直接使用,就需要将学习时间进行拆分。
 <table id="tabular">
 <tbody>
 <tr style="border-top: none !important; border-bottom: none !important;">
@@ -2305,7 +2308,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <h3 id="第三范式"><a class="header-anchor" href="#第三范式">¶</a>第三范式</h3>
 <p>定义：第三范式（3NF），理论上讲，应该一张表中的所有字段都应该直接依赖主键（逻辑主键：代表的是业务主键），如果表设计中存在这样一个字段，并不直接依赖主键，而是通过某一个非主键字段依赖，最终实现依赖主键：把这种不是直接依赖主键，而是依赖主键非主键字段的依赖关系称之为传递依赖。第三范式就是要解决传递的问题。</p>
 <ol>
-<li>第三范式的解决方案：如果某一个表中有字段依赖非主键字段，而被依赖字段依赖主键，我们就应该将这种非主键依赖关系进行分离，单独形成一张表。</li>
+<li>第三范式的解决方案：<strong>如果某一个表中有字段依赖非主键字段，而被依赖字段依赖主键</strong>，我们就应该将这种非主键依赖关系进行分离，单独形成一张表。</li>
 </ol>
 <p>学生表：</p>
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414111729166.png" alt="image-20210414111729166"></p>
@@ -2320,9 +2323,43 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <p>总结</p>
 </blockquote>
 <ol>
-<li>第三范式是不允许传递依赖：即有字段依赖非主键字段；</li>
+<li>第三范式是不允许传递依赖：<strong>即有字段依赖非主键字段</strong>；</li>
 <li>消除传递依赖的方案就是将相关数据对应创建一张表；</li>
 </ol>
+<h4 id="第三范式的模式分解"><a class="header-anchor" href="#第三范式的模式分解">¶</a>第三范式的模式分解</h4>
+<p>求出第三范式对应函数集的最小函数依赖 Fm，使用左部相同合并原则：</p>
+<p>Fm中左边相同的合并成一个数据表</p>
+<p><strong>例1：U=(A,B,C,D,E,G)  F={BG-&gt;C，BD-&gt;E，DG-&gt;C，ADG-&gt;BC，AG-&gt;B，B-&gt;D}  若R不是3NF，将R分解为无损且保持函数依赖的3NF。</strong></p>
+<p>很简单可以求出候选键为AG</p>
+<ol>
+<li>求最小函数依赖</li>
+</ol>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BCDEG}   G在其中，删除</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>D</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BD)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BD} , E不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(DG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {DG}, C不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(ADG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span>  = {ABCDG}, B在其中，C也在其中，删除</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(AG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {AG}, B不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(B)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {B} , D不在其中保留</p>
+<p>可以得到：F = {BD-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
+<p>接下来判断一下左边有没有冗余；</p>
+<p>BD-&gt;E:  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>B</mi><mo>+</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(B^+)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>=BD, D 在里面，所以D有冗余</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>D</mi><mo>+</mo></msup><mo stretchy="false">)</mo><mo>=</mo><mi>D</mi></mrow><annotation encoding="application/x-tex">(D^+)=D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span></span></span></span>, B不在里面所以B没有冗余</p>
+<p>所以用B-&gt;E 替换，BD-&gt;E</p>
+<p>同理可以得到Fm = {B-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
+<ol start="2">
+<li>根据左部相同原则进行合并</li>
+</ol>
+<p>根据左部相同原则可以得到：</p>
+<p>R1 = BED, R2 = CDG, R3 = ABG</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210424215608image-20210424214705698.png" alt="image-20210424214705698" style="zoom:67%;" /></p>
+<p>因为AG已经在R3中了所以得到的分解是无损分解</p>
+<h3 id="bcnf范式"><a class="header-anchor" href="#bcnf范式">¶</a>BCNF范式</h3>
+<p><code>在3NF的基础上如果所有的函数依赖的左边都是超码，那这个关系就满足第三范式；如果有一个不是超码就不满足；</code></p>
+<blockquote>
+<p>超码： 一个码的闭包如果就是这个集合，那这个码就叫做超码</p>
+</blockquote>
+<h4 id="bcnf范式的模式分解"><a class="header-anchor" href="#bcnf范式的模式分解">¶</a>BCNF范式的模式分解</h4>
+<p>s</p>
 <h2 id="armstrong-公理系统"><a class="header-anchor" href="#armstrong-公理系统">¶</a>Armstrong 公理系统</h2>
 <p>设U为属性集总体，F是U上的一组函数依赖，于是又关系模式R&lt;U,F&gt;，对于R&lt;U,F&gt;来说有以下的推理规则</p>
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174437414.png" alt="image-20210423174437414"></p>
@@ -2351,6 +2388,30 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <p>Step3：把每个依赖左边相同的分成一类</p>
 <p>Step4：如果候选码没有出现在分类中，把任意一个候选码作为一类</p>
 <p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423190715image-20210423180657643.png" alt="image-20210423180657643" style="zoom:50%;" /></p>
+<p><strong>例：U=(A,B,C,D,E)   F={AB-&gt;C，C-&gt;B，D-&gt;E，D-&gt;C}   若R不是3NF，将R分解为无损且保持函数依赖的3NF。</strong></p>
+<p>解：易求得，码是AD，属于1NF</p>
+<ol>
+<li>
+<p>第一步：U1=ABC       U2=BC     U3=DCE</p>
+</li>
+<li>
+<p>第二步：</p>
+<p>将R分解为ρ={<br>
+R1({A,B,C}，{AB-&gt;C})，<br>
+R2({B,C}，{C-&gt;B})，<br>
+R3({D,E}，{D-&gt;E,D-&gt;C}) }</p>
+<p>合并吸收：<br>
+ρ={ R1({A,B,C}，{AB-&gt;C,C-&gt;B})，<br>
+R2({D,E}，{D-&gt;E,D-&gt;C}) }</p>
+</li>
+<li>
+<p>第三步：不是无损连接，添加码。</p>
+<p>R3({A,D}，{∅})</p>
+<p>所以ρ={ R1({A,B,C}，{AB-&gt;C,C-&gt;B})，<br>
+R2({D,E}，{D-&gt;E,D-&gt;C}),<br>
+R3({A,D}，{∅}) }</p>
+</li>
+</ol>
 ]]></content>
   </entry>
   <entry>

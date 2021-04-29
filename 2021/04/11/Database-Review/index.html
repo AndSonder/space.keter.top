@@ -70,7 +70,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">5.5k</span>
+            <span class="post-count">6.1k</span>
         </span>
     </span>
 
@@ -79,7 +79,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">20 min</span>
+            <span class="post-count">23 min</span>
         </span>
     </span>
 </div>
@@ -382,6 +382,9 @@
 <p>,<img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423173637055.png" alt="image-20210423173637055" style="zoom:50%;" /></p>
 <p><code>如果三个一组推不出来的话，就再加变成4个一组</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">闭包：BD的闭包 是指由BD能推出来的所有属性</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>主属性： 候选码中的属性都是主属性</p>
+</blockquote>
 <h3 id="第一范式"><a class="header-anchor" href="#第一范式">¶</a>第一范式</h3>
 <p>定义：第一范式，在设计表存储数据的时候，如果表中设计的字段存储的数据，在取出来使用之前还需要额外的处理（拆分）就不符合1NF，第一范式就是<strong>处理数据颗粒度大的问题</strong></p>
 <p>1.案例:设计一张学生选修课成绩表</p>
@@ -421,7 +424,7 @@
 </tr>
 </tbody>
 </table>
-<p>2.以上表设计是一种非常常见的数据,但是如果想要知道学生上课的开始时间和结束时间,那就意味着这个学习时间取出之后需要再进行拆分,因此就不符合1NF。要保证数据取出来就可以直接使用,就需要将学习时间进行拆分。</p>
+2.以上表设计是一种非常常见的数据,但是如果想要知道学生上课的开始时间和结束时间,那就意味着这个学习时间取出之后需要再进行拆分,因此就不符合1NF。要保证数据取出来就可以直接使用,就需要将学习时间进行拆分。
 <table id="tabular">
 <tbody>
 <tr style="border-top: none !important; border-bottom: none !important;">
@@ -498,7 +501,7 @@
 <h3 id="第三范式"><a class="header-anchor" href="#第三范式">¶</a>第三范式</h3>
 <p>定义：第三范式（3NF），理论上讲，应该一张表中的所有字段都应该直接依赖主键（逻辑主键：代表的是业务主键），如果表设计中存在这样一个字段，并不直接依赖主键，而是通过某一个非主键字段依赖，最终实现依赖主键：把这种不是直接依赖主键，而是依赖主键非主键字段的依赖关系称之为传递依赖。第三范式就是要解决传递的问题。</p>
 <ol>
-<li>第三范式的解决方案：如果某一个表中有字段依赖非主键字段，而被依赖字段依赖主键，我们就应该将这种非主键依赖关系进行分离，单独形成一张表。</li>
+<li>第三范式的解决方案：<strong>如果某一个表中有字段依赖非主键字段，而被依赖字段依赖主键</strong>，我们就应该将这种非主键依赖关系进行分离，单独形成一张表。</li>
 </ol>
 <p>学生表：</p>
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414111729166.png" alt="image-20210414111729166"></p>
@@ -513,9 +516,43 @@
 <p>总结</p>
 </blockquote>
 <ol>
-<li>第三范式是不允许传递依赖：即有字段依赖非主键字段；</li>
+<li>第三范式是不允许传递依赖：<strong>即有字段依赖非主键字段</strong>；</li>
 <li>消除传递依赖的方案就是将相关数据对应创建一张表；</li>
 </ol>
+<h4 id="第三范式的模式分解"><a class="header-anchor" href="#第三范式的模式分解">¶</a>第三范式的模式分解</h4>
+<p>求出第三范式对应函数集的最小函数依赖 Fm，使用左部相同合并原则：</p>
+<p>Fm中左边相同的合并成一个数据表</p>
+<p><strong>例1：U=(A,B,C,D,E,G)  F={BG-&gt;C，BD-&gt;E，DG-&gt;C，ADG-&gt;BC，AG-&gt;B，B-&gt;D}  若R不是3NF，将R分解为无损且保持函数依赖的3NF。</strong></p>
+<p>很简单可以求出候选键为AG</p>
+<ol>
+<li>求最小函数依赖</li>
+</ol>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BCDEG}   G在其中，删除</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>D</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BD)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BD} , E不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(DG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {DG}, C不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(ADG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span>  = {ABCDG}, B在其中，C也在其中，删除</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(AG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {AG}, B不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(B)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {B} , D不在其中保留</p>
+<p>可以得到：F = {BD-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
+<p>接下来判断一下左边有没有冗余；</p>
+<p>BD-&gt;E:  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>B</mi><mo>+</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(B^+)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>=BD, D 在里面，所以D有冗余</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>D</mi><mo>+</mo></msup><mo stretchy="false">)</mo><mo>=</mo><mi>D</mi></mrow><annotation encoding="application/x-tex">(D^+)=D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span></span></span></span>, B不在里面所以B没有冗余</p>
+<p>所以用B-&gt;E 替换，BD-&gt;E</p>
+<p>同理可以得到Fm = {B-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
+<ol start="2">
+<li>根据左部相同原则进行合并</li>
+</ol>
+<p>根据左部相同原则可以得到：</p>
+<p>R1 = BED, R2 = CDG, R3 = ABG</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210424215608image-20210424214705698.png" alt="image-20210424214705698" style="zoom:67%;" /></p>
+<p>因为AG已经在R3中了所以得到的分解是无损分解</p>
+<h3 id="bcnf范式"><a class="header-anchor" href="#bcnf范式">¶</a>BCNF范式</h3>
+<p><code>在3NF的基础上如果所有的函数依赖的左边都是超码，那这个关系就满足第三范式；如果有一个不是超码就不满足；</code></p>
+<blockquote>
+<p>超码： 一个码的闭包如果就是这个集合，那这个码就叫做超码</p>
+</blockquote>
+<h4 id="bcnf范式的模式分解"><a class="header-anchor" href="#bcnf范式的模式分解">¶</a>BCNF范式的模式分解</h4>
+<p>s</p>
 <h2 id="armstrong-公理系统"><a class="header-anchor" href="#armstrong-公理系统">¶</a>Armstrong 公理系统</h2>
 <p>设U为属性集总体，F是U上的一组函数依赖，于是又关系模式R&lt;U,F&gt;，对于R&lt;U,F&gt;来说有以下的推理规则</p>
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174437414.png" alt="image-20210423174437414"></p>
@@ -544,6 +581,30 @@
 <p>Step3：把每个依赖左边相同的分成一类</p>
 <p>Step4：如果候选码没有出现在分类中，把任意一个候选码作为一类</p>
 <p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423190715image-20210423180657643.png" alt="image-20210423180657643" style="zoom:50%;" /></p>
+<p><strong>例：U=(A,B,C,D,E)   F={AB-&gt;C，C-&gt;B，D-&gt;E，D-&gt;C}   若R不是3NF，将R分解为无损且保持函数依赖的3NF。</strong></p>
+<p>解：易求得，码是AD，属于1NF</p>
+<ol>
+<li>
+<p>第一步：U1=ABC       U2=BC     U3=DCE</p>
+</li>
+<li>
+<p>第二步：</p>
+<p>将R分解为ρ={<br>
+R1({A,B,C}，{AB-&gt;C})，<br>
+R2({B,C}，{C-&gt;B})，<br>
+R3({D,E}，{D-&gt;E,D-&gt;C}) }</p>
+<p>合并吸收：<br>
+ρ={ R1({A,B,C}，{AB-&gt;C,C-&gt;B})，<br>
+R2({D,E}，{D-&gt;E,D-&gt;C}) }</p>
+</li>
+<li>
+<p>第三步：不是无损连接，添加码。</p>
+<p>R3({A,D}，{∅})</p>
+<p>所以ρ={ R1({A,B,C}，{AB-&gt;C,C-&gt;B})，<br>
+R2({D,E}，{D-&gt;E,D-&gt;C}),<br>
+R3({A,D}，{∅}) }</p>
+</li>
+</ol>
  
       <!-- reward -->
       
