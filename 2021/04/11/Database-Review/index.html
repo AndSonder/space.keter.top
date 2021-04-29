@@ -70,7 +70,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">6.1k</span>
+            <span class="post-count">6.2k</span>
         </span>
     </span>
 
@@ -121,6 +121,7 @@
 <p>外连接就是左连接和右连接的组合。</p>
 <h4 id="除法"><a class="header-anchor" href="#除法">¶</a>除法</h4>
 <p>去看： <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d80dbaef637e">https://www.jianshu.com/p/d80dbaef637e</a> 讲的好啊</p>
+<p>还有：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35361859/article/details/105027905">https://blog.csdn.net/qq_35361859/article/details/105027905</a> 也不错</p>
 <hr>
 <h2 id="sql语句的一些高级操作"><a class="header-anchor" href="#sql语句的一些高级操作">¶</a>SQL语句的一些高级操作</h2>
 <h3 id="where"><a class="header-anchor" href="#where">¶</a>WHERE</h3>
@@ -367,11 +368,15 @@
 <p><strong>传递函数依赖：</strong></p>
 <p>设X,Y,Z是关系R中互不相同的属性集合，存在X→Y(Y !→X),Y→Z，则称Z传递函数依赖于X。</p>
 <p>例子：在关系R(学号 ,宿舍, 费用)中，(学号)-&gt;(宿舍),宿舍！=学号，(宿舍)-&gt;(费用),费用!=宿舍，所以符合传递函数的要求；即费用传递函数依赖于学号</p>
+<h3 id="属性集的函数依赖"><a class="header-anchor" href="#属性集的函数依赖">¶</a>属性集的函数依赖</h3>
+<p>就是将所有的可以推导出来的函数依赖关系全部给加进去，需要注意的就是<strong>有一个和空集的关系</strong></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210429141430image-20210429141428712.png" alt="image-20210429141428712"></p>
+<p>剩下的就是对各个元素闭包的排列组合；比如上面的例题中 (A)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow></mrow><mo>+</mo></msub></mrow><annotation encoding="application/x-tex">_+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.466662em;vertical-align:-0.208331em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.25833100000000003em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span> = ABC, 所以他就对应了如图的ABC的所有排列组合情况再加一个对空集对关系。</p>
 <h3 id="码"><a class="header-anchor" href="#码">¶</a>码</h3>
-<h4 id="候选码"><a class="header-anchor" href="#候选码">¶</a>候选码</h4>
+<h4 id="候选码的概念"><a class="header-anchor" href="#候选码的概念">¶</a>候选码的概念</h4>
 <p>这样一个集合，他可以推出所有的属性，但是他的任意一个真子集无法退出所有的属性。</p>
 <p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423171253image-20210423171236681.png" alt="image-20210423171236681" style="zoom:50%;" /></p>
-<p>如何求候选码：</p>
+<h4 id="如何求候选码？"><a class="header-anchor" href="#如何求候选码？">¶</a>如何求候选码？</h4>
 <ol>
 <li>只出现在左边的一定是候选码中的元素</li>
 <li>只出现在右边的一定不是候选码中的元素</li>
@@ -552,7 +557,7 @@
 <p>超码： 一个码的闭包如果就是这个集合，那这个码就叫做超码</p>
 </blockquote>
 <h4 id="bcnf范式的模式分解"><a class="header-anchor" href="#bcnf范式的模式分解">¶</a>BCNF范式的模式分解</h4>
-<p>s</p>
+<p>…</p>
 <h2 id="armstrong-公理系统"><a class="header-anchor" href="#armstrong-公理系统">¶</a>Armstrong 公理系统</h2>
 <p>设U为属性集总体，F是U上的一组函数依赖，于是又关系模式R&lt;U,F&gt;，对于R&lt;U,F&gt;来说有以下的推理规则</p>
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174437414.png" alt="image-20210423174437414"></p>
@@ -605,6 +610,10 @@ R2({D,E}，{D-&gt;E,D-&gt;C}),<br>
 R3({A,D}，{∅}) }</p>
 </li>
 </ol>
+<h2 id="数据库设计"><a class="header-anchor" href="#数据库设计">¶</a>数据库设计</h2>
+<h3 id="er图转关系模式"><a class="header-anchor" href="#er图转关系模式">¶</a>ER图转关系模式</h3>
+<p><strong><img src="https://gitee.com/coronapolvo/images/raw/master/20210429152543image-20210429152538934.png" alt="image-20210429152538934"></strong></p>
+<p>去看： <a target="_blank" rel="noopener" href="https://blog.csdn.net/Flora_SM/article/details/84645752">https://blog.csdn.net/Flora_SM/article/details/84645752</a> 这里讲的非常好！</p>
  
       <!-- reward -->
       
