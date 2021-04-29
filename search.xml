@@ -816,6 +816,278 @@ x \equiv b2 \ (mod \ 29) \\
       </tags>
   </entry>
   <entry>
+    <title>【白帽子学习笔记】加油NPT</title>
+    <url>/2020/12/06/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8A%A0%E6%B2%B9NPT/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>【白帽子学习笔记】加油NPT</h1>
+<blockquote>
+<p>考试复习内容，看到这篇博客的小伙伴要加油啊！冲冲冲！</p>
+</blockquote>
+<h2 id="0x01-pets标准"><a class="header-anchor" href="#0x01-pets标准">¶</a>0x01 PETS标准</h2>
+<p>整个渗透测试过程大致可以分为7个阶段：</p>
+<ul>
+<li>前期与客户的交流阶段：确认是对目标的哪些设备和哪些问题进行测试，商讨过程中的主要因素有如下几个：
+<ul>
+<li>渗透测试的目标</li>
+<li>进行渗透测试所需要的条件</li>
+<li>渗透测试过程中的限制条件</li>
+<li>渗透测试过程的工期</li>
+<li>渗透测试费用</li>
+<li>渗透测试过程的预期目标</li>
+</ul>
+</li>
+<li>情报的收集阶段：使用各种资源尽可能地获得要测试目标的相关信息
+<ul>
+<li>被动扫描</li>
+<li>主动扫描</li>
+</ul>
+</li>
+<li>威胁建模阶段：这个阶段主要解释了如下的问题
+<ul>
+<li>哪些资产所目标中的重要资产</li>
+<li>攻击时采用的技术和手段</li>
+<li>哪些群里可能会对目标系统造成攻击</li>
+<li>这些群体会使用哪些方法进行破坏</li>
+</ul>
+</li>
+<li>漏洞分析阶段</li>
+<li>漏洞利用阶段</li>
+<li>后渗透攻击阶段：尽可能地将目标被渗透后所可能产生的后果模拟出来，来给客户展示当前网络存在的问题会带来的风险
+<ul>
+<li>控制权限的提升</li>
+<li>登录凭证的窃取</li>
+<li>重要信息的获取</li>
+<li>利用目标作为跳板</li>
+<li>建立长期的控制通道</li>
+</ul>
+</li>
+<li>报告阶段</li>
+</ul>
+<a id="more"></a>
+<h2 id="0x02-ethical-hacking的意义"><a class="header-anchor" href="#0x02-ethical-hacking的意义">¶</a>0x02 ethical hacking的意义</h2>
+<h2 id="0x03-kali基础"><a class="header-anchor" href="#0x03-kali基础">¶</a>0x03 Kali基础</h2>
+<h3 id="1x01-nat和桥接的区别"><a class="header-anchor" href="#1x01-nat和桥接的区别">¶</a>1x01 NAT和桥接的区别</h3>
+<p><strong>桥接模式：<strong>在桥接模式下，VMWare虚拟出来的操作系统就像是局域网中的</strong>一台独立的主机</strong>（主机和虚拟机处于对等地位），<strong>它可以访问网内任何一台机器</strong>。在桥接模式下，我们往往需要为虚拟主机配置ＩＰ地址、子网掩码等（注意虚拟主机的iｐ地址要和主机ｉｐ地址在同一网段）。使用桥接模式的虚拟系统和主机的关系，就<strong>如同连接在一个集线器上的两台电脑</strong>；要让他们通讯就需要为虚拟系统配置ip地址和子网掩码。如果我们需要在局域网内建立一个虚拟服务器，并为局域网用户提供服务，那就要选择桥接模式。</p>
+<p><strong>NAT：<strong>是</strong>Network Address Translation</strong>的缩写，意即<strong>网络地址转换</strong>。使用NAT模式虚拟系统可把物理主机作为路由器访问互联网，NAT模式也是VMware创建虚拟机的默认网络连接模式。使用NAT模式网络连接时，VMware会在主机上建立单独的专用网络，用以在主机和虚拟机之间相互通信**。虚拟机向外部网络发送的请求数据’包裹’，都会交由NAT网络适配器加上’特殊标记’并以主机的名义转发出去**，外部网络返回的响应数据’包裹’，也<strong>是先由主机接收，然后交由NAT网络适配器根据’特殊标记’进行识别并转发给对应的虚拟机</strong>，因此，虚拟机在外部网络中不必具有自己的IP地址。**从外部网络来看，虚拟机和主机在共享一个IP地址，默认情况下，外部网络终端也无法访问到虚拟机。**此外，在一台主机上只允许有一个NAT模式的虚拟网络。因此，<strong>同一台主机上的多个采用NAT模式网络连接的虚拟机也是可以相互访问的。</strong></p>
+<h3 id="1x02-基本操作"><a class="header-anchor" href="#1x02-基本操作">¶</a>1x02 基本操作</h3>
+<ul>
+<li>ifconfig：查看IP信息</li>
+<li>netstat -r：查看网关</li>
+</ul>
+<p><code>如何判断两台主机时候在同一网段？</code></p>
+<p>将两台主机的IP分别与子网掩码进行与运算，比较运算结果是否相同；</p>
+<h2 id="0x04-被动扫描"><a class="header-anchor" href="#0x04-被动扫描">¶</a>0x04 被动扫描</h2>
+<h3 id="1x01-什么是被动扫描？"><a class="header-anchor" href="#1x01-什么是被动扫描？">¶</a>1x01 什么是被动扫描？</h3>
+<p>主要指的是在目标无法察觉的情况下进行的信息收集</p>
+<ul>
+<li>目标网站的所有者信息，例如：姓名、地址、电话、电子邮件等</li>
+<li>目标网站的电子邮箱</li>
+<li>目标网站的社交信息：QQ、微博、微信、论坛发帖等</li>
+</ul>
+<h3 id="1x02-zoomeye"><a class="header-anchor" href="#1x02-zoomeye">¶</a>1x02 zoomeye</h3>
+<p>ZoomEye是一款针对网络空间的搜索引擎，收录了互联网空间中的设备、网站及其使用的服务或组件等信息。</p>
+<h3 id="1x03-google-hacking"><a class="header-anchor" href="#1x03-google-hacking">¶</a>1x03 Google Hacking</h3>
+<ul>
+<li>site ： 指定域名</li>
+<li>inurl：url存在关键字的网页</li>
+<li>intext：网页正文中的关键字</li>
+<li>filetype：指定文件类型</li>
+<li>intitle：网页标题中的关键字</li>
+</ul>
+<h2 id="0x05-主动扫描"><a class="header-anchor" href="#0x05-主动扫描">¶</a>0x05 主动扫描</h2>
+<p>主动扫描的范围要小得多。主动扫描一般都是针对目标发送特制的数据包，然后根据目标的反应来获得一些信息。这些信息主要包括目标主机是否在线、目标主机的指定端口是否开放、目标主机的操作系统、目标主机上运行的服务等。</p>
+<h3 id="nmap的应用"><a class="header-anchor" href="#nmap的应用">¶</a>NMAP的应用</h3>
+<p><strong>扫描操作系统:</strong></p>
+<p><code>nmap -O IP</code></p>
+<p><strong>判断所在网络存活主机：</strong></p>
+<p>扫描192.168.0.0/24网段上有哪些主机的存活的</p>
+<p><code>nmap -sP 192.168.0.0/24</code></p>
+<p><strong>扫描主机开放了哪些端口：</strong></p>
+<p>TCP端口扫描：scan tcp</p>
+<p><code>nmap -sT IP</code></p>
+<p>UDP端口扫描：scan udp</p>
+<p><code>nmap -sU IP</code></p>
+<p>扫描全部端口：</p>
+<p><code>nmap-p &quot;*&quot; ip</code></p>
+<p>扫描前n的端口：</p>
+<p><code>nmap-top-ports n IP</code></p>
+<p>扫描指定的端口：</p>
+<p><code>nmap -P IP</code></p>
+<p><strong>扫描目标开启了哪些服务：</strong></p>
+<p><code>nmap -sV IP</code></p>
+<p><strong>将扫描结果保存为xml文件：</strong></p>
+<p><code>nmap -oX a.xml IP</code></p>
+<h2 id="0x06-身份认证攻击"><a class="header-anchor" href="#0x06-身份认证攻击">¶</a>0x06 身份认证攻击</h2>
+<h3 id="1x01-burpsuite"><a class="header-anchor" href="#1x01-burpsuite">¶</a>1x01 BurpSuite</h3>
+<p>主要需要知道一个作用就是Proxy：</p>
+<p>拦截HTTP/S的代理服务器，作为一个在浏览器和目标应用程序之间的中间人，允许你拦截，查看，修改在两个方向上的原始数据流。</p>
+<p>其他常用的功能还有：</p>
+<ul>
+<li>Spider(蜘蛛)——应用智能感应的网络爬虫，它能完整的枚举应用程序的内容和功能。</li>
+<li>Scanner(扫描器)——高级工具，执行后，它能自动地发现web 应用程序的安全漏洞。</li>
+<li>Intruder(入侵)——一个定制的高度可配置的工具，对web应用程序进行自动化攻击，如：枚举标识符，收集有用的数据，以及使用fuzzing 技术探测常规漏洞。</li>
+<li>Repeater(中继器)——一个靠手动操作来触发单独的HTTP 请求，并分析应用程序响应的工具。</li>
+</ul>
+<h3 id="如何设置安全的密码？"><a class="header-anchor" href="#如何设置安全的密码？">¶</a>如何设置安全的密码？</h3>
+<ul>
+<li>避开若口令</li>
+<li>能记住的密码才是好密码</li>
+<li>密码中包含数字，大小写英文</li>
+<li>增加密码的长度</li>
+<li>每个应用的密码都设置的具有一定差异</li>
+</ul>
+<h2 id="0x07-网络数据嗅探与欺骗"><a class="header-anchor" href="#0x07-网络数据嗅探与欺骗">¶</a>0x07 网络数据嗅探与欺骗</h2>
+<h3 id="1x01-如何利于wireshark恢复数据流中的文件"><a class="header-anchor" href="#1x01-如何利于wireshark恢复数据流中的文件">¶</a>1x01 如何利于Wireshark恢复数据流中的文件</h3>
+<p>利用WireShark的包筛选去筛选出需要的包 ==&gt; 跟踪数据流 ==&gt; 找到需要的数据，选择原数据进行保存</p>
+<p>常用的WireShark语句：</p>
+<p><code>tcp</code>：tcp流；</p>
+<p><code>http</code>：http数据流；</p>
+<p><code>http.request.method</code>：筛选HTTP数据流的请求方式；</p>
+<p><code>ip.src</code>：对于数据源地址进行筛选</p>
+<p><code>ip.dst</code>：对于目的地址筛选</p>
+<h3 id="1x02-arpspoof"><a class="header-anchor" href="#1x02-arpspoof">¶</a>1x02 arpspoof</h3>
+<p>开启端口转发，允许本机像路由器那样转发数据包</p>
+<p><code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code></p>
+<p>ARP投毒</p>
+<p><code>arpspoof -i eth0 -t IP1 IP2</code>(IP1是我们的攻击目标、IP2是网关IP地址)</p>
+<p>-i eth0表示选择eth0这个网卡；</p>
+<p>ARP攻击原理：</p>
+<p>在局域网内的攻击方式主要有两种：</p>
+<p>.<img src=" https://img-blog.csdn.net/20181013134230611?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RDMTI1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" style="zoom:67%;" /></p>
+<p>(1) PC1：PC2不断的向PC1发送欺骗包，欺骗其为网关路由，最后导致PC1的ARP表遭到攻击；</p>
+<p>(2) Route：PC2不断的向Route(网关路由)发送欺骗包，欺骗其为PC1；</p>
+<p><code>因为arp欺骗想把原理写明白需要很大的篇幅，这里就不细说了</code></p>
+<h2 id="0x08-远程控制"><a class="header-anchor" href="#0x08-远程控制">¶</a>0x08 远程控制</h2>
+<h3 id="1x01-正向连接和反向连接的区别"><a class="header-anchor" href="#1x01-正向连接和反向连接的区别">¶</a>1x01 正向连接和反向连接的区别</h3>
+<p>反向连接：攻击机设置一个端口（LPORT）和IP（LHOST），Payload在测试机执行连接攻击机IP的端口，这时如果在攻击机监听该端口会发现测试机已经连接。<br>
+正向连接：攻击机设置一个端口（LPORT），Payload在测试机执行打开该端口，以便攻击机可以接入。</p>
+<h3 id="1x02-反向连接的实施过程"><a class="header-anchor" href="#1x02-反向连接的实施过程">¶</a>1x02 反向连接的实施过程</h3>
+<p>攻击者先通过某个手段在目标机器上植入恶意代码，并且该代码可以被触法。攻击者设置一个端口和一个IP，当被攻击者执行了恶意代码后攻击者的机器就会获取被攻击者的代码。</p>
+<h2 id="0x09-漏洞扫描"><a class="header-anchor" href="#0x09-漏洞扫描">¶</a>0x09 漏洞扫描</h2>
+<h3 id="1x01-工具们"><a class="header-anchor" href="#1x01-工具们">¶</a>1x01 工具们</h3>
+<p>工具：</p>
+<ul>
+<li>
+<p>AWVS：漏洞扫描工具</p>
+</li>
+<li>
+<p>Beef：XSS漏洞利用工具</p>
+</li>
+<li>
+<p>SQLMAP：自动话sql注入工具：</p>
+<ul>
+<li>查询当前数据库：<code>sqlmap -u &quot;IP&quot; --cookie &quot;xxx&quot; --current-db</code></li>
+<li>查询当前使用者：<code>--current user</code></li>
+<li>爆破数据表：<code>-D xx --tables</code></li>
+<li>爆破数据表表头：<code>-D xx -T xx --columns</code></li>
+<li>爆破具体的列：<code>-D xx -T xx -C xx</code></li>
+</ul>
+</li>
+<li>
+<p>Whatweb: 查询网页的基本信息 <code>whatweb IP</code></p>
+</li>
+<li>
+<p>Wpscan:可以扫描WordPress中的多种安全漏洞</p>
+</li>
+<li>
+<p>Dirb：爆破用  <code>dirb -u http://IP</code></p>
+</li>
+<li>
+<p>MeterSploit:功能非常强大的渗透工具</p>
+</li>
+</ul>
+<h3 id="1x02-xss攻击-sql注入"><a class="header-anchor" href="#1x02-xss攻击-sql注入">¶</a>1x02 XSS攻击/SQL注入</h3>
+<p>**XSS攻击：**XSS攻击通常指的是通过利用<a href="https://baike.baidu.com/item/%E7%BD%91%E9%A1%B5/99347">网页</a>开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻击者可能得到包括但不限于更高的权限（如执行一些操作）、私密网页内容、会话和cookie等各种内容。</p>
+<p><strong>SQL注入</strong>攻击的原理：恶意用户在提交查询请求的过程中将SQL语句插入到请求内容中，同时程序本身对用户输入内容过分信任而未对恶意用户插入的SQL语句进行过滤，导致SQL语句直接被服务端执行。</p>
+<h2 id="0x10-owasp-top-10"><a class="header-anchor" href="#0x10-owasp-top-10">¶</a>0x10 OWASP TOP 10</h2>
+<ol>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A1_2017-Injection"><strong>Injection</strong></a>. Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication"><strong>Broken Authentication</strong></a>. Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users’ identities temporarily or permanently.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure"><strong>Sensitive Data Exposure</strong></a>. Many web applications and APIs do not properly protect sensitive data, such as financial, healthcare, and PII. Attackers may steal or modify such weakly protected data to conduct credit card fraud, identity theft, or other crimes. Sensitive data may be compromised without extra protection, such as encryption at rest or in transit, and requires special precautions when exchanged with the browser.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A4_2017-XML_External_Entities_(XXE)"><strong>XML External Entities (XXE)</strong></a>. Many older or poorly configured XML processors evaluate external entity references within XML documents. External entities can be used to disclose internal files using the file URI handler, internal file shares, internal port scanning, remote code execution, and denial of service attacks.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control"><strong>Broken Access Control</strong></a>. Restrictions on what authenticated users are allowed to do are often not properly enforced. Attackers can exploit these flaws to access unauthorized functionality and/or data, such as access other users’ accounts, view sensitive files, modify other users’ data, change access rights, etc.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration"><strong>Security Misconfiguration</strong></a>. Security misconfiguration is the most commonly seen issue. This is commonly a result of insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages containing sensitive information. Not only must all operating systems, frameworks, libraries, and applications be securely configured, but they must be patched/upgraded in a timely fashion.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)"><strong>Cross-Site Scripting XSS</strong></a>. XSS flaws occur whenever an application includes untrusted data in a new web page without proper validation or escaping, or updates an existing web page with user-supplied data using a browser API that can create HTML or JavaScript. XSS allows attackers to execute scripts in the victim’s browser which can hijack user sessions, deface web sites, or redirect the user to malicious sites.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization"><strong>Insecure Deserialization</strong></a>. Insecure deserialization often leads to remote code execution. Even if deserialization flaws do not result in remote code execution, they can be used to perform attacks, including replay attacks, injection attacks, and privilege escalation attacks.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities"><strong>Using Components with Known Vulnerabilities</strong></a>. Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts.</li>
+<li><a href="https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%26Monitoring"><strong>Insufficient Logging &amp; Monitoring</strong></a>. Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data. Most breach studies show time to detect a breach is over 200 days, typically detected by external parties rather than internal processes or monitoring.</li>
+</ol>
+]]></content>
+      <categories>
+        <category>security</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【论文阅读】Conditional Convolutions for InstanceSegmentation</title>
+    <url>/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>0x01 概要</h1>
+<p>Mask R-CNN等性能最好的实例分割方法依赖于ROI操作（通常是ROIPool或roalign）来获得最终的实例掩码。相比之下，我们建议从一个新的角度来解决站姿分割问题。我们不使用实例级roi作为固定权重网络的输入，而是使用基于实例的动态感知网络。CondInst有两个优点：1）通过完全卷积网络。</p>
+<a id="more"></a>
+<p>CondInst有两个优点：<br>
+1）通过完全卷积网络解决实例分割，消除了ROI裁剪和特征对齐的需要；<br>
+2）由于动态生成条件卷积的能力大大提高，掩模头可以非常紧凑（例如，3转换层，每个只有8个通道），导致明显更快的推断。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201030000730950.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1>0x02 Mask-RCNN的缺点</h1>
+<p>实例分割是计算机视觉中的一项基本而又具有挑战性的任务，它需要一种算法来预测图像中每个感兴趣的实例的每像素掩模。尽管最近提出了一些工作，但实例分割的主流框架仍然是两阶段方法Mask R-CNN，它将实例分割转化为两阶段的检测和分割任务。Mask R-CNN首先使用一个更快的对象检测器R-CNN来预测每个实例的边界框。然后在每个实例中，使用roiallign操作从网络的特征图中裁剪出感兴趣的区域（roi）。为了预测每个实例的最终掩模，将一个紧凑的全卷积网络（FCN）（即掩模头）应用到这些roi上，以执行前景/背景分割。</p>
+<p>1） 由于ROI通常是轴对齐的边界框，对于形状不规则的对象，它们可能包含大量不相关的图像内容，包括背景和其他实例。这个使用旋转roi可以缓解这个问题，但代价是更复杂的管道。</p>
+<p>2） 为了区分前景实例和背景内容或实例，掩码头需要一个相对较大的接受域来编码足够大的上下文信息。因此，在掩模头中需要一组3×3的卷积（例如，掩模R-CNN中有4个3×3卷积，256个通道）。它大大增加了掩模头的计算复杂度，导致推理时间在实例数上有显著变化。</p>
+<p>3） ROI的大小通常不同。为了在现代深度学习框架中使用有效的批处理计算，通常需要调整大小操作来将裁剪区域调整为相同大小的补丁。例如，Mask R-CNN会将所有裁剪区域的大小调整为14×14（使用反褶积将采样率提高到28×28），这限制了实例分段的输出分辨率，因为大型实例需要更高的分辨率来保留边界的细节</p>
+<h1>0x03 为什么FCNs在实例分割上的效果不好</h1>
+<p>我们发现，将模糊神经网络应用于实例分割的主要困难在于相似图像的出现可能需要不同的预测，但FCNs难以实现这一点。例如，如果在一个input image中有两个外观相似的人A和B，那么在预测A的实例掩码时，FCN需要将B预测为background w.r.t.A，这可能很困难，因为它们在外观。因此，ROI操作用于裁剪感兴趣的人，即A；并过滤掉B，实例分段需要两种类型的in队形：</p>
+<p>1） 用于对对象进行分类的外观信息；</p>
+<p>2）用于区分属于同一类别的多个对象的位置信息。几乎所有的方法都依赖于ROI裁剪，对实例的位置信息进行显式编码。相比之下，CondInst通过使用敏感卷积滤波器以及显示在特征地图上的相对坐标来利用位置信息。</p>
+<p>因此，我们提倡一种新的解决方案，即使用实例感知FCNs进行实例任务预测。换言之，与使用一组固定卷积滤波器的标准ConvNet作为掩码头来预测所有实例，而是根据要预测的实例来调整网络参数。在动态过滤网络[20]和CondConv[41]的启发下，对于每个实例，控制器子网络（见图3）动态生成掩码FCN网络参数（以实例的中心区域为条件），然后使用该参数预测该实例的掩码。预计网络参数可以对该实例的特征（例如相对位置、形状和外观）进行编码，并且只对该实例的像素进行激发，从而绕过了上述困难。这些条件掩模头被应用到整个特征映射中，消除了对ROI操作的需要。乍一看，这个想法可能行不通，因为如果某些图像包含多达几十个实例，则实例掩码头可能会产生大量的网络参数。然而，我们发现，一个非常紧凑的FCN掩模头和动态生成的滤波器已经可以优于先前基于ROI的mask R-CNN，从而大大降低了Mask-CNN中掩模头的每一瞬间的计算复杂度。</p>
+<h1>0x04 主要贡献</h1>
+<ul>
+<li>试图从一个新的角度来解决实例分割问题。为此，我们提出了CondInst实例分割框架，该框架比现有的Mask R-CNN等方法在提高实例分割速度的同时，提高了实例分割的性能。据我们所知，这是第一次一个新的实例分割框架在精确度和速度上都优于最新的技术</li>
+<li>CondInst是完全卷积的，并且避免了许多现有方法中使用的上述调整大小操作，因为CondInst不依赖ROI。不必调整特征图的大小，就可以获得高分辨率的分辨率，并具有更精确的边缘。</li>
+<li>与以前的方法不同，一旦训练完所有实例，掩码头中的过滤器都是固定的，而我们的掩码头中的过滤器是动态生成的，并根据实例进行调整。因此，只需记住一个过滤器，就可以大大减少所要求的过滤器的负载。因此，Mask head 可以非常轻量，显著减少推理时间。与bounding box检测器FCOS相比，CondInst只需要多10%的计算时间，甚至可以处理每个图像的最大实例数（即100个实例）。</li>
+</ul>
+<h1>0x05 CondInst的实例分割</h1>
+<h2 id="1x01-网络总体结构"><a class="header-anchor" href="#1x01-网络总体结构">¶</a>1x01 网络总体结构</h2>
+<p>回想一下mask R-CNN使用一个对象检测器来预测输入图像中实例的边界框。边界框实际上就是掩码R-CNN表示实例的方式。类似地，CondInst使用实例感知过滤器来表示实例。换句话说，CondInst没有将实例概念编码到边界框中，而是隐式地将其编码到掩码头的参数中，这是一种更灵活的方式。例如，它可以很容易地表示不规则的形状，而这些不规则形状是很难被表示的,）被边界框紧紧包围。这是CondInst相对于以前基于ROI的方法的优势之一。</p>
+<p>与基于ROI的方法获取边界框的方式类似，实例感知滤波器也可以通过对象检测器获得。在这项工作中，由于CondInst的简单性和灵活性，CondInst在流行的目标检测器FCOS上构建CondInst。同时，在FCOS中消除锚盒也可以节省参数的数目和条件的计算量。如图</p>
+<p><img src="https://img-blog.csdnimg.cn/20201030005947312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+利用特征金字塔网络的特征映射{P3、P4、P5、P6、P7}，其下采样率分别为8、16、32、64和128。如图3所示，在FPN的每个特征层上，应用一些功能层（在虚线框中）来进行实例相关的预测。例如，目标实例的类和实例的动态生成的筛选器。从这个意义上讲，CondInst可以看作是Mask R-CNN，它们都是先处理图像中的实例，然后预测实例的像素级掩码（即实例优先），除了检测器，如图所示，还有一个掩模分支，<strong>它提供了我们生成的掩码头作为输入来预测所需实例掩码的特征映射。</strong></p>
+<p>特征图表示为：<br>
+<img src="https://img-blog.csdnimg.cn/20201030012049379.png#pic_center" alt="在这里插入图片描述"><br>
+掩模分支连接到FPN level p3，因此其输出分辨率为输入图像分辨率的18。掩模分支在最后一层之前有四个3×3的卷积，有128个通道。之后，为了减少生成参数的数量，掩码分支的最后一层将信道数从128减少到8（即，Cmask＝8）。令人惊讶的是，使用cmask=8已经可以获得优异的性能，而使用更大的cmask（例如16）并不能提高性能，如我们的实验所示。更严重的是，使用cmask=2只会使mask AP的性能降低0.3%。此外，如图3所示，fmaski与坐标图相结合，这些坐标是fmask上所有位置到位置（x，y）的相对坐标（即，生成遮罩头的滤波器的位置）。然后，将组合发送到掩码头以预测实例掩码。如我们的实验所示，相对坐标为预测实例掩模提供了强有力的线索。此外，单个sigmoid被用作掩模头的最终输出，因此掩模预测是类无关的。<strong>实例的类别由分类头与控制器并行预测。</strong></p>
+<p>原始掩模预测的分辨率与F mask的分辨率相同，后者是输入图像分辨率的八分之一。为了产生高分辨率的实例掩模，使用双线性上采样将maskprediction上采样到4，得到400×512掩模预测（如果输入图像大小为800×1024）。我们将在实验中证明上采样对CondInst的最终瞬间分段性能至关重要。需要注意的是，该掩模的分辨率比掩模R-CNN（如前所述仅为28×28）高得多。</p>
+<h2 id="1x02-网络输出和训练标签"><a class="header-anchor" href="#1x02-网络输出和训练标签">¶</a>1x02 网络输出和训练标签</h2>
+<p>CondInst 具有如下的输出头：</p>
+<ul>
+<li>
+<p>Classiofication Head：<br>
+分类头预测实例的分类，ground-truth标签为类别信息或者0（背景）即背景）。在FCOS中，网络预测一个C-D vector <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>用于分类，每个元素在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>对应于一个二进制分类器，其中C表示类别的数量。</p>
+</li>
+<li>
+<p>Controller  Head<br>
+控制器头与上述分类头具有相同的结构，用于预测该位置实例的Mask head的参数。Mask head 预测这个物体Mask。为了预测参数，我们将滤波器的所有参数（即权重和偏差）串联在一起作为一个N-D向量 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，其中N是参数的总数。因此，控制器头部没有输出信道。掩模头是一种非常紧凑的fcn结构，它有三个1×1的卷积，每个卷积有8个通道，除了最后一个外，都使用ReLU作为激活函数。这里没有使用诸如批处理规范化之类的规范化层。最后一层有1个输出信道，使用sigmoid来预测前景的概率。任务头总共有169个参数（#权重=（8+2）×8（conv1）+8×8（conv2）+8×1（conv3）和#biaes=8（conv1）+8（conv2）+1（conv3））。如前所述，生成的过滤器包含关于实例所在位置的信息，因此，理想情况下，带有过滤器的遮罩头将只对实例的像素点进行触发，甚至将整个特征映射作为输入。</p>
+</li>
+<li>
+<p>Center-ness  and  Box  Heads.<br>
+从概念上讲，CondInst可以消除box head，因为CondInst不需要ROIs。然而，我们发现如果使用基于Box的NMS，推理时间将大大减少。因此，我们仍然预测CondInst中的Box。我们要强调的是，预测框仅在NMS中使用，不涉及任何ROI操作。</p>
+</li>
+</ul>
+<h2 id="1x03-损失函数"><a class="header-anchor" href="#1x03-损失函数">¶</a>1x03 损失函数</h2>
+<p><img src="https://img-blog.csdnimg.cn/20201030062801683.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20201030063548336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x04-推理"><a class="header-anchor" href="#1x04-推理">¶</a>1x04 推理</h2>
+<p>给定一幅输入图像，通过网络进行转发，得到包含分类置信度的输出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, 中心度得分，box预测 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">t_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9011879999999999em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>和生成的参数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, 我们首先按照FCOS中的步骤来获得Box。然后，使用阈值为0.6的基于Box的NMS来消除重复检测，然后使用前100个框计算掩码。与FCOS不同，这些方框还与控制器生成的过滤器相关联。让我们假设在NMS之后还有K个box，因此我们有生成的K个过滤器组。这一组滤波器用于产生特定于实例的Mask-head。这些特定于实例的掩码头以FCNs的方式应用于与<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>（即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>s</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{mask}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>O</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">O_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>的组合）来预测实例的掩码。由于任务头是一个非常紧凑的网络（3个1×1卷积，共有8个信道和169个参数），计算掩码的开销非常小。例如，即使有100次检测（即MS-COCO上每个图像的最大检测次数），掩模头上总共也只有不到5毫秒的时间，这只给基本检测器FCOS增加了10%的计算时间。相比之下，Mask R-CNN的Mask head有4个3×3的256个通道，参数大于2.3M，计算时间较长。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201030065343641.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1>0x06 小结</h1>
+<p>提出了一个新的更简单的实例分割框架Condinst。不同于以往的方法，如Mask R-CNN，它使用固定权重的任务头，CondInst将掩码头设置在实例上，并动态生成掩码头的过滤器。这不仅降低了掩模头的参数和计算复杂度，而且消除了ROI操作，从而形成了一个更快、更简单的实例分割框架。</p>
+]]></content>
+      <categories>
+        <category>CV</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【白帽子学习笔记】网络扫描与网络侦查</title>
     <url>/2020/10/29/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F%E4%B8%8E%E7%BD%91%E7%BB%9C%E4%BE%A6%E6%9F%A5/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>[toc]</p>
@@ -1041,210 +1313,6 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
-    <title>【白帽子学习笔记】加油NPT</title>
-    <url>/2020/12/06/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8A%A0%E6%B2%B9NPT/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>【白帽子学习笔记】加油NPT</h1>
-<blockquote>
-<p>考试复习内容，看到这篇博客的小伙伴要加油啊！冲冲冲！</p>
-</blockquote>
-<h2 id="0x01-pets标准"><a class="header-anchor" href="#0x01-pets标准">¶</a>0x01 PETS标准</h2>
-<p>整个渗透测试过程大致可以分为7个阶段：</p>
-<ul>
-<li>前期与客户的交流阶段：确认是对目标的哪些设备和哪些问题进行测试，商讨过程中的主要因素有如下几个：
-<ul>
-<li>渗透测试的目标</li>
-<li>进行渗透测试所需要的条件</li>
-<li>渗透测试过程中的限制条件</li>
-<li>渗透测试过程的工期</li>
-<li>渗透测试费用</li>
-<li>渗透测试过程的预期目标</li>
-</ul>
-</li>
-<li>情报的收集阶段：使用各种资源尽可能地获得要测试目标的相关信息
-<ul>
-<li>被动扫描</li>
-<li>主动扫描</li>
-</ul>
-</li>
-<li>威胁建模阶段：这个阶段主要解释了如下的问题
-<ul>
-<li>哪些资产所目标中的重要资产</li>
-<li>攻击时采用的技术和手段</li>
-<li>哪些群里可能会对目标系统造成攻击</li>
-<li>这些群体会使用哪些方法进行破坏</li>
-</ul>
-</li>
-<li>漏洞分析阶段</li>
-<li>漏洞利用阶段</li>
-<li>后渗透攻击阶段：尽可能地将目标被渗透后所可能产生的后果模拟出来，来给客户展示当前网络存在的问题会带来的风险
-<ul>
-<li>控制权限的提升</li>
-<li>登录凭证的窃取</li>
-<li>重要信息的获取</li>
-<li>利用目标作为跳板</li>
-<li>建立长期的控制通道</li>
-</ul>
-</li>
-<li>报告阶段</li>
-</ul>
-<a id="more"></a>
-<h2 id="0x02-ethical-hacking的意义"><a class="header-anchor" href="#0x02-ethical-hacking的意义">¶</a>0x02 ethical hacking的意义</h2>
-<h2 id="0x03-kali基础"><a class="header-anchor" href="#0x03-kali基础">¶</a>0x03 Kali基础</h2>
-<h3 id="1x01-nat和桥接的区别"><a class="header-anchor" href="#1x01-nat和桥接的区别">¶</a>1x01 NAT和桥接的区别</h3>
-<p><strong>桥接模式：<strong>在桥接模式下，VMWare虚拟出来的操作系统就像是局域网中的</strong>一台独立的主机</strong>（主机和虚拟机处于对等地位），<strong>它可以访问网内任何一台机器</strong>。在桥接模式下，我们往往需要为虚拟主机配置ＩＰ地址、子网掩码等（注意虚拟主机的iｐ地址要和主机ｉｐ地址在同一网段）。使用桥接模式的虚拟系统和主机的关系，就<strong>如同连接在一个集线器上的两台电脑</strong>；要让他们通讯就需要为虚拟系统配置ip地址和子网掩码。如果我们需要在局域网内建立一个虚拟服务器，并为局域网用户提供服务，那就要选择桥接模式。</p>
-<p><strong>NAT：<strong>是</strong>Network Address Translation</strong>的缩写，意即<strong>网络地址转换</strong>。使用NAT模式虚拟系统可把物理主机作为路由器访问互联网，NAT模式也是VMware创建虚拟机的默认网络连接模式。使用NAT模式网络连接时，VMware会在主机上建立单独的专用网络，用以在主机和虚拟机之间相互通信**。虚拟机向外部网络发送的请求数据’包裹’，都会交由NAT网络适配器加上’特殊标记’并以主机的名义转发出去**，外部网络返回的响应数据’包裹’，也<strong>是先由主机接收，然后交由NAT网络适配器根据’特殊标记’进行识别并转发给对应的虚拟机</strong>，因此，虚拟机在外部网络中不必具有自己的IP地址。**从外部网络来看，虚拟机和主机在共享一个IP地址，默认情况下，外部网络终端也无法访问到虚拟机。**此外，在一台主机上只允许有一个NAT模式的虚拟网络。因此，<strong>同一台主机上的多个采用NAT模式网络连接的虚拟机也是可以相互访问的。</strong></p>
-<h3 id="1x02-基本操作"><a class="header-anchor" href="#1x02-基本操作">¶</a>1x02 基本操作</h3>
-<ul>
-<li>ifconfig：查看IP信息</li>
-<li>netstat -r：查看网关</li>
-</ul>
-<p><code>如何判断两台主机时候在同一网段？</code></p>
-<p>将两台主机的IP分别与子网掩码进行与运算，比较运算结果是否相同；</p>
-<h2 id="0x04-被动扫描"><a class="header-anchor" href="#0x04-被动扫描">¶</a>0x04 被动扫描</h2>
-<h3 id="1x01-什么是被动扫描？"><a class="header-anchor" href="#1x01-什么是被动扫描？">¶</a>1x01 什么是被动扫描？</h3>
-<p>主要指的是在目标无法察觉的情况下进行的信息收集</p>
-<ul>
-<li>目标网站的所有者信息，例如：姓名、地址、电话、电子邮件等</li>
-<li>目标网站的电子邮箱</li>
-<li>目标网站的社交信息：QQ、微博、微信、论坛发帖等</li>
-</ul>
-<h3 id="1x02-zoomeye"><a class="header-anchor" href="#1x02-zoomeye">¶</a>1x02 zoomeye</h3>
-<p>ZoomEye是一款针对网络空间的搜索引擎，收录了互联网空间中的设备、网站及其使用的服务或组件等信息。</p>
-<h3 id="1x03-google-hacking"><a class="header-anchor" href="#1x03-google-hacking">¶</a>1x03 Google Hacking</h3>
-<ul>
-<li>site ： 指定域名</li>
-<li>inurl：url存在关键字的网页</li>
-<li>intext：网页正文中的关键字</li>
-<li>filetype：指定文件类型</li>
-<li>intitle：网页标题中的关键字</li>
-</ul>
-<h2 id="0x05-主动扫描"><a class="header-anchor" href="#0x05-主动扫描">¶</a>0x05 主动扫描</h2>
-<p>主动扫描的范围要小得多。主动扫描一般都是针对目标发送特制的数据包，然后根据目标的反应来获得一些信息。这些信息主要包括目标主机是否在线、目标主机的指定端口是否开放、目标主机的操作系统、目标主机上运行的服务等。</p>
-<h3 id="nmap的应用"><a class="header-anchor" href="#nmap的应用">¶</a>NMAP的应用</h3>
-<p><strong>扫描操作系统:</strong></p>
-<p><code>nmap -O IP</code></p>
-<p><strong>判断所在网络存活主机：</strong></p>
-<p>扫描192.168.0.0/24网段上有哪些主机的存活的</p>
-<p><code>nmap -sP 192.168.0.0/24</code></p>
-<p><strong>扫描主机开放了哪些端口：</strong></p>
-<p>TCP端口扫描：scan tcp</p>
-<p><code>nmap -sT IP</code></p>
-<p>UDP端口扫描：scan udp</p>
-<p><code>nmap -sU IP</code></p>
-<p>扫描全部端口：</p>
-<p><code>nmap-p &quot;*&quot; ip</code></p>
-<p>扫描前n的端口：</p>
-<p><code>nmap-top-ports n IP</code></p>
-<p>扫描指定的端口：</p>
-<p><code>nmap -P IP</code></p>
-<p><strong>扫描目标开启了哪些服务：</strong></p>
-<p><code>nmap -sV IP</code></p>
-<p><strong>将扫描结果保存为xml文件：</strong></p>
-<p><code>nmap -oX a.xml IP</code></p>
-<h2 id="0x06-身份认证攻击"><a class="header-anchor" href="#0x06-身份认证攻击">¶</a>0x06 身份认证攻击</h2>
-<h3 id="1x01-burpsuite"><a class="header-anchor" href="#1x01-burpsuite">¶</a>1x01 BurpSuite</h3>
-<p>主要需要知道一个作用就是Proxy：</p>
-<p>拦截HTTP/S的代理服务器，作为一个在浏览器和目标应用程序之间的中间人，允许你拦截，查看，修改在两个方向上的原始数据流。</p>
-<p>其他常用的功能还有：</p>
-<ul>
-<li>Spider(蜘蛛)——应用智能感应的网络爬虫，它能完整的枚举应用程序的内容和功能。</li>
-<li>Scanner(扫描器)——高级工具，执行后，它能自动地发现web 应用程序的安全漏洞。</li>
-<li>Intruder(入侵)——一个定制的高度可配置的工具，对web应用程序进行自动化攻击，如：枚举标识符，收集有用的数据，以及使用fuzzing 技术探测常规漏洞。</li>
-<li>Repeater(中继器)——一个靠手动操作来触发单独的HTTP 请求，并分析应用程序响应的工具。</li>
-</ul>
-<h3 id="如何设置安全的密码？"><a class="header-anchor" href="#如何设置安全的密码？">¶</a>如何设置安全的密码？</h3>
-<ul>
-<li>避开若口令</li>
-<li>能记住的密码才是好密码</li>
-<li>密码中包含数字，大小写英文</li>
-<li>增加密码的长度</li>
-<li>每个应用的密码都设置的具有一定差异</li>
-</ul>
-<h2 id="0x07-网络数据嗅探与欺骗"><a class="header-anchor" href="#0x07-网络数据嗅探与欺骗">¶</a>0x07 网络数据嗅探与欺骗</h2>
-<h3 id="1x01-如何利于wireshark恢复数据流中的文件"><a class="header-anchor" href="#1x01-如何利于wireshark恢复数据流中的文件">¶</a>1x01 如何利于Wireshark恢复数据流中的文件</h3>
-<p>利用WireShark的包筛选去筛选出需要的包 ==&gt; 跟踪数据流 ==&gt; 找到需要的数据，选择原数据进行保存</p>
-<p>常用的WireShark语句：</p>
-<p><code>tcp</code>：tcp流；</p>
-<p><code>http</code>：http数据流；</p>
-<p><code>http.request.method</code>：筛选HTTP数据流的请求方式；</p>
-<p><code>ip.src</code>：对于数据源地址进行筛选</p>
-<p><code>ip.dst</code>：对于目的地址筛选</p>
-<h3 id="1x02-arpspoof"><a class="header-anchor" href="#1x02-arpspoof">¶</a>1x02 arpspoof</h3>
-<p>开启端口转发，允许本机像路由器那样转发数据包</p>
-<p><code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code></p>
-<p>ARP投毒</p>
-<p><code>arpspoof -i eth0 -t IP1 IP2</code>(IP1是我们的攻击目标、IP2是网关IP地址)</p>
-<p>-i eth0表示选择eth0这个网卡；</p>
-<p>ARP攻击原理：</p>
-<p>在局域网内的攻击方式主要有两种：</p>
-<p>.<img src=" https://img-blog.csdn.net/20181013134230611?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RDMTI1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" style="zoom:67%;" /></p>
-<p>(1) PC1：PC2不断的向PC1发送欺骗包，欺骗其为网关路由，最后导致PC1的ARP表遭到攻击；</p>
-<p>(2) Route：PC2不断的向Route(网关路由)发送欺骗包，欺骗其为PC1；</p>
-<p><code>因为arp欺骗想把原理写明白需要很大的篇幅，这里就不细说了</code></p>
-<h2 id="0x08-远程控制"><a class="header-anchor" href="#0x08-远程控制">¶</a>0x08 远程控制</h2>
-<h3 id="1x01-正向连接和反向连接的区别"><a class="header-anchor" href="#1x01-正向连接和反向连接的区别">¶</a>1x01 正向连接和反向连接的区别</h3>
-<p>反向连接：攻击机设置一个端口（LPORT）和IP（LHOST），Payload在测试机执行连接攻击机IP的端口，这时如果在攻击机监听该端口会发现测试机已经连接。<br>
-正向连接：攻击机设置一个端口（LPORT），Payload在测试机执行打开该端口，以便攻击机可以接入。</p>
-<h3 id="1x02-反向连接的实施过程"><a class="header-anchor" href="#1x02-反向连接的实施过程">¶</a>1x02 反向连接的实施过程</h3>
-<p>攻击者先通过某个手段在目标机器上植入恶意代码，并且该代码可以被触法。攻击者设置一个端口和一个IP，当被攻击者执行了恶意代码后攻击者的机器就会获取被攻击者的代码。</p>
-<h2 id="0x09-漏洞扫描"><a class="header-anchor" href="#0x09-漏洞扫描">¶</a>0x09 漏洞扫描</h2>
-<h3 id="1x01-工具们"><a class="header-anchor" href="#1x01-工具们">¶</a>1x01 工具们</h3>
-<p>工具：</p>
-<ul>
-<li>
-<p>AWVS：漏洞扫描工具</p>
-</li>
-<li>
-<p>Beef：XSS漏洞利用工具</p>
-</li>
-<li>
-<p>SQLMAP：自动话sql注入工具：</p>
-<ul>
-<li>查询当前数据库：<code>sqlmap -u &quot;IP&quot; --cookie &quot;xxx&quot; --current-db</code></li>
-<li>查询当前使用者：<code>--current user</code></li>
-<li>爆破数据表：<code>-D xx --tables</code></li>
-<li>爆破数据表表头：<code>-D xx -T xx --columns</code></li>
-<li>爆破具体的列：<code>-D xx -T xx -C xx</code></li>
-</ul>
-</li>
-<li>
-<p>Whatweb: 查询网页的基本信息 <code>whatweb IP</code></p>
-</li>
-<li>
-<p>Wpscan:可以扫描WordPress中的多种安全漏洞</p>
-</li>
-<li>
-<p>Dirb：爆破用  <code>dirb -u http://IP</code></p>
-</li>
-<li>
-<p>MeterSploit:功能非常强大的渗透工具</p>
-</li>
-</ul>
-<h3 id="1x02-xss攻击-sql注入"><a class="header-anchor" href="#1x02-xss攻击-sql注入">¶</a>1x02 XSS攻击/SQL注入</h3>
-<p>**XSS攻击：**XSS攻击通常指的是通过利用<a href="https://baike.baidu.com/item/%E7%BD%91%E9%A1%B5/99347">网页</a>开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻击者可能得到包括但不限于更高的权限（如执行一些操作）、私密网页内容、会话和cookie等各种内容。</p>
-<p><strong>SQL注入</strong>攻击的原理：恶意用户在提交查询请求的过程中将SQL语句插入到请求内容中，同时程序本身对用户输入内容过分信任而未对恶意用户插入的SQL语句进行过滤，导致SQL语句直接被服务端执行。</p>
-<h2 id="0x10-owasp-top-10"><a class="header-anchor" href="#0x10-owasp-top-10">¶</a>0x10 OWASP TOP 10</h2>
-<ol>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A1_2017-Injection"><strong>Injection</strong></a>. Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication"><strong>Broken Authentication</strong></a>. Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users’ identities temporarily or permanently.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure"><strong>Sensitive Data Exposure</strong></a>. Many web applications and APIs do not properly protect sensitive data, such as financial, healthcare, and PII. Attackers may steal or modify such weakly protected data to conduct credit card fraud, identity theft, or other crimes. Sensitive data may be compromised without extra protection, such as encryption at rest or in transit, and requires special precautions when exchanged with the browser.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A4_2017-XML_External_Entities_(XXE)"><strong>XML External Entities (XXE)</strong></a>. Many older or poorly configured XML processors evaluate external entity references within XML documents. External entities can be used to disclose internal files using the file URI handler, internal file shares, internal port scanning, remote code execution, and denial of service attacks.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control"><strong>Broken Access Control</strong></a>. Restrictions on what authenticated users are allowed to do are often not properly enforced. Attackers can exploit these flaws to access unauthorized functionality and/or data, such as access other users’ accounts, view sensitive files, modify other users’ data, change access rights, etc.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration"><strong>Security Misconfiguration</strong></a>. Security misconfiguration is the most commonly seen issue. This is commonly a result of insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages containing sensitive information. Not only must all operating systems, frameworks, libraries, and applications be securely configured, but they must be patched/upgraded in a timely fashion.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)"><strong>Cross-Site Scripting XSS</strong></a>. XSS flaws occur whenever an application includes untrusted data in a new web page without proper validation or escaping, or updates an existing web page with user-supplied data using a browser API that can create HTML or JavaScript. XSS allows attackers to execute scripts in the victim’s browser which can hijack user sessions, deface web sites, or redirect the user to malicious sites.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization"><strong>Insecure Deserialization</strong></a>. Insecure deserialization often leads to remote code execution. Even if deserialization flaws do not result in remote code execution, they can be used to perform attacks, including replay attacks, injection attacks, and privilege escalation attacks.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities"><strong>Using Components with Known Vulnerabilities</strong></a>. Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts.</li>
-<li><a href="https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%26Monitoring"><strong>Insufficient Logging &amp; Monitoring</strong></a>. Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data. Most breach studies show time to detect a breach is over 200 days, typically detected by external parties rather than internal processes or monitoring.</li>
-</ol>
-]]></content>
-      <categories>
-        <category>security</category>
-      </categories>
-      <tags>
-        <tag>security</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【论文阅读】Real World Adversarial attack ...</title>
     <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
@@ -1257,74 +1325,6 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 ]]></content>
       <tags>
         <tag>神经对抗攻击</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【论文阅读】Conditional Convolutions for InstanceSegmentation</title>
-    <url>/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>0x01 概要</h1>
-<p>Mask R-CNN等性能最好的实例分割方法依赖于ROI操作（通常是ROIPool或roalign）来获得最终的实例掩码。相比之下，我们建议从一个新的角度来解决站姿分割问题。我们不使用实例级roi作为固定权重网络的输入，而是使用基于实例的动态感知网络。CondInst有两个优点：1）通过完全卷积网络。</p>
-<a id="more"></a>
-<p>CondInst有两个优点：<br>
-1）通过完全卷积网络解决实例分割，消除了ROI裁剪和特征对齐的需要；<br>
-2）由于动态生成条件卷积的能力大大提高，掩模头可以非常紧凑（例如，3转换层，每个只有8个通道），导致明显更快的推断。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201030000730950.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1>0x02 Mask-RCNN的缺点</h1>
-<p>实例分割是计算机视觉中的一项基本而又具有挑战性的任务，它需要一种算法来预测图像中每个感兴趣的实例的每像素掩模。尽管最近提出了一些工作，但实例分割的主流框架仍然是两阶段方法Mask R-CNN，它将实例分割转化为两阶段的检测和分割任务。Mask R-CNN首先使用一个更快的对象检测器R-CNN来预测每个实例的边界框。然后在每个实例中，使用roiallign操作从网络的特征图中裁剪出感兴趣的区域（roi）。为了预测每个实例的最终掩模，将一个紧凑的全卷积网络（FCN）（即掩模头）应用到这些roi上，以执行前景/背景分割。</p>
-<p>1） 由于ROI通常是轴对齐的边界框，对于形状不规则的对象，它们可能包含大量不相关的图像内容，包括背景和其他实例。这个使用旋转roi可以缓解这个问题，但代价是更复杂的管道。</p>
-<p>2） 为了区分前景实例和背景内容或实例，掩码头需要一个相对较大的接受域来编码足够大的上下文信息。因此，在掩模头中需要一组3×3的卷积（例如，掩模R-CNN中有4个3×3卷积，256个通道）。它大大增加了掩模头的计算复杂度，导致推理时间在实例数上有显著变化。</p>
-<p>3） ROI的大小通常不同。为了在现代深度学习框架中使用有效的批处理计算，通常需要调整大小操作来将裁剪区域调整为相同大小的补丁。例如，Mask R-CNN会将所有裁剪区域的大小调整为14×14（使用反褶积将采样率提高到28×28），这限制了实例分段的输出分辨率，因为大型实例需要更高的分辨率来保留边界的细节</p>
-<h1>0x03 为什么FCNs在实例分割上的效果不好</h1>
-<p>我们发现，将模糊神经网络应用于实例分割的主要困难在于相似图像的出现可能需要不同的预测，但FCNs难以实现这一点。例如，如果在一个input image中有两个外观相似的人A和B，那么在预测A的实例掩码时，FCN需要将B预测为background w.r.t.A，这可能很困难，因为它们在外观。因此，ROI操作用于裁剪感兴趣的人，即A；并过滤掉B，实例分段需要两种类型的in队形：</p>
-<p>1） 用于对对象进行分类的外观信息；</p>
-<p>2）用于区分属于同一类别的多个对象的位置信息。几乎所有的方法都依赖于ROI裁剪，对实例的位置信息进行显式编码。相比之下，CondInst通过使用敏感卷积滤波器以及显示在特征地图上的相对坐标来利用位置信息。</p>
-<p>因此，我们提倡一种新的解决方案，即使用实例感知FCNs进行实例任务预测。换言之，与使用一组固定卷积滤波器的标准ConvNet作为掩码头来预测所有实例，而是根据要预测的实例来调整网络参数。在动态过滤网络[20]和CondConv[41]的启发下，对于每个实例，控制器子网络（见图3）动态生成掩码FCN网络参数（以实例的中心区域为条件），然后使用该参数预测该实例的掩码。预计网络参数可以对该实例的特征（例如相对位置、形状和外观）进行编码，并且只对该实例的像素进行激发，从而绕过了上述困难。这些条件掩模头被应用到整个特征映射中，消除了对ROI操作的需要。乍一看，这个想法可能行不通，因为如果某些图像包含多达几十个实例，则实例掩码头可能会产生大量的网络参数。然而，我们发现，一个非常紧凑的FCN掩模头和动态生成的滤波器已经可以优于先前基于ROI的mask R-CNN，从而大大降低了Mask-CNN中掩模头的每一瞬间的计算复杂度。</p>
-<h1>0x04 主要贡献</h1>
-<ul>
-<li>试图从一个新的角度来解决实例分割问题。为此，我们提出了CondInst实例分割框架，该框架比现有的Mask R-CNN等方法在提高实例分割速度的同时，提高了实例分割的性能。据我们所知，这是第一次一个新的实例分割框架在精确度和速度上都优于最新的技术</li>
-<li>CondInst是完全卷积的，并且避免了许多现有方法中使用的上述调整大小操作，因为CondInst不依赖ROI。不必调整特征图的大小，就可以获得高分辨率的分辨率，并具有更精确的边缘。</li>
-<li>与以前的方法不同，一旦训练完所有实例，掩码头中的过滤器都是固定的，而我们的掩码头中的过滤器是动态生成的，并根据实例进行调整。因此，只需记住一个过滤器，就可以大大减少所要求的过滤器的负载。因此，Mask head 可以非常轻量，显著减少推理时间。与bounding box检测器FCOS相比，CondInst只需要多10%的计算时间，甚至可以处理每个图像的最大实例数（即100个实例）。</li>
-</ul>
-<h1>0x05 CondInst的实例分割</h1>
-<h2 id="1x01-网络总体结构"><a class="header-anchor" href="#1x01-网络总体结构">¶</a>1x01 网络总体结构</h2>
-<p>回想一下mask R-CNN使用一个对象检测器来预测输入图像中实例的边界框。边界框实际上就是掩码R-CNN表示实例的方式。类似地，CondInst使用实例感知过滤器来表示实例。换句话说，CondInst没有将实例概念编码到边界框中，而是隐式地将其编码到掩码头的参数中，这是一种更灵活的方式。例如，它可以很容易地表示不规则的形状，而这些不规则形状是很难被表示的,）被边界框紧紧包围。这是CondInst相对于以前基于ROI的方法的优势之一。</p>
-<p>与基于ROI的方法获取边界框的方式类似，实例感知滤波器也可以通过对象检测器获得。在这项工作中，由于CondInst的简单性和灵活性，CondInst在流行的目标检测器FCOS上构建CondInst。同时，在FCOS中消除锚盒也可以节省参数的数目和条件的计算量。如图</p>
-<p><img src="https://img-blog.csdnimg.cn/20201030005947312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-利用特征金字塔网络的特征映射{P3、P4、P5、P6、P7}，其下采样率分别为8、16、32、64和128。如图3所示，在FPN的每个特征层上，应用一些功能层（在虚线框中）来进行实例相关的预测。例如，目标实例的类和实例的动态生成的筛选器。从这个意义上讲，CondInst可以看作是Mask R-CNN，它们都是先处理图像中的实例，然后预测实例的像素级掩码（即实例优先），除了检测器，如图所示，还有一个掩模分支，<strong>它提供了我们生成的掩码头作为输入来预测所需实例掩码的特征映射。</strong></p>
-<p>特征图表示为：<br>
-<img src="https://img-blog.csdnimg.cn/20201030012049379.png#pic_center" alt="在这里插入图片描述"><br>
-掩模分支连接到FPN level p3，因此其输出分辨率为输入图像分辨率的18。掩模分支在最后一层之前有四个3×3的卷积，有128个通道。之后，为了减少生成参数的数量，掩码分支的最后一层将信道数从128减少到8（即，Cmask＝8）。令人惊讶的是，使用cmask=8已经可以获得优异的性能，而使用更大的cmask（例如16）并不能提高性能，如我们的实验所示。更严重的是，使用cmask=2只会使mask AP的性能降低0.3%。此外，如图3所示，fmaski与坐标图相结合，这些坐标是fmask上所有位置到位置（x，y）的相对坐标（即，生成遮罩头的滤波器的位置）。然后，将组合发送到掩码头以预测实例掩码。如我们的实验所示，相对坐标为预测实例掩模提供了强有力的线索。此外，单个sigmoid被用作掩模头的最终输出，因此掩模预测是类无关的。<strong>实例的类别由分类头与控制器并行预测。</strong></p>
-<p>原始掩模预测的分辨率与F mask的分辨率相同，后者是输入图像分辨率的八分之一。为了产生高分辨率的实例掩模，使用双线性上采样将maskprediction上采样到4，得到400×512掩模预测（如果输入图像大小为800×1024）。我们将在实验中证明上采样对CondInst的最终瞬间分段性能至关重要。需要注意的是，该掩模的分辨率比掩模R-CNN（如前所述仅为28×28）高得多。</p>
-<h2 id="1x02-网络输出和训练标签"><a class="header-anchor" href="#1x02-网络输出和训练标签">¶</a>1x02 网络输出和训练标签</h2>
-<p>CondInst 具有如下的输出头：</p>
-<ul>
-<li>
-<p>Classiofication Head：<br>
-分类头预测实例的分类，ground-truth标签为类别信息或者0（背景）即背景）。在FCOS中，网络预测一个C-D vector <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>用于分类，每个元素在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>对应于一个二进制分类器，其中C表示类别的数量。</p>
-</li>
-<li>
-<p>Controller  Head<br>
-控制器头与上述分类头具有相同的结构，用于预测该位置实例的Mask head的参数。Mask head 预测这个物体Mask。为了预测参数，我们将滤波器的所有参数（即权重和偏差）串联在一起作为一个N-D向量 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，其中N是参数的总数。因此，控制器头部没有输出信道。掩模头是一种非常紧凑的fcn结构，它有三个1×1的卷积，每个卷积有8个通道，除了最后一个外，都使用ReLU作为激活函数。这里没有使用诸如批处理规范化之类的规范化层。最后一层有1个输出信道，使用sigmoid来预测前景的概率。任务头总共有169个参数（#权重=（8+2）×8（conv1）+8×8（conv2）+8×1（conv3）和#biaes=8（conv1）+8（conv2）+1（conv3））。如前所述，生成的过滤器包含关于实例所在位置的信息，因此，理想情况下，带有过滤器的遮罩头将只对实例的像素点进行触发，甚至将整个特征映射作为输入。</p>
-</li>
-<li>
-<p>Center-ness  and  Box  Heads.<br>
-从概念上讲，CondInst可以消除box head，因为CondInst不需要ROIs。然而，我们发现如果使用基于Box的NMS，推理时间将大大减少。因此，我们仍然预测CondInst中的Box。我们要强调的是，预测框仅在NMS中使用，不涉及任何ROI操作。</p>
-</li>
-</ul>
-<h2 id="1x03-损失函数"><a class="header-anchor" href="#1x03-损失函数">¶</a>1x03 损失函数</h2>
-<p><img src="https://img-blog.csdnimg.cn/20201030062801683.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-<img src="https://img-blog.csdnimg.cn/20201030063548336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-推理"><a class="header-anchor" href="#1x04-推理">¶</a>1x04 推理</h2>
-<p>给定一幅输入图像，通过网络进行转发，得到包含分类置信度的输出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">p_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, 中心度得分，box预测 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">t_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9011879999999999em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>和生成的参数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\theta_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, 我们首先按照FCOS中的步骤来获得Box。然后，使用阈值为0.6的基于Box的NMS来消除重复检测，然后使用前100个框计算掩码。与FCOS不同，这些方框还与控制器生成的过滤器相关联。让我们假设在NMS之后还有K个box，因此我们有生成的K个过滤器组。这一组滤波器用于产生特定于实例的Mask-head。这些特定于实例的掩码头以FCNs的方式应用于与<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>（即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>s</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{mask}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>O</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">O_{x,y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>的组合）来预测实例的掩码。由于任务头是一个非常紧凑的网络（3个1×1卷积，共有8个信道和169个参数），计算掩码的开销非常小。例如，即使有100次检测（即MS-COCO上每个图像的最大检测次数），掩模头上总共也只有不到5毫秒的时间，这只给基本检测器FCOS增加了10%的计算时间。相比之下，Mask R-CNN的Mask head有4个3×3的256个通道，参数大于2.3M，计算时间较长。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201030065343641.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1>0x06 小结</h1>
-<p>提出了一个新的更简单的实例分割框架Condinst。不同于以往的方法，如Mask R-CNN，它使用固定权重的任务头，CondInst将掩码头设置在实例上，并动态生成掩码头的过滤器。这不仅降低了掩模头的参数和计算复杂度，而且消除了ROI操作，从而形成了一个更快、更简单的实例分割框架。</p>
-]]></content>
-      <categories>
-        <category>CV</category>
-      </categories>
-      <tags>
-        <tag>CV</tag>
       </tags>
   </entry>
   <entry>
@@ -1928,6 +1928,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <p>外连接就是左连接和右连接的组合。</p>
 <h4 id="除法"><a class="header-anchor" href="#除法">¶</a>除法</h4>
 <p>去看： <a href="https://www.jianshu.com/p/d80dbaef637e">https://www.jianshu.com/p/d80dbaef637e</a> 讲的好啊</p>
+<p>还有：<a href="https://blog.csdn.net/qq_35361859/article/details/105027905">https://blog.csdn.net/qq_35361859/article/details/105027905</a> 也不错</p>
 <hr>
 <h2 id="sql语句的一些高级操作"><a class="header-anchor" href="#sql语句的一些高级操作">¶</a>SQL语句的一些高级操作</h2>
 <h3 id="where"><a class="header-anchor" href="#where">¶</a>WHERE</h3>
@@ -2174,11 +2175,15 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <p><strong>传递函数依赖：</strong></p>
 <p>设X,Y,Z是关系R中互不相同的属性集合，存在X→Y(Y !→X),Y→Z，则称Z传递函数依赖于X。</p>
 <p>例子：在关系R(学号 ,宿舍, 费用)中，(学号)-&gt;(宿舍),宿舍！=学号，(宿舍)-&gt;(费用),费用!=宿舍，所以符合传递函数的要求；即费用传递函数依赖于学号</p>
+<h3 id="属性集的函数依赖"><a class="header-anchor" href="#属性集的函数依赖">¶</a>属性集的函数依赖</h3>
+<p>就是将所有的可以推导出来的函数依赖关系全部给加进去，需要注意的就是<strong>有一个和空集的关系</strong></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210429141430image-20210429141428712.png" alt="image-20210429141428712"></p>
+<p>剩下的就是对各个元素闭包的排列组合；比如上面的例题中 (A)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow></mrow><mo>+</mo></msub></mrow><annotation encoding="application/x-tex">_+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.466662em;vertical-align:-0.208331em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.25833100000000003em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span> = ABC, 所以他就对应了如图的ABC的所有排列组合情况再加一个对空集对关系。</p>
 <h3 id="码"><a class="header-anchor" href="#码">¶</a>码</h3>
-<h4 id="候选码"><a class="header-anchor" href="#候选码">¶</a>候选码</h4>
+<h4 id="候选码的概念"><a class="header-anchor" href="#候选码的概念">¶</a>候选码的概念</h4>
 <p>这样一个集合，他可以推出所有的属性，但是他的任意一个真子集无法退出所有的属性。</p>
 <p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423171253image-20210423171236681.png" alt="image-20210423171236681" style="zoom:50%;" /></p>
-<p>如何求候选码：</p>
+<h4 id="如何求候选码？"><a class="header-anchor" href="#如何求候选码？">¶</a>如何求候选码？</h4>
 <ol>
 <li>只出现在左边的一定是候选码中的元素</li>
 <li>只出现在右边的一定不是候选码中的元素</li>
@@ -2359,7 +2364,7 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <p>超码： 一个码的闭包如果就是这个集合，那这个码就叫做超码</p>
 </blockquote>
 <h4 id="bcnf范式的模式分解"><a class="header-anchor" href="#bcnf范式的模式分解">¶</a>BCNF范式的模式分解</h4>
-<p>s</p>
+<p>…</p>
 <h2 id="armstrong-公理系统"><a class="header-anchor" href="#armstrong-公理系统">¶</a>Armstrong 公理系统</h2>
 <p>设U为属性集总体，F是U上的一组函数依赖，于是又关系模式R&lt;U,F&gt;，对于R&lt;U,F&gt;来说有以下的推理规则</p>
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174437414.png" alt="image-20210423174437414"></p>
@@ -2412,6 +2417,10 @@ R2({D,E}，{D-&gt;E,D-&gt;C}),<br>
 R3({A,D}，{∅}) }</p>
 </li>
 </ol>
+<h2 id="数据库设计"><a class="header-anchor" href="#数据库设计">¶</a>数据库设计</h2>
+<h3 id="er图转关系模式"><a class="header-anchor" href="#er图转关系模式">¶</a>ER图转关系模式</h3>
+<p><strong><img src="https://gitee.com/coronapolvo/images/raw/master/20210429152543image-20210429152538934.png" alt="image-20210429152538934"></strong></p>
+<p>去看： <a href="https://blog.csdn.net/Flora_SM/article/details/84645752">https://blog.csdn.net/Flora_SM/article/details/84645752</a> 这里讲的非常好！</p>
 ]]></content>
   </entry>
   <entry>
