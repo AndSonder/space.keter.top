@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>【English】词根词缀</title>
+    <url>/2021/04/20/%E3%80%90English%E3%80%91%E8%AF%8D%E6%A0%B9%E8%AF%8D%E7%BC%80/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
+  </entry>
+  <entry>
     <title>Database Review</title>
     <url>/2021/04/11/Database-Review/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>DataBase Review</h1>
@@ -530,11 +535,6 @@ R3({A,D}，{∅}) }</p>
       <tags>
         <tag>数据库</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>【English】词根词缀</title>
-    <url>/2021/04/20/%E3%80%90English%E3%80%91%E8%AF%8D%E6%A0%B9%E8%AF%8D%E7%BC%80/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
   </entry>
   <entry>
     <title>【信息安全数学基础】二次同余式与平方剩余</title>
@@ -1498,6 +1498,414 @@ XSS注入代码如下：<br>
       </tags>
   </entry>
   <entry>
+    <title>【白帽子学习笔记】网络嗅探与身份验证</title>
+    <url>/2020/11/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E5%97%85%E6%8E%A2%E4%B8%8E%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>@一个在写实验报告的人，/(ㄒoㄒ)/~~</p>
+<h1>0x01 网络嗅探相关概念</h1>
+<h2 id="1x01-网络嗅探概述"><a class="header-anchor" href="#1x01-网络嗅探概述">¶</a>1x01 网络嗅探概述</h2>
+<p>Sniffer（嗅探器）工作在OSI模型的第二层，利用计算机的网卡截获网络数据报文的一种工具，<strong>可用来监听网络中的数据，分析网络的流量，以便找出所关心的网络中潜在的问题</strong>。例如,假设网络的某一段运行得不是很好,报文的发送比较慢,而我们又不知道问题出在什么地方,此时就可以用嗅探器确定不同网络协议、不同用户的通信流量，相互主机的报文传送间隔时间等，这些信息为管理员判断网络问题、管理网络区域提供了非常宝贵的信息。<br>
+在正常情况下，一个合法的网络接口应该只响应这样的两种数据帧：</p>
+<ul>
+<li>帧的目标区域具有和本地网络接口相匹配的硬件地址；</li>
+<li>帧的目标区域具有“广播地址”。</li>
+</ul>
+<a id="more"></a>
+<p>如果网卡处于混杂（promiscuous）模式，那么它就可以捕获网络上所有的数据帧，处于对网络的“监听”状态，如果一台机器被配置成这样的方式，它（包括其软件）就是一个嗅探器。<br>
+在交换型以太网中，上述条件2是不满足的。所有的主机连接到SWITCH，<strong>SWITCH比HUB更聪明</strong>，它知道每台计算机的MAC地址信息和与之相连的特定端口，发给某个主机的数据包会被SWITCH从特定的端口送出，而不是象HUB那样，广播给网络上所有的机器。这种传输形式使交换型以太网的性能大大提高，同时还有一个附加的作用：使传统的嗅探器无法工作。<br>
+交换型网络环境嗅探的核心问题是：如何使本不应到达的数据包到达本地。通常的方法有<strong>MAC洪水包和ARP欺骗</strong>。其中MAC洪水包是向交换机发送大量含有虚构MAC地址和IP地址的IP包，使交换机无法处理如此多的信息，致使交换机就进入了所谓的&quot;打开失效&quot;模式，也就是开始了类似于集线器的工作方式，向网络上所有的机器广播数据包。</p>
+<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
+<p>每一个主机都有一个ARP高速缓存，此缓存中记录了最近一段时间内其它IP地址与其MAC地址的对应关系。如果本机想与某台主机通信，则首先在ARP高速缓存中查找此台主机的IP和MAC信息，如果存在，则直接利用此MAC地址构造以太帧；如果不存在，则向本网络上每一个主机广播一个ARP请求报文，其意义是&quot;如果你有此IP地址，请告诉我你的MAC地址&quot;，目的主机收到此请求包后，发送一个ARP响应报文，本机收到此响应后，把相关信息记录在ARP高速缓存中，以下的步骤同上。<br>
+<strong>ARP报文格式：</strong><br>
+<img src="https://img-blog.csdnimg.cn/20201104213312881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>可以看出，ARP协议是有缺点的，第三方主机可以构造一个ARP欺骗报文，而源主机却无法分辨真假。如果发送者硬件地址字段填入攻击者的硬件地址，而发送者IP地址填入被假冒者的IP地址，那么就构造出了一个用于欺骗的ARP请求报文。那么被欺骗主机的ARP高速缓存，被假冒者的IP地址与其MAC地址的对应关系就会更改为欺骗者的，从而达到ARP欺骗的目的。特别的，如果攻击者冒充网关，将转发子网内到外网的所有通信量，以达到捕获其他主机的通信量，从而破坏数据传输的保密性。</p>
+<h2 id="1x03-密码安全"><a class="header-anchor" href="#1x03-密码安全">¶</a>1x03 密码安全</h2>
+<p>在现实网络中，攻击事件发生的频率越来越高，其中相当多的都是由于网站密码泄露的缘故，或是人为因素导致，或是口令遭到破解，所以从某种角度而言，密码的安全问题不仅仅是技术上的问题，更主要的是人的安全意识问题。</p>
+<ul>
+<li>口令破解方法<br>
+口令破解主要有两种方法：字典破解和暴力破解。<br>
+字典破解是指通过破解者对管理员的了解，猜测其可能使用某些信息作为密码，例如其姓名、生日、电话号码等，同时结合对密码长度的猜测，利用工具来生成密码破解字典。如果相关信息设置准确，字典破解的成功率很高，并且其速度快，因此字典破解是密码破解的首选。<br>
+而暴力破解是指对密码可能使用的字符和长度进行设定后（例如限定为所有英文字母和所有数字，长度不超过8），对所有可能的密码组合逐个实验。随着可能字符和可能长度的增加，存在的密码组合数量也会变得非常庞大，因此暴力破解往往需要花费很长的时间，尤其是在密码长度大于10，并且包含各种字符（英文字母、数字和标点符号）的情况下。</li>
+<li><strong>口令破解方式</strong><br>
+口令破解主要有两种方式：离线破解和在线破解。<br>
+离线破解攻击者得到目标主机存放密码的文件后，就可以脱离目标主机，在其他计算机上通过口令破解程序穷举各种可能的口令，如果计算出的新密码与密码文件存放的密码相同，则口令已被破解。</li>
+<li><strong>候选口令产生器</strong><br>
+候选口令产生器的作用是不断生成可能的口令。有几种方法产生候选口令，一种是用枚举法来构造候选口令（暴力破解），另一种方法是从一个字典文件里读取候选口令（字典破解）。</li>
+<li><strong>口令加密</strong><br>
+口令加密过程就是用加密算法对从口令候选器送来的候选口令进行加密运算而得到密码。这要求加密算法要采用和目标主机一致的加密算法。加密算法有很多种，通常与操作系统或应用程序的类型和版本相关。<br>
+Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工具使用Java编写，由PortSwigger Security开发。该工具有两个版本。可免费下载的免费版（免费版）和试用期后可购买的完整版（专业版）。免费版本功能显着降低。它的开发旨在为Web应用程序安全检查提供全面的解决方案，Burp Suite是进行Web应用安全测试集成平台。它将各种安全工具无缝地融合在一起，以支持整个测试过程中，从最初的映射和应用程序的攻击面分析，到发现和利用安全漏洞。</li>
+</ul>
+<h1>0x02 网络嗅探部分</h1>
+<p><img src="https://img-blog.csdnimg.cn/20201104213552527.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x01-sinffer-wireshark抓包"><a class="header-anchor" href="#1x01-sinffer-wireshark抓包">¶</a>1x01 sinffer（Wireshark抓包）</h2>
+<p>A主机上外网，B运行sinffer(Wireshark)选定只抓源为A的数据)。</p>
+<p>我们选择Metasploit2主机作为A，Kali作为B。首先我们需要确认kali和Windows处于同一网段（可相互ping通的状态)。<strong>（PS：这一步是使用的Metasploit2，后面因为需要到网页里面提交数据就换成了win7）</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201104223018979.png#pic_center" alt="在这里插入图片描述"><br>
+接下来在kali中打开Wireshark，如果想要抓源只为A的数据，那么过滤语句为：<br>
+<code>ip.src == 10.34.80.4</code><br>
+接下来我们使用A去ping B观察一下wireshark的反应。<br>
+<img src="https://img-blog.csdnimg.cn/20201104224124598.png#pic_center" alt="在这里插入图片描述"></p>
+<p>但是如果A ping的是百度，或者往某一个网址发送包含账号和密码的HTTP报文。就可以获取相应信息。</p>
+<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
+<p>关于ARP的原理已经攻击原理我在以前的一篇博客中有写到：<br>
+<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/109270741">【白帽子学习笔记20】arp协议原理与攻击应用</a></p>
+<p>为了欺骗B，让B把报文全部发到A这里来。A需要冒充局域网中交换机的角色。<strong>（此时B为Win7主机）</strong><br>
+这一步我们需要使用一个工具就是<strong>arpspoof</strong>。在安装这个包的过程中可能会遇到一些坑。下面记录一下我遇到的一些问题。</p>
+<ul>
+<li>建议更换kali源，否则有可能出现找不到的情况</li>
+<li>安装过程使用<code>sudo apt-get install dsniff</code>而不是直接install arpspoof</li>
+</ul>
+<p>这里我们使用单向攻击：<br>
+受攻击主机将数据发送到攻击主机，并由攻击主机转发至网关，网关将数据发送至服务器，服务器返回数据给网关，网关返回数据给受攻击主机</p>
+<p><strong>步骤如下：</strong></p>
+<ol>
+<li>
+<p>开启端口转发，允许本机像路由器那样转发数据包<br>
+<code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code></p>
+</li>
+<li>
+<p>ARP投毒，向主机B声称自己(攻击者)就是网关<br>
+<code>arpspoof -i eth0 -t IP1 IP2</code>(IP1是我们的攻击目标、IP2是网关IP地址)<br>
+首先确认Win7的IP地址，然后确认网关地址。<br>
+<img src="https://img-blog.csdnimg.cn/20201105002023834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+接下来查询网关：<br>
+<img src="https://img-blog.csdnimg.cn/20201105002519492.png#pic_center" alt="在这里插入图片描述"></p>
+</li>
+<li>
+<p>wireshark抓包分析</p>
+</li>
+</ol>
+<p>我们使用<strong>Win7</strong>尝试访问一下百度。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105002841512.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+接下来到wireshark里面看一下。修改wireshark的筛选规则为<code>ip.src == 10.34.80.3</code>。结果可以看到成功抓取到了数据！<br>
+<img src="https://img-blog.csdnimg.cn/20201105003005214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+接下来我们选择一个网站输入以下账号密码。就选择大家&quot;最爱&quot;的X班吧. 我记得他的信息上传是没有加密的。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105074044844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>点击登陆；<br>
+之后在wireshark里查找发送到易班服务器的http post包。<br>
+<img src="https://img-blog.csdnimg.cn/20201105005514496.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+但是最后发现某班的密码是加密发送的，所以账号密码信息还是不能获得。但是可以从包里面获取到cookie信息，这样再通过Chrome修改cookie的插件就可以完成免密登陆。</p>
+<p><strong>由于没有完成任务，我们切换到某大学的学生选课系统的登陆界面。</strong><br>
+<img src="https://img-blog.csdnimg.cn/20201105012215269.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+经过相同的操作之后抓到了包。<br>
+<img src="https://img-blog.csdnimg.cn/20201105012432476.png#pic_center" alt="在这里插入图片描述"><br>
+在数据报里面成功的发现我过程输入的账号和密码的明文信息。<br>
+<img src="https://img-blog.csdnimg.cn/20201105012544392.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x03-wireshark分析文件"><a class="header-anchor" href="#1x03-wireshark分析文件">¶</a>1x03 WireShark分析文件</h2>
+<p><strong>1.如何发现有FTP服务器？且找到FTP服务器的IP地址？</strong></p>
+<p>通过观察流量数据，可以发现有大量基于FTP协议传输的数据库，所以推测有FTP服务器。<br>
+<img src="https://img-blog.csdnimg.cn/20201105013341403.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+通过对部分数据包的分析，比如如下两个：<br>
+<img src="https://img-blog.csdnimg.cn/20201105013424449.png#pic_center" alt="在这里插入图片描述"><br>
+可以知道192.168.182.1是FTP文件服务器。</p>
+<p><strong>2.客户端登陆FTP服务器的账号和密码分别是什么？</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201105013714892.png#pic_center" alt="在这里插入图片描述"><br>
+通过这两个数据包可以确定服务器的账号和密码。</p>
+<p><strong>3.客户端从FTP下载或查看了2个文件，一个是zip文件，一个是txt文件，文件名分别是什么？</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201105013929225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+在数据包中可以发现，用户分别查看了1.zip 和 复习题.txt</p>
+<p><strong>4.还原ZIP文件并打开</strong></p>
+<p>这里我们需要知道的一个知识是对FTP服务器的操作虽然是基于FTP协议解决的，但是真正在下载文件的时候还是使用tcp协议。所以需要zip数据包的时候需要在TCP数据包里面找，可以根据zip文件的文件头和文件尾快速的确认zip包的位置。<br>
+<img src="https://img-blog.csdnimg.cn/20201105023108818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+将<strong>原始数据</strong>另存为a.zip, 可以得到一个正常的压缩包，但是有密码。<br>
+<img src="https://img-blog.csdnimg.cn/20201105023432708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+我们使用kali下的fcrakzip密码破解工具，对zip进行破解。先<code>sudo apt-get install fcrackzip</code>安装</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105024450191.png#pic_center" alt="在这里插入图片描述"><br>
+破解命令 <code>fcrackzip -b -c1 -l 6 -u a.zip</code> 接下来解释一下这个命令。</p>
+<ul>
+<li>-b：使用暴力模式</li>
+<li>-c1：使用纯数字进行破解</li>
+<li>-l：规定破解密码长度/范围</li>
+<li>-u：使用unzip</li>
+</ul>
+<p>最后得到了我们的小企鹅。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105024802841.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><strong>5.TXT的内容是什么？</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201105024939728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+通过追踪TXT信息，可以确定文件内容如下：<br>
+<img src="https://img-blog.csdnimg.cn/20201105025003861.png#pic_center" alt="在这里插入图片描述"><br>
+<strong>6. 网站密码破解部分：</strong></p>
+<p>为了合法的完成渗透测试报告，我们选择Bugku中一道需要运用到暴力破解的题目为例，解析一下如何运用Burp Suite爆破一个网站。</p>
+<p>网站网址: <a href="http://123.206.87.240:8002/baopo/">http://123.206.87.240:8002/baopo/</a><br>
+<img src="https://img-blog.csdnimg.cn/20200812135204959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>看到这个5位的密码，在检查源码和抓包之后都没有发现什么端倪，尝试bp一波</p>
+<p>这里想尝试一下5位数字，5位字母需要的时间太长了. 使用BP自带的字典就可以满足我们的需求<br>
+<img src="https://img-blog.csdnimg.cn/20200812135925759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+这里可以根据Length的大小来判断时候爆破出密码，密码正确和密码错误的返回长度肯定是不一样的。<br>
+<img src="https://img-blog.csdnimg.cn/20200812141849955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+爆破成功啦！<br>
+<img src="https://img-blog.csdnimg.cn/20200812141942854.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x04-md5破解"><a class="header-anchor" href="#1x04-md5破解">¶</a>1x04 MD5破解</h2>
+<p>打开一个在线md5解密网站就可以解开简单的md5码。<br>
+<img src="https://img-blog.csdnimg.cn/20201105025933699.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x05-john-the-ripper"><a class="header-anchor" href="#1x05-john-the-ripper">¶</a>1x05 John the Ripper</h2>
+<p>John the Ripper 是一款速度很快的密码破解工具，目前可用于 Unix、macOS、Windows、DOS、BeOS 与 OpenVMS 等多种操作系统。最初其主要目的是检测弱 Unix 密码，而现在，除了支持许多 Unix crypt(3) 密码哈希类型，John the Ripper “-jumbo”版本还支持数百种其它哈希类型和密码。</p>
+<h1>0x03 做有所得</h1>
+<h2 id="1x01-如何防止arp攻击"><a class="header-anchor" href="#1x01-如何防止arp攻击">¶</a>1x01 如何防止ARP攻击</h2>
+<ul>
+<li>
+<p>终端对网关的绑定要坚实可靠，这个绑定能够抵制被病毒捣毁。</p>
+</li>
+<li>
+<p>接入路由器或网关要对下面终端IP-MAC的识别始终保证唯一准确。</p>
+</li>
+<li>
+<p>网络内要有一个最可依赖的机构，提供对网关IP-MAC最强大的保护。它既能够分发正确的网关信息，又能够对出现的假网关信息立即封杀。</p>
+</li>
+</ul>
+<h2 id="1x02-安全的密码-口令-应遵守的原则"><a class="header-anchor" href="#1x02-安全的密码-口令-应遵守的原则">¶</a>1x02 安全的密码（口令）应遵守的原则</h2>
+<ul>
+<li>避免出现弱密码</li>
+<li>记住的密码才是好密码</li>
+<li>每个平台密码最好能够有一定的区别</li>
+</ul>
+<h2 id="1x03-字典的重要性"><a class="header-anchor" href="#1x03-字典的重要性">¶</a>1x03 字典的重要性</h2>
+<p>在破解密码或密钥时，逐一尝试用户自定义词典中的可能密码（单词或短语）的攻击方式。与暴力破解的区别是，暴力破解会逐一尝试所有可能的组合密码，而字典式攻击会使用一个预先定义好的单词列表（可能的密码）。对于暴力破解<strong>社会工程学</strong>是经常用到的方法。根据社会工程学生成的字典可以极大的增大密码破译的成功率。</p>
+<h2 id="1x04-小结"><a class="header-anchor" href="#1x04-小结">¶</a>1x04 小结</h2>
+<p>通过本次的实验我们学习到了以下内容：</p>
+<ul>
+<li>什么是网络嗅探</li>
+<li>ARP协议原理</li>
+<li>FTP协议</li>
+<li>如何使用WireShark抓包并对数据包进行分析</li>
+<li>MD5加密方式</li>
+<li>如何使用密码字典爆破数据</li>
+<li>密码安全</li>
+</ul>
+<p>通过这次的实验我对网络嗅探有了比较充分的了解，对网络中的协议如ARP，FTP等又有了更深的了解。可以更加熟练的使用WireShark, 了解了暴力破解网站和压缩文件的基本操作。以及对于密码安全防护的意识加强。<strong>收益良多</strong></p>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【白帽子学习笔记】网络扫描与网络侦查</title>
+    <url>/2020/10/29/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F%E4%B8%8E%E7%BD%91%E7%BB%9C%E4%BE%A6%E6%9F%A5/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>[toc]</p>
+<h1>0x01网络扫描与网络侦查的目的</h1>
+<p>黑客在进行一次完整的攻击之前除了确定攻击目标之外，最主要的工作就是收集尽量多的关于攻击目标的信息。这些信息主要包括目标的操作系统类型及版本、目标提供哪些服务、各服务的类型、版本以及相关的社会信息。<br>
+攻击者搜集目标信息一般采用七个基本的步骤：<br>
+（1） 找到初始信息，比如一个IP地址或者一个域名；<br>
+（2） 找到网络地址范围，或者子网掩码；<br>
+（3） 找到活动机器；<br>
+（4） 找到开放端口和入口点；<br>
+（5） 弄清操作系统；<br>
+（6） 弄清每个端口运行的是哪种服务；<br>
+（7） 找到目标可能存在的漏洞。</p>
+<a id="more"></a>
+<h1>0x02 常用工具介绍</h1>
+<h2 id="1x01-google-hack"><a class="header-anchor" href="#1x01-google-hack">¶</a>1x01 Google Hack</h2>
+<p>Google Hacking 是利用谷歌搜索的强大，来在浩瀚的互联网中搜索到我们需要的信息。轻量级的搜索可以搜素出一些遗留后门，不想被发现的后台入口，中量级的搜索出一些用户信息泄露，源代码泄露，未授权访问等等，重量级的则可能是mdb文件下载，CMS 未被锁定install页面，网站配置密码，php远程文件包含漏洞等重要信息。</p>
+<p>我在以前写过一篇Goolge Hack基本语法的介绍博客。 链接如下：<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/106586528">【白帽子学习笔记10】Google语法</a></p>
+<h2 id="1x02-nmap"><a class="header-anchor" href="#1x02-nmap">¶</a>1x02 Nmap</h2>
+<p>Nmap是一个网络侦察和安全扫描程序，系统管理者和个人可以使用这个软件扫描大型的网络，获取哪台主机正在运行以及提供什么服务等信息。Nmap支持很多扫描技术，例如：UDP、TCP connect()、TCP SYN(半开扫描)、ftp代理(bounce攻击)、反向标志、ICMP、FIN、ACK扫描、圣诞树(Xmas Tree)、SYN扫描和null扫描。Nmap还提供了一些高级的特征，例如：通过TCP/IP协议栈特征探测操作系统类型，秘密扫描，动态延时和重传计算，并行扫描，通过并行ping扫描探测关闭的主机，诱饵扫描，避开端口过滤检测，直接RPC扫描(无须端口映射)，碎片扫描，以及灵活的目标和端口设定。<br>
+Nmap运行通常会得到被扫描主机端口的列表。Nmap总会给出well known端口的服务名(如果可能)、端口号、状态和协议等信息。每个端口的状态有：open、filtered、unfiltered。open状态意味着目标主机能够在这个端口使用accept()系统调用接受连接。filtered状态表示：防火墙、包过滤和其它的网络安全软件掩盖了这个端口，禁止Nmap探测其是否打开。unfiltered表示：这个端口关闭，并且没有防火墙/包过滤软件来隔离nmap的探测企图。通常情况下，端口的状态基本都是unfiltered状态，只有在大多数被扫描的端口处于filtered状态下，才会显示处于unfiltered状态的端口。<br>
+根据使用的功能选项，Nmap也可以报告远程主机的下列特征：使用的操作系统、TCP序列、运行绑定到每个端口上的应用程序的用户名、DNS名、主机地址是否是欺骗地址、以及其它一些东西。</p>
+<h2 id="1x03-winhex"><a class="header-anchor" href="#1x03-winhex">¶</a>1x03 Winhex</h2>
+<p>WinHex  是一款以通用的 16 进制编辑器为核心，专门用来对付计算机取证、数据恢复、低级数据处理、以及 IT 安全性、各种日常紧急情况的高级工具： 用来检查和修复各种文件、恢复删除文件、硬盘损坏、数码相机卡损坏造成的数据丢失等。</p>
+<h2 id="1x04-metasploit"><a class="header-anchor" href="#1x04-metasploit">¶</a>1x04 Metasploit</h2>
+<p>Metasploit是一个渗透测试框架，里面集合了很多的渗透测试功能。我关于Metasploit也写过一篇博客，链接如下：<br>
+<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/108874614">白帽子学习笔记18】Metasploit学习笔记</a></p>
+<h1>0x03 被动扫描</h1>
+<h2 id="1x01-麻省理工学院网站中文件名包含-network-security-的pdf文档"><a class="header-anchor" href="#1x01-麻省理工学院网站中文件名包含-network-security-的pdf文档">¶</a>1x01 麻省理工学院网站中文件名包含“network security”的pdf文档</h2>
+<p>首先我们先来构造一下谷歌语法：</p>
+<p><code>inurl:mit.edu intext:network security filetype:pdf</code></p>
+<ul>
+<li>inurl:mit.edu <a href="http://xn--urlmit-dw7iu44avrc357dvbimu0cymhbiou9fjv8b.edu">表示搜索结果的url中包含mit.edu</a></li>
+<li>intext:network security 表示搜索的结果中包括network security</li>
+<li>filetype:pdf 表示搜索结果中的文件类型为pdf</li>
+<li></li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20201027225026225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x02-照片信息解析"><a class="header-anchor" href="#1x02-照片信息解析">¶</a>1x02 照片信息解析</h2>
+<p><img src="https://img-blog.csdnimg.cn/20201027225330815.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+根据一张照片找出这个女孩在哪里旅行。</p>
+<p>首先先看照片中的文字，然后可以看到一些文字，尝试将这些内容在Google 地图中进行搜索。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201028124039799.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+但是仔细一看发现不太对劲。这个图片不太一样啊。<br>
+<img src="https://img-blog.csdnimg.cn/20201028124641723.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>最后尝试改变一下时间轴找到了在2015年时候的装潢是和图片中一样的。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201028124811375.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+这个是位置信息。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201028124901306.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x03-手机位置定位"><a class="header-anchor" href="#1x03-手机位置定位">¶</a>1x03 手机位置定位</h2>
+<p>手机位置定位。通过LAC（Location Area Code，位置区域码）和CID（Cell Identity，基站编号，是个16位的数据（范围是0到65535）可以查询手机接入的基站的位置，从而初步确定手机用户的位置。<br>
+获取自己手机的LAC和CID：<br>
+Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信息工程模式后查看</p>
+<p>iphone获取方法：iPhone：拨号<code>*3001#12345#*</code>进入FieldTest</p>
+<p>但是请注意，这个操作在很多品牌的新版本中已经不能用了，比如华为和OPPO等。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201028132830558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x04-编码解码"><a class="header-anchor" href="#1x04-编码解码">¶</a>1x04 编码解码</h2>
+<p>将Z29vZCBnb29kIHN0dWR5IQ==解码</p>
+<p>很明显的Base64解码<img src="https://img-blog.csdnimg.cn/20201028133814793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x05-地址信息"><a class="header-anchor" href="#1x05-地址信息">¶</a>1x05 地址信息</h2>
+<p>通过随便一个MAC地址查询网站就可以确定此MAC地址为苹果品牌<br>
+<img src="https://img-blog.csdnimg.cn/20201028134130648.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>
+之后需要确定202.193.64.34到底是那个网页，发现直接访问不行。所以查询一下这个IP地址。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201028134514777.png#pic_center" alt="在这里插入图片描述"><br>
+嗯于是就是猜测这个会不会不是桂电的官网呢？ 我们去ping一下桂电的官网，发现果然如此。<br>
+<img src="https://img-blog.csdnimg.cn/20201028134643987.png#pic_center" alt="在这里插入图片描述"><br>
+得出结论，这是一个苹果设备访问了桂电的主页。</p>
+<hr>
+<p>首先我的IP地址是113.13.35.21<br>
+<img src="https://img-blog.csdnimg.cn/20201028134952396.png#pic_center" alt="在这里插入图片描述"><br>
+但是通过ifconfig查询到到本机ip地址为：<br>
+10.33.17.179<br>
+<img src="https://img-blog.csdnimg.cn/20201028135040927.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+这两个都是我的IP地址，为什么会不一样呢？</p>
+<p>因为10.33.17.179是我的内网网址，而当我访问<code>https://whatismyipaddress.com</code>的时候，这个网址的主机是在外网的，我的数据包需要经过路由器将信息传输到外网当中，所以这个网页中获取的就是经过路由器转换后的外网地址。</p>
+<h1>0x04 NMAP扫描Metasploitable2漏洞</h1>
+<h2 id="1x01-nmap扫描metasploitable2端口开放情况"><a class="header-anchor" href="#1x01-nmap扫描metasploitable2端口开放情况">¶</a>1x01 NMAP扫描Metasploitable2端口开放情况</h2>
+<p>首先我们需要两个虚拟机设备，并让两台设备置于同一网段</p>
+<p><img src="https://img-blog.csdnimg.cn/20201028201658341.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20201028201747893.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>可以看到两者位于同一网段，我这里是两台设备同时设置在了虚拟机到Net模式下。</p>
+<p>下面使用Nmap进行扫描。<img src="https://img-blog.csdnimg.cn/20201028202817515.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+可以看到开放了那么多的端口，不同的端口分别对于不同服务。</p>
+<table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>服务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ftp</td>
+<td>远程文件传输</td>
+</tr>
+<tr>
+<td>ssh</td>
+<td>远程连接</td>
+</tr>
+<tr>
+<td>telnet</td>
+<td>远程登陆协议</td>
+</tr>
+<tr>
+<td>smtp</td>
+<td>提供可靠且有效的电子邮件传输协议</td>
+</tr>
+<tr>
+<td>domain</td>
+<td>将域名和IP地址相互映射</td>
+</tr>
+<tr>
+<td>http</td>
+<td>超文本传输协议</td>
+</tr>
+<tr>
+<td>rpcbind</td>
+<td>rpcbind与BIND或实际上与任何DNS服务器非常相似。当使用将RPC接口的声明编译为服务器和客户端存根代码时，会选择或获得一个协议号rpcgen。</td>
+</tr>
+<tr>
+<td>netbios-ssn</td>
+<td>面向连接通信提供会话服务</td>
+</tr>
+<tr>
+<td>microsoft-ds</td>
+<td>远程登陆端口</td>
+</tr>
+<tr>
+<td>exec</td>
+<td>exec函数族的函数执行成功后不会返回</td>
+</tr>
+<tr>
+<td>login</td>
+<td>登陆</td>
+</tr>
+<tr>
+<td>shell</td>
+<td>Shell 是指一种应用程序，这个应用程序提供了一个界面，用户通过这个界面访问操作系统内核的服务</td>
+</tr>
+<tr>
+<td>rmiregistry</td>
+<td>用于不同虚拟机之间的通信</td>
+</tr>
+<tr>
+<td>ingreslock</td>
+<td>Ingreslock后门程序监听在1524端口，连接到1524端口就可以直接获得root权限</td>
+</tr>
+<tr>
+<td>nfs</td>
+<td>通过网络，让不同的机器、不同的操作系统可以共享彼此的文件</td>
+</tr>
+<tr>
+<td>ccproxy-ftp</td>
+<td>主要用于局域网内共享宽带上网，ADSL共享上网、专线代理共享、ISDN代理共享、卫星代理共享、蓝牙代理共享和二级代理等的文件传输</td>
+</tr>
+<tr>
+<td>mysql</td>
+<td>数据库</td>
+</tr>
+<tr>
+<td>postgresql</td>
+<td>关系数据库服务器</td>
+</tr>
+<tr>
+<td>vnc</td>
+<td>远程连接（有GUI图像界面）</td>
+</tr>
+<tr>
+<td>X11</td>
+<td>X11也叫做X Window系统，X Window系统 (X11或X)是一种 位图 显示的 视窗系统</td>
+</tr>
+<tr>
+<td>irc</td>
+<td>一种网络聊天协议</td>
+</tr>
+<tr>
+<td>ajp13</td>
+<td>定向包协议</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1x02-nmap扫描metasploitable2操作系统类型"><a class="header-anchor" href="#1x02-nmap扫描metasploitable2操作系统类型">¶</a>1x02 NMAP扫描Metasploitable2操作系统类型</h2>
+<p>使用<code> nmap -O IP</code>即可扫描操作系统信息。扫描结果如下图<br>
+<img src="https://img-blog.csdnimg.cn/20201028204947169.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x03-nmap穷举metasploitable2上dvwa的登陆账号和密码"><a class="header-anchor" href="#1x03-nmap穷举metasploitable2上dvwa的登陆账号和密码">¶</a>1x03 NMAP穷举Metasploitable2上DVWA的登陆账号和密码</h2>
+<p>通过扫描我们可以知道Metasploitable2开放了80的端口，DVWA是网页服务器而且上面也没有开启443端口所有就肯定在80端口了。</p>
+<p>接下来选择nmap自带的http暴力破解工具 <code>http-form-brute</code> 选择路径为：<code>/dvwa/login.php</code> 组成的命令为：<br>
+<code>nmap -p 80 -script=http-form-brute -script-args=http-form-brute.path=/dvwa/login.php 10.34.80.4</code></p>
+<h2 id="1x04-永恒之蓝-wannacry蠕虫"><a class="header-anchor" href="#1x04-永恒之蓝-wannacry蠕虫">¶</a>1x04 永恒之蓝-WannaCry蠕虫</h2>
+<p>WannaCry（又叫Wanna Decryptor），一种“蠕虫式”的勒索病毒软件。蠕虫病毒是一种常见的计算机病毒，是无须计算机使用者干预即可运行的独立程序，它通过不停的获得网络中存在漏洞的计算机上的部分或全部控制权来进行传播。此病毒通过远程高危漏洞进行自我传播复制,并且加密文件采用了高强度的双RSA+AES加密,至少目前来说破解秘钥是不可能的,只能通过预防的方式来防御,勤打补丁,关闭445、139等端口,及时安装安全软件。</p>
+<h1>0x05 ZoomEye搜索一个西门子工控设备</h1>
+<p>在ZoomEye中搜索西门子工控设备，点击一个可以看到该IP设备的如下信息</p>
+<p><img src="https://img-blog.csdnimg.cn/20201028212010642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>该设备开启了FTP端口可能会面临被不法分子获取FTP远程连接密码导致重要文件泄漏的问题，也开放了80和443端口说明可能有Web端，Web端的漏洞也可能导致系统遭到攻击。</p>
+<h1>0x06 数据恢复与取证</h1>
+<h2 id="1x01-修复elephant-jpg"><a class="header-anchor" href="#1x01-修复elephant-jpg">¶</a>1x01 修复elephant.jpg</h2>
+<p>用16进制编辑器打开后可以发现文件头明显不符合JPG的格式。手动给改回来。<br>
+<img src="https://img-blog.csdnimg.cn/20201028213011160.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>JPG文件头： FF D8 FF E0</p>
+<p>成功修复</p>
+<p><img src="https://img-blog.csdnimg.cn/20201028213210485.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x02-笑脸后的阴霾"><a class="header-anchor" href="#1x02-笑脸后的阴霾">¶</a>1x02 笑脸后的阴霾</h2>
+<p>用16进制查看器拿到最后可以发现：tom is the killer. 太可怕了～～<br>
+<img src="https://img-blog.csdnimg.cn/20201028213359949.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x04-使用数据恢复软件恢复u盘文件"><a class="header-anchor" href="#1x04-使用数据恢复软件恢复u盘文件">¶</a>1x04 使用数据恢复软件恢复U盘文件</h2>
+<p>目前网络中的U盘数据工具很多，我使用了一个叫做嗨格式的U盘恢复软件，效果还挺不错的，操作也很简单。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201028214625398.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1>0x07 小结</h1>
+<p>通过对本篇博文的总结我们可以学习到如下内容：</p>
+<ul>
+<li>Google语法在信息搜索中的应用</li>
+<li>图像信息提取能力</li>
+<li>Nmap常用操作</li>
+<li>Winhex等16进制软件的使用（文件修复，查看隐藏信息）</li>
+</ul>
+<p>通过这些内容我们可以对网络扫描和网络侦查有一个很好的了解。</p>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【白帽子学习笔记】加油NPT</title>
     <url>/2020/12/06/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8A%A0%E6%B2%B9NPT/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1>【白帽子学习笔记】加油NPT</h1>
@@ -1693,189 +2101,6 @@ XSS注入代码如下：<br>
 <li><a href="https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities"><strong>Using Components with Known Vulnerabilities</strong></a>. Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts.</li>
 <li><a href="https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%26Monitoring"><strong>Insufficient Logging &amp; Monitoring</strong></a>. Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data. Most breach studies show time to detect a breach is over 200 days, typically detected by external parties rather than internal processes or monitoring.</li>
 </ol>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>security</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【白帽子学习笔记】网络嗅探与身份验证</title>
-    <url>/2020/11/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E5%97%85%E6%8E%A2%E4%B8%8E%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>@一个在写实验报告的人，/(ㄒoㄒ)/~~</p>
-<h1>0x01 网络嗅探相关概念</h1>
-<h2 id="1x01-网络嗅探概述"><a class="header-anchor" href="#1x01-网络嗅探概述">¶</a>1x01 网络嗅探概述</h2>
-<p>Sniffer（嗅探器）工作在OSI模型的第二层，利用计算机的网卡截获网络数据报文的一种工具，<strong>可用来监听网络中的数据，分析网络的流量，以便找出所关心的网络中潜在的问题</strong>。例如,假设网络的某一段运行得不是很好,报文的发送比较慢,而我们又不知道问题出在什么地方,此时就可以用嗅探器确定不同网络协议、不同用户的通信流量，相互主机的报文传送间隔时间等，这些信息为管理员判断网络问题、管理网络区域提供了非常宝贵的信息。<br>
-在正常情况下，一个合法的网络接口应该只响应这样的两种数据帧：</p>
-<ul>
-<li>帧的目标区域具有和本地网络接口相匹配的硬件地址；</li>
-<li>帧的目标区域具有“广播地址”。</li>
-</ul>
-<a id="more"></a>
-<p>如果网卡处于混杂（promiscuous）模式，那么它就可以捕获网络上所有的数据帧，处于对网络的“监听”状态，如果一台机器被配置成这样的方式，它（包括其软件）就是一个嗅探器。<br>
-在交换型以太网中，上述条件2是不满足的。所有的主机连接到SWITCH，<strong>SWITCH比HUB更聪明</strong>，它知道每台计算机的MAC地址信息和与之相连的特定端口，发给某个主机的数据包会被SWITCH从特定的端口送出，而不是象HUB那样，广播给网络上所有的机器。这种传输形式使交换型以太网的性能大大提高，同时还有一个附加的作用：使传统的嗅探器无法工作。<br>
-交换型网络环境嗅探的核心问题是：如何使本不应到达的数据包到达本地。通常的方法有<strong>MAC洪水包和ARP欺骗</strong>。其中MAC洪水包是向交换机发送大量含有虚构MAC地址和IP地址的IP包，使交换机无法处理如此多的信息，致使交换机就进入了所谓的&quot;打开失效&quot;模式，也就是开始了类似于集线器的工作方式，向网络上所有的机器广播数据包。</p>
-<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
-<p>每一个主机都有一个ARP高速缓存，此缓存中记录了最近一段时间内其它IP地址与其MAC地址的对应关系。如果本机想与某台主机通信，则首先在ARP高速缓存中查找此台主机的IP和MAC信息，如果存在，则直接利用此MAC地址构造以太帧；如果不存在，则向本网络上每一个主机广播一个ARP请求报文，其意义是&quot;如果你有此IP地址，请告诉我你的MAC地址&quot;，目的主机收到此请求包后，发送一个ARP响应报文，本机收到此响应后，把相关信息记录在ARP高速缓存中，以下的步骤同上。<br>
-<strong>ARP报文格式：</strong><br>
-<img src="https://img-blog.csdnimg.cn/20201104213312881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>可以看出，ARP协议是有缺点的，第三方主机可以构造一个ARP欺骗报文，而源主机却无法分辨真假。如果发送者硬件地址字段填入攻击者的硬件地址，而发送者IP地址填入被假冒者的IP地址，那么就构造出了一个用于欺骗的ARP请求报文。那么被欺骗主机的ARP高速缓存，被假冒者的IP地址与其MAC地址的对应关系就会更改为欺骗者的，从而达到ARP欺骗的目的。特别的，如果攻击者冒充网关，将转发子网内到外网的所有通信量，以达到捕获其他主机的通信量，从而破坏数据传输的保密性。</p>
-<h2 id="1x03-密码安全"><a class="header-anchor" href="#1x03-密码安全">¶</a>1x03 密码安全</h2>
-<p>在现实网络中，攻击事件发生的频率越来越高，其中相当多的都是由于网站密码泄露的缘故，或是人为因素导致，或是口令遭到破解，所以从某种角度而言，密码的安全问题不仅仅是技术上的问题，更主要的是人的安全意识问题。</p>
-<ul>
-<li>口令破解方法<br>
-口令破解主要有两种方法：字典破解和暴力破解。<br>
-字典破解是指通过破解者对管理员的了解，猜测其可能使用某些信息作为密码，例如其姓名、生日、电话号码等，同时结合对密码长度的猜测，利用工具来生成密码破解字典。如果相关信息设置准确，字典破解的成功率很高，并且其速度快，因此字典破解是密码破解的首选。<br>
-而暴力破解是指对密码可能使用的字符和长度进行设定后（例如限定为所有英文字母和所有数字，长度不超过8），对所有可能的密码组合逐个实验。随着可能字符和可能长度的增加，存在的密码组合数量也会变得非常庞大，因此暴力破解往往需要花费很长的时间，尤其是在密码长度大于10，并且包含各种字符（英文字母、数字和标点符号）的情况下。</li>
-<li><strong>口令破解方式</strong><br>
-口令破解主要有两种方式：离线破解和在线破解。<br>
-离线破解攻击者得到目标主机存放密码的文件后，就可以脱离目标主机，在其他计算机上通过口令破解程序穷举各种可能的口令，如果计算出的新密码与密码文件存放的密码相同，则口令已被破解。</li>
-<li><strong>候选口令产生器</strong><br>
-候选口令产生器的作用是不断生成可能的口令。有几种方法产生候选口令，一种是用枚举法来构造候选口令（暴力破解），另一种方法是从一个字典文件里读取候选口令（字典破解）。</li>
-<li><strong>口令加密</strong><br>
-口令加密过程就是用加密算法对从口令候选器送来的候选口令进行加密运算而得到密码。这要求加密算法要采用和目标主机一致的加密算法。加密算法有很多种，通常与操作系统或应用程序的类型和版本相关。<br>
-Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工具使用Java编写，由PortSwigger Security开发。该工具有两个版本。可免费下载的免费版（免费版）和试用期后可购买的完整版（专业版）。免费版本功能显着降低。它的开发旨在为Web应用程序安全检查提供全面的解决方案，Burp Suite是进行Web应用安全测试集成平台。它将各种安全工具无缝地融合在一起，以支持整个测试过程中，从最初的映射和应用程序的攻击面分析，到发现和利用安全漏洞。</li>
-</ul>
-<h1>0x02 网络嗅探部分</h1>
-<p><img src="https://img-blog.csdnimg.cn/20201104213552527.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x01-sinffer-wireshark抓包"><a class="header-anchor" href="#1x01-sinffer-wireshark抓包">¶</a>1x01 sinffer（Wireshark抓包）</h2>
-<p>A主机上外网，B运行sinffer(Wireshark)选定只抓源为A的数据)。</p>
-<p>我们选择Metasploit2主机作为A，Kali作为B。首先我们需要确认kali和Windows处于同一网段（可相互ping通的状态)。<strong>（PS：这一步是使用的Metasploit2，后面因为需要到网页里面提交数据就换成了win7）</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201104223018979.png#pic_center" alt="在这里插入图片描述"><br>
-接下来在kali中打开Wireshark，如果想要抓源只为A的数据，那么过滤语句为：<br>
-<code>ip.src == 10.34.80.4</code><br>
-接下来我们使用A去ping B观察一下wireshark的反应。<br>
-<img src="https://img-blog.csdnimg.cn/20201104224124598.png#pic_center" alt="在这里插入图片描述"></p>
-<p>但是如果A ping的是百度，或者往某一个网址发送包含账号和密码的HTTP报文。就可以获取相应信息。</p>
-<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
-<p>关于ARP的原理已经攻击原理我在以前的一篇博客中有写到：<br>
-<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/109270741">【白帽子学习笔记20】arp协议原理与攻击应用</a></p>
-<p>为了欺骗B，让B把报文全部发到A这里来。A需要冒充局域网中交换机的角色。<strong>（此时B为Win7主机）</strong><br>
-这一步我们需要使用一个工具就是<strong>arpspoof</strong>。在安装这个包的过程中可能会遇到一些坑。下面记录一下我遇到的一些问题。</p>
-<ul>
-<li>建议更换kali源，否则有可能出现找不到的情况</li>
-<li>安装过程使用<code>sudo apt-get install dsniff</code>而不是直接install arpspoof</li>
-</ul>
-<p>这里我们使用单向攻击：<br>
-受攻击主机将数据发送到攻击主机，并由攻击主机转发至网关，网关将数据发送至服务器，服务器返回数据给网关，网关返回数据给受攻击主机</p>
-<p><strong>步骤如下：</strong></p>
-<ol>
-<li>
-<p>开启端口转发，允许本机像路由器那样转发数据包<br>
-<code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code></p>
-</li>
-<li>
-<p>ARP投毒，向主机B声称自己(攻击者)就是网关<br>
-<code>arpspoof -i eth0 -t IP1 IP2</code>(IP1是我们的攻击目标、IP2是网关IP地址)<br>
-首先确认Win7的IP地址，然后确认网关地址。<br>
-<img src="https://img-blog.csdnimg.cn/20201105002023834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-接下来查询网关：<br>
-<img src="https://img-blog.csdnimg.cn/20201105002519492.png#pic_center" alt="在这里插入图片描述"></p>
-</li>
-<li>
-<p>wireshark抓包分析</p>
-</li>
-</ol>
-<p>我们使用<strong>Win7</strong>尝试访问一下百度。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105002841512.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-接下来到wireshark里面看一下。修改wireshark的筛选规则为<code>ip.src == 10.34.80.3</code>。结果可以看到成功抓取到了数据！<br>
-<img src="https://img-blog.csdnimg.cn/20201105003005214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-接下来我们选择一个网站输入以下账号密码。就选择大家&quot;最爱&quot;的X班吧. 我记得他的信息上传是没有加密的。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105074044844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>点击登陆；<br>
-之后在wireshark里查找发送到易班服务器的http post包。<br>
-<img src="https://img-blog.csdnimg.cn/20201105005514496.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-但是最后发现某班的密码是加密发送的，所以账号密码信息还是不能获得。但是可以从包里面获取到cookie信息，这样再通过Chrome修改cookie的插件就可以完成免密登陆。</p>
-<p><strong>由于没有完成任务，我们切换到某大学的学生选课系统的登陆界面。</strong><br>
-<img src="https://img-blog.csdnimg.cn/20201105012215269.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-经过相同的操作之后抓到了包。<br>
-<img src="https://img-blog.csdnimg.cn/20201105012432476.png#pic_center" alt="在这里插入图片描述"><br>
-在数据报里面成功的发现我过程输入的账号和密码的明文信息。<br>
-<img src="https://img-blog.csdnimg.cn/20201105012544392.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x03-wireshark分析文件"><a class="header-anchor" href="#1x03-wireshark分析文件">¶</a>1x03 WireShark分析文件</h2>
-<p><strong>1.如何发现有FTP服务器？且找到FTP服务器的IP地址？</strong></p>
-<p>通过观察流量数据，可以发现有大量基于FTP协议传输的数据库，所以推测有FTP服务器。<br>
-<img src="https://img-blog.csdnimg.cn/20201105013341403.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-通过对部分数据包的分析，比如如下两个：<br>
-<img src="https://img-blog.csdnimg.cn/20201105013424449.png#pic_center" alt="在这里插入图片描述"><br>
-可以知道192.168.182.1是FTP文件服务器。</p>
-<p><strong>2.客户端登陆FTP服务器的账号和密码分别是什么？</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201105013714892.png#pic_center" alt="在这里插入图片描述"><br>
-通过这两个数据包可以确定服务器的账号和密码。</p>
-<p><strong>3.客户端从FTP下载或查看了2个文件，一个是zip文件，一个是txt文件，文件名分别是什么？</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201105013929225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-在数据包中可以发现，用户分别查看了1.zip 和 复习题.txt</p>
-<p><strong>4.还原ZIP文件并打开</strong></p>
-<p>这里我们需要知道的一个知识是对FTP服务器的操作虽然是基于FTP协议解决的，但是真正在下载文件的时候还是使用tcp协议。所以需要zip数据包的时候需要在TCP数据包里面找，可以根据zip文件的文件头和文件尾快速的确认zip包的位置。<br>
-<img src="https://img-blog.csdnimg.cn/20201105023108818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-将<strong>原始数据</strong>另存为a.zip, 可以得到一个正常的压缩包，但是有密码。<br>
-<img src="https://img-blog.csdnimg.cn/20201105023432708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-我们使用kali下的fcrakzip密码破解工具，对zip进行破解。先<code>sudo apt-get install fcrackzip</code>安装</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105024450191.png#pic_center" alt="在这里插入图片描述"><br>
-破解命令 <code>fcrackzip -b -c1 -l 6 -u a.zip</code> 接下来解释一下这个命令。</p>
-<ul>
-<li>-b：使用暴力模式</li>
-<li>-c1：使用纯数字进行破解</li>
-<li>-l：规定破解密码长度/范围</li>
-<li>-u：使用unzip</li>
-</ul>
-<p>最后得到了我们的小企鹅。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105024802841.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p><strong>5.TXT的内容是什么？</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201105024939728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-通过追踪TXT信息，可以确定文件内容如下：<br>
-<img src="https://img-blog.csdnimg.cn/20201105025003861.png#pic_center" alt="在这里插入图片描述"><br>
-<strong>6. 网站密码破解部分：</strong></p>
-<p>为了合法的完成渗透测试报告，我们选择Bugku中一道需要运用到暴力破解的题目为例，解析一下如何运用Burp Suite爆破一个网站。</p>
-<p>网站网址: <a href="http://123.206.87.240:8002/baopo/">http://123.206.87.240:8002/baopo/</a><br>
-<img src="https://img-blog.csdnimg.cn/20200812135204959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>看到这个5位的密码，在检查源码和抓包之后都没有发现什么端倪，尝试bp一波</p>
-<p>这里想尝试一下5位数字，5位字母需要的时间太长了. 使用BP自带的字典就可以满足我们的需求<br>
-<img src="https://img-blog.csdnimg.cn/20200812135925759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-这里可以根据Length的大小来判断时候爆破出密码，密码正确和密码错误的返回长度肯定是不一样的。<br>
-<img src="https://img-blog.csdnimg.cn/20200812141849955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-爆破成功啦！<br>
-<img src="https://img-blog.csdnimg.cn/20200812141942854.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-md5破解"><a class="header-anchor" href="#1x04-md5破解">¶</a>1x04 MD5破解</h2>
-<p>打开一个在线md5解密网站就可以解开简单的md5码。<br>
-<img src="https://img-blog.csdnimg.cn/20201105025933699.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x05-john-the-ripper"><a class="header-anchor" href="#1x05-john-the-ripper">¶</a>1x05 John the Ripper</h2>
-<p>John the Ripper 是一款速度很快的密码破解工具，目前可用于 Unix、macOS、Windows、DOS、BeOS 与 OpenVMS 等多种操作系统。最初其主要目的是检测弱 Unix 密码，而现在，除了支持许多 Unix crypt(3) 密码哈希类型，John the Ripper “-jumbo”版本还支持数百种其它哈希类型和密码。</p>
-<h1>0x03 做有所得</h1>
-<h2 id="1x01-如何防止arp攻击"><a class="header-anchor" href="#1x01-如何防止arp攻击">¶</a>1x01 如何防止ARP攻击</h2>
-<ul>
-<li>
-<p>终端对网关的绑定要坚实可靠，这个绑定能够抵制被病毒捣毁。</p>
-</li>
-<li>
-<p>接入路由器或网关要对下面终端IP-MAC的识别始终保证唯一准确。</p>
-</li>
-<li>
-<p>网络内要有一个最可依赖的机构，提供对网关IP-MAC最强大的保护。它既能够分发正确的网关信息，又能够对出现的假网关信息立即封杀。</p>
-</li>
-</ul>
-<h2 id="1x02-安全的密码-口令-应遵守的原则"><a class="header-anchor" href="#1x02-安全的密码-口令-应遵守的原则">¶</a>1x02 安全的密码（口令）应遵守的原则</h2>
-<ul>
-<li>避免出现弱密码</li>
-<li>记住的密码才是好密码</li>
-<li>每个平台密码最好能够有一定的区别</li>
-</ul>
-<h2 id="1x03-字典的重要性"><a class="header-anchor" href="#1x03-字典的重要性">¶</a>1x03 字典的重要性</h2>
-<p>在破解密码或密钥时，逐一尝试用户自定义词典中的可能密码（单词或短语）的攻击方式。与暴力破解的区别是，暴力破解会逐一尝试所有可能的组合密码，而字典式攻击会使用一个预先定义好的单词列表（可能的密码）。对于暴力破解<strong>社会工程学</strong>是经常用到的方法。根据社会工程学生成的字典可以极大的增大密码破译的成功率。</p>
-<h2 id="1x04-小结"><a class="header-anchor" href="#1x04-小结">¶</a>1x04 小结</h2>
-<p>通过本次的实验我们学习到了以下内容：</p>
-<ul>
-<li>什么是网络嗅探</li>
-<li>ARP协议原理</li>
-<li>FTP协议</li>
-<li>如何使用WireShark抓包并对数据包进行分析</li>
-<li>MD5加密方式</li>
-<li>如何使用密码字典爆破数据</li>
-<li>密码安全</li>
-</ul>
-<p>通过这次的实验我对网络嗅探有了比较充分的了解，对网络中的协议如ARP，FTP等又有了更深的了解。可以更加熟练的使用WireShark, 了解了暴力破解网站和压缩文件的基本操作。以及对于密码安全防护的意识加强。<strong>收益良多</strong></p>
 ]]></content>
       <categories>
         <category>课程学习</category>
@@ -2380,231 +2605,6 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
       </categories>
       <tags>
         <tag>神经对抗攻击</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【白帽子学习笔记】网络扫描与网络侦查</title>
-    <url>/2020/10/29/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F%E4%B8%8E%E7%BD%91%E7%BB%9C%E4%BE%A6%E6%9F%A5/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>[toc]</p>
-<h1>0x01网络扫描与网络侦查的目的</h1>
-<p>黑客在进行一次完整的攻击之前除了确定攻击目标之外，最主要的工作就是收集尽量多的关于攻击目标的信息。这些信息主要包括目标的操作系统类型及版本、目标提供哪些服务、各服务的类型、版本以及相关的社会信息。<br>
-攻击者搜集目标信息一般采用七个基本的步骤：<br>
-（1） 找到初始信息，比如一个IP地址或者一个域名；<br>
-（2） 找到网络地址范围，或者子网掩码；<br>
-（3） 找到活动机器；<br>
-（4） 找到开放端口和入口点；<br>
-（5） 弄清操作系统；<br>
-（6） 弄清每个端口运行的是哪种服务；<br>
-（7） 找到目标可能存在的漏洞。</p>
-<a id="more"></a>
-<h1>0x02 常用工具介绍</h1>
-<h2 id="1x01-google-hack"><a class="header-anchor" href="#1x01-google-hack">¶</a>1x01 Google Hack</h2>
-<p>Google Hacking 是利用谷歌搜索的强大，来在浩瀚的互联网中搜索到我们需要的信息。轻量级的搜索可以搜素出一些遗留后门，不想被发现的后台入口，中量级的搜索出一些用户信息泄露，源代码泄露，未授权访问等等，重量级的则可能是mdb文件下载，CMS 未被锁定install页面，网站配置密码，php远程文件包含漏洞等重要信息。</p>
-<p>我在以前写过一篇Goolge Hack基本语法的介绍博客。 链接如下：<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/106586528">【白帽子学习笔记10】Google语法</a></p>
-<h2 id="1x02-nmap"><a class="header-anchor" href="#1x02-nmap">¶</a>1x02 Nmap</h2>
-<p>Nmap是一个网络侦察和安全扫描程序，系统管理者和个人可以使用这个软件扫描大型的网络，获取哪台主机正在运行以及提供什么服务等信息。Nmap支持很多扫描技术，例如：UDP、TCP connect()、TCP SYN(半开扫描)、ftp代理(bounce攻击)、反向标志、ICMP、FIN、ACK扫描、圣诞树(Xmas Tree)、SYN扫描和null扫描。Nmap还提供了一些高级的特征，例如：通过TCP/IP协议栈特征探测操作系统类型，秘密扫描，动态延时和重传计算，并行扫描，通过并行ping扫描探测关闭的主机，诱饵扫描，避开端口过滤检测，直接RPC扫描(无须端口映射)，碎片扫描，以及灵活的目标和端口设定。<br>
-Nmap运行通常会得到被扫描主机端口的列表。Nmap总会给出well known端口的服务名(如果可能)、端口号、状态和协议等信息。每个端口的状态有：open、filtered、unfiltered。open状态意味着目标主机能够在这个端口使用accept()系统调用接受连接。filtered状态表示：防火墙、包过滤和其它的网络安全软件掩盖了这个端口，禁止Nmap探测其是否打开。unfiltered表示：这个端口关闭，并且没有防火墙/包过滤软件来隔离nmap的探测企图。通常情况下，端口的状态基本都是unfiltered状态，只有在大多数被扫描的端口处于filtered状态下，才会显示处于unfiltered状态的端口。<br>
-根据使用的功能选项，Nmap也可以报告远程主机的下列特征：使用的操作系统、TCP序列、运行绑定到每个端口上的应用程序的用户名、DNS名、主机地址是否是欺骗地址、以及其它一些东西。</p>
-<h2 id="1x03-winhex"><a class="header-anchor" href="#1x03-winhex">¶</a>1x03 Winhex</h2>
-<p>WinHex  是一款以通用的 16 进制编辑器为核心，专门用来对付计算机取证、数据恢复、低级数据处理、以及 IT 安全性、各种日常紧急情况的高级工具： 用来检查和修复各种文件、恢复删除文件、硬盘损坏、数码相机卡损坏造成的数据丢失等。</p>
-<h2 id="1x04-metasploit"><a class="header-anchor" href="#1x04-metasploit">¶</a>1x04 Metasploit</h2>
-<p>Metasploit是一个渗透测试框架，里面集合了很多的渗透测试功能。我关于Metasploit也写过一篇博客，链接如下：<br>
-<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/108874614">白帽子学习笔记18】Metasploit学习笔记</a></p>
-<h1>0x03 被动扫描</h1>
-<h2 id="1x01-麻省理工学院网站中文件名包含-network-security-的pdf文档"><a class="header-anchor" href="#1x01-麻省理工学院网站中文件名包含-network-security-的pdf文档">¶</a>1x01 麻省理工学院网站中文件名包含“network security”的pdf文档</h2>
-<p>首先我们先来构造一下谷歌语法：</p>
-<p><code>inurl:mit.edu intext:network security filetype:pdf</code></p>
-<ul>
-<li>inurl:mit.edu <a href="http://xn--urlmit-dw7iu44avrc357dvbimu0cymhbiou9fjv8b.edu">表示搜索结果的url中包含mit.edu</a></li>
-<li>intext:network security 表示搜索的结果中包括network security</li>
-<li>filetype:pdf 表示搜索结果中的文件类型为pdf</li>
-<li></li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/20201027225026225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x02-照片信息解析"><a class="header-anchor" href="#1x02-照片信息解析">¶</a>1x02 照片信息解析</h2>
-<p><img src="https://img-blog.csdnimg.cn/20201027225330815.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-根据一张照片找出这个女孩在哪里旅行。</p>
-<p>首先先看照片中的文字，然后可以看到一些文字，尝试将这些内容在Google 地图中进行搜索。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201028124039799.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-但是仔细一看发现不太对劲。这个图片不太一样啊。<br>
-<img src="https://img-blog.csdnimg.cn/20201028124641723.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>最后尝试改变一下时间轴找到了在2015年时候的装潢是和图片中一样的。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201028124811375.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-这个是位置信息。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201028124901306.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x03-手机位置定位"><a class="header-anchor" href="#1x03-手机位置定位">¶</a>1x03 手机位置定位</h2>
-<p>手机位置定位。通过LAC（Location Area Code，位置区域码）和CID（Cell Identity，基站编号，是个16位的数据（范围是0到65535）可以查询手机接入的基站的位置，从而初步确定手机用户的位置。<br>
-获取自己手机的LAC和CID：<br>
-Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信息工程模式后查看</p>
-<p>iphone获取方法：iPhone：拨号<code>*3001#12345#*</code>进入FieldTest</p>
-<p>但是请注意，这个操作在很多品牌的新版本中已经不能用了，比如华为和OPPO等。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201028132830558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-编码解码"><a class="header-anchor" href="#1x04-编码解码">¶</a>1x04 编码解码</h2>
-<p>将Z29vZCBnb29kIHN0dWR5IQ==解码</p>
-<p>很明显的Base64解码<img src="https://img-blog.csdnimg.cn/20201028133814793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x05-地址信息"><a class="header-anchor" href="#1x05-地址信息">¶</a>1x05 地址信息</h2>
-<p>通过随便一个MAC地址查询网站就可以确定此MAC地址为苹果品牌<br>
-<img src="https://img-blog.csdnimg.cn/20201028134130648.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt=""><br>
-之后需要确定202.193.64.34到底是那个网页，发现直接访问不行。所以查询一下这个IP地址。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201028134514777.png#pic_center" alt="在这里插入图片描述"><br>
-嗯于是就是猜测这个会不会不是桂电的官网呢？ 我们去ping一下桂电的官网，发现果然如此。<br>
-<img src="https://img-blog.csdnimg.cn/20201028134643987.png#pic_center" alt="在这里插入图片描述"><br>
-得出结论，这是一个苹果设备访问了桂电的主页。</p>
-<hr>
-<p>首先我的IP地址是113.13.35.21<br>
-<img src="https://img-blog.csdnimg.cn/20201028134952396.png#pic_center" alt="在这里插入图片描述"><br>
-但是通过ifconfig查询到到本机ip地址为：<br>
-10.33.17.179<br>
-<img src="https://img-blog.csdnimg.cn/20201028135040927.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-这两个都是我的IP地址，为什么会不一样呢？</p>
-<p>因为10.33.17.179是我的内网网址，而当我访问<code>https://whatismyipaddress.com</code>的时候，这个网址的主机是在外网的，我的数据包需要经过路由器将信息传输到外网当中，所以这个网页中获取的就是经过路由器转换后的外网地址。</p>
-<h1>0x04 NMAP扫描Metasploitable2漏洞</h1>
-<h2 id="1x01-nmap扫描metasploitable2端口开放情况"><a class="header-anchor" href="#1x01-nmap扫描metasploitable2端口开放情况">¶</a>1x01 NMAP扫描Metasploitable2端口开放情况</h2>
-<p>首先我们需要两个虚拟机设备，并让两台设备置于同一网段</p>
-<p><img src="https://img-blog.csdnimg.cn/20201028201658341.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-<img src="https://img-blog.csdnimg.cn/20201028201747893.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>可以看到两者位于同一网段，我这里是两台设备同时设置在了虚拟机到Net模式下。</p>
-<p>下面使用Nmap进行扫描。<img src="https://img-blog.csdnimg.cn/20201028202817515.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-可以看到开放了那么多的端口，不同的端口分别对于不同服务。</p>
-<table>
-<thead>
-<tr>
-<th>端口号</th>
-<th>服务</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ftp</td>
-<td>远程文件传输</td>
-</tr>
-<tr>
-<td>ssh</td>
-<td>远程连接</td>
-</tr>
-<tr>
-<td>telnet</td>
-<td>远程登陆协议</td>
-</tr>
-<tr>
-<td>smtp</td>
-<td>提供可靠且有效的电子邮件传输协议</td>
-</tr>
-<tr>
-<td>domain</td>
-<td>将域名和IP地址相互映射</td>
-</tr>
-<tr>
-<td>http</td>
-<td>超文本传输协议</td>
-</tr>
-<tr>
-<td>rpcbind</td>
-<td>rpcbind与BIND或实际上与任何DNS服务器非常相似。当使用将RPC接口的声明编译为服务器和客户端存根代码时，会选择或获得一个协议号rpcgen。</td>
-</tr>
-<tr>
-<td>netbios-ssn</td>
-<td>面向连接通信提供会话服务</td>
-</tr>
-<tr>
-<td>microsoft-ds</td>
-<td>远程登陆端口</td>
-</tr>
-<tr>
-<td>exec</td>
-<td>exec函数族的函数执行成功后不会返回</td>
-</tr>
-<tr>
-<td>login</td>
-<td>登陆</td>
-</tr>
-<tr>
-<td>shell</td>
-<td>Shell 是指一种应用程序，这个应用程序提供了一个界面，用户通过这个界面访问操作系统内核的服务</td>
-</tr>
-<tr>
-<td>rmiregistry</td>
-<td>用于不同虚拟机之间的通信</td>
-</tr>
-<tr>
-<td>ingreslock</td>
-<td>Ingreslock后门程序监听在1524端口，连接到1524端口就可以直接获得root权限</td>
-</tr>
-<tr>
-<td>nfs</td>
-<td>通过网络，让不同的机器、不同的操作系统可以共享彼此的文件</td>
-</tr>
-<tr>
-<td>ccproxy-ftp</td>
-<td>主要用于局域网内共享宽带上网，ADSL共享上网、专线代理共享、ISDN代理共享、卫星代理共享、蓝牙代理共享和二级代理等的文件传输</td>
-</tr>
-<tr>
-<td>mysql</td>
-<td>数据库</td>
-</tr>
-<tr>
-<td>postgresql</td>
-<td>关系数据库服务器</td>
-</tr>
-<tr>
-<td>vnc</td>
-<td>远程连接（有GUI图像界面）</td>
-</tr>
-<tr>
-<td>X11</td>
-<td>X11也叫做X Window系统，X Window系统 (X11或X)是一种 位图 显示的 视窗系统</td>
-</tr>
-<tr>
-<td>irc</td>
-<td>一种网络聊天协议</td>
-</tr>
-<tr>
-<td>ajp13</td>
-<td>定向包协议</td>
-</tr>
-</tbody>
-</table>
-<h2 id="1x02-nmap扫描metasploitable2操作系统类型"><a class="header-anchor" href="#1x02-nmap扫描metasploitable2操作系统类型">¶</a>1x02 NMAP扫描Metasploitable2操作系统类型</h2>
-<p>使用<code> nmap -O IP</code>即可扫描操作系统信息。扫描结果如下图<br>
-<img src="https://img-blog.csdnimg.cn/20201028204947169.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x03-nmap穷举metasploitable2上dvwa的登陆账号和密码"><a class="header-anchor" href="#1x03-nmap穷举metasploitable2上dvwa的登陆账号和密码">¶</a>1x03 NMAP穷举Metasploitable2上DVWA的登陆账号和密码</h2>
-<p>通过扫描我们可以知道Metasploitable2开放了80的端口，DVWA是网页服务器而且上面也没有开启443端口所有就肯定在80端口了。</p>
-<p>接下来选择nmap自带的http暴力破解工具 <code>http-form-brute</code> 选择路径为：<code>/dvwa/login.php</code> 组成的命令为：<br>
-<code>nmap -p 80 -script=http-form-brute -script-args=http-form-brute.path=/dvwa/login.php 10.34.80.4</code></p>
-<h2 id="1x04-永恒之蓝-wannacry蠕虫"><a class="header-anchor" href="#1x04-永恒之蓝-wannacry蠕虫">¶</a>1x04 永恒之蓝-WannaCry蠕虫</h2>
-<p>WannaCry（又叫Wanna Decryptor），一种“蠕虫式”的勒索病毒软件。蠕虫病毒是一种常见的计算机病毒，是无须计算机使用者干预即可运行的独立程序，它通过不停的获得网络中存在漏洞的计算机上的部分或全部控制权来进行传播。此病毒通过远程高危漏洞进行自我传播复制,并且加密文件采用了高强度的双RSA+AES加密,至少目前来说破解秘钥是不可能的,只能通过预防的方式来防御,勤打补丁,关闭445、139等端口,及时安装安全软件。</p>
-<h1>0x05 ZoomEye搜索一个西门子工控设备</h1>
-<p>在ZoomEye中搜索西门子工控设备，点击一个可以看到该IP设备的如下信息</p>
-<p><img src="https://img-blog.csdnimg.cn/20201028212010642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>该设备开启了FTP端口可能会面临被不法分子获取FTP远程连接密码导致重要文件泄漏的问题，也开放了80和443端口说明可能有Web端，Web端的漏洞也可能导致系统遭到攻击。</p>
-<h1>0x06 数据恢复与取证</h1>
-<h2 id="1x01-修复elephant-jpg"><a class="header-anchor" href="#1x01-修复elephant-jpg">¶</a>1x01 修复elephant.jpg</h2>
-<p>用16进制编辑器打开后可以发现文件头明显不符合JPG的格式。手动给改回来。<br>
-<img src="https://img-blog.csdnimg.cn/20201028213011160.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>JPG文件头： FF D8 FF E0</p>
-<p>成功修复</p>
-<p><img src="https://img-blog.csdnimg.cn/20201028213210485.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x02-笑脸后的阴霾"><a class="header-anchor" href="#1x02-笑脸后的阴霾">¶</a>1x02 笑脸后的阴霾</h2>
-<p>用16进制查看器拿到最后可以发现：tom is the killer. 太可怕了～～<br>
-<img src="https://img-blog.csdnimg.cn/20201028213359949.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-使用数据恢复软件恢复u盘文件"><a class="header-anchor" href="#1x04-使用数据恢复软件恢复u盘文件">¶</a>1x04 使用数据恢复软件恢复U盘文件</h2>
-<p>目前网络中的U盘数据工具很多，我使用了一个叫做嗨格式的U盘恢复软件，效果还挺不错的，操作也很简单。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201028214625398.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1>0x07 小结</h1>
-<p>通过对本篇博文的总结我们可以学习到如下内容：</p>
-<ul>
-<li>Google语法在信息搜索中的应用</li>
-<li>图像信息提取能力</li>
-<li>Nmap常用操作</li>
-<li>Winhex等16进制软件的使用（文件修复，查看隐藏信息）</li>
-</ul>
-<p>通过这些内容我们可以对网络扫描和网络侦查有一个很好的了解。</p>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>security</tag>
       </tags>
   </entry>
 </search>
