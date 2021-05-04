@@ -102,7 +102,7 @@
 <blockquote>
 <p>考试复习内容，看到这篇博客的小伙伴要加油啊！冲冲冲！</p>
 </blockquote>
-<h2 id="0x01-pets标准"><a class="header-anchor" href="#0x01-pets标准">¶</a>0x01 PETS标准</h2>
+<h2 id="0x01-PETS标准"><a class="header-anchor" href="#0x01-PETS标准">¶</a>0x01 PETS标准</h2>
 <p>整个渗透测试过程大致可以分为7个阶段：</p>
 <ul>
 <li>前期与客户的交流阶段：确认是对目标的哪些设备和哪些问题进行测试，商讨过程中的主要因素有如下几个：
@@ -144,8 +144,8 @@
 </ul>
 <a id="more"></a>
 <h2 id="0x02-ethical-hacking的意义"><a class="header-anchor" href="#0x02-ethical-hacking的意义">¶</a>0x02 ethical hacking的意义</h2>
-<h2 id="0x03-kali基础"><a class="header-anchor" href="#0x03-kali基础">¶</a>0x03 Kali基础</h2>
-<h3 id="1x01-nat和桥接的区别"><a class="header-anchor" href="#1x01-nat和桥接的区别">¶</a>1x01 NAT和桥接的区别</h3>
+<h2 id="0x03-Kali基础"><a class="header-anchor" href="#0x03-Kali基础">¶</a>0x03 Kali基础</h2>
+<h3 id="1x01-NAT和桥接的区别"><a class="header-anchor" href="#1x01-NAT和桥接的区别">¶</a>1x01 NAT和桥接的区别</h3>
 <p><strong>桥接模式：<strong>在桥接模式下，VMWare虚拟出来的操作系统就像是局域网中的</strong>一台独立的主机</strong>（主机和虚拟机处于对等地位），<strong>它可以访问网内任何一台机器</strong>。在桥接模式下，我们往往需要为虚拟主机配置ＩＰ地址、子网掩码等（注意虚拟主机的iｐ地址要和主机ｉｐ地址在同一网段）。使用桥接模式的虚拟系统和主机的关系，就<strong>如同连接在一个集线器上的两台电脑</strong>；要让他们通讯就需要为虚拟系统配置ip地址和子网掩码。如果我们需要在局域网内建立一个虚拟服务器，并为局域网用户提供服务，那就要选择桥接模式。</p>
 <p><strong>NAT：<strong>是</strong>Network Address Translation</strong>的缩写，意即<strong>网络地址转换</strong>。使用NAT模式虚拟系统可把物理主机作为路由器访问互联网，NAT模式也是VMware创建虚拟机的默认网络连接模式。使用NAT模式网络连接时，VMware会在主机上建立单独的专用网络，用以在主机和虚拟机之间相互通信**。虚拟机向外部网络发送的请求数据’包裹’，都会交由NAT网络适配器加上’特殊标记’并以主机的名义转发出去**，外部网络返回的响应数据’包裹’，也<strong>是先由主机接收，然后交由NAT网络适配器根据’特殊标记’进行识别并转发给对应的虚拟机</strong>，因此，虚拟机在外部网络中不必具有自己的IP地址。**从外部网络来看，虚拟机和主机在共享一个IP地址，默认情况下，外部网络终端也无法访问到虚拟机。**此外，在一台主机上只允许有一个NAT模式的虚拟网络。因此，<strong>同一台主机上的多个采用NAT模式网络连接的虚拟机也是可以相互访问的。</strong></p>
 <h3 id="1x02-基本操作"><a class="header-anchor" href="#1x02-基本操作">¶</a>1x02 基本操作</h3>
@@ -165,7 +165,7 @@
 </ul>
 <h3 id="1x02-zoomeye"><a class="header-anchor" href="#1x02-zoomeye">¶</a>1x02 zoomeye</h3>
 <p>ZoomEye是一款针对网络空间的搜索引擎，收录了互联网空间中的设备、网站及其使用的服务或组件等信息。</p>
-<h3 id="1x03-google-hacking"><a class="header-anchor" href="#1x03-google-hacking">¶</a>1x03 Google Hacking</h3>
+<h3 id="1x03-Google-Hacking"><a class="header-anchor" href="#1x03-Google-Hacking">¶</a>1x03 Google Hacking</h3>
 <ul>
 <li>site ： 指定域名</li>
 <li>inurl：url存在关键字的网页</li>
@@ -175,7 +175,7 @@
 </ul>
 <h2 id="0x05-主动扫描"><a class="header-anchor" href="#0x05-主动扫描">¶</a>0x05 主动扫描</h2>
 <p>主动扫描的范围要小得多。主动扫描一般都是针对目标发送特制的数据包，然后根据目标的反应来获得一些信息。这些信息主要包括目标主机是否在线、目标主机的指定端口是否开放、目标主机的操作系统、目标主机上运行的服务等。</p>
-<h3 id="nmap的应用"><a class="header-anchor" href="#nmap的应用">¶</a>NMAP的应用</h3>
+<h3 id="NMAP的应用"><a class="header-anchor" href="#NMAP的应用">¶</a>NMAP的应用</h3>
 <p><strong>扫描操作系统:</strong></p>
 <p><code>nmap -O IP</code></p>
 <p><strong>判断所在网络存活主机：</strong></p>
@@ -197,7 +197,7 @@
 <p><strong>将扫描结果保存为xml文件：</strong></p>
 <p><code>nmap -oX a.xml IP</code></p>
 <h2 id="0x06-身份认证攻击"><a class="header-anchor" href="#0x06-身份认证攻击">¶</a>0x06 身份认证攻击</h2>
-<h3 id="1x01-burpsuite"><a class="header-anchor" href="#1x01-burpsuite">¶</a>1x01 BurpSuite</h3>
+<h3 id="1x01-BurpSuite"><a class="header-anchor" href="#1x01-BurpSuite">¶</a>1x01 BurpSuite</h3>
 <p>主要需要知道一个作用就是Proxy：</p>
 <p>拦截HTTP/S的代理服务器，作为一个在浏览器和目标应用程序之间的中间人，允许你拦截，查看，修改在两个方向上的原始数据流。</p>
 <p>其他常用的功能还有：</p>
@@ -216,7 +216,7 @@
 <li>每个应用的密码都设置的具有一定差异</li>
 </ul>
 <h2 id="0x07-网络数据嗅探与欺骗"><a class="header-anchor" href="#0x07-网络数据嗅探与欺骗">¶</a>0x07 网络数据嗅探与欺骗</h2>
-<h3 id="1x01-如何利于wireshark恢复数据流中的文件"><a class="header-anchor" href="#1x01-如何利于wireshark恢复数据流中的文件">¶</a>1x01 如何利于Wireshark恢复数据流中的文件</h3>
+<h3 id="1x01-如何利于Wireshark恢复数据流中的文件"><a class="header-anchor" href="#1x01-如何利于Wireshark恢复数据流中的文件">¶</a>1x01 如何利于Wireshark恢复数据流中的文件</h3>
 <p>利用WireShark的包筛选去筛选出需要的包 ==&gt; 跟踪数据流 ==&gt; 找到需要的数据，选择原数据进行保存</p>
 <p>常用的WireShark语句：</p>
 <p><code>tcp</code>：tcp流；</p>
@@ -275,10 +275,10 @@
 <p>MeterSploit:功能非常强大的渗透工具</p>
 </li>
 </ul>
-<h3 id="1x02-xss攻击-sql注入"><a class="header-anchor" href="#1x02-xss攻击-sql注入">¶</a>1x02 XSS攻击/SQL注入</h3>
+<h3 id="1x02-XSS攻击-SQL注入"><a class="header-anchor" href="#1x02-XSS攻击-SQL注入">¶</a>1x02 XSS攻击/SQL注入</h3>
 <p>**XSS攻击：**XSS攻击通常指的是通过利用<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%BD%91%E9%A1%B5/99347">网页</a>开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻击者可能得到包括但不限于更高的权限（如执行一些操作）、私密网页内容、会话和cookie等各种内容。</p>
 <p><strong>SQL注入</strong>攻击的原理：恶意用户在提交查询请求的过程中将SQL语句插入到请求内容中，同时程序本身对用户输入内容过分信任而未对恶意用户插入的SQL语句进行过滤，导致SQL语句直接被服务端执行。</p>
-<h2 id="0x10-owasp-top-10"><a class="header-anchor" href="#0x10-owasp-top-10">¶</a>0x10 OWASP TOP 10</h2>
+<h2 id="0x10-OWASP-TOP-10"><a class="header-anchor" href="#0x10-OWASP-TOP-10">¶</a>0x10 OWASP TOP 10</h2>
 <ol>
 <li><a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-ten/2017/A1_2017-Injection"><strong>Injection</strong></a>. Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization.</li>
 <li><a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication"><strong>Broken Authentication</strong></a>. Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users’ identities temporarily or permanently.</li>
