@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Database Review |  coronaPolvo Blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <!-- mermaid -->
+      
+    <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Database-Review"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Database Review
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/04/11/Database-Review/" class="article-date">
+  <time datetime="2021-04-11T07:29:27.000Z" itemprop="datePublished">2021-04-11</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/">课程学习</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">6.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">23 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <script src="/assets/js/APlayer.min.js"> </script><h1>DataBase Review</h1>
+<h2 id="关系代数"><a class="header-anchor" href="#关系代数">¶</a>关系代数</h2>
+<p>选择： <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>F</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sigma_{F}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">F</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span>   <code>SELECT * FROM R WHERE F</code></p>
+<p>投影：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∏</mo><mi>A</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\prod_{A}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0497100000000001em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.17862099999999992em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span> <code>SELECT R FROM A</code></p>
+<h3 id="连接："><a class="header-anchor" href="#连接：">¶</a>连接：</h3>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210411154757image-20210411154521617.png" alt="image-20210411154521617" style="zoom:50%;" />
+<h4 id="笛卡尔积："><a class="header-anchor" href="#笛卡尔积：">¶</a>笛卡尔积：</h4>
+<p>现在有两个表如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from S;</span><br><span class="line">+------+------+</span><br><span class="line">| A    | B    |</span><br><span class="line">+------+------+</span><br><span class="line">|    1 |    2 |</span><br><span class="line">|    3 |    3 |</span><br><span class="line">|    5 |    9 |</span><br><span class="line">+------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from R;</span><br><span class="line">+------+------+</span><br><span class="line">| B    | C    |</span><br><span class="line">+------+------+</span><br><span class="line">|    2 |    1 |</span><br><span class="line">|    7 |    2 |</span><br><span class="line">|    3 |    5 |</span><br><span class="line">+------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>进行笛卡尔积操作后为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from S,R;</span><br><span class="line">+------+------+------+------+</span><br><span class="line">| A    | B    | B    | C    |</span><br><span class="line">+------+------+------+------+</span><br><span class="line">|    1 |    2 |    2 |    1 |</span><br><span class="line">|    3 |    3 |    2 |    1 |</span><br><span class="line">|    5 |    9 |    2 |    1 |</span><br><span class="line">|    1 |    2 |    7 |    2 |</span><br><span class="line">|    3 |    3 |    7 |    2 |</span><br><span class="line">|    5 |    9 |    7 |    2 |</span><br><span class="line">|    1 |    2 |    3 |    5 |</span><br><span class="line">|    3 |    3 |    3 |    5 |</span><br><span class="line">|    5 |    9 |    3 |    5 |</span><br><span class="line">+------+------+------+------+</span><br><span class="line">9 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>笛卡尔积的连接会对两个表的每一列进行排列组合</p>
+<span id="more"></span>
+<h4 id="等值连接"><a class="header-anchor" href="#等值连接">¶</a>等值连接</h4>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span></span></span></span> 为“＝” 的连接运算称为等值连接。它是从关系R与S的笛卡尔积中选取A、B属性值相等的那些元组。即等值连接为：</p>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210412142812image-20210411160451967.png" alt="image-20210411160451967" style="zoom:50%;" />
+<h4 id="自然连接"><a class="header-anchor" href="#自然连接">¶</a>自然连接</h4>
+<p>自然连接（Natural join）是一种特殊的等值连接，它要求两个关系中进行比较的分量必须是相同的属性组，并且要在结果中把重复的属性去掉。即若R和S具有相同的属性组B，则自然连接可记作：</p>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210411160114image-20210411160105845.png" alt="image-20210411160105845" style="zoom:50%;" />
+<h4 id="外连接"><a class="header-anchor" href="#外连接">¶</a>外连接</h4>
+<h5 id="左连接"><a class="header-anchor" href="#左连接">¶</a>左连接</h5>
+<p>在自然连接的基础上补上左集合中没有的列。没有对应值的项补null</p>
+<h5 id="右连接"><a class="header-anchor" href="#右连接">¶</a>右连接</h5>
+<p>在自然连接的基础上补上右集合中没有的列。没有对应值的项补null</p>
+<p>外连接就是左连接和右连接的组合。</p>
+<h4 id="除法"><a class="header-anchor" href="#除法">¶</a>除法</h4>
+<p>去看： <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d80dbaef637e">https://www.jianshu.com/p/d80dbaef637e</a> 讲的好啊</p>
+<p>还有：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35361859/article/details/105027905">https://blog.csdn.net/qq_35361859/article/details/105027905</a> 也不错</p>
+<hr>
+<h2 id="sql语句的一些高级操作"><a class="header-anchor" href="#sql语句的一些高级操作">¶</a>SQL语句的一些高级操作</h2>
+<h3 id="where"><a class="header-anchor" href="#where">¶</a>WHERE</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># between and</span><br><span class="line">select * from my_auto where age between 20 and 22;</span><br><span class="line"></span><br><span class="line"># in</span><br><span class="line">select * from my_auto where age in (20,30);</span><br><span class="line"></span><br><span class="line"># like or not like</span><br><span class="line">select * from my_auto where age like &#39;Li%&#39; # 以Li开头的学生</span><br><span class="line">select * from my_auto where age like &#39;Li_&#39; # 代替任何一个字符</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>总结</p>
+</blockquote>
+<ol>
+<li>where 子句的目的是通过条件匹配进行数据的筛选，数据筛选的原理是在数据表（磁盘）进行；</li>
+<li>where中可以通过多种运算符来实现数据匹配：比较，逻辑，空运算，匹配运算；</li>
+<li>在使用多种运算符的时候，需要考虑运算符的优先级；</li>
+</ol>
+<h3 id="distinct"><a class="header-anchor" href="#distinct">¶</a>DISTINCT</h3>
+<p>Distinct 去重针对的是所有查出来的字段数据，记录相同则去重，而不是某一个字段值重复；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct * from my_student;</span><br></pre></td></tr></table></figure>
+<h3 id="group-by"><a class="header-anchor" href="#group-by">¶</a>GROUP BY</h3>
+<ol>
+<li>语法：where 后 gourp by class_name</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select class_name from my_student group by class_name</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Group by 分组原理</li>
+</ol>
+<ul>
+<li>按照分组字段，将获取到的记录分为几块</li>
+<li>保留每块的第一条记录</li>
+</ul>
+<ol start="3">
+<li>group by 的目的： 实现<strong>分组统计</strong>，分组统计主要要用到一下的聚类函数</li>
+</ol>
+<ul>
+<li>count(*/字段名)： 统计分组字段对应的记录数量</li>
+<li>max(字段名)：统计分组后某个字段的最大值</li>
+<li>max(字段名)：统计分组后某个字段的最小值</li>
+<li>avg(字段名)：统计分组后某个字段的平均值</li>
+<li>sum(字段名)：统计分组后某个字段的和</li>
+</ul>
+<h3 id="having-子句"><a class="header-anchor" href="#having-子句">¶</a>HAVING 子句</h3>
+<p>定义：where是从磁盘读取数据时进行判断，而在数据进入内存之后where就不能生效了，HAVING是完全针对进入内存后的数据进行判定。</p>
+<ol>
+<li>HAVING 语法： HAVING几乎能做所有WHERE能做的事情：HAVING条件判断</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from my_student having id &#x3D; 1;	</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>having主要针对group by后的统计结果进行判断</li>
+</ol>
+<p>比如: 统计班级人数大于1的班级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) number,class_name,group_concat(name) from my_student group by class_name having number &gt; 1;</span><br></pre></td></tr></table></figure>
+<p>注意： having 子句中用到的字段，必须在select后出现过，即字段从磁盘读入到内存当中。</p>
+<ol start="3">
+<li>having 条件判断中可以直接使用聚类函数</li>
+</ol>
+<p>上面语句也可以替换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) , class_name,group_concat(name) from my_student group by class_name having count(*) &gt; 1;</span><br></pre></td></tr></table></figure>
+<h3 id="order-by-子句"><a class="header-anchor" href="#order-by-子句">¶</a>ORDER BY 子句</h3>
+<p>定义：order by即通过某个字段，使得表对应的校对集实现升序或者降序排序。</p>
+<ol>
+<li>order by语法： order by 字段 [ASC][DESC] ; 其中ASC是升序，DESC为降序</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from my_student order by age;</span><br></pre></td></tr></table></figure>
+<h3 id="exists"><a class="header-anchor" href="#exists">¶</a>EXISTS</h3>
+<p>EXISTS的子查询不反回任何的数据，只会产生逻辑真值 true/flase</p>
+<p>语法：</p>
+<p>查询所有选修了1号课程的学生姓名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select sname</span><br><span class="line">from Student</span><br><span class="line">where exists(select * from sc,Student where sc.sno &#x3D; Student.sno);</span><br></pre></td></tr></table></figure>
+<p>EXISTS还可以表示关系代数中的除法操作：</p>
+<p>比如：查询至少选修了学号为‘200215121’选修的全部课程的学生号码</p>
+<p>关系代数为：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mrow><mi>s</mi><mi>n</mi><mi>o</mi><mo separator="true">,</mo><mi>c</mi><mi>n</mi><mi>o</mi></mrow></msub><mo stretchy="false">(</mo><mi>S</mi><mi>C</mi><mo stretchy="false">)</mo><mo>÷</mo><msub><mi>π</mi><mrow><mi>c</mi><mi>n</mi><mi>o</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>σ</mi><mrow><msup><mrow></mrow><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mn>20021512</mn><msup><mn>1</mn><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow></msub><mo stretchy="false">(</mo><mi>S</mi><mi>C</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\pi_{sno,cno}(SC) \div \pi_{cno}(\sigma_{&#x27;200215121&#x27;}(SC))
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">÷</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32797999999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mord mtight">2</span><span class="mord mtight">1</span><span class="mord mtight">5</span><span class="mord mtight">1</span><span class="mord mtight">2</span><span class="mord mtight"><span class="mord mtight">1</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
+<p>SQL语句为：</p>
+<p>可以理解为for循环嵌套</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT sno</span><br><span class="line">FROM SC SCX</span><br><span class="line">WHERE NOT EXISTS</span><br><span class="line">    (SELECT *</span><br><span class="line">    FROM SC SCY</span><br><span class="line">    WHERE SCY.sno&#x3D;&#39;201215122&#39; AND NOT EXISTS</span><br><span class="line">        (SELECT *</span><br><span class="line">        FROM SC SCZ</span><br><span class="line">        WHERE SCZ.sno&#x3D;SCX.sno AND SCZ.cno&#x3D;SCY.cno));</span><br></pre></td></tr></table></figure>
+<h2 id="视图"><a class="header-anchor" href="#视图">¶</a>视图</h2>
+<h3 id="定义视图"><a class="header-anchor" href="#定义视图">¶</a>定义视图</h3>
+<ol>
+<li>语法：</li>
+</ol>
+<p>CREATE VIEW &lt;视图名&gt; [&lt;列名&gt;, &lt;列名&gt;, …]</p>
+<p>AS &lt;子查询&gt;</p>
+<p>[WITH CHECK OPTION]</p>
+<p>其中子查询可以是<strong>任意的SELECT语句</strong>，是否可以含有ORDER BY子句和DISTINCT短语，则取决于具体系统的实现；</p>
+<ol start="2">
+<li>WITH CHECK OPTION</li>
+</ol>
+<p>作用：在对视图进行插入修改和删除时，关系数据库管理系统会自动记上select中的条件；</p>
+<p>例如：建立信息系学生的视图，并要求进行修改和插入操作时仍然需要保证该视图有信息系的学生；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE VIEW IS_Student</span><br><span class="line">AS </span><br><span class="line">SELECT Sno,Sname,Sage </span><br><span class="line">FROM Student</span><br><span class="line">WHERE Sdept&#x3D;&#39;IS&#39;</span><br><span class="line">WITH CHECK OPTION;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>带有聚焦函数的语句</li>
+</ol>
+<p>例如： 将学生的学号和平均成绩定义为一个视图；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE VIEW S_G(Sno,Savg)</span><br><span class="line">AS</span><br><span class="line">SELECT Sno,AVG(Grade)</span><br><span class="line">FROM SC</span><br><span class="line">GROUP BY Sno;</span><br></pre></td></tr></table></figure>
+<h3 id="删除视图"><a class="header-anchor" href="#删除视图">¶</a>删除视图</h3>
+<ol>
+<li>语法：DROP VIEW [CASCADE]</li>
+</ol>
+<p>CASCADE级联删除语句把视图和由他导出的所有视图一起删除了；</p>
+<h3 id="查询和更新视图"><a class="header-anchor" href="#查询和更新视图">¶</a>查询和更新视图</h3>
+<p>视图建立完之后就可以对视图像数据库一样进行查询和更新啦。</p>
+<h3 id="视图的作用："><a class="header-anchor" href="#视图的作用：">¶</a>视图的作用：</h3>
+<ol>
+<li>
+<p>视图能够简化用户的操作</p>
+</li>
+<li>
+<p>视图是用户能以多种角度看待同一数据</p>
+</li>
+<li>
+<p>视图对重构数据库提供了一定程度的逻辑独立性</p>
+</li>
+<li>
+<p>视图能够对机密数据提供安全保护</p>
+</li>
+<li>
+<p>适当利用视图可以更加清晰地对表达查询</p>
+</li>
+</ol>
+<h2 id="数据库的安全性"><a class="header-anchor" href="#数据库的安全性">¶</a>数据库的安全性</h2>
+<h3 id="授权：授予和收回"><a class="header-anchor" href="#授权：授予和收回">¶</a>授权：授予和收回</h3>
+<ol>
+<li>GRANT</li>
+</ol>
+<p>GRANT语句的一般格式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GRANT &lt;权限&gt;[，&lt;权限&gt;]</span><br><span class="line">ON &lt;对象类型&gt;&lt;对象名&gt;[,&lt;对象类型&gt;&lt;对象名&gt;]</span><br><span class="line">TO &lt;用户&gt;[,&lt;用户&gt;]</span><br><span class="line">[WITH GRANT OPTION]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接受授权的用户可以是一个或者多个具体用户，也可以<code>PUBLIC</code>，即全体用户。</li>
+<li>如果是所有权限则可以使用<code>ALL PRIVILEGES</code></li>
+</ul>
+<p>如果指定了WITH GRANT OPTION子句，则获得某种权限的用户还可以把这种权限再授权其他的用户。没有的用户则不能传播该权限。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-- 把查询Student表的权限授权给用户U1</span><br><span class="line">GRANT SELECT ON TABLE Student TO U1;</span><br><span class="line"></span><br><span class="line">-- 把对Student和Course表的全部操作权限授予用户U2和U3</span><br><span class="line">GRANT ALL PRIVILEGES ON TABLE Student,Course TO U2,U3;</span><br><span class="line"></span><br><span class="line">-- 把对表SC的查询权限授予所有用户并允许将该权限进行传播</span><br><span class="line">GRANT Select ON TABLE SC TO PUBLIC WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">-- 每个学生具有查询SC表中自己信息的权限</span><br><span class="line">GRANT Select ON SC WHEN USER()&#x3D;Sname TO PUBLIC;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>REVOKE</li>
+</ol>
+<p>REVOKE 语句的意义是从某个角色/角色组那里收回权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">REVOKE &lt;权限&gt;[，&lt;权限&gt;]</span><br><span class="line">ON &lt;对象类型&gt;&lt;对象名&gt;[,&lt;对象类型&gt;&lt;对象名&gt;]</span><br><span class="line">FROM &lt;用户&gt;[,&lt;用户&gt;]</span><br></pre></td></tr></table></figure>
+<h3 id="视图机制"><a class="header-anchor" href="#视图机制">¶</a>视图机制</h3>
+<p>通过为不同的用户定义不同的视图，把数据对象限制在一定的范围内。也就是说通过视图机制把要保密的数据对无权存取对用户隐藏起来，从而自动对数据提供一定程度的安全保护。</p>
+<p>例如：将视图CS_Student的SELECT权限授予U1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GRANT SELECT</span><br><span class="line">ON CS_Student</span><br><span class="line">TO U1;</span><br></pre></td></tr></table></figure>
+<h2 id="外键约束"><a class="header-anchor" href="#外键约束">¶</a>外键约束</h2>
+<p>定义：外间FOREIGN KEY，指在一张表中有一个字段指向另一个表的主键字段，并且通过外键关联会有一些约束效果</p>
+<p>思考：在学习表关系的时候，在一对多或者多对多的时候，都会在一张表中增加一个字段来指向另一个表的主键，但是此时其实指向没有任何的实际含义，需要人为的去记住，这样有啥意义呢？</p>
+<p>引入：如果只是需要人为的去记住对应的关系，没有任何数据库本身去控制的话，那样的存在没有价值。外键就是负责这样的一个作用啦。</p>
+<h3 id="外键"><a class="header-anchor" href="#外键">¶</a>外键</h3>
+<blockquote>
+<p>定义：外键就是在设定呢字段属于其他表的主键后，使用FOREIGN KEY关键字让表字段与另外表的主键产生内在关联关系。</p>
+</blockquote>
+<ol>
+<li>创建表的使用 FOREIGN KEY (Cno) REFERENCES Course(Cno) 【标准SQL语句】</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE SC</span><br><span class="line">(Sno CHAR(9) NOT NULL,</span><br><span class="line"> Cno CHAR(4) NOT NULL,</span><br><span class="line"> Grade SMALLINT,</span><br><span class="line"> PRIMARY KEY (Sno,Cno),</span><br><span class="line"> FOREIGN KEY(Sno) REFERENCES Student(Sno),</span><br><span class="line"> FOREIGN KEY(Cno) REFERENCES Student(Cno)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="外键约束"><a class="header-anchor" href="#外键约束">¶</a>外键约束</h3>
+<blockquote>
+<p>定义：外键约束，即外键的增加之后对应的父表和子表都有相应的约束关系</p>
+</blockquote>
+<ol>
+<li>外键增加后默认字段插入的数据对应的外键字段必须在浮标存在，否则会报错</li>
+<li>外键增加后默认父表主键如果在外键值有使用，那么不能更新主键值，也不能删除主键所有记录</li>
+<li>外键的作用：</li>
+</ol>
+<ul>
+<li>限定子表（外键所在表）不能插入主表中不存在的外键值（不能更新）</li>
+<li>限定父表（主键被引用）不能删除或者更新子表有外键引用的主键信息</li>
+</ul>
+<ol start="4">
+<li>可以在创建外键的之后制定外键的约束效果：即控制父表的操作对子表的影响</li>
+</ol>
+<ul>
+<li>
+<p>控制情况</p>
+<ul>
+<li>on update：父表更新与子表有关联的主键时</li>
+<li>on delete：父表删除与子表有关联的主键时</li>
+</ul>
+</li>
+<li>
+<p>控制效果</p>
+<ul>
+<li>cascade：级联操作，即父表怎么样，子表有对应关系的记录就怎么样</li>
+<li>set null：置空操作，即父表变化，子表关联的记录对应的外键字段置空（注意：能够使用的前提是外键对应的字段允许空）</li>
+<li>restrict/no action：严格模式，即不允许父表操作</li>
+</ul>
+</li>
+<li>
+<p>通常的搭配如下：</p>
+<ul>
+<li>on update cascade: 父表更新，子表级联更新</li>
+<li>on delete cascade: 父表删除，子表对应外键置空</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>总结</p>
+</blockquote>
+<ol>
+<li>外键约束分为父表的约束和对子表的约束，其中子表的约束是固定的不能插入父表不存在的外键值</li>
+<li>父表外键约束可以通过设定on update和on delete事件来控制，控制方式有cascade，set null和restrict三种</li>
+<li>外键的强大约束作用可以保证数据的完整性和有效性</li>
+<li>外键的强大约束有可能操作负面影响：数据维护变的困难，所以实际开发中需要根据需求选择使用</li>
+<li>外键总有InnoDB存储引擎支持，Mylsam不支持</li>
+</ol>
+<h2 id="用户定义的完整性"><a class="header-anchor" href="#用户定义的完整性">¶</a>用户定义的完整性</h2>
+<p>定义：用户定义的完整性就是针对某一个具体应用的数据必须满足语义要求。</p>
+<ol>
+<li>属性上的约束条件</li>
+</ol>
+<p>在创建表时可以给表中的一些字段规定一些属性：</p>
+<ul>
+<li>列值非空（NOT NULL）</li>
+<li>列值唯一（UNIQUE）</li>
+<li>检查列值是否满足一个条件表达式（CHECK 短语）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE SC</span><br><span class="line">(Sno CHAR(9) NOT NULL,</span><br><span class="line"> Cno CHAR(9) UNIQUE,</span><br><span class="line"> GRADE NUMBER CHECK(GRADE BETWEEN 0 AND 100);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>元组上的约束</li>
+</ol>
+<p>与属性上的约束条件定义类似，不过元组级的限制可以设置不同属性之间的取值互为约束条件。</p>
+<p>语法： CHECK(…)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Student</span><br><span class="line">(</span><br><span class="line">	Sno CHAR(9),</span><br><span class="line">  Sname CHAR(8) NOT NULL,</span><br><span class="line">  Ssex CHAR(2),</span><br><span class="line">  Sage SMALLINT,</span><br><span class="line">  Sdept CHAR(20),</span><br><span class="line">  PRIMARY KEY(Sno),</span><br><span class="line">  CHECK(Ssex&#x3D;&#39;女&#39; OR Sname NOT LIKE &#39;Ms.%&#39;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>当往表中插入援助否则修改属性的时候，关系数据库关系系统会自动检查元组上的约束条件时候被满足，如果不满足则操作被拒绝执行。</p>
+<h3 id="完整性约束命名子句"><a class="header-anchor" href="#完整性约束命名子句">¶</a>完整性约束命名子句</h3>
+<p>SQL 在 CREATE TABLE语句中提供了完整性约束命名子句CONSTRAINT，用来对完整性约束条件命名，从而可以灵活地增加、删除一个完整性约束条件。</p>
+<ol>
+<li>完整性约束命名子句</li>
+</ol>
+<p>语法：CONSTRAINT &lt;完整性约束条件名&gt;&lt;完整性约束条件&gt;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Student</span><br><span class="line">(</span><br><span class="line">	Sno NUMBERIC(6)</span><br><span class="line">  	CONSTRAINT C1 CHECK(Sno BETWEEN 90000 AND 99999),</span><br><span class="line">  ...</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>修改表中的完整性限制</li>
+</ol>
+<p>可以使用ALTER TABLE 语句修改表中的完整性限制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Student</span><br><span class="line">	DROP CONSTRAINT C1;</span><br></pre></td></tr></table></figure>
+<h2 id="范式"><a class="header-anchor" href="#范式">¶</a>范式</h2>
+<h3 id="几个函数依赖"><a class="header-anchor" href="#几个函数依赖">¶</a>几个函数依赖</h3>
+<p>设R(U)是属性集U上的关系模式，X，Y是U的子集。若对于R(U)的任意一个可能的关系r，r中不可能存在两个元组在X上的属性值相等，而在Y上的属性值不等，则称X函数确定Y或Y函数依赖于X，记住X-&gt;Y</p>
+<p><strong>部分函数依赖：</strong></p>
+<p>设X,Y是关系R的两个属性集合，存在X→Y，若X’是X的真子集，存在X’→Y，则称Y部分函数依赖于X。</p>
+<p>例子：学生基本信息表R中（学号，身份证号，姓名）当然学号属性取值是唯一的，在R关系中，（学号，身份证号）-&gt;（姓名），（学号）-&gt;（姓名），（身份证号）-&gt;（姓名）；所以姓名部分函数依赖于（学号，身份证号）；</p>
+<p><strong>完全函数依赖：</strong></p>
+<p>设X,Y是关系R的两个属性集合，X’是X的真子集，存在X→Y，但对每一个X’都有X’!→Y，则称Y完全函数依赖于X。</p>
+<p>=例子：学生基本信息表R（学号，班级，姓名）假设不同的班级学号有相同的，班级内学号不能相同，在R关系中，（学号，班级）-&gt;（姓名），但是（学号）-&gt;(姓名)不成立，（班级）-&gt;(姓名)不成立，所以姓名完全函数依赖与（学号，班级);</p>
+<p><strong>传递函数依赖：</strong></p>
+<p>设X,Y,Z是关系R中互不相同的属性集合，存在X→Y(Y !→X),Y→Z，则称Z传递函数依赖于X。</p>
+<p>例子：在关系R(学号 ,宿舍, 费用)中，(学号)-&gt;(宿舍),宿舍！=学号，(宿舍)-&gt;(费用),费用!=宿舍，所以符合传递函数的要求；即费用传递函数依赖于学号</p>
+<h3 id="属性集的函数依赖"><a class="header-anchor" href="#属性集的函数依赖">¶</a>属性集的函数依赖</h3>
+<p>就是将所有的可以推导出来的函数依赖关系全部给加进去，需要注意的就是<strong>有一个和空集的关系</strong></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210429141430image-20210429141428712.png" alt="image-20210429141428712"></p>
+<p>剩下的就是对各个元素闭包的排列组合；比如上面的例题中 (A)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow></mrow><mo>+</mo></msub></mrow><annotation encoding="application/x-tex">_+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.466662em;vertical-align:-0.208331em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.25833100000000003em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span> = ABC, 所以他就对应了如图的ABC的所有排列组合情况再加一个对空集对关系。</p>
+<h3 id="码"><a class="header-anchor" href="#码">¶</a>码</h3>
+<h4 id="候选码的概念"><a class="header-anchor" href="#候选码的概念">¶</a>候选码的概念</h4>
+<p>这样一个集合，他可以推出所有的属性，但是他的任意一个真子集无法退出所有的属性。</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423171253image-20210423171236681.png" alt="image-20210423171236681" style="zoom:50%;" /></p>
+<h4 id="如何求候选码？"><a class="header-anchor" href="#如何求候选码？">¶</a>如何求候选码？</h4>
+<ol>
+<li>只出现在左边的一定是候选码中的元素</li>
+<li>只出现在右边的一定不是候选码中的元素</li>
+<li>左右都出现的不一定</li>
+<li>左右都不出现的一定是候选码中的元素</li>
+</ol>
+<p>在确定了可能出现的元素之后就可以使用闭包运算进行测试：如果组合可以推出所有的属性话就说明是候选码。</p>
+<p>,<img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423173637055.png" alt="image-20210423173637055" style="zoom:50%;" /></p>
+<p><code>如果三个一组推不出来的话，就再加变成4个一组</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">闭包：BD的闭包 是指由BD能推出来的所有属性</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>主属性： 候选码中的属性都是主属性</p>
+</blockquote>
+<h3 id="第一范式"><a class="header-anchor" href="#第一范式">¶</a>第一范式</h3>
+<p>定义：第一范式，在设计表存储数据的时候，如果表中设计的字段存储的数据，在取出来使用之前还需要额外的处理（拆分）就不符合1NF，第一范式就是<strong>处理数据颗粒度大的问题</strong></p>
+<p>1.案例:设计一张学生选修课成绩表</p>
+<table id="tabular">
+<tbody>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">学生</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">性别</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">课程</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">教室</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">成绩</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">学习时间</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">PHP</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">101</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">100</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">2月1日,2月28日</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">李四</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">女</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">90</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日,3月31日</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">95</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日,3月31日</td>
+</tr>
+</tbody>
+</table>
+2.以上表设计是一种非常常见的数据,但是如果想要知道学生上课的开始时间和结束时间,那就意味着这个学习时间取出之后需要再进行拆分,因此就不符合1NF。要保证数据取出来就可以直接使用,就需要将学习时间进行拆分。
+<table id="tabular">
+<tbody>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">学生</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">性别</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">课程</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">教室</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">成绩</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">开始时间</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">结束时间</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">PHP</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">101</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">100</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">2月1日</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">2月28日</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">李四</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">女</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">90</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月31日</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">95</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月31日</td>
+</tr>
+</tbody>
+</table>
+<p>总结：</p>
+<ol>
+<li>要满足1NF就是要保证数据在实际使用的时候不用对字段数据进行二次拆分</li>
+<li>1DF的核心就行数据要有原子性（不可拆分）</li>
+</ol>
+<h3 id="第二范式"><a class="header-anchor" href="#第二范式">¶</a>第二范式</h3>
+<blockquote>
+<p>以上数据表的设计中满足了原子性，但是学生在某个课程中应该只有一个考试成绩，也就是说学生对应的课程的成绩应该是有唯一性的，那么以上数据表应该如何进行设计呢？</p>
+</blockquote>
+<blockquote>
+<p>引入：要解决以上问题，其实很简单就是学生姓名和课程名字应该说唯一的，那么只要增加一个复合主键即可。</p>
+</blockquote>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414103304image-20210414103302534.png" alt="image-20210414103302534"></p>
+<p>定义： 第二范式（2NF），在数据表的设计过程中如果有复合主键（多字段主键），且表中有字段且并不是由整个主键来确定，而是依赖主键中的某个字段（主键的部分）：存在字段依赖主键的部分的问题，称之为部分依赖：第二范式就是要<strong>解决表设计中非主属性对主属性的部分依赖。</strong></p>
+<ol>
+<li>以上表中性别有学生决定，而不受到课程影响；同时教室由课程决定，而不受到学生影响。此时形成了字段部分依赖部分主键的情况，因此会存在部分依赖问题，也就不满足第二范式。</li>
+<li>解决方案：就是让字段不会存储依赖部分主键的问题，因此需要做的就是增加一个逻辑主键字段：性别依赖学生但学生不是主键，教室依赖课程也不是主键。</li>
+</ol>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414104639594.png" alt="image-20210414104639594"></p>
+<ol start="3">
+<li>以上虽然解决了依赖问题，但是学生和课程又不具有唯一性了，所以应该增加符合唯一键：unique(学生，课程)</li>
+</ol>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414104813163.png" alt="image-20210414104813163"></p>
+<p>总结：</p>
+<ol>
+<li>第二范式就是解决字段部分依赖主键的问题，也就是部分字段依赖的问题</li>
+</ol>
+<blockquote>
+<p>思考： 上述表虽然满足了1NF和2NF，但是总感觉怪怪的，理论上讲性别逻辑主键除外，实际业务主键还是学生和课程，这个表应该是学生与课程对应的成绩，为什么会出现性别和教室呢？</p>
+</blockquote>
+<blockquote>
+<p>引入：之所以会出现上述矛盾，原因就是我们将数据都揉到了一张表里面，而且出现了性别依赖学生，而学生依赖ID，形成了字段性别依赖非主键字段学分的问题，也就是触法了3NF的问题。</p>
+</blockquote>
+<h3 id="第三范式"><a class="header-anchor" href="#第三范式">¶</a>第三范式</h3>
+<p>定义：第三范式（3NF），理论上讲，应该一张表中的所有字段都应该直接依赖主键（逻辑主键：代表的是业务主键），如果表设计中存在这样一个字段，并不直接依赖主键，而是通过某一个非主键字段依赖，最终实现依赖主键：把这种不是直接依赖主键，而是依赖主键非主键字段的依赖关系称之为传递依赖。第三范式就是要解决传递的问题。</p>
+<ol>
+<li>第三范式的解决方案：<strong>如果某一个表中有字段依赖非主键字段，而被依赖字段依赖主键</strong>，我们就应该将这种非主键依赖关系进行分离，单独形成一张表。</li>
+</ol>
+<p>学生表：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414111729166.png" alt="image-20210414111729166"></p>
+<p>课程表：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414112230099.png" alt="image-20210414112230099"></p>
+<ol start="2">
+<li>此时，虽然性别依然依赖姓名而不是Stu_id, 教室依赖课程而不是Class_id, 那是因为Stu_id和Class_id代表逻辑主键，而不是实际的业务主键，学生表的实际主键应该是姓名，课程表的实际主键应该是课程</li>
+<li>新学生选修课成绩表的设计，应该就是去的对应学生表和课程表的ID</li>
+</ol>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414112526031.png" alt="image-20210414112526031"></p>
+<blockquote>
+<p>总结</p>
+</blockquote>
+<ol>
+<li>第三范式是不允许传递依赖：<strong>即有字段依赖非主键字段</strong>；</li>
+<li>消除传递依赖的方案就是将相关数据对应创建一张表；</li>
+</ol>
+<h4 id="第三范式的模式分解"><a class="header-anchor" href="#第三范式的模式分解">¶</a>第三范式的模式分解</h4>
+<p>求出第三范式对应函数集的最小函数依赖 Fm，使用左部相同合并原则：</p>
+<p>Fm中左边相同的合并成一个数据表</p>
+<p><strong>例1：U=(A,B,C,D,E,G)  F={BG-&gt;C，BD-&gt;E，DG-&gt;C，ADG-&gt;BC，AG-&gt;B，B-&gt;D}  若R不是3NF，将R分解为无损且保持函数依赖的3NF。</strong></p>
+<p>很简单可以求出候选键为AG</p>
+<ol>
+<li>求最小函数依赖</li>
+</ol>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BCDEG}   G在其中，删除</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>D</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BD)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BD} , E不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(DG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {DG}, C不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(ADG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span>  = {ABCDG}, B在其中，C也在其中，删除</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(AG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {AG}, B不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(B)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {B} , D不在其中保留</p>
+<p>可以得到：F = {BD-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
+<p>接下来判断一下左边有没有冗余；</p>
+<p>BD-&gt;E:  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>B</mi><mo>+</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(B^+)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>=BD, D 在里面，所以D有冗余</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>D</mi><mo>+</mo></msup><mo stretchy="false">)</mo><mo>=</mo><mi>D</mi></mrow><annotation encoding="application/x-tex">(D^+)=D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span></span></span></span>, B不在里面所以B没有冗余</p>
+<p>所以用B-&gt;E 替换，BD-&gt;E</p>
+<p>同理可以得到Fm = {B-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
+<ol start="2">
+<li>根据左部相同原则进行合并</li>
+</ol>
+<p>根据左部相同原则可以得到：</p>
+<p>R1 = BED, R2 = CDG, R3 = ABG</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210424215608image-20210424214705698.png" alt="image-20210424214705698" style="zoom:67%;" /></p>
+<p>因为AG已经在R3中了所以得到的分解是无损分解</p>
+<h3 id="bcnf范式"><a class="header-anchor" href="#bcnf范式">¶</a>BCNF范式</h3>
+<p><code>在3NF的基础上如果所有的函数依赖的左边都是超码，那这个关系就满足第三范式；如果有一个不是超码就不满足；</code></p>
+<blockquote>
+<p>超码： 一个码的闭包如果就是这个集合，那这个码就叫做超码</p>
+</blockquote>
+<h4 id="bcnf范式的模式分解"><a class="header-anchor" href="#bcnf范式的模式分解">¶</a>BCNF范式的模式分解</h4>
+<p>…</p>
+<h2 id="armstrong-公理系统"><a class="header-anchor" href="#armstrong-公理系统">¶</a>Armstrong 公理系统</h2>
+<p>设U为属性集总体，F是U上的一组函数依赖，于是又关系模式R&lt;U,F&gt;，对于R&lt;U,F&gt;来说有以下的推理规则</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174437414.png" alt="image-20210423174437414"></p>
+<p>由上面的三个公理我们可以得到：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174513774.png" alt="image-20210423174513774"></p>
+<h2 id="最小函数依赖集"><a class="header-anchor" href="#最小函数依赖集">¶</a>最小函数依赖集</h2>
+<p>F中的每一个依赖，都不可以被其他的依赖推出，且右边一定是单元素</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174824image-20210423174818397.png" alt="image-20210423174818397"></p>
+<p><strong>如何求最小依赖集？</strong></p>
+<p>Step1： 把右边的元素拆分成单个的</p>
+<p>Step2： 对所有的依赖意义排查，找出多余的</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423175213image-20210423175205001.png" alt="image-20210423175205001" style="zoom:50%;" /></p>
+<p>排查A-&gt;B： 把A-&gt;B去掉,那么F=(B-&gt;A, B-&gt;C,A-&gt;C, C-&gt;A) 且(A)_+ = AC,不包含B,所以排除嫌疑,保留</p>
+<p>排查B-&gt;A：把B-&gt;A去掉,那么F={A-&gt;B,A-&gt;C,C-&gt;A} 且(B)_+=BCA,包含A,就是嫌疑人,剔除</p>
+<p>…</p>
+<p>注：由于排查的顺序不一样可能会造成最小依赖集的不同</p>
+<h2 id="模式分解"><a class="header-anchor" href="#模式分解">¶</a>模式分解</h2>
+<h3 id="无损分解"><a class="header-anchor" href="#无损分解">¶</a>无损分解</h3>
+<p>分解之后可以自然连接结合起来</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423190506image-20210423180119935.png" alt="image-20210423180119935" style="zoom:60%;" /></p>
+<h3 id="保持函数依赖"><a class="header-anchor" href="#保持函数依赖">¶</a>保持函数依赖</h3>
+<p>保持函数依赖就是F分解之后还能够还原回来</p>
+<p>考题：如何把数据库分解成3NF，并保持无损分解和函数依赖</p>
+<p>Step1： 求出最小函数依赖集</p>
+<p>Step2：把不在F中的属性全部找出来，单独分出一类，并从这些属性中删除</p>
+<p>Step3：把每个依赖左边相同的分成一类</p>
+<p>Step4：如果候选码没有出现在分类中，把任意一个候选码作为一类</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423190715image-20210423180657643.png" alt="image-20210423180657643" style="zoom:50%;" /></p>
+<p><strong>例：U=(A,B,C,D,E)   F={AB-&gt;C，C-&gt;B，D-&gt;E，D-&gt;C}   若R不是3NF，将R分解为无损且保持函数依赖的3NF。</strong></p>
+<p>解：易求得，码是AD，属于1NF</p>
+<ol>
+<li>
+<p>第一步：U1=ABC       U2=BC     U3=DCE</p>
+</li>
+<li>
+<p>第二步：</p>
+<p>将R分解为ρ={<br>
+R1({A,B,C}，{AB-&gt;C})，<br>
+R2({B,C}，{C-&gt;B})，<br>
+R3({D,E}，{D-&gt;E,D-&gt;C}) }</p>
+<p>合并吸收：<br>
+ρ={ R1({A,B,C}，{AB-&gt;C,C-&gt;B})，<br>
+R2({D,E}，{D-&gt;E,D-&gt;C}) }</p>
+</li>
+<li>
+<p>第三步：不是无损连接，添加码。</p>
+<p>R3({A,D}，{∅})</p>
+<p>所以ρ={ R1({A,B,C}，{AB-&gt;C,C-&gt;B})，<br>
+R2({D,E}，{D-&gt;E,D-&gt;C}),<br>
+R3({A,D}，{∅}) }</p>
+</li>
+</ol>
+<h2 id="数据库设计"><a class="header-anchor" href="#数据库设计">¶</a>数据库设计</h2>
+<h3 id="er图转关系模式"><a class="header-anchor" href="#er图转关系模式">¶</a>ER图转关系模式</h3>
+<p><strong><img src="https://gitee.com/coronapolvo/images/raw/master/20210429152543image-20210429152538934.png" alt="image-20210429152538934"></strong></p>
+<p>去看： <a target="_blank" rel="noopener" href="https://blog.csdn.net/Flora_SM/article/details/84645752">https://blog.csdn.net/Flora_SM/article/details/84645752</a> 这里讲的非常好！</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/04/11/Database-Review/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/04/20/%E3%80%90English%E3%80%91%E8%AF%8D%E6%A0%B9%E8%AF%8D%E7%BC%80/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            【English】词根词缀
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">【论文阅读】Real World Adversarial attack ...</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "chaSYi8FMdJBwzIBpxeNjqWC-gzGzoHsz",
+    app_key: "PqqkLYgPkHvH1BmyQqySWnSK",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> coronaPolvo
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="coronaPolvo Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html">算法笔记</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://ml.akasaki.space/">DL笔记</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://blog.keter.top/images/wechat.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://blog.keter.top/images/alipay.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+ 
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script>
+        
+    
+ 
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+  </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+
+</html>
