@@ -100,8 +100,8 @@
        
   <script src="/assets/js/APlayer.min.js"> </script><h1>DataBase Review</h1>
 <h2 id="关系代数"><a class="header-anchor" href="#关系代数">¶</a>关系代数</h2>
-<p>选择： <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>F</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sigma_{F}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">F</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span>   <code>SELECT * FROM R WHERE F</code></p>
-<p>投影：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∏</mo><mi>A</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\prod_{A}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0497100000000001em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.17862099999999992em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span> <code>SELECT R FROM A</code></p>
+<p>选择： $\sigma_{F}®$   <code>SELECT * FROM R WHERE F</code></p>
+<p>投影：$\prod_{A}®$ <code>SELECT R FROM A</code></p>
 <h3 id="连接："><a class="header-anchor" href="#连接：">¶</a>连接：</h3>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20210411154757image-20210411154521617.png" alt="image-20210411154521617" style="zoom:50%;" />
 <h4 id="笛卡尔积："><a class="header-anchor" href="#笛卡尔积：">¶</a>笛卡尔积：</h4>
@@ -112,7 +112,7 @@
 <p>笛卡尔积的连接会对两个表的每一列进行排列组合</p>
 <a id="more"></a>
 <h4 id="等值连接"><a class="header-anchor" href="#等值连接">¶</a>等值连接</h4>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span></span></span></span> 为“＝” 的连接运算称为等值连接。它是从关系R与S的笛卡尔积中选取A、B属性值相等的那些元组。即等值连接为：</p>
+<p>$\theta$ 为“＝” 的连接运算称为等值连接。它是从关系R与S的笛卡尔积中选取A、B属性值相等的那些元组。即等值连接为：</p>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20210412142812image-20210411160451967.png" alt="image-20210411160451967" style="zoom:50%;" />
 <h4 id="自然连接"><a class="header-anchor" href="#自然连接">¶</a>自然连接</h4>
 <p>自然连接（Natural join）是一种特殊的等值连接，它要求两个关系中进行比较的分量必须是相同的属性组，并且要在结果中把重复的属性去掉。即若R和S具有相同的属性组B，则自然连接可记作：</p>
@@ -127,8 +127,8 @@
 <p>去看： <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d80dbaef637e">https://www.jianshu.com/p/d80dbaef637e</a> 讲的好啊</p>
 <p>还有：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35361859/article/details/105027905">https://blog.csdn.net/qq_35361859/article/details/105027905</a> 也不错</p>
 <hr>
-<h2 id="sql语句的一些高级操作"><a class="header-anchor" href="#sql语句的一些高级操作">¶</a>SQL语句的一些高级操作</h2>
-<h3 id="where"><a class="header-anchor" href="#where">¶</a>WHERE</h3>
+<h2 id="SQL语句的一些高级操作"><a class="header-anchor" href="#SQL语句的一些高级操作">¶</a>SQL语句的一些高级操作</h2>
+<h3 id="WHERE"><a class="header-anchor" href="#WHERE">¶</a>WHERE</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># between and</span><br><span class="line">select * from my_auto where age between 20 and 22;</span><br><span class="line"></span><br><span class="line"># in</span><br><span class="line">select * from my_auto where age in (20,30);</span><br><span class="line"></span><br><span class="line"># like or not like</span><br><span class="line">select * from my_auto where age like &#39;Li%&#39; # 以Li开头的学生</span><br><span class="line">select * from my_auto where age like &#39;Li_&#39; # 代替任何一个字符</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>总结</p>
@@ -138,10 +138,10 @@
 <li>where中可以通过多种运算符来实现数据匹配：比较，逻辑，空运算，匹配运算；</li>
 <li>在使用多种运算符的时候，需要考虑运算符的优先级；</li>
 </ol>
-<h3 id="distinct"><a class="header-anchor" href="#distinct">¶</a>DISTINCT</h3>
+<h3 id="DISTINCT"><a class="header-anchor" href="#DISTINCT">¶</a>DISTINCT</h3>
 <p>Distinct 去重针对的是所有查出来的字段数据，记录相同则去重，而不是某一个字段值重复；</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct * from my_student;</span><br></pre></td></tr></table></figure>
-<h3 id="group-by"><a class="header-anchor" href="#group-by">¶</a>GROUP BY</h3>
+<h3 id="GROUP-BY"><a class="header-anchor" href="#GROUP-BY">¶</a>GROUP BY</h3>
 <ol>
 <li>语法：where 后 gourp by class_name</li>
 </ol>
@@ -163,7 +163,7 @@
 <li>avg(字段名)：统计分组后某个字段的平均值</li>
 <li>sum(字段名)：统计分组后某个字段的和</li>
 </ul>
-<h3 id="having-子句"><a class="header-anchor" href="#having-子句">¶</a>HAVING 子句</h3>
+<h3 id="HAVING-子句"><a class="header-anchor" href="#HAVING-子句">¶</a>HAVING 子句</h3>
 <p>定义：where是从磁盘读取数据时进行判断，而在数据进入内存之后where就不能生效了，HAVING是完全针对进入内存后的数据进行判定。</p>
 <ol>
 <li>HAVING 语法： HAVING几乎能做所有WHERE能做的事情：HAVING条件判断</li>
@@ -180,23 +180,24 @@
 </ol>
 <p>上面语句也可以替换为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) , class_name,group_concat(name) from my_student group by class_name having count(*) &gt; 1;</span><br></pre></td></tr></table></figure>
-<h3 id="order-by-子句"><a class="header-anchor" href="#order-by-子句">¶</a>ORDER BY 子句</h3>
+<h3 id="ORDER-BY-子句"><a class="header-anchor" href="#ORDER-BY-子句">¶</a>ORDER BY 子句</h3>
 <p>定义：order by即通过某个字段，使得表对应的校对集实现升序或者降序排序。</p>
 <ol>
 <li>order by语法： order by 字段 [ASC][DESC] ; 其中ASC是升序，DESC为降序</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from my_student order by age;</span><br></pre></td></tr></table></figure>
-<h3 id="exists"><a class="header-anchor" href="#exists">¶</a>EXISTS</h3>
+<h3 id="EXISTS"><a class="header-anchor" href="#EXISTS">¶</a>EXISTS</h3>
 <p>EXISTS的子查询不反回任何的数据，只会产生逻辑真值 true/flase</p>
 <p>语法：</p>
 <p>查询所有选修了1号课程的学生姓名</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select sname</span><br><span class="line">from Student</span><br><span class="line">where exists(select * from sc,Student where sc.sno &#x3D; Student.sno);</span><br></pre></td></tr></table></figure>
 <p>EXISTS还可以表示关系代数中的除法操作：</p>
 <p>比如：查询至少选修了学号为‘200215121’选修的全部课程的学生号码</p>
-<p>关系代数为：</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mrow><mi>s</mi><mi>n</mi><mi>o</mi><mo separator="true">,</mo><mi>c</mi><mi>n</mi><mi>o</mi></mrow></msub><mo stretchy="false">(</mo><mi>S</mi><mi>C</mi><mo stretchy="false">)</mo><mo>÷</mo><msub><mi>π</mi><mrow><mi>c</mi><mi>n</mi><mi>o</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>σ</mi><mrow><msup><mrow></mrow><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mn>20021512</mn><msup><mn>1</mn><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow></msub><mo stretchy="false">(</mo><mi>S</mi><mi>C</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\pi_{sno,cno}(SC) \div \pi_{cno}(\sigma_{&#x27;200215121&#x27;}(SC))
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">÷</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32797999999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mord mtight">2</span><span class="mord mtight">1</span><span class="mord mtight">5</span><span class="mord mtight">1</span><span class="mord mtight">2</span><span class="mord mtight"><span class="mord mtight">1</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
-<p>SQL语句为：</p>
+<p>关系代数为：<br>
+$$<br>
+\pi_{sno,cno}(SC) \div \pi_{cno}(\sigma_{‘200215121’}(SC))<br>
+$$<br>
+SQL语句为：</p>
 <p>可以理解为for循环嵌套</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT sno</span><br><span class="line">FROM SC SCX</span><br><span class="line">WHERE NOT EXISTS</span><br><span class="line">    (SELECT *</span><br><span class="line">    FROM SC SCY</span><br><span class="line">    WHERE SCY.sno&#x3D;&#39;201215122&#39; AND NOT EXISTS</span><br><span class="line">        (SELECT *</span><br><span class="line">        FROM SC SCZ</span><br><span class="line">        WHERE SCZ.sno&#x3D;SCX.sno AND SCZ.cno&#x3D;SCY.cno));</span><br></pre></td></tr></table></figure>
 <h2 id="视图"><a class="header-anchor" href="#视图">¶</a>视图</h2>
@@ -279,7 +280,7 @@
 <li>创建表的使用 FOREIGN KEY (Cno) REFERENCES Course(Cno) 【标准SQL语句】</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE SC</span><br><span class="line">(Sno CHAR(9) NOT NULL,</span><br><span class="line"> Cno CHAR(4) NOT NULL,</span><br><span class="line"> Grade SMALLINT,</span><br><span class="line"> PRIMARY KEY (Sno,Cno),</span><br><span class="line"> FOREIGN KEY(Sno) REFERENCES Student(Sno),</span><br><span class="line"> FOREIGN KEY(Cno) REFERENCES Student(Cno)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<h3 id="外键约束"><a class="header-anchor" href="#外键约束">¶</a>外键约束</h3>
+<h3 id="外键约束-v2"><a class="header-anchor" href="#外键约束-v2">¶</a>外键约束</h3>
 <blockquote>
 <p>定义：外键约束，即外键的增加之后对应的父表和子表都有相应的约束关系</p>
 </blockquote>
@@ -375,7 +376,7 @@
 <h3 id="属性集的函数依赖"><a class="header-anchor" href="#属性集的函数依赖">¶</a>属性集的函数依赖</h3>
 <p>就是将所有的可以推导出来的函数依赖关系全部给加进去，需要注意的就是<strong>有一个和空集的关系</strong></p>
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210429141430image-20210429141428712.png" alt="image-20210429141428712"></p>
-<p>剩下的就是对各个元素闭包的排列组合；比如上面的例题中 (A)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow></mrow><mo>+</mo></msub></mrow><annotation encoding="application/x-tex">_+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.466662em;vertical-align:-0.208331em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.25833100000000003em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span> = ABC, 所以他就对应了如图的ABC的所有排列组合情况再加一个对空集对关系。</p>
+<p>剩下的就是对各个元素闭包的排列组合；比如上面的例题中 (A)$_+$ = ABC, 所以他就对应了如图的ABC的所有排列组合情况再加一个对空集对关系。</p>
 <h3 id="码"><a class="header-anchor" href="#码">¶</a>码</h3>
 <h4 id="候选码的概念"><a class="header-anchor" href="#候选码的概念">¶</a>候选码的概念</h4>
 <p>这样一个集合，他可以推出所有的属性，但是他的任意一个真子集无法退出所有的属性。</p>
@@ -536,16 +537,16 @@
 <ol>
 <li>求最小函数依赖</li>
 </ol>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BCDEG}   G在其中，删除</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>D</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BD)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BD} , E不在其中，保留</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(DG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {DG}, C不在其中，保留</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(ADG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span>  = {ABCDG}, B在其中，C也在其中，删除</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(AG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {AG}, B不在其中，保留</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(B)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {B} , D不在其中保留</p>
+<p>$(BG)^+$ = {BCDEG}   G在其中，删除</p>
+<p>$(BD)^+$ = {BD} , E不在其中，保留</p>
+<p>$(DG)^+$ = {DG}, C不在其中，保留</p>
+<p>$(ADG)^+$  = {ABCDG}, B在其中，C也在其中，删除</p>
+<p>$(AG)^+$ = {AG}, B不在其中，保留</p>
+<p>$(B)^+$ = {B} , D不在其中保留</p>
 <p>可以得到：F = {BD-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
 <p>接下来判断一下左边有没有冗余；</p>
-<p>BD-&gt;E:  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>B</mi><mo>+</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(B^+)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>=BD, D 在里面，所以D有冗余</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>D</mi><mo>+</mo></msup><mo stretchy="false">)</mo><mo>=</mo><mi>D</mi></mrow><annotation encoding="application/x-tex">(D^+)=D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span></span></span></span>, B不在里面所以B没有冗余</p>
+<p>BD-&gt;E:  $(B^+)$=BD, D 在里面，所以D有冗余</p>
+<p>$(D^+)=D$, B不在里面所以B没有冗余</p>
 <p>所以用B-&gt;E 替换，BD-&gt;E</p>
 <p>同理可以得到Fm = {B-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
 <ol start="2">
@@ -555,14 +556,14 @@
 <p>R1 = BED, R2 = CDG, R3 = ABG</p>
 <p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210424215608image-20210424214705698.png" alt="image-20210424214705698" style="zoom:67%;" /></p>
 <p>因为AG已经在R3中了所以得到的分解是无损分解</p>
-<h3 id="bcnf范式"><a class="header-anchor" href="#bcnf范式">¶</a>BCNF范式</h3>
+<h3 id="BCNF范式"><a class="header-anchor" href="#BCNF范式">¶</a>BCNF范式</h3>
 <p><code>在3NF的基础上如果所有的函数依赖的左边都是超码，那这个关系就满足第三范式；如果有一个不是超码就不满足；</code></p>
 <blockquote>
 <p>超码： 一个码的闭包如果就是这个集合，那这个码就叫做超码</p>
 </blockquote>
-<h4 id="bcnf范式的模式分解"><a class="header-anchor" href="#bcnf范式的模式分解">¶</a>BCNF范式的模式分解</h4>
+<h4 id="BCNF范式的模式分解"><a class="header-anchor" href="#BCNF范式的模式分解">¶</a>BCNF范式的模式分解</h4>
 <p>…</p>
-<h2 id="armstrong-公理系统"><a class="header-anchor" href="#armstrong-公理系统">¶</a>Armstrong 公理系统</h2>
+<h2 id="Armstrong-公理系统"><a class="header-anchor" href="#Armstrong-公理系统">¶</a>Armstrong 公理系统</h2>
 <p>设U为属性集总体，F是U上的一组函数依赖，于是又关系模式R&lt;U,F&gt;，对于R&lt;U,F&gt;来说有以下的推理规则</p>
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174437414.png" alt="image-20210423174437414"></p>
 <p>由上面的三个公理我们可以得到：</p>
@@ -615,7 +616,7 @@ R3({A,D}，{∅}) }</p>
 </li>
 </ol>
 <h2 id="数据库设计"><a class="header-anchor" href="#数据库设计">¶</a>数据库设计</h2>
-<h3 id="er图转关系模式"><a class="header-anchor" href="#er图转关系模式">¶</a>ER图转关系模式</h3>
+<h3 id="ER图转关系模式"><a class="header-anchor" href="#ER图转关系模式">¶</a>ER图转关系模式</h3>
 <p><strong><img src="https://gitee.com/coronapolvo/images/raw/master/20210429152543image-20210429152538934.png" alt="image-20210429152538934"></strong></p>
 <p>去看： <a target="_blank" rel="noopener" href="https://blog.csdn.net/Flora_SM/article/details/84645752">https://blog.csdn.net/Flora_SM/article/details/84645752</a> 这里讲的非常好！</p>
  
