@@ -2788,13 +2788,13 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
-    <title>friends</title>
-    <url>/friends/index.html</url>
+    <title>categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script>]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
+    <title>friends</title>
+    <url>/friends/index.html</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script>]]></content>
   </entry>
   <entry>
