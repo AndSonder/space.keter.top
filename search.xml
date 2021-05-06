@@ -2634,24 +2634,6 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
-    <title>【论文阅读】Real World Adversarial attack ...</title>
-    <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors"><a class="header-anchor" href="#making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors">¶</a>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
-<p><code>propose a new loss function to produce patch;Print the patch on the cloth. People who wear this cloth can not be detected by object detectors in the real world</code></p>
-<p>Paper url: <a href="https://arxiv.org/abs/1810.05206">https://arxiv.org/abs/1810.05206</a></p>
-<span id="more"></span>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220004Page3.png" alt="Page3"></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220013Page4.png" alt="Page4"></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220021Page5.png" alt="Page5"></p>
-]]></content>
-      <categories>
-        <category>adv learning</category>
-      </categories>
-      <tags>
-        <tag>神经对抗攻击</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【论文阅读】Conditional Convolutions for InstanceSegmentation</title>
     <url>/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="0x01-概要"><a class="header-anchor" href="#0x01-概要">¶</a>0x01 概要</h1>
@@ -2717,6 +2699,24 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </categories>
       <tags>
         <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【论文阅读】Real World Adversarial attack ...</title>
+    <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors"><a class="header-anchor" href="#making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors">¶</a>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
+<p><code>propose a new loss function to produce patch;Print the patch on the cloth. People who wear this cloth can not be detected by object detectors in the real world</code></p>
+<p>Paper url: <a href="https://arxiv.org/abs/1810.05206">https://arxiv.org/abs/1810.05206</a></p>
+<span id="more"></span>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220004Page3.png" alt="Page3"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220013Page4.png" alt="Page4"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220021Page5.png" alt="Page5"></p>
+]]></content>
+      <categories>
+        <category>adv learning</category>
+      </categories>
+      <tags>
+        <tag>神经对抗攻击</tag>
       </tags>
   </entry>
   <entry>
