@@ -1,445 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>SQL Learning</title>
-    <url>/2021/01/12/SQL-Learning/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
-<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
-<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
-<p>Get all the custmers who’s patterns start with b/B</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>get all the custmers who’s last name start with brush</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>don’t care about the first character but the second character is y</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>% :  any number of characters</li>
-<li>_  :  single character</li>
-</ul>
-<p>EXERCISE</p>
-<ol>
-<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>Phone numbers end with 9</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
-<p>REGEXP: regular expression</p>
-<p>REGEXP is similar with LIKE</p>
-<p>Get all the customers who’s last name start with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who’s last name end with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words field,mac or rose in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words ge,me or ie in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>^ beginning</li>
-<li>$ end</li>
-<li>| logical or</li>
-<li>[abcd]</li>
-<li>[a-f]</li>
-</ul>
-<p>EXERCISE</p>
-<p>GET the customers whose</p>
-<ol>
-<li>first names are ELKA or AMBUR</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>last names end with EY or ON</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>Last names start with MY or contains SE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>last name contain B followed by R or U</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
-<p>search who does not have a phone</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<p>EXERCISE</p>
-<p>get the orders that are not shipped</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
-<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
-<p>Search customers order by first_name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
-<p>or you want to reverse the sort order</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
-<p>sort by multiple columns, for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
-<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
-<p>get the first 3 customers</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
-<p>Get customers form 6-9</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<p>6 is an offset, and 3 means the step</p>
-<p>EXERCISE</p>
-<ol>
-<li>Get the top three loyal customers</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
-<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
-<p>you can use JOIN to catch the relation between to tables;</p>
-<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
-<p>we can use alias to simplify the query.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
-<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
-<p>how to combine columns from tables in multiple databases ?</p>
-<p>Using database combines with sql_inventory database.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
-<p>the query will be different depending on the database</p>
-<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
-<p>In sql we can join tables with itself.</p>
-<p>In database sql_hr we have a table named employees.</p>
-<p>Now we need select each employee and their manager.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
-<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
-<p><strong>Exercise</strong></p>
-<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
-<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
-<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
-<p>we have mutiple conditions to join these two tables</p>
-<p>e.g.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
-<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
-<p>In Mysql we can use simple query to instead Join condition.</p>
-<p>for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【English】六级备考资料</title>
-    <url>/2021/05/04/%E3%80%90English%E3%80%91%E5%85%AD%E7%BA%A7%E5%A4%87%E8%80%83%E8%B5%84%E6%96%99/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>coronaPolvo 在这里许个愿望，希望2021年6月份的六级考试可以过</p>
-<hr>
-<h2 id="写作部分"><a class="header-anchor" href="#写作部分">¶</a>写作部分</h2>
-<p>六级写作常见题型：</p>
-<p>论说文 （基本就是他了）、谚语、图画图表、书信</p>
-<p>单词 - &gt; 句子 - &gt; 文章</p>
-<h3 id="常见的土单词排行榜"><a class="header-anchor" href="#常见的土单词排行榜">¶</a>常见的土单词排行榜</h3>
-<p>土单词一个也不要出现！</p>
-<h4 id="think"><a class="header-anchor" href="#think">¶</a>think</h4>
-<ul>
-<li>
-<p>have been convinced that</p>
-</li>
-<li>
-<p>argue</p>
-</li>
-<li>
-<p>be of the opinion that</p>
-</li>
-</ul>
-<h4 id="many"><a class="header-anchor" href="#many">¶</a>many</h4>
-<ul>
-<li>a sea of</li>
-<li>multitudes of</li>
-<li>Plentiful</li>
-</ul>
-<h4 id="people-we-us"><a class="header-anchor" href="#people-we-us">¶</a>people, we, us</h4>
-<p>要求用词要准确</p>
-<ul>
-<li>
-<p>个人：private individuals</p>
-</li>
-<li>
-<p>年轻人：youngsters and teenagers</p>
-</li>
-<li>
-<p>专家和教授：experts and professors</p>
-</li>
-<li>
-<p>所有人：all children and adults</p>
-</li>
-</ul>
-<h4 id="very"><a class="header-anchor" href="#very">¶</a>very</h4>
-<ul>
-<li>
-<p>exceedingly</p>
-</li>
-<li>
-<p>distinctly</p>
-</li>
-<li>
-<p>outstandingly</p>
-</li>
-<li>
-<p>strikingly</p>
-</li>
-</ul>
-<h4 id="important"><a class="header-anchor" href="#important">¶</a>important</h4>
-<ul>
-<li>Play a crucial role in sth</li>
-<li>significant</li>
-</ul>
-<h4 id="一些替换原则"><a class="header-anchor" href="#一些替换原则">¶</a>一些替换原则</h4>
-<p>人称代词使用被动进行替换</p>
-<p>逻辑单词替换在后面</p>
-<h3 id="写作中可能用到的万能句型"><a class="header-anchor" href="#写作中可能用到的万能句型">¶</a>写作中可能用到的万能句型</h3>
-<h4 id="主语从句"><a class="header-anchor" href="#主语从句">¶</a>主语从句</h4>
-<p>这个句型可以写到作文的任何地方，任何一句话的前面用来拉长句子；</p>
-<ul>
-<li>It seems beyond dispute that …</li>
-</ul>
-<h4 id="定语从句"><a class="header-anchor" href="#定语从句">¶</a>定语从句</h4>
-<p>which引导的非限定定语从句可以修饰前面一整句话；</p>
-<p><strong>这句话可以写作作文中任何一句话的后面。用作补充说明；</strong></p>
-<ul>
-<li>which has been widely accepted</li>
-</ul>
-<h4 id="万能状语"><a class="header-anchor" href="#万能状语">¶</a>万能状语</h4>
-<ul>
-<li>as every one can see it</li>
-<li>with the rapid advance of science and technology</li>
-<li>in our contemporary society</li>
-<li>in the general routine of everyday living</li>
-</ul>
-<h4 id="万能插入语"><a class="header-anchor" href="#万能插入语">¶</a>万能插入语</h4>
-<p>写在某一段，段首句的主谓之间</p>
-<ul>
-<li>to tell the truth</li>
-</ul>
-<h4 id="强调句型"><a class="header-anchor" href="#强调句型">¶</a>强调句型</h4>
-<p>只是作强调，作文中所有的句子都可以写成强调句型，只要不强调谓语就行；</p>
-<p>推荐写在每一段的段首句；</p>
-<h3 id="文章"><a class="header-anchor" href="#文章">¶</a>文章</h3>
-<h4 id="谚语警句类"><a class="header-anchor" href="#谚语警句类">¶</a>谚语警句类</h4>
-<p><strong>第一段：引出主题+解释你对这句话的理解（3句）</strong></p>
-<ul>
-<li>Nowadays, there remains an increasing interest in the topic about … ;</li>
-</ul>
-<p>替换单词之后，用前面的句型稍做加工</p>
-<p>第二、三句：解释这句话的意思</p>
-<ul>
-<li>The meaning of the saying seems that… ,</li>
-</ul>
-<p>如果实在解释不了，就把原句做一下单词修改给抄上去，然后在做一下句型加工；</p>
-<p><strong>第二段：举例</strong>  (3-4句)</p>
-<ul>
-<li>Although so abundant cases can support my simple view. The following one is most favorable.</li>
-</ul>
-<p>大概思路：我有一个什么什么样的xx像什么什么样，他是一个什么什么样的人，但是不拉不拉，所以我们要向他学习做一个xxx的人。</p>
-<p>第三段：总结（4句话）</p>
-<p><strong>总结句 + 具体措施1 + 具体措施2 + 喊口号</strong></p>
-<p>具体措施从：政府, 父母，学校，个人四方方面选两个方面去选</p>
-<ul>
-<li>总结：It is really high time that due attention cannot have failed to paid to the issue about …</li>
-<li>具体措施1：Parents are supposed to spend more time educating their kids to do sth eg. to be happy facing difficulties to put eggs in different baskets</li>
-<li>具体措施2：Awareness about sth could be cultivated to make ourselves lead a healthy and favorable life.</li>
-<li>喊口号：The more actively people face the issue, the more happily they will lead their life.</li>
-</ul>
-<h4 id="图画图表作文"><a class="header-anchor" href="#图画图表作文">¶</a>图画图表作文</h4>
-<p><strong>第一段： 描述图画 （2句）+ 中心总结 （1句）</strong></p>
-<p>一二句主语从句描述图画</p>
-<ol>
-<li>
-<p>The majority of people would agree that sth has caused serious problems</p>
-</li>
-<li>
-<p>It is superficially a simple phenomenon, but when subjected to analysis, it has its fundamental reasons</p>
-</li>
-</ol>
-<p>然后总结图像中心思想：</p>
-<ul>
-<li>Simple as the cartoon looks, its meaning behind is really so far-reaching If you desire to do something great, you have to do it from small things.</li>
-</ul>
-<p><strong>第二段：举例</strong></p>
-<p><strong>第三段：完全同谚语警句类作文</strong></p>
-<h4 id="论说文"><a class="header-anchor" href="#论说文">¶</a>论说文</h4>
-<p><strong>第一段 引出主题 + 个人观点</strong> （2句）</p>
-<ul>
-<li>What is your idea as to the topic about.? It is my belief that</li>
-<li>It looks beyond dispute that the issue about. has caused wide public attention.</li>
-</ul>
-<p><strong>第二段 举例</strong></p>
-<p><strong>第三段 完全同谚语警句类作文</strong></p>
-<h2 id="翻译部分"><a class="header-anchor" href="#翻译部分">¶</a>翻译部分</h2>
-<p>10-12分： 译文基本上表达了原文的意思。文字通顺、连贯,无语言错误；</p>
-<ol>
-<li>
-<p>使用上位单词替换</p>
-</li>
-<li>
-<p>使用同义词</p>
-</li>
-<li>
-<p>用自己的话就行解释</p>
-</li>
-<li>
-<p>大词随便写，小词就没看见</p>
-</li>
-</ol>
-<h3 id="英汉差异对比"><a class="header-anchor" href="#英汉差异对比">¶</a>英汉差异对比</h3>
-<ol>
-<li>
-<p>汉语意合，英语形和</p>
-<p>句子结构上：汉语没有主谓宾之分，汉语一定有主谓，主语一定是动作的发出者，宾语一定是动作的承受者</p>
-<p><strong>逻辑关系词的使用</strong></p>
-<ul>
-<li>
-<p>and: similarly,  equally</p>
-</li>
-<li>
-<p>but: nevertheless, by contrast</p>
-</li>
-<li>
-<p>Then: besides, moreover</p>
-</li>
-</ul>
-</li>
-<li>
-<p>英语多被动，汉语多主动</p>
-<ul>
-<li>在过去几十年里,政府采取了各种措施防止灾害发生。<br>
-Various measures, in the past decades, have been taken to prevent disasters</li>
-<li>那时,黄色是专为皇帝使用的颜色,皇家宮殿全都漆成黄色,皇袍总是 黄色的,而普通老百姓是禁止穿黄色衣服的。<br>
-At that time, yellow <strong>was designed</strong> to use for the emperor-the royal palace was painted yellow and the imperial robe was always yellow too. However, the ordinary people <strong>were not allowed</strong> to wear yellow clothes</li>
-<li>最近,中国科学院( Chinese Academy of Sciences)出版了关于其最 新科学发现与末来一年展望的年度系列报告。<br>
-An annual report about its latest scientific findings and the prospect of the next year was recently published by Chinese<br>
-Academy of Science</li>
-</ul>
-</li>
-<li>
-<p>英语多长句 汉语多短句</p>
-<p>短句写成长句的三种方式</p>
-<ul>
-<li>
-<p>非谓语动词</p>
-<ul>
-<li>长江流经多种不同的生态系统,是诸多濒危物种的栖息地,灌溉了 中国五分之一的土地。(2017四级)<br>
-The Yangzi River, flowing through different ecological systems keeps the habitat of plentiful endangered animals, irrigating one fifth of Chinese land.</li>
-<li>乌镇是浙江的一座古老水镇,坐落在京杭大运河畔。这是一处迷人的地 方,有许多古桥、中式旅店和餐馆。<br>
-Wuzhen, an ancient water town of Zhejiang province, is located near the Beijing-hangzhou Grand Canal, which is really a charming place with many ancient bridges, Chinese style hotels and restaurants there.  并列的会写一个就够了；</li>
-</ul>
-</li>
-<li>
-<p>从句</p>
-<ul>
-<li>大熊猫是熊科中最罕见的成员,主要生活在中国西南部的森林里。<br>
-Pandas which mainly live in the forest of Southeast in China are the rarest members</li>
-<li>中国人自古以来就在中秋节庆祝丰收,这与北美庆祝感恩节非常相似。<br>
-Chinese have had the tradition to celebrate harvest in the Middle-Autumn, which proves quite similar with Thanks-giving Day in North America</li>
-</ul>
-</li>
-<li>
-<p>逻辑关系词</p>
-<ul>
-<li>在过去一干年里,乌镇的水系和生活方式并未经历多少变化是一座展现古文明的博物馆。<br>
-In the past thousand years, the water system and the life way of Wuzhen have not gone through many changes. <strong>Therefor</strong>e, it now is the museum to show anicent civilization.</li>
-<li>这些资金用于改善教学设施、购买书籍,使16万多所中小学收益。资金还用于购 置音乐和绘画器材。现在农村和山区的儿童可以与沿海城市的儿童一样上音乐和 绘画课。(2014年四级)<br>
-These funds are used to improve educational facilities, purchase books and more than 160 thousands primary schools and middle schools benefit from it. <strong>In addition</strong>, the fund is to be used for purchasing music and painting facilities. As a consequence, nowadays the children in the rurual areas can have the music and painting classes as the same as the children in the coastal cities do</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="翻译步骤"><a class="header-anchor" href="#翻译步骤">¶</a>翻译步骤</h3>
-<ol>
-<li>以意群为单位读句子，确定句子的时态</li>
-<li>确定句子的主干，非主干的部分用定语和状语来修饰</li>
-<li>每句话翻译完之后都要看该句话与下一句话的关系，从而加逻辑关系词</li>
-</ol>
-<h2 id="传统阅读"><a class="header-anchor" href="#传统阅读">¶</a>传统阅读</h2>
-<ol>
-<li>时间： 8分钟</li>
-</ol>
-<ul>
-<li>先读首段已经各段的第一句</li>
-<li>顺序原则</li>
-</ul>
-<h3 id="主旨题"><a class="header-anchor" href="#主旨题">¶</a>主旨题</h3>
-<p>无论题目问什么，选项里面和主题贴的最近的就是答案；</p>
-<h3 id="作者态度不选词"><a class="header-anchor" href="#作者态度不选词">¶</a>作者态度不选词</h3>
-<ul>
-<li>indifferent</li>
-<li>biased</li>
-<li>prejudiced</li>
-<li>detached</li>
-<li>neutral</li>
-<li>pessimistic</li>
-<li>subiective</li>
-<li>puzzled</li>
-<li>confused</li>
-</ul>
-<h3 id="答案分布"><a class="header-anchor" href="#答案分布">¶</a>答案分布</h3>
-<p>2233懂得都懂</p>
-<h2 id="长篇阅读"><a class="header-anchor" href="#长篇阅读">¶</a>长篇阅读</h2>
-<ol>
-<li>
-<p>看大标题和小标题，推测文章大概内容及作者态度 【中心词不能拿来定位】</p>
-</li>
-<li>
-<p>找题干中的定位词，回头定位：</p>
-<ul>
-<li>专有名词：时间 地点 人名 地名 国家名</li>
-<li>固定概念：合成词 …</li>
-</ul>
-</li>
-<li>
-<p>如果以上定位线索没有，则是：</p>
-<p><strong>常用动词</strong>、形容词、副词、<strong>极端词</strong>、<strong>最高级</strong></p>
-</li>
-<li>
-<p>重叠选项得出答案</p>
-<p>注意 找出明显定位词后，最好阅读一下句子的意识，确认意思是不是现金</p>
-</li>
-<li>
-<p>查漏补缺</p>
-<p>找不到定位的就最后再做</p>
-<p>读每段的重点句：</p>
-<ul>
-<li>段首段尾句</li>
-<li>段中转折词，因果词，递进关系词</li>
-</ul>
-</li>
-</ol>
-<p>作业：</p>
-<p>整理模板把模板给背好，每5天写一篇作文和翻译</p>
-<p>对于阅读题：</p>
-<ol>
-<li>
-<p>按照lxy的方法对每道题做</p>
-</li>
-<li>
-<p>核实对错</p>
-</li>
-<li>
-<p>精度全文</p>
-</li>
-<li>
-<p>背不认识的单词和句子</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>English</category>
-      </categories>
-      <tags>
-        <tag>English</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Database Review</title>
     <url>/2021/04/11/Database-Review/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="database-review"><a class="header-anchor" href="#database-review">¶</a>DataBase Review</h1>
@@ -1005,6 +566,445 @@ R3({A,D}，{∅}) }</p>
       </categories>
       <tags>
         <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SQL Learning</title>
+    <url>/2021/01/12/SQL-Learning/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
+<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
+<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
+<p>Get all the custmers who’s patterns start with b/B</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>get all the custmers who’s last name start with brush</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>don’t care about the first character but the second character is y</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>% :  any number of characters</li>
+<li>_  :  single character</li>
+</ul>
+<p>EXERCISE</p>
+<ol>
+<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Phone numbers end with 9</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
+<p>REGEXP: regular expression</p>
+<p>REGEXP is similar with LIKE</p>
+<p>Get all the customers who’s last name start with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who’s last name end with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words field,mac or rose in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words ge,me or ie in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>^ beginning</li>
+<li>$ end</li>
+<li>| logical or</li>
+<li>[abcd]</li>
+<li>[a-f]</li>
+</ul>
+<p>EXERCISE</p>
+<p>GET the customers whose</p>
+<ol>
+<li>first names are ELKA or AMBUR</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>last names end with EY or ON</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Last names start with MY or contains SE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>last name contain B followed by R or U</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
+<p>search who does not have a phone</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<p>EXERCISE</p>
+<p>get the orders that are not shipped</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
+<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
+<p>Search customers order by first_name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
+<p>or you want to reverse the sort order</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<p>sort by multiple columns, for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
+<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
+<p>get the first 3 customers</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
+<p>Get customers form 6-9</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>6 is an offset, and 3 means the step</p>
+<p>EXERCISE</p>
+<ol>
+<li>Get the top three loyal customers</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
+<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
+<p>you can use JOIN to catch the relation between to tables;</p>
+<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
+<p>we can use alias to simplify the query.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
+<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
+<p>how to combine columns from tables in multiple databases ?</p>
+<p>Using database combines with sql_inventory database.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
+<p>the query will be different depending on the database</p>
+<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
+<p>In sql we can join tables with itself.</p>
+<p>In database sql_hr we have a table named employees.</p>
+<p>Now we need select each employee and their manager.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
+<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
+<p><strong>Exercise</strong></p>
+<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
+<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
+<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
+<p>we have mutiple conditions to join these two tables</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
+<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
+<p>In Mysql we can use simple query to instead Join condition.</p>
+<p>for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【English】六级备考资料</title>
+    <url>/2021/05/04/%E3%80%90English%E3%80%91%E5%85%AD%E7%BA%A7%E5%A4%87%E8%80%83%E8%B5%84%E6%96%99/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>coronaPolvo 在这里许个愿望，希望2021年6月份的六级考试可以过</p>
+<hr>
+<h2 id="写作部分"><a class="header-anchor" href="#写作部分">¶</a>写作部分</h2>
+<p>六级写作常见题型：</p>
+<p>论说文 （基本就是他了）、谚语、图画图表、书信</p>
+<p>单词 - &gt; 句子 - &gt; 文章</p>
+<h3 id="常见的土单词排行榜"><a class="header-anchor" href="#常见的土单词排行榜">¶</a>常见的土单词排行榜</h3>
+<p>土单词一个也不要出现！</p>
+<h4 id="think"><a class="header-anchor" href="#think">¶</a>think</h4>
+<ul>
+<li>
+<p>have been convinced that</p>
+</li>
+<li>
+<p>argue</p>
+</li>
+<li>
+<p>be of the opinion that</p>
+</li>
+</ul>
+<h4 id="many"><a class="header-anchor" href="#many">¶</a>many</h4>
+<ul>
+<li>a sea of</li>
+<li>multitudes of</li>
+<li>Plentiful</li>
+</ul>
+<h4 id="people-we-us"><a class="header-anchor" href="#people-we-us">¶</a>people, we, us</h4>
+<p>要求用词要准确</p>
+<ul>
+<li>
+<p>个人：private individuals</p>
+</li>
+<li>
+<p>年轻人：youngsters and teenagers</p>
+</li>
+<li>
+<p>专家和教授：experts and professors</p>
+</li>
+<li>
+<p>所有人：all children and adults</p>
+</li>
+</ul>
+<h4 id="very"><a class="header-anchor" href="#very">¶</a>very</h4>
+<ul>
+<li>
+<p>exceedingly</p>
+</li>
+<li>
+<p>distinctly</p>
+</li>
+<li>
+<p>outstandingly</p>
+</li>
+<li>
+<p>strikingly</p>
+</li>
+</ul>
+<h4 id="important"><a class="header-anchor" href="#important">¶</a>important</h4>
+<ul>
+<li>Play a crucial role in sth</li>
+<li>significant</li>
+</ul>
+<h4 id="一些替换原则"><a class="header-anchor" href="#一些替换原则">¶</a>一些替换原则</h4>
+<p>人称代词使用被动进行替换</p>
+<p>逻辑单词替换在后面</p>
+<h3 id="写作中可能用到的万能句型"><a class="header-anchor" href="#写作中可能用到的万能句型">¶</a>写作中可能用到的万能句型</h3>
+<h4 id="主语从句"><a class="header-anchor" href="#主语从句">¶</a>主语从句</h4>
+<p>这个句型可以写到作文的任何地方，任何一句话的前面用来拉长句子；</p>
+<ul>
+<li>It seems beyond dispute that …</li>
+</ul>
+<h4 id="定语从句"><a class="header-anchor" href="#定语从句">¶</a>定语从句</h4>
+<p>which引导的非限定定语从句可以修饰前面一整句话；</p>
+<p><strong>这句话可以写作作文中任何一句话的后面。用作补充说明；</strong></p>
+<ul>
+<li>which has been widely accepted</li>
+</ul>
+<h4 id="万能状语"><a class="header-anchor" href="#万能状语">¶</a>万能状语</h4>
+<ul>
+<li>as every one can see it</li>
+<li>with the rapid advance of science and technology</li>
+<li>in our contemporary society</li>
+<li>in the general routine of everyday living</li>
+</ul>
+<h4 id="万能插入语"><a class="header-anchor" href="#万能插入语">¶</a>万能插入语</h4>
+<p>写在某一段，段首句的主谓之间</p>
+<ul>
+<li>to tell the truth</li>
+</ul>
+<h4 id="强调句型"><a class="header-anchor" href="#强调句型">¶</a>强调句型</h4>
+<p>只是作强调，作文中所有的句子都可以写成强调句型，只要不强调谓语就行；</p>
+<p>推荐写在每一段的段首句；</p>
+<h3 id="文章"><a class="header-anchor" href="#文章">¶</a>文章</h3>
+<h4 id="谚语警句类"><a class="header-anchor" href="#谚语警句类">¶</a>谚语警句类</h4>
+<p><strong>第一段：引出主题+解释你对这句话的理解（3句）</strong></p>
+<ul>
+<li>Nowadays, there remains an increasing interest in the topic about … ;</li>
+</ul>
+<p>替换单词之后，用前面的句型稍做加工</p>
+<p>第二、三句：解释这句话的意思</p>
+<ul>
+<li>The meaning of the saying seems that… ,</li>
+</ul>
+<p>如果实在解释不了，就把原句做一下单词修改给抄上去，然后在做一下句型加工；</p>
+<p><strong>第二段：举例</strong>  (3-4句)</p>
+<ul>
+<li>Although so abundant cases can support my simple view. The following one is most favorable.</li>
+</ul>
+<p>大概思路：我有一个什么什么样的xx像什么什么样，他是一个什么什么样的人，但是不拉不拉，所以我们要向他学习做一个xxx的人。</p>
+<p>第三段：总结（4句话）</p>
+<p><strong>总结句 + 具体措施1 + 具体措施2 + 喊口号</strong></p>
+<p>具体措施从：政府, 父母，学校，个人四方方面选两个方面去选</p>
+<ul>
+<li>总结：It is really high time that due attention cannot have failed to paid to the issue about …</li>
+<li>具体措施1：Parents are supposed to spend more time educating their kids to do sth eg. to be happy facing difficulties to put eggs in different baskets</li>
+<li>具体措施2：Awareness about sth could be cultivated to make ourselves lead a healthy and favorable life.</li>
+<li>喊口号：The more actively people face the issue, the more happily they will lead their life.</li>
+</ul>
+<h4 id="图画图表作文"><a class="header-anchor" href="#图画图表作文">¶</a>图画图表作文</h4>
+<p><strong>第一段： 描述图画 （2句）+ 中心总结 （1句）</strong></p>
+<p>一二句主语从句描述图画</p>
+<ol>
+<li>
+<p>The majority of people would agree that sth has caused serious problems</p>
+</li>
+<li>
+<p>It is superficially a simple phenomenon, but when subjected to analysis, it has its fundamental reasons</p>
+</li>
+</ol>
+<p>然后总结图像中心思想：</p>
+<ul>
+<li>Simple as the cartoon looks, its meaning behind is really so far-reaching If you desire to do something great, you have to do it from small things.</li>
+</ul>
+<p><strong>第二段：举例</strong></p>
+<p><strong>第三段：完全同谚语警句类作文</strong></p>
+<h4 id="论说文"><a class="header-anchor" href="#论说文">¶</a>论说文</h4>
+<p><strong>第一段 引出主题 + 个人观点</strong> （2句）</p>
+<ul>
+<li>What is your idea as to the topic about.? It is my belief that</li>
+<li>It looks beyond dispute that the issue about. has caused wide public attention.</li>
+</ul>
+<p><strong>第二段 举例</strong></p>
+<p><strong>第三段 完全同谚语警句类作文</strong></p>
+<h2 id="翻译部分"><a class="header-anchor" href="#翻译部分">¶</a>翻译部分</h2>
+<p>10-12分： 译文基本上表达了原文的意思。文字通顺、连贯,无语言错误；</p>
+<ol>
+<li>
+<p>使用上位单词替换</p>
+</li>
+<li>
+<p>使用同义词</p>
+</li>
+<li>
+<p>用自己的话就行解释</p>
+</li>
+<li>
+<p>大词随便写，小词就没看见</p>
+</li>
+</ol>
+<h3 id="英汉差异对比"><a class="header-anchor" href="#英汉差异对比">¶</a>英汉差异对比</h3>
+<ol>
+<li>
+<p>汉语意合，英语形和</p>
+<p>句子结构上：汉语没有主谓宾之分，汉语一定有主谓，主语一定是动作的发出者，宾语一定是动作的承受者</p>
+<p><strong>逻辑关系词的使用</strong></p>
+<ul>
+<li>
+<p>and: similarly,  equally</p>
+</li>
+<li>
+<p>but: nevertheless, by contrast</p>
+</li>
+<li>
+<p>Then: besides, moreover</p>
+</li>
+</ul>
+</li>
+<li>
+<p>英语多被动，汉语多主动</p>
+<ul>
+<li>在过去几十年里,政府采取了各种措施防止灾害发生。<br>
+Various measures, in the past decades, have been taken to prevent disasters</li>
+<li>那时,黄色是专为皇帝使用的颜色,皇家宮殿全都漆成黄色,皇袍总是 黄色的,而普通老百姓是禁止穿黄色衣服的。<br>
+At that time, yellow <strong>was designed</strong> to use for the emperor-the royal palace was painted yellow and the imperial robe was always yellow too. However, the ordinary people <strong>were not allowed</strong> to wear yellow clothes</li>
+<li>最近,中国科学院( Chinese Academy of Sciences)出版了关于其最 新科学发现与末来一年展望的年度系列报告。<br>
+An annual report about its latest scientific findings and the prospect of the next year was recently published by Chinese<br>
+Academy of Science</li>
+</ul>
+</li>
+<li>
+<p>英语多长句 汉语多短句</p>
+<p>短句写成长句的三种方式</p>
+<ul>
+<li>
+<p>非谓语动词</p>
+<ul>
+<li>长江流经多种不同的生态系统,是诸多濒危物种的栖息地,灌溉了 中国五分之一的土地。(2017四级)<br>
+The Yangzi River, flowing through different ecological systems keeps the habitat of plentiful endangered animals, irrigating one fifth of Chinese land.</li>
+<li>乌镇是浙江的一座古老水镇,坐落在京杭大运河畔。这是一处迷人的地 方,有许多古桥、中式旅店和餐馆。<br>
+Wuzhen, an ancient water town of Zhejiang province, is located near the Beijing-hangzhou Grand Canal, which is really a charming place with many ancient bridges, Chinese style hotels and restaurants there.  并列的会写一个就够了；</li>
+</ul>
+</li>
+<li>
+<p>从句</p>
+<ul>
+<li>大熊猫是熊科中最罕见的成员,主要生活在中国西南部的森林里。<br>
+Pandas which mainly live in the forest of Southeast in China are the rarest members</li>
+<li>中国人自古以来就在中秋节庆祝丰收,这与北美庆祝感恩节非常相似。<br>
+Chinese have had the tradition to celebrate harvest in the Middle-Autumn, which proves quite similar with Thanks-giving Day in North America</li>
+</ul>
+</li>
+<li>
+<p>逻辑关系词</p>
+<ul>
+<li>在过去一干年里,乌镇的水系和生活方式并未经历多少变化是一座展现古文明的博物馆。<br>
+In the past thousand years, the water system and the life way of Wuzhen have not gone through many changes. <strong>Therefor</strong>e, it now is the museum to show anicent civilization.</li>
+<li>这些资金用于改善教学设施、购买书籍,使16万多所中小学收益。资金还用于购 置音乐和绘画器材。现在农村和山区的儿童可以与沿海城市的儿童一样上音乐和 绘画课。(2014年四级)<br>
+These funds are used to improve educational facilities, purchase books and more than 160 thousands primary schools and middle schools benefit from it. <strong>In addition</strong>, the fund is to be used for purchasing music and painting facilities. As a consequence, nowadays the children in the rurual areas can have the music and painting classes as the same as the children in the coastal cities do</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="翻译步骤"><a class="header-anchor" href="#翻译步骤">¶</a>翻译步骤</h3>
+<ol>
+<li>以意群为单位读句子，确定句子的时态</li>
+<li>确定句子的主干，非主干的部分用定语和状语来修饰</li>
+<li>每句话翻译完之后都要看该句话与下一句话的关系，从而加逻辑关系词</li>
+</ol>
+<h2 id="传统阅读"><a class="header-anchor" href="#传统阅读">¶</a>传统阅读</h2>
+<ol>
+<li>时间： 8分钟</li>
+</ol>
+<ul>
+<li>先读首段已经各段的第一句</li>
+<li>顺序原则</li>
+</ul>
+<h3 id="主旨题"><a class="header-anchor" href="#主旨题">¶</a>主旨题</h3>
+<p>无论题目问什么，选项里面和主题贴的最近的就是答案；</p>
+<h3 id="作者态度不选词"><a class="header-anchor" href="#作者态度不选词">¶</a>作者态度不选词</h3>
+<ul>
+<li>indifferent</li>
+<li>biased</li>
+<li>prejudiced</li>
+<li>detached</li>
+<li>neutral</li>
+<li>pessimistic</li>
+<li>subiective</li>
+<li>puzzled</li>
+<li>confused</li>
+</ul>
+<h3 id="答案分布"><a class="header-anchor" href="#答案分布">¶</a>答案分布</h3>
+<p>2233懂得都懂</p>
+<h2 id="长篇阅读"><a class="header-anchor" href="#长篇阅读">¶</a>长篇阅读</h2>
+<ol>
+<li>
+<p>看大标题和小标题，推测文章大概内容及作者态度 【中心词不能拿来定位】</p>
+</li>
+<li>
+<p>找题干中的定位词，回头定位：</p>
+<ul>
+<li>专有名词：时间 地点 人名 地名 国家名</li>
+<li>固定概念：合成词 …</li>
+</ul>
+</li>
+<li>
+<p>如果以上定位线索没有，则是：</p>
+<p><strong>常用动词</strong>、形容词、副词、<strong>极端词</strong>、<strong>最高级</strong></p>
+</li>
+<li>
+<p>重叠选项得出答案</p>
+<p>注意 找出明显定位词后，最好阅读一下句子的意识，确认意思是不是现金</p>
+</li>
+<li>
+<p>查漏补缺</p>
+<p>找不到定位的就最后再做</p>
+<p>读每段的重点句：</p>
+<ul>
+<li>段首段尾句</li>
+<li>段中转折词，因果词，递进关系词</li>
+</ul>
+</li>
+</ol>
+<p>作业：</p>
+<p>整理模板把模板给背好，每5天写一篇作文和翻译</p>
+<p>对于阅读题：</p>
+<ol>
+<li>
+<p>按照lxy的方法对每道题做</p>
+</li>
+<li>
+<p>核实对错</p>
+</li>
+<li>
+<p>精度全文</p>
+</li>
+<li>
+<p>背不认识的单词和句子</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>English</category>
+      </categories>
+      <tags>
+        <tag>English</tag>
       </tags>
   </entry>
   <entry>
@@ -2719,6 +2719,13 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <ul>
 <li>ans：4046</li>
 </ul>
+<h1 id="特殊年份"><a class="header-anchor" href="#特殊年份">¶</a>特殊年份</h1>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210511154732image-20210511153814986.png" alt="image-20210511153814986" style="zoom:50%;" />
+<blockquote>
+<p>提示：</p>
+<p>​	读入之后判断一下即可；</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    string a;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; a;</span><br><span class="line">        <span class="keyword">if</span> (a[<span class="number">0</span>] == a[<span class="number">2</span>] <span class="keyword">and</span> a[<span class="number">3</span>] - a[<span class="number">1</span>] == <span class="number">1</span>)</span><br><span class="line">            res += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; res;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>未完待续…</p>
 ]]></content>
       <categories>
@@ -2898,69 +2905,6 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </categories>
       <tags>
         <tag>神经对抗攻击</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>空间金字塔池化网络SPP-Net</title>
-    <url>/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>@[toc]</p>
-<h2 id="0x01概要介绍"><a class="header-anchor" href="#0x01概要介绍">¶</a>0x01概要介绍</h2>
-<p>现有的深卷积神经网络（CNNs）需要一个固定大小（如224×224）的输入图像。这种要求是“人为的”，可能会降低对任意大小/比例的图像或子图像的识别精度。在这项工作中，我们为网络配备了另一种池策略“空间金字塔池”，以消除上述要求。这种新的网络结构称为SPP网，它可以生成一个固定长度的表示，而不考虑图像的大小/比例。金字塔池对对象变形也很健壮。有了这些优势，SPP网应该在总体上改进所有基于CNN的图像分类方法。</p>
-<span id="more"></span>
-<p><code>SPP-net使用单一的完整图像表示而不是精细的方法实现了最先进的分类结果-调音SPP网络的强大功能在目标检测中也很重要。利用SPP网络，我们只需计算一次来自整个图像的特征映射，然后将任意区域（子图像）的特征集合起来生成固定长度的表示，以训练检测器</code>。该方法避免了重复计算卷积特征。在处理测试图像时，我们的方法比R-CNN方法快24-102倍</p>
-<p><code>引出SPP-Net的原因：</code><br>
-在cnn的训练和测试中存在一个技术问题：目前流行的CNNs要求输入图像大小固定（如224×224），这既限制了输入的纵横比，也限制了输入的规模图像。什么时候对于任意大小的图像，当前的方法大多是将输入图像调整为固定大小，通过裁剪或通过翘曲，如图所示。但是裁剪区域可能不包含整个对象，而扭曲的内容可能会导致不需要的几何图形扭曲。识别由于内容丢失或失真，精度可能会受到影响。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029202219733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-<code>为什么需要固定尺寸？</code></p>
-<p>cnn主要由两部分组成：卷积层和随后的完全连接层。卷积层以滑动窗口方式操作，并输出表示激活的空间排列的特征图（图2）。事实上，旋转层不需要固定的图像大小，可以生成任何尺寸的特征图。另一方面，完全连接的层需要有固定大小/长度的定义输入。因此，固定大小约束仅来自完全连接层.</p>
-<p>输入本文引入空间金字塔池（SPP）来取消网络固定规模约束</p>
-<h2 id="0x02-spp-net"><a class="header-anchor" href="#0x02-spp-net">¶</a>0x02 SPP-Net</h2>
-<p>我添加了最后一个卷积层上的SPP层。spp层将特征集合起来，生成固定长度的输出，然后输入到完全连接的层（或其他分类器）。换句话说，我们在网络层次结构的高级阶段（在进化层和完全连接层之间）执行一些信息“聚合”，以避免在开始。图1（底部）通过引入SPP层显示了网络体系结构的变化。我们称之为新的网络结构spp-net</p>
-<p><code>SPP的优点</code></p>
-<p>SPP对于深层CNN有几个显著的特性：1）SPP能够生成固定长度的输出，而不考虑输入大小，而以前的deepnetworks中使用的滑动窗口池[3]不能；2）SPP使用多级而滑动窗口池只使用单个窗口大小。多层池对物体变形具有很强的鲁棒性[15]；3）由于输入尺度的灵活性，在可变尺度下提取的SPPcan池特征。实验表明，这些因素都提高了深层网络的识别精度。</p>
-<p>SPP-net不仅可以从任意大小的图像/窗口生成测试的表示，而且还允许我们在训练期间提供不同大小或比例的图像。使用可变大小的图像进行训练可以提高尺度不变性并减少过拟合。我们开发了一种简单的多尺寸采集方法。当我们接受一个网络输入的单一变量时，我们使用一个固定的网络大小来训练它。在每一个纪元中，我们用一个给定的输入大小训练网络，然后切换到另一个输入大小来进行下一步操作。实验表明，这种多尺度训练与传统的单尺度训练一样收敛，具有更好的测试精度。</p>
-<p><code>与R-CNN对对比：</code></p>
-<p>R-CNN中的特征计算是非常耗时的，因为它反复地将深度卷积网络应用于每幅图像上数千个扭曲区域的原始像素。Spp-Net可以在整个图像上运行卷积层（不考虑窗口数），然后通过SPP网络在特征地图上提取特征。注意 <strong>在特征地图（而不是图像区域）上训练/运行探测器实际上是一个更流行的想法。</strong> 但SPP网络继承了CNN深层特征映射的强大功能，同时也继承了SPP在任意窗口大小下的灵活性，从而使SPP网络具有了卓越的精度和效率。在我们的实验中，基于SPP网络的系统（建立在CNN管道上）计算的特征比R-CNN快24-102倍，具有更好的或可比性准确。有SPP网络可以促进更深层和更大的各种网络.</p>
-<h2 id="0x03-网络结构"><a class="header-anchor" href="#0x03-网络结构">¶</a>0x03 网络结构</h2>
-<h3 id="1x01-卷积层和特征图"><a class="header-anchor" href="#1x01-卷积层和特征图">¶</a>1x01 卷积层和特征图</h3>
-<p>考虑一下流行的七层架构，前五层是卷积的，其中一些是池层。这些池层也可以被认为是“卷积的”，因为它们使用的是滑动窗口。</p>
-<p>最后的两层是完全连接的，以N路softmax作为输出，其中N是类别的数目。</p>
-<p>上面描述的深度网络需要一个fixedimage大小。然而，我们注意到，固定尺寸的要求仅仅是由于完全连接的层需要固定长度向量作为输入。另一方面，卷积层接受轨道尺寸的输入。卷积层使用滑动过滤器，其输出与输入的aspectratio大致相同。这些输出被称为特征映射[1]——它们不仅涉及到响应的强度，而且涉及到它们的空间位置。</p>
-<p>将一些特征地图可视化。它们是由conv5layer的一些过滤器生成的。图2（c）显示了ImageNet数据集中这些过滤器的最强激活图像。我们看到过滤器可以被一些语义内容激活。例如，第55个滤波器（图2，左下角）最易被圆形激活；第66个滤波器（图2，右上角）最易被∧形激活；第118个滤波器（图2，右下角）最易被a∨激活-形状。这些输入图像中的形状（图2（a））激活相应位置的特征映射（图2中的箭头）</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029202425874.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>生成图2中的featuremaps，而不需要固定输入大小。这些由深卷积层生成的特征映射与传统方法中的特征映射相似[27]，[28]。在这些方法中，SIFT向量[29]或图像块[28]被密集地提取和编码，例如通过矢量量化、稀疏编码或费希尔核进行编码。这些编码的特征由特征映射组成，然后由词包（BoW）或空间金字塔集合。类似地，深卷积特征可以以类似的方式汇集在一起。</p>
-<h3 id="1x02-空间金字塔池层"><a class="header-anchor" href="#1x02-空间金字塔池层">¶</a>1x02 空间金字塔池层</h3>
-<p><img src="https://img-blog.csdnimg.cn/20201029202443152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>这样的向量可以通过单词包（BoW）方法生成，该方法将这些特征集合在一起。空间金字塔池[14]，[15]改进了BoW，因为它可以通过在局部空间容器中的池来保持空间信息。这些空间存储单元的大小与图像大小成比例，因此无论图像大小，存储单元的数量都是固定的。这与以前的深层网络的滑动窗口池[3]不同，其中滑动窗口的数量取决于输入大小。到对于任意大小的图像采用深网络，我们将最后一个池层（例如，在最后一个卷积层之后的pool5）替换为aspatialpyramd池层。图3说明了方法。输入每一个空间单元，我们将每个滤波器的响应集中起来（在本文中我们使用最大池），空间金字塔池的输出是km维向量，其中格数表示为sm（kis是最后一个卷积层中的滤波器数）。固定维向量被输入到全连通层。</p>
-<h2 id="0x04-训练网络"><a class="header-anchor" href="#0x04-训练网络">¶</a>0x04 训练网络</h2>
-<p>Spp-Net的训练过程分为两部</p>
-<h3 id="1x01-单一尺度训练-single-size"><a class="header-anchor" href="#1x01-单一尺度训练-single-size">¶</a>1x01 单一尺度训练——single-size</h3>
-<p>所谓单一尺寸训练指的是先只对一种固定输入图像进行训练，比如224 x 224，在conv5之后的特征图为：13x13这就是我们的（a x a）而我要得到的输出为4 x 4，2 x 2,1 x 1，怎么办呢？这里金字塔层bins即为 n x n，也就是4 x 4，2 x 2,1 x 1，我们要做的就是如何根据a和n设计一个池化层，使得a x a的输入能够得到n x n的输出。实际上这个池化层很好设计，我们称这个大小和步幅会变化的池化层为sliding window pooling。</p>
-<p>它的大小为：windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整。数据实验如下：</p>
-<p>当a x a为13 x 13时，要得到4 x 4的输出，池化层的大小为4，移动步幅为3；</p>
-<p>当a x a为13 x 13时，要得到2 x 2的输出，池化层的大小为7，移动步幅为6；</p>
-<p>当a x a为13 x 13时，要得到1 x 1的输出，池化层的大小为13，移动步幅为13；</p>
-<p>有的小伙伴一定发现，那如果我的输入a x a变化为10 x 10呢，此时再用上面的三个池化核好像得不到固定的理想输出啊，事实上的确如此，这是训练的第二个过程要讲的，因为此过程称之为“单一尺度训练”，针对的就是某一个固定的输入尺度而言的。</p>
-<h2 id="1x02-多尺寸训练-multi-size-以两种尺度为例"><a class="header-anchor" href="#1x02-多尺寸训练-multi-size-以两种尺度为例">¶</a>1x02 多尺寸训练——multi-size（以两种尺度为例）</h2>
-<p>虽然带有SPP（空间金字塔）的网络可以应用于任意尺寸，为了解决不同图像尺寸的训练问题，我们往往还是会考虑一些预设好的尺寸，而不是一些尺寸种类太多，毫无章法的输入尺寸。现在考虑这两个尺寸：180×180,224×224，此处只考虑这两个。</p>
-<p>我们使用<code>缩放</code>而不是裁剪，将前述的224的区域图像变成180大小。这样，不同尺度的区域仅仅是分辨率上的不同，而不是内容和布局上的不同。</p>
-<p>那么对于接受180输入的网络，我们实现另一个固定尺寸的网络。在论文中，conv5输出的特征图尺寸是axa=10×10。我们仍然使用windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整，实现每个金字塔池化层。这个180网络的空间金字塔层的输出的大小就和224网络的一样了。</p>
-<p>当a x a为10 x 10时，要得到4 x 4的输出，池化层的大小为3，移动步幅为2（注意：此处根据这样的一个池化层，10 x 10的输入好像并得不到4 x 4的输出，9 x 9或者是11 x 11的倒可以得到4 x 4的）这个地方我也还不是特别清楚这个点，后面我会说出我的个人理解。</p>
-<p>当a x a为10 x 10时，要得到2 x 2的输出，池化层的大小为5，移动步幅为5；</p>
-<p>当a x a为10 x 10时，要得到1 x 1的输出，池化层的大小为10，移动步幅为10；</p>
-<p>这样，这个180网络就和224网络拥有一样的参数了。换句话说，训练过程中，我们通过使用共享参数的两个固定尺寸的网络实现了不同输入尺寸的SPP-net。</p>
-<p>为了降低从一个网络（比如224）向另一个网络（比如180）切换的开销，我们在每个网络上训练一个完整的epoch，然后在下一个完成的epoch再切换到另一个网络（权重保留）。依此往复。实验中我们发现多尺寸训练的收敛速度和单尺寸差不多。</p>
-<p>多尺寸训练的主要目的是在保证已经充分利用现在被较好优化的固定尺寸网络实现的同时，模拟不同的输入尺寸。除了上述两个尺度的实现，我们也在每个epoch中测试了不同的s x s输入，s是从180到224之间均匀选取的。后面将在实验部分报告这些测试的结果。</p>
-<p>注意，上面的单尺寸或多尺寸解析度只用于训练。在测试阶段，是直接对各种尺寸的图像应用SPP-net的。</p>
-<h2 id="0x05-spp-net在目标检测上的应用"><a class="header-anchor" href="#0x05-spp-net在目标检测上的应用">¶</a>0x05 Spp-Net在目标检测上的应用</h2>
-<p>SPP网络，这个方法的思想在R-CNN、Fast RCNN， Faster RCNN上都起了举足轻重的作用，对于检测算法，论文中是这样做到：使用ss生成~2k个候选框，缩放图像min(w,h)=s之后提取特征，每个候选框使用一个4层的空间金字塔池化特征，网络使用的是ZF-5的SPPNet形式。之后将12800d的特征输入全连接层，SVM的输入为全连接层的输出。这个算法可以应用到多尺度的特征提取：先将图片resize到五个尺度：480，576，688，864，1200，加自己6个。然后在map window to feature map一步中，选择ROI框尺度在｛6个尺度｝中大小最接近224x224的那个尺度下的feature maps中提取对应的roi feature。这样做可以提高系统的准确率。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
-]]></content>
-      <categories>
-        <category>CV</category>
-      </categories>
-      <tags>
-        <tag>CV</tag>
       </tags>
   </entry>
   <entry>
@@ -3310,6 +3254,69 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </categories>
       <tags>
         <tag>神经对抗攻击</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>空间金字塔池化网络SPP-Net</title>
+    <url>/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>@[toc]</p>
+<h2 id="0x01概要介绍"><a class="header-anchor" href="#0x01概要介绍">¶</a>0x01概要介绍</h2>
+<p>现有的深卷积神经网络（CNNs）需要一个固定大小（如224×224）的输入图像。这种要求是“人为的”，可能会降低对任意大小/比例的图像或子图像的识别精度。在这项工作中，我们为网络配备了另一种池策略“空间金字塔池”，以消除上述要求。这种新的网络结构称为SPP网，它可以生成一个固定长度的表示，而不考虑图像的大小/比例。金字塔池对对象变形也很健壮。有了这些优势，SPP网应该在总体上改进所有基于CNN的图像分类方法。</p>
+<span id="more"></span>
+<p><code>SPP-net使用单一的完整图像表示而不是精细的方法实现了最先进的分类结果-调音SPP网络的强大功能在目标检测中也很重要。利用SPP网络，我们只需计算一次来自整个图像的特征映射，然后将任意区域（子图像）的特征集合起来生成固定长度的表示，以训练检测器</code>。该方法避免了重复计算卷积特征。在处理测试图像时，我们的方法比R-CNN方法快24-102倍</p>
+<p><code>引出SPP-Net的原因：</code><br>
+在cnn的训练和测试中存在一个技术问题：目前流行的CNNs要求输入图像大小固定（如224×224），这既限制了输入的纵横比，也限制了输入的规模图像。什么时候对于任意大小的图像，当前的方法大多是将输入图像调整为固定大小，通过裁剪或通过翘曲，如图所示。但是裁剪区域可能不包含整个对象，而扭曲的内容可能会导致不需要的几何图形扭曲。识别由于内容丢失或失真，精度可能会受到影响。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029202219733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<code>为什么需要固定尺寸？</code></p>
+<p>cnn主要由两部分组成：卷积层和随后的完全连接层。卷积层以滑动窗口方式操作，并输出表示激活的空间排列的特征图（图2）。事实上，旋转层不需要固定的图像大小，可以生成任何尺寸的特征图。另一方面，完全连接的层需要有固定大小/长度的定义输入。因此，固定大小约束仅来自完全连接层.</p>
+<p>输入本文引入空间金字塔池（SPP）来取消网络固定规模约束</p>
+<h2 id="0x02-spp-net"><a class="header-anchor" href="#0x02-spp-net">¶</a>0x02 SPP-Net</h2>
+<p>我添加了最后一个卷积层上的SPP层。spp层将特征集合起来，生成固定长度的输出，然后输入到完全连接的层（或其他分类器）。换句话说，我们在网络层次结构的高级阶段（在进化层和完全连接层之间）执行一些信息“聚合”，以避免在开始。图1（底部）通过引入SPP层显示了网络体系结构的变化。我们称之为新的网络结构spp-net</p>
+<p><code>SPP的优点</code></p>
+<p>SPP对于深层CNN有几个显著的特性：1）SPP能够生成固定长度的输出，而不考虑输入大小，而以前的deepnetworks中使用的滑动窗口池[3]不能；2）SPP使用多级而滑动窗口池只使用单个窗口大小。多层池对物体变形具有很强的鲁棒性[15]；3）由于输入尺度的灵活性，在可变尺度下提取的SPPcan池特征。实验表明，这些因素都提高了深层网络的识别精度。</p>
+<p>SPP-net不仅可以从任意大小的图像/窗口生成测试的表示，而且还允许我们在训练期间提供不同大小或比例的图像。使用可变大小的图像进行训练可以提高尺度不变性并减少过拟合。我们开发了一种简单的多尺寸采集方法。当我们接受一个网络输入的单一变量时，我们使用一个固定的网络大小来训练它。在每一个纪元中，我们用一个给定的输入大小训练网络，然后切换到另一个输入大小来进行下一步操作。实验表明，这种多尺度训练与传统的单尺度训练一样收敛，具有更好的测试精度。</p>
+<p><code>与R-CNN对对比：</code></p>
+<p>R-CNN中的特征计算是非常耗时的，因为它反复地将深度卷积网络应用于每幅图像上数千个扭曲区域的原始像素。Spp-Net可以在整个图像上运行卷积层（不考虑窗口数），然后通过SPP网络在特征地图上提取特征。注意 <strong>在特征地图（而不是图像区域）上训练/运行探测器实际上是一个更流行的想法。</strong> 但SPP网络继承了CNN深层特征映射的强大功能，同时也继承了SPP在任意窗口大小下的灵活性，从而使SPP网络具有了卓越的精度和效率。在我们的实验中，基于SPP网络的系统（建立在CNN管道上）计算的特征比R-CNN快24-102倍，具有更好的或可比性准确。有SPP网络可以促进更深层和更大的各种网络.</p>
+<h2 id="0x03-网络结构"><a class="header-anchor" href="#0x03-网络结构">¶</a>0x03 网络结构</h2>
+<h3 id="1x01-卷积层和特征图"><a class="header-anchor" href="#1x01-卷积层和特征图">¶</a>1x01 卷积层和特征图</h3>
+<p>考虑一下流行的七层架构，前五层是卷积的，其中一些是池层。这些池层也可以被认为是“卷积的”，因为它们使用的是滑动窗口。</p>
+<p>最后的两层是完全连接的，以N路softmax作为输出，其中N是类别的数目。</p>
+<p>上面描述的深度网络需要一个fixedimage大小。然而，我们注意到，固定尺寸的要求仅仅是由于完全连接的层需要固定长度向量作为输入。另一方面，卷积层接受轨道尺寸的输入。卷积层使用滑动过滤器，其输出与输入的aspectratio大致相同。这些输出被称为特征映射[1]——它们不仅涉及到响应的强度，而且涉及到它们的空间位置。</p>
+<p>将一些特征地图可视化。它们是由conv5layer的一些过滤器生成的。图2（c）显示了ImageNet数据集中这些过滤器的最强激活图像。我们看到过滤器可以被一些语义内容激活。例如，第55个滤波器（图2，左下角）最易被圆形激活；第66个滤波器（图2，右上角）最易被∧形激活；第118个滤波器（图2，右下角）最易被a∨激活-形状。这些输入图像中的形状（图2（a））激活相应位置的特征映射（图2中的箭头）</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029202425874.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>生成图2中的featuremaps，而不需要固定输入大小。这些由深卷积层生成的特征映射与传统方法中的特征映射相似[27]，[28]。在这些方法中，SIFT向量[29]或图像块[28]被密集地提取和编码，例如通过矢量量化、稀疏编码或费希尔核进行编码。这些编码的特征由特征映射组成，然后由词包（BoW）或空间金字塔集合。类似地，深卷积特征可以以类似的方式汇集在一起。</p>
+<h3 id="1x02-空间金字塔池层"><a class="header-anchor" href="#1x02-空间金字塔池层">¶</a>1x02 空间金字塔池层</h3>
+<p><img src="https://img-blog.csdnimg.cn/20201029202443152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>这样的向量可以通过单词包（BoW）方法生成，该方法将这些特征集合在一起。空间金字塔池[14]，[15]改进了BoW，因为它可以通过在局部空间容器中的池来保持空间信息。这些空间存储单元的大小与图像大小成比例，因此无论图像大小，存储单元的数量都是固定的。这与以前的深层网络的滑动窗口池[3]不同，其中滑动窗口的数量取决于输入大小。到对于任意大小的图像采用深网络，我们将最后一个池层（例如，在最后一个卷积层之后的pool5）替换为aspatialpyramd池层。图3说明了方法。输入每一个空间单元，我们将每个滤波器的响应集中起来（在本文中我们使用最大池），空间金字塔池的输出是km维向量，其中格数表示为sm（kis是最后一个卷积层中的滤波器数）。固定维向量被输入到全连通层。</p>
+<h2 id="0x04-训练网络"><a class="header-anchor" href="#0x04-训练网络">¶</a>0x04 训练网络</h2>
+<p>Spp-Net的训练过程分为两部</p>
+<h3 id="1x01-单一尺度训练-single-size"><a class="header-anchor" href="#1x01-单一尺度训练-single-size">¶</a>1x01 单一尺度训练——single-size</h3>
+<p>所谓单一尺寸训练指的是先只对一种固定输入图像进行训练，比如224 x 224，在conv5之后的特征图为：13x13这就是我们的（a x a）而我要得到的输出为4 x 4，2 x 2,1 x 1，怎么办呢？这里金字塔层bins即为 n x n，也就是4 x 4，2 x 2,1 x 1，我们要做的就是如何根据a和n设计一个池化层，使得a x a的输入能够得到n x n的输出。实际上这个池化层很好设计，我们称这个大小和步幅会变化的池化层为sliding window pooling。</p>
+<p>它的大小为：windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整。数据实验如下：</p>
+<p>当a x a为13 x 13时，要得到4 x 4的输出，池化层的大小为4，移动步幅为3；</p>
+<p>当a x a为13 x 13时，要得到2 x 2的输出，池化层的大小为7，移动步幅为6；</p>
+<p>当a x a为13 x 13时，要得到1 x 1的输出，池化层的大小为13，移动步幅为13；</p>
+<p>有的小伙伴一定发现，那如果我的输入a x a变化为10 x 10呢，此时再用上面的三个池化核好像得不到固定的理想输出啊，事实上的确如此，这是训练的第二个过程要讲的，因为此过程称之为“单一尺度训练”，针对的就是某一个固定的输入尺度而言的。</p>
+<h2 id="1x02-多尺寸训练-multi-size-以两种尺度为例"><a class="header-anchor" href="#1x02-多尺寸训练-multi-size-以两种尺度为例">¶</a>1x02 多尺寸训练——multi-size（以两种尺度为例）</h2>
+<p>虽然带有SPP（空间金字塔）的网络可以应用于任意尺寸，为了解决不同图像尺寸的训练问题，我们往往还是会考虑一些预设好的尺寸，而不是一些尺寸种类太多，毫无章法的输入尺寸。现在考虑这两个尺寸：180×180,224×224，此处只考虑这两个。</p>
+<p>我们使用<code>缩放</code>而不是裁剪，将前述的224的区域图像变成180大小。这样，不同尺度的区域仅仅是分辨率上的不同，而不是内容和布局上的不同。</p>
+<p>那么对于接受180输入的网络，我们实现另一个固定尺寸的网络。在论文中，conv5输出的特征图尺寸是axa=10×10。我们仍然使用windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整，实现每个金字塔池化层。这个180网络的空间金字塔层的输出的大小就和224网络的一样了。</p>
+<p>当a x a为10 x 10时，要得到4 x 4的输出，池化层的大小为3，移动步幅为2（注意：此处根据这样的一个池化层，10 x 10的输入好像并得不到4 x 4的输出，9 x 9或者是11 x 11的倒可以得到4 x 4的）这个地方我也还不是特别清楚这个点，后面我会说出我的个人理解。</p>
+<p>当a x a为10 x 10时，要得到2 x 2的输出，池化层的大小为5，移动步幅为5；</p>
+<p>当a x a为10 x 10时，要得到1 x 1的输出，池化层的大小为10，移动步幅为10；</p>
+<p>这样，这个180网络就和224网络拥有一样的参数了。换句话说，训练过程中，我们通过使用共享参数的两个固定尺寸的网络实现了不同输入尺寸的SPP-net。</p>
+<p>为了降低从一个网络（比如224）向另一个网络（比如180）切换的开销，我们在每个网络上训练一个完整的epoch，然后在下一个完成的epoch再切换到另一个网络（权重保留）。依此往复。实验中我们发现多尺寸训练的收敛速度和单尺寸差不多。</p>
+<p>多尺寸训练的主要目的是在保证已经充分利用现在被较好优化的固定尺寸网络实现的同时，模拟不同的输入尺寸。除了上述两个尺度的实现，我们也在每个epoch中测试了不同的s x s输入，s是从180到224之间均匀选取的。后面将在实验部分报告这些测试的结果。</p>
+<p>注意，上面的单尺寸或多尺寸解析度只用于训练。在测试阶段，是直接对各种尺寸的图像应用SPP-net的。</p>
+<h2 id="0x05-spp-net在目标检测上的应用"><a class="header-anchor" href="#0x05-spp-net在目标检测上的应用">¶</a>0x05 Spp-Net在目标检测上的应用</h2>
+<p>SPP网络，这个方法的思想在R-CNN、Fast RCNN， Faster RCNN上都起了举足轻重的作用，对于检测算法，论文中是这样做到：使用ss生成~2k个候选框，缩放图像min(w,h)=s之后提取特征，每个候选框使用一个4层的空间金字塔池化特征，网络使用的是ZF-5的SPPNet形式。之后将12800d的特征输入全连接层，SVM的输入为全连接层的输出。这个算法可以应用到多尺度的特征提取：先将图片resize到五个尺度：480，576，688，864，1200，加自己6个。然后在map window to feature map一步中，选择ROI框尺度在｛6个尺度｝中大小最接近224x224的那个尺度下的feature maps中提取对应的roi feature。这样做可以提高系统的准确率。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>CV</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
       </tags>
   </entry>
 </search>
