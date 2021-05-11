@@ -1,456 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>SQL Learning</title>
-    <url>/2021/01/12/SQL-Learning/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
-<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
-<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
-<p>Get all the custmers who’s patterns start with b/B</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>get all the custmers who’s last name start with brush</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>don’t care about the first character but the second character is y</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>% :  any number of characters</li>
-<li>_  :  single character</li>
-</ul>
-<p>EXERCISE</p>
-<ol>
-<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>Phone numbers end with 9</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
-<p>REGEXP: regular expression</p>
-<p>REGEXP is similar with LIKE</p>
-<p>Get all the customers who’s last name start with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who’s last name end with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words field,mac or rose in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words ge,me or ie in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>^ beginning</li>
-<li>$ end</li>
-<li>| logical or</li>
-<li>[abcd]</li>
-<li>[a-f]</li>
-</ul>
-<p>EXERCISE</p>
-<p>GET the customers whose</p>
-<ol>
-<li>first names are ELKA or AMBUR</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>last names end with EY or ON</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>Last names start with MY or contains SE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>last name contain B followed by R or U</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
-<p>search who does not have a phone</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<p>EXERCISE</p>
-<p>get the orders that are not shipped</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
-<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
-<p>Search customers order by first_name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
-<p>or you want to reverse the sort order</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
-<p>sort by multiple columns, for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
-<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
-<p>get the first 3 customers</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
-<p>Get customers form 6-9</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<p>6 is an offset, and 3 means the step</p>
-<p>EXERCISE</p>
-<ol>
-<li>Get the top three loyal customers</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
-<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
-<p>you can use JOIN to catch the relation between to tables;</p>
-<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
-<p>we can use alias to simplify the query.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
-<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
-<p>how to combine columns from tables in multiple databases ?</p>
-<p>Using database combines with sql_inventory database.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
-<p>the query will be different depending on the database</p>
-<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
-<p>In sql we can join tables with itself.</p>
-<p>In database sql_hr we have a table named employees.</p>
-<p>Now we need select each employee and their manager.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
-<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
-<p><strong>Exercise</strong></p>
-<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
-<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
-<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
-<p>we have mutiple conditions to join these two tables</p>
-<p>e.g.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
-<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
-<p>In Mysql we can use simple query to instead Join condition.</p>
-<p>for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【English】六级备考资料</title>
-    <url>/2021/05/04/%E3%80%90English%E3%80%91%E5%85%AD%E7%BA%A7%E5%A4%87%E8%80%83%E8%B5%84%E6%96%99/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>coronaPolvo 在这里许个愿望，希望2021年6月份的六级考试可以过</p>
-<hr>
-<h2 id="写作部分"><a class="header-anchor" href="#写作部分">¶</a>写作部分</h2>
-<p>六级写作常见题型：</p>
-<p>论说文 （基本就是他了）、谚语、图画图表、书信</p>
-<p>单词 - &gt; 句子 - &gt; 文章</p>
-<h3 id="常见的土单词排行榜"><a class="header-anchor" href="#常见的土单词排行榜">¶</a>常见的土单词排行榜</h3>
-<p>土单词一个也不要出现！</p>
-<h4 id="think"><a class="header-anchor" href="#think">¶</a>think</h4>
-<ul>
-<li>
-<p>have been convinced that</p>
-</li>
-<li>
-<p>argue</p>
-</li>
-<li>
-<p>be of the opinion that</p>
-</li>
-</ul>
-<h4 id="many"><a class="header-anchor" href="#many">¶</a>many</h4>
-<ul>
-<li>a sea of</li>
-<li>multitudes of</li>
-<li>Plentiful</li>
-</ul>
-<h4 id="people-we-us"><a class="header-anchor" href="#people-we-us">¶</a>people, we, us</h4>
-<p>要求用词要准确</p>
-<ul>
-<li>
-<p>个人：private individuals</p>
-</li>
-<li>
-<p>年轻人：youngsters and teenagers</p>
-</li>
-<li>
-<p>专家和教授：experts and professors</p>
-</li>
-<li>
-<p>所有人：all children and adults</p>
-</li>
-</ul>
-<h4 id="very"><a class="header-anchor" href="#very">¶</a>very</h4>
-<ul>
-<li>
-<p>exceedingly</p>
-</li>
-<li>
-<p>distinctly</p>
-</li>
-<li>
-<p>outstandingly</p>
-</li>
-<li>
-<p>strikingly</p>
-</li>
-</ul>
-<h4 id="important"><a class="header-anchor" href="#important">¶</a>important</h4>
-<ul>
-<li>Play a crucial role in sth</li>
-<li>significant</li>
-</ul>
-<h4 id="一些替换原则"><a class="header-anchor" href="#一些替换原则">¶</a>一些替换原则</h4>
-<p>人称代词使用被动进行替换</p>
-<p>逻辑单词替换在后面</p>
-<h3 id="写作中可能用到的万能句型"><a class="header-anchor" href="#写作中可能用到的万能句型">¶</a>写作中可能用到的万能句型</h3>
-<h4 id="主语从句"><a class="header-anchor" href="#主语从句">¶</a>主语从句</h4>
-<p>这个句型可以写到作文的任何地方，任何一句话的前面用来拉长句子；</p>
-<ul>
-<li>It seems beyond dispute that …</li>
-</ul>
-<h4 id="定语从句"><a class="header-anchor" href="#定语从句">¶</a>定语从句</h4>
-<p>which引导的非限定定语从句可以修饰前面一整句话；</p>
-<p><strong>这句话可以写作作文中任何一句话的后面。用作补充说明；</strong></p>
-<ul>
-<li>which has been widely accepted</li>
-</ul>
-<h4 id="万能状语"><a class="header-anchor" href="#万能状语">¶</a>万能状语</h4>
-<ul>
-<li>as every one can see it</li>
-<li>with the rapid advance of science and technology</li>
-<li>in our contemporary society</li>
-<li>in the general routine of everyday living</li>
-</ul>
-<h4 id="万能插入语"><a class="header-anchor" href="#万能插入语">¶</a>万能插入语</h4>
-<p>写在某一段，段首句的主谓之间</p>
-<ul>
-<li>to tell the truth</li>
-</ul>
-<h4 id="强调句型"><a class="header-anchor" href="#强调句型">¶</a>强调句型</h4>
-<p>只是作强调，作文中所有的句子都可以写成强调句型，只要不强调谓语就行；</p>
-<p>推荐写在每一段的段首句；</p>
-<h3 id="文章"><a class="header-anchor" href="#文章">¶</a>文章</h3>
-<h4 id="谚语警句类"><a class="header-anchor" href="#谚语警句类">¶</a>谚语警句类</h4>
-<p><strong>第一段：引出主题+解释你对这句话的理解（3句）</strong></p>
-<ul>
-<li>Nowadays, there remains an increasing interest in the topic about … ;</li>
-</ul>
-<p>替换单词之后，用前面的句型稍做加工</p>
-<p>第二、三句：解释这句话的意思</p>
-<ul>
-<li>The meaning of the saying seems that… ,</li>
-</ul>
-<p>如果实在解释不了，就把原句做一下单词修改给抄上去，然后在做一下句型加工；</p>
-<p><strong>第二段：举例</strong>  (3-4句)</p>
-<ul>
-<li>Although so abundant cases can support my simple view. The following one is most favorable.</li>
-</ul>
-<p>大概思路：我有一个什么什么样的xx像什么什么样，他是一个什么什么样的人，但是不拉不拉，所以我们要向他学习做一个xxx的人。</p>
-<p>第三段：总结（4句话）</p>
-<p><strong>总结句 + 具体措施1 + 具体措施2 + 喊口号</strong></p>
-<p>具体措施从：政府, 父母，学校，个人四方方面选两个方面去选</p>
-<ul>
-<li>总结：It is really high time that due attention cannot have failed to paid to the issue about …</li>
-<li>具体措施1：Parents are supposed to spend more time educating their kids to do sth eg. to be happy facing difficulties to put eggs in different baskets</li>
-<li>具体措施2：Awareness about sth could be cultivated to make ourselves lead a healthy and favorable life.</li>
-<li>喊口号：The more actively people face the issue, the more happily they will lead their life.</li>
-</ul>
-<h4 id="图画图表作文"><a class="header-anchor" href="#图画图表作文">¶</a>图画图表作文</h4>
-<p><strong>第一段： 描述图画 （2句）+ 中心总结 （1句）</strong></p>
-<p>一二句主语从句描述图画</p>
-<ol>
-<li>
-<p>The majority of people would agree that sth has caused serious problems</p>
-</li>
-<li>
-<p>It is superficially a simple phenomenon, but when subjected to analysis, it has its fundamental reasons</p>
-</li>
-</ol>
-<p>然后总结图像中心思想：</p>
-<ul>
-<li>Simple as the cartoon looks, its meaning behind is really so far-reaching If you desire to do something great, you have to do it from small things.</li>
-</ul>
-<p><strong>第二段：举例</strong></p>
-<p><strong>第三段：完全同谚语警句类作文</strong></p>
-<h4 id="论说文"><a class="header-anchor" href="#论说文">¶</a>论说文</h4>
-<p><strong>第一段 引出主题 + 个人观点</strong> （2句）</p>
-<ul>
-<li>What is your idea as to the topic about.? It is my belief that</li>
-<li>It looks beyond dispute that the issue about. has caused wide public attention.</li>
-</ul>
-<p><strong>第二段 举例</strong></p>
-<p><strong>第三段 完全同谚语警句类作文</strong></p>
-<h2 id="翻译部分"><a class="header-anchor" href="#翻译部分">¶</a>翻译部分</h2>
-<p>10-12分： 译文基本上表达了原文的意思。文字通顺、连贯,无语言错误；</p>
-<ol>
-<li>
-<p>使用上位单词替换</p>
-</li>
-<li>
-<p>使用同义词</p>
-</li>
-<li>
-<p>用自己的话就行解释</p>
-</li>
-<li>
-<p>大词随便写，小词就没看见</p>
-</li>
-</ol>
-<h3 id="英汉差异对比"><a class="header-anchor" href="#英汉差异对比">¶</a>英汉差异对比</h3>
-<ol>
-<li>
-<p>汉语意合，英语形和</p>
-<p>句子结构上：汉语没有主谓宾之分，汉语一定有主谓，主语一定是动作的发出者，宾语一定是动作的承受者</p>
-<p><strong>逻辑关系词的使用</strong></p>
-<ul>
-<li>
-<p>and: similarly,  equally</p>
-</li>
-<li>
-<p>but: nevertheless, by contrast</p>
-</li>
-<li>
-<p>Then: besides, moreover</p>
-</li>
-</ul>
-</li>
-<li>
-<p>英语多被动，汉语多主动</p>
-<ul>
-<li>在过去几十年里,政府采取了各种措施防止灾害发生。<br>
-Various measures, in the past decades, have been taken to prevent disasters</li>
-<li>那时,黄色是专为皇帝使用的颜色,皇家宮殿全都漆成黄色,皇袍总是 黄色的,而普通老百姓是禁止穿黄色衣服的。<br>
-At that time, yellow <strong>was designed</strong> to use for the emperor-the royal palace was painted yellow and the imperial robe was always yellow too. However, the ordinary people <strong>were not allowed</strong> to wear yellow clothes</li>
-<li>最近,中国科学院( Chinese Academy of Sciences)出版了关于其最 新科学发现与末来一年展望的年度系列报告。<br>
-An annual report about its latest scientific findings and the prospect of the next year was recently published by Chinese<br>
-Academy of Science</li>
-</ul>
-</li>
-<li>
-<p>英语多长句 汉语多短句</p>
-<p>短句写成长句的三种方式</p>
-<ul>
-<li>
-<p>非谓语动词</p>
-<ul>
-<li>长江流经多种不同的生态系统,是诸多濒危物种的栖息地,灌溉了 中国五分之一的土地。(2017四级)<br>
-The Yangzi River, flowing through different ecological systems keeps the habitat of plentiful endangered animals, irrigating one fifth of Chinese land.</li>
-<li>乌镇是浙江的一座古老水镇,坐落在京杭大运河畔。这是一处迷人的地 方,有许多古桥、中式旅店和餐馆。<br>
-Wuzhen, an ancient water town of Zhejiang province, is located near the Beijing-hangzhou Grand Canal, which is really a charming place with many ancient bridges, Chinese style hotels and restaurants there.  并列的会写一个就够了；</li>
-</ul>
-</li>
-<li>
-<p>从句</p>
-<ul>
-<li>大熊猫是熊科中最罕见的成员,主要生活在中国西南部的森林里。<br>
-Pandas which mainly live in the forest of Southeast in China are the rarest members</li>
-<li>中国人自古以来就在中秋节庆祝丰收,这与北美庆祝感恩节非常相似。<br>
-Chinese have had the tradition to celebrate harvest in the Middle-Autumn, which proves quite similar with Thanks-giving Day in North America</li>
-</ul>
-</li>
-<li>
-<p>逻辑关系词</p>
-<ul>
-<li>在过去一干年里,乌镇的水系和生活方式并未经历多少变化是一座展现古文明的博物馆。<br>
-In the past thousand years, the water system and the life way of Wuzhen have not gone through many changes. <strong>Therefor</strong>e, it now is the museum to show anicent civilization.</li>
-<li>这些资金用于改善教学设施、购买书籍,使16万多所中小学收益。资金还用于购 置音乐和绘画器材。现在农村和山区的儿童可以与沿海城市的儿童一样上音乐和 绘画课。(2014年四级)<br>
-These funds are used to improve educational facilities, purchase books and more than 160 thousands primary schools and middle schools benefit from it. <strong>In addition</strong>, the fund is to be used for purchasing music and painting facilities. As a consequence, nowadays the children in the rurual areas can have the music and painting classes as the same as the children in the coastal cities do</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="翻译步骤"><a class="header-anchor" href="#翻译步骤">¶</a>翻译步骤</h3>
-<ol>
-<li>以意群为单位读句子，确定句子的时态</li>
-<li>确定句子的主干，非主干的部分用定语和状语来修饰</li>
-<li>每句话翻译完之后都要看该句话与下一句话的关系，从而加逻辑关系词</li>
-</ol>
-<h2 id="传统阅读"><a class="header-anchor" href="#传统阅读">¶</a>传统阅读</h2>
-<ol>
-<li>时间： 8分钟</li>
-</ol>
-<ul>
-<li>先读首段已经各段的第一句</li>
-<li>顺序原则</li>
-</ul>
-<h3 id="主旨题"><a class="header-anchor" href="#主旨题">¶</a>主旨题</h3>
-<p>无论题目问什么，选项里面和主题贴的最近的就是答案；</p>
-<h3 id="作者态度不选词"><a class="header-anchor" href="#作者态度不选词">¶</a>作者态度不选词</h3>
-<ul>
-<li>indifferent</li>
-<li>biased</li>
-<li>prejudiced</li>
-<li>detached</li>
-<li>neutral</li>
-<li>pessimistic</li>
-<li>subiective</li>
-<li>puzzled</li>
-<li>confused</li>
-</ul>
-<h3 id="答案分布"><a class="header-anchor" href="#答案分布">¶</a>答案分布</h3>
-<p>2233懂得都懂</p>
-<h2 id="长篇阅读"><a class="header-anchor" href="#长篇阅读">¶</a>长篇阅读</h2>
-<ol>
-<li>
-<p>看大标题和小标题，推测文章大概内容及作者态度 【中心词不能拿来定位】</p>
-</li>
-<li>
-<p>找题干中的定位词，回头定位：</p>
-<ul>
-<li>专有名词：时间 地点 人名 地名 国家名</li>
-<li>固定概念：合成词 …</li>
-</ul>
-</li>
-<li>
-<p>如果以上定位线索没有，则是：</p>
-<p><strong>常用动词</strong>、形容词、副词、<strong>极端词</strong>、<strong>最高级</strong></p>
-</li>
-<li>
-<p>重叠选项得出答案</p>
-<p>注意 找出明显定位词后，最好阅读一下句子的意识，确认意思是不是现金</p>
-</li>
-<li>
-<p>查漏补缺</p>
-<p>找不到定位的就最后再做</p>
-<p>读每段的重点句：</p>
-<ul>
-<li>段首段尾句</li>
-<li>段中转折词，因果词，递进关系词</li>
-</ul>
-</li>
-</ol>
-<p>作业：</p>
-<p>整理模板把模板给背好，每5天写一篇作文和翻译</p>
-<p>对于阅读题：</p>
-<ol>
-<li>
-<p>按照lxy的方法对每道题做</p>
-</li>
-<li>
-<p>核实对错</p>
-</li>
-<li>
-<p>精度全文</p>
-</li>
-<li>
-<p>背不认识的单词和句子</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>English</category>
-      </categories>
-      <tags>
-        <tag>English</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【English】词根词缀</title>
-    <url>/2021/04/20/%E3%80%90English%E3%80%91%E8%AF%8D%E6%A0%B9%E8%AF%8D%E7%BC%80/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script>]]></content>
-      <categories>
-        <category>English</category>
-      </categories>
-      <tags>
-        <tag>English</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Database Review</title>
     <url>/2021/04/11/Database-Review/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="database-review"><a class="header-anchor" href="#database-review">¶</a>DataBase Review</h1>
@@ -1016,6 +566,456 @@ R3({A,D}，{∅}) }</p>
       </categories>
       <tags>
         <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SQL Learning</title>
+    <url>/2021/01/12/SQL-Learning/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
+<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
+<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
+<p>Get all the custmers who’s patterns start with b/B</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>get all the custmers who’s last name start with brush</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>don’t care about the first character but the second character is y</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>% :  any number of characters</li>
+<li>_  :  single character</li>
+</ul>
+<p>EXERCISE</p>
+<ol>
+<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Phone numbers end with 9</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
+<p>REGEXP: regular expression</p>
+<p>REGEXP is similar with LIKE</p>
+<p>Get all the customers who’s last name start with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who’s last name end with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words field,mac or rose in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words ge,me or ie in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>^ beginning</li>
+<li>$ end</li>
+<li>| logical or</li>
+<li>[abcd]</li>
+<li>[a-f]</li>
+</ul>
+<p>EXERCISE</p>
+<p>GET the customers whose</p>
+<ol>
+<li>first names are ELKA or AMBUR</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>last names end with EY or ON</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Last names start with MY or contains SE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>last name contain B followed by R or U</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
+<p>search who does not have a phone</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<p>EXERCISE</p>
+<p>get the orders that are not shipped</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
+<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
+<p>Search customers order by first_name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
+<p>or you want to reverse the sort order</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<p>sort by multiple columns, for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
+<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
+<p>get the first 3 customers</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
+<p>Get customers form 6-9</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>6 is an offset, and 3 means the step</p>
+<p>EXERCISE</p>
+<ol>
+<li>Get the top three loyal customers</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
+<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
+<p>you can use JOIN to catch the relation between to tables;</p>
+<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
+<p>we can use alias to simplify the query.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
+<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
+<p>how to combine columns from tables in multiple databases ?</p>
+<p>Using database combines with sql_inventory database.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
+<p>the query will be different depending on the database</p>
+<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
+<p>In sql we can join tables with itself.</p>
+<p>In database sql_hr we have a table named employees.</p>
+<p>Now we need select each employee and their manager.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
+<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
+<p><strong>Exercise</strong></p>
+<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
+<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
+<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
+<p>we have mutiple conditions to join these two tables</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
+<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
+<p>In Mysql we can use simple query to instead Join condition.</p>
+<p>for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【English】六级备考资料</title>
+    <url>/2021/05/04/%E3%80%90English%E3%80%91%E5%85%AD%E7%BA%A7%E5%A4%87%E8%80%83%E8%B5%84%E6%96%99/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>coronaPolvo 在这里许个愿望，希望2021年6月份的六级考试可以过</p>
+<hr>
+<h2 id="写作部分"><a class="header-anchor" href="#写作部分">¶</a>写作部分</h2>
+<p>六级写作常见题型：</p>
+<p>论说文 （基本就是他了）、谚语、图画图表、书信</p>
+<p>单词 - &gt; 句子 - &gt; 文章</p>
+<h3 id="常见的土单词排行榜"><a class="header-anchor" href="#常见的土单词排行榜">¶</a>常见的土单词排行榜</h3>
+<p>土单词一个也不要出现！</p>
+<h4 id="think"><a class="header-anchor" href="#think">¶</a>think</h4>
+<ul>
+<li>
+<p>have been convinced that</p>
+</li>
+<li>
+<p>argue</p>
+</li>
+<li>
+<p>be of the opinion that</p>
+</li>
+</ul>
+<h4 id="many"><a class="header-anchor" href="#many">¶</a>many</h4>
+<ul>
+<li>a sea of</li>
+<li>multitudes of</li>
+<li>Plentiful</li>
+</ul>
+<h4 id="people-we-us"><a class="header-anchor" href="#people-we-us">¶</a>people, we, us</h4>
+<p>要求用词要准确</p>
+<ul>
+<li>
+<p>个人：private individuals</p>
+</li>
+<li>
+<p>年轻人：youngsters and teenagers</p>
+</li>
+<li>
+<p>专家和教授：experts and professors</p>
+</li>
+<li>
+<p>所有人：all children and adults</p>
+</li>
+</ul>
+<h4 id="very"><a class="header-anchor" href="#very">¶</a>very</h4>
+<ul>
+<li>
+<p>exceedingly</p>
+</li>
+<li>
+<p>distinctly</p>
+</li>
+<li>
+<p>outstandingly</p>
+</li>
+<li>
+<p>strikingly</p>
+</li>
+</ul>
+<h4 id="important"><a class="header-anchor" href="#important">¶</a>important</h4>
+<ul>
+<li>Play a crucial role in sth</li>
+<li>significant</li>
+</ul>
+<h4 id="一些替换原则"><a class="header-anchor" href="#一些替换原则">¶</a>一些替换原则</h4>
+<p>人称代词使用被动进行替换</p>
+<p>逻辑单词替换在后面</p>
+<h3 id="写作中可能用到的万能句型"><a class="header-anchor" href="#写作中可能用到的万能句型">¶</a>写作中可能用到的万能句型</h3>
+<h4 id="主语从句"><a class="header-anchor" href="#主语从句">¶</a>主语从句</h4>
+<p>这个句型可以写到作文的任何地方，任何一句话的前面用来拉长句子；</p>
+<ul>
+<li>It seems beyond dispute that …</li>
+</ul>
+<h4 id="定语从句"><a class="header-anchor" href="#定语从句">¶</a>定语从句</h4>
+<p>which引导的非限定定语从句可以修饰前面一整句话；</p>
+<p><strong>这句话可以写作作文中任何一句话的后面。用作补充说明；</strong></p>
+<ul>
+<li>which has been widely accepted</li>
+</ul>
+<h4 id="万能状语"><a class="header-anchor" href="#万能状语">¶</a>万能状语</h4>
+<ul>
+<li>as every one can see it</li>
+<li>with the rapid advance of science and technology</li>
+<li>in our contemporary society</li>
+<li>in the general routine of everyday living</li>
+</ul>
+<h4 id="万能插入语"><a class="header-anchor" href="#万能插入语">¶</a>万能插入语</h4>
+<p>写在某一段，段首句的主谓之间</p>
+<ul>
+<li>to tell the truth</li>
+</ul>
+<h4 id="强调句型"><a class="header-anchor" href="#强调句型">¶</a>强调句型</h4>
+<p>只是作强调，作文中所有的句子都可以写成强调句型，只要不强调谓语就行；</p>
+<p>推荐写在每一段的段首句；</p>
+<h3 id="文章"><a class="header-anchor" href="#文章">¶</a>文章</h3>
+<h4 id="谚语警句类"><a class="header-anchor" href="#谚语警句类">¶</a>谚语警句类</h4>
+<p><strong>第一段：引出主题+解释你对这句话的理解（3句）</strong></p>
+<ul>
+<li>Nowadays, there remains an increasing interest in the topic about … ;</li>
+</ul>
+<p>替换单词之后，用前面的句型稍做加工</p>
+<p>第二、三句：解释这句话的意思</p>
+<ul>
+<li>The meaning of the saying seems that… ,</li>
+</ul>
+<p>如果实在解释不了，就把原句做一下单词修改给抄上去，然后在做一下句型加工；</p>
+<p><strong>第二段：举例</strong>  (3-4句)</p>
+<ul>
+<li>Although so abundant cases can support my simple view. The following one is most favorable.</li>
+</ul>
+<p>大概思路：我有一个什么什么样的xx像什么什么样，他是一个什么什么样的人，但是不拉不拉，所以我们要向他学习做一个xxx的人。</p>
+<p>第三段：总结（4句话）</p>
+<p><strong>总结句 + 具体措施1 + 具体措施2 + 喊口号</strong></p>
+<p>具体措施从：政府, 父母，学校，个人四方方面选两个方面去选</p>
+<ul>
+<li>总结：It is really high time that due attention cannot have failed to paid to the issue about …</li>
+<li>具体措施1：Parents are supposed to spend more time educating their kids to do sth eg. to be happy facing difficulties to put eggs in different baskets</li>
+<li>具体措施2：Awareness about sth could be cultivated to make ourselves lead a healthy and favorable life.</li>
+<li>喊口号：The more actively people face the issue, the more happily they will lead their life.</li>
+</ul>
+<h4 id="图画图表作文"><a class="header-anchor" href="#图画图表作文">¶</a>图画图表作文</h4>
+<p><strong>第一段： 描述图画 （2句）+ 中心总结 （1句）</strong></p>
+<p>一二句主语从句描述图画</p>
+<ol>
+<li>
+<p>The majority of people would agree that sth has caused serious problems</p>
+</li>
+<li>
+<p>It is superficially a simple phenomenon, but when subjected to analysis, it has its fundamental reasons</p>
+</li>
+</ol>
+<p>然后总结图像中心思想：</p>
+<ul>
+<li>Simple as the cartoon looks, its meaning behind is really so far-reaching If you desire to do something great, you have to do it from small things.</li>
+</ul>
+<p><strong>第二段：举例</strong></p>
+<p><strong>第三段：完全同谚语警句类作文</strong></p>
+<h4 id="论说文"><a class="header-anchor" href="#论说文">¶</a>论说文</h4>
+<p><strong>第一段 引出主题 + 个人观点</strong> （2句）</p>
+<ul>
+<li>What is your idea as to the topic about.? It is my belief that</li>
+<li>It looks beyond dispute that the issue about. has caused wide public attention.</li>
+</ul>
+<p><strong>第二段 举例</strong></p>
+<p><strong>第三段 完全同谚语警句类作文</strong></p>
+<h2 id="翻译部分"><a class="header-anchor" href="#翻译部分">¶</a>翻译部分</h2>
+<p>10-12分： 译文基本上表达了原文的意思。文字通顺、连贯,无语言错误；</p>
+<ol>
+<li>
+<p>使用上位单词替换</p>
+</li>
+<li>
+<p>使用同义词</p>
+</li>
+<li>
+<p>用自己的话就行解释</p>
+</li>
+<li>
+<p>大词随便写，小词就没看见</p>
+</li>
+</ol>
+<h3 id="英汉差异对比"><a class="header-anchor" href="#英汉差异对比">¶</a>英汉差异对比</h3>
+<ol>
+<li>
+<p>汉语意合，英语形和</p>
+<p>句子结构上：汉语没有主谓宾之分，汉语一定有主谓，主语一定是动作的发出者，宾语一定是动作的承受者</p>
+<p><strong>逻辑关系词的使用</strong></p>
+<ul>
+<li>
+<p>and: similarly,  equally</p>
+</li>
+<li>
+<p>but: nevertheless, by contrast</p>
+</li>
+<li>
+<p>Then: besides, moreover</p>
+</li>
+</ul>
+</li>
+<li>
+<p>英语多被动，汉语多主动</p>
+<ul>
+<li>在过去几十年里,政府采取了各种措施防止灾害发生。<br>
+Various measures, in the past decades, have been taken to prevent disasters</li>
+<li>那时,黄色是专为皇帝使用的颜色,皇家宮殿全都漆成黄色,皇袍总是 黄色的,而普通老百姓是禁止穿黄色衣服的。<br>
+At that time, yellow <strong>was designed</strong> to use for the emperor-the royal palace was painted yellow and the imperial robe was always yellow too. However, the ordinary people <strong>were not allowed</strong> to wear yellow clothes</li>
+<li>最近,中国科学院( Chinese Academy of Sciences)出版了关于其最 新科学发现与末来一年展望的年度系列报告。<br>
+An annual report about its latest scientific findings and the prospect of the next year was recently published by Chinese<br>
+Academy of Science</li>
+</ul>
+</li>
+<li>
+<p>英语多长句 汉语多短句</p>
+<p>短句写成长句的三种方式</p>
+<ul>
+<li>
+<p>非谓语动词</p>
+<ul>
+<li>长江流经多种不同的生态系统,是诸多濒危物种的栖息地,灌溉了 中国五分之一的土地。(2017四级)<br>
+The Yangzi River, flowing through different ecological systems keeps the habitat of plentiful endangered animals, irrigating one fifth of Chinese land.</li>
+<li>乌镇是浙江的一座古老水镇,坐落在京杭大运河畔。这是一处迷人的地 方,有许多古桥、中式旅店和餐馆。<br>
+Wuzhen, an ancient water town of Zhejiang province, is located near the Beijing-hangzhou Grand Canal, which is really a charming place with many ancient bridges, Chinese style hotels and restaurants there.  并列的会写一个就够了；</li>
+</ul>
+</li>
+<li>
+<p>从句</p>
+<ul>
+<li>大熊猫是熊科中最罕见的成员,主要生活在中国西南部的森林里。<br>
+Pandas which mainly live in the forest of Southeast in China are the rarest members</li>
+<li>中国人自古以来就在中秋节庆祝丰收,这与北美庆祝感恩节非常相似。<br>
+Chinese have had the tradition to celebrate harvest in the Middle-Autumn, which proves quite similar with Thanks-giving Day in North America</li>
+</ul>
+</li>
+<li>
+<p>逻辑关系词</p>
+<ul>
+<li>在过去一干年里,乌镇的水系和生活方式并未经历多少变化是一座展现古文明的博物馆。<br>
+In the past thousand years, the water system and the life way of Wuzhen have not gone through many changes. <strong>Therefor</strong>e, it now is the museum to show anicent civilization.</li>
+<li>这些资金用于改善教学设施、购买书籍,使16万多所中小学收益。资金还用于购 置音乐和绘画器材。现在农村和山区的儿童可以与沿海城市的儿童一样上音乐和 绘画课。(2014年四级)<br>
+These funds are used to improve educational facilities, purchase books and more than 160 thousands primary schools and middle schools benefit from it. <strong>In addition</strong>, the fund is to be used for purchasing music and painting facilities. As a consequence, nowadays the children in the rurual areas can have the music and painting classes as the same as the children in the coastal cities do</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="翻译步骤"><a class="header-anchor" href="#翻译步骤">¶</a>翻译步骤</h3>
+<ol>
+<li>以意群为单位读句子，确定句子的时态</li>
+<li>确定句子的主干，非主干的部分用定语和状语来修饰</li>
+<li>每句话翻译完之后都要看该句话与下一句话的关系，从而加逻辑关系词</li>
+</ol>
+<h2 id="传统阅读"><a class="header-anchor" href="#传统阅读">¶</a>传统阅读</h2>
+<ol>
+<li>时间： 8分钟</li>
+</ol>
+<ul>
+<li>先读首段已经各段的第一句</li>
+<li>顺序原则</li>
+</ul>
+<h3 id="主旨题"><a class="header-anchor" href="#主旨题">¶</a>主旨题</h3>
+<p>无论题目问什么，选项里面和主题贴的最近的就是答案；</p>
+<h3 id="作者态度不选词"><a class="header-anchor" href="#作者态度不选词">¶</a>作者态度不选词</h3>
+<ul>
+<li>indifferent</li>
+<li>biased</li>
+<li>prejudiced</li>
+<li>detached</li>
+<li>neutral</li>
+<li>pessimistic</li>
+<li>subiective</li>
+<li>puzzled</li>
+<li>confused</li>
+</ul>
+<h3 id="答案分布"><a class="header-anchor" href="#答案分布">¶</a>答案分布</h3>
+<p>2233懂得都懂</p>
+<h2 id="长篇阅读"><a class="header-anchor" href="#长篇阅读">¶</a>长篇阅读</h2>
+<ol>
+<li>
+<p>看大标题和小标题，推测文章大概内容及作者态度 【中心词不能拿来定位】</p>
+</li>
+<li>
+<p>找题干中的定位词，回头定位：</p>
+<ul>
+<li>专有名词：时间 地点 人名 地名 国家名</li>
+<li>固定概念：合成词 …</li>
+</ul>
+</li>
+<li>
+<p>如果以上定位线索没有，则是：</p>
+<p><strong>常用动词</strong>、形容词、副词、<strong>极端词</strong>、<strong>最高级</strong></p>
+</li>
+<li>
+<p>重叠选项得出答案</p>
+<p>注意 找出明显定位词后，最好阅读一下句子的意识，确认意思是不是现金</p>
+</li>
+<li>
+<p>查漏补缺</p>
+<p>找不到定位的就最后再做</p>
+<p>读每段的重点句：</p>
+<ul>
+<li>段首段尾句</li>
+<li>段中转折词，因果词，递进关系词</li>
+</ul>
+</li>
+</ol>
+<p>作业：</p>
+<p>整理模板把模板给背好，每5天写一篇作文和翻译</p>
+<p>对于阅读题：</p>
+<ol>
+<li>
+<p>按照lxy的方法对每道题做</p>
+</li>
+<li>
+<p>核实对错</p>
+</li>
+<li>
+<p>精度全文</p>
+</li>
+<li>
+<p>背不认识的单词和句子</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>English</category>
+      </categories>
+      <tags>
+        <tag>English</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【English】词根词缀</title>
+    <url>/2021/04/20/%E3%80%90English%E3%80%91%E8%AF%8D%E6%A0%B9%E8%AF%8D%E7%BC%80/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script>]]></content>
+      <categories>
+        <category>English</category>
+      </categories>
+      <tags>
+        <tag>English</tag>
       </tags>
   </entry>
   <entry>
@@ -1707,6 +1707,164 @@ x \equiv b2 \ (mod \ 29) \\
       </tags>
   </entry>
   <entry>
+    <title>【白帽子学习笔记】CTF实践</title>
+    <url>/2020/12/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91CTF%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="白帽子学习笔记-ctf实践"><a class="header-anchor" href="#白帽子学习笔记-ctf实践">¶</a>【白帽子学习笔记】CTF实践</h1>
+<h2 id="0x01-实验知识点"><a class="header-anchor" href="#0x01-实验知识点">¶</a>0x01 实验知识点</h2>
+<h3 id="1x01-什么是ctf？"><a class="header-anchor" href="#1x01-什么是ctf？">¶</a>1x01 什么是CTF？</h3>
+<p>CTF（Capture The Flag）中文一般译作夺旗赛，在网络安全领域中指的是网络安全技术人员之间进行技术竞技的一种比赛形式。CTF起源于1996年DEFCON全球黑客大会，以代替之前黑客们通过互相发起真实攻击进行技术比拼的方式。发展至今，已经成为全球范围网络安全圈流行的竞赛形式，2013年全球举办了超过五十场国际性CTF赛事。而DEFCON作为CTF赛制的发源地，DEFCON CTF也成为了目前全球最高技术水平和影响力的CTF竞赛，类似于CTF赛场中的“世界杯”。</p>
+<h3 id="1x02-ctf竞赛模式"><a class="header-anchor" href="#1x02-ctf竞赛模式">¶</a>1x02 CTF竞赛模式</h3>
+<p>（1）解题模式（Jeopardy）在解题模式CTF赛制中，参赛队伍可以通过互联网或者现场网络参与，这种模式的CTF竞赛与ACM编程竞赛、信息学奥赛比较类似，以解决网络安全技术挑战题目的分值和时间来排名，通常用于在线选拔赛。题目主要包含逆向、漏洞挖掘与利用、Web渗透、密码、取证、隐写、安全编程等类别。</p>
+<p>（2）攻防模式（Attack-Defense）在攻防模式CTF赛制中，参赛队伍在网络空间互相进行攻击和防守，挖掘网络服务漏洞并攻击对手服务来得分，修补自身服务漏洞进行防御来避免丢分。攻防模式CTF赛制可以实时通过得分反映出比赛情况，最终也以得分直接分出胜负，是一种竞争激烈，具有很强观赏性和高度透明性的网络安全赛制。在这种赛制中，不仅仅是比参赛队员的智力和技术，也比体力（因为比赛一般都会持续48小时及以上），同时也比团队之间的分工配合与合作。</p>
+<p>（3）混合模式（Mix）结合了解题模式与攻防模式的CTF赛制，比如参赛队伍通过解题可以获取一些初始分数，然后通过攻防对抗进行得分增减的零和游戏，最终以得分高低分出胜负。采用混合模式CTF赛制的典型代表如iCTF国际CTF竞赛。</p>
+<span id="more"></span>
+<p>1.2 CTF各大题型简介</p>
+<h3 id="1x03-ctf各大题型简介"><a class="header-anchor" href="#1x03-ctf各大题型简介">¶</a>1x03 CTF各大题型简介</h3>
+<p><strong>MISC（安全杂项）</strong><br>
+全称Miscellaneous。题目涉及流量分析、电子取证、人肉搜索、数据分析、大数据统计等等，覆盖面比较广。我们平时看到的社工类题目；给你一个流量包让你分析的题目；取证分析题目，都属于这类题目。主要考查参赛选手的各种基础综合知识，考察范围比较广。</p>
+<p><strong>PPC（编程类）</strong><br>
+全称Professionally Program Coder。题目涉及到程序编写、编程算法实现。算法的逆向编写，批量处理等，有时候用编程去处理问题，会方便的多。当然PPC相比ACM来说，还是较为容易的。至于编程语言嘛，推荐使用Python来尝试。这部分主要考察选手的快速编程能力。</p>
+<p><strong>CRYPTO（密码学）</strong><br>
+全称Cryptography。题目考察各种加解密技术，包括古典加密技术、现代加密技术甚至出题者自创加密技术。这样的题目汇集的最多。这部分主要考查参赛选手密码学相关知识点。</p>
+<p><strong>REVERSE（逆向）</strong><br>
+题目涉及到软件逆向、破解技术等，要求有较强的反汇编、反编译扎实功底。需要掌握汇编，堆栈、寄存器方面的知识。有好的逻辑思维能力。主要考查参赛选手的逆向分析能力。此类题目也是线下比赛的考察重点。</p>
+<p><strong>STEGA（隐写）</strong><br>
+全称Steganography。题目的Flag会隐藏到图片、音频、视频等各类数据载体中供参赛选手获取。载体就是图片、音频、视频等，可能是修改了这些载体来隐藏flag，也可能将flag隐藏在这些载体的二进制空白位置。有时候需要你侦探精神足够的强，才能发现。此类题目主要考查参赛选手的对各种隐写工具、隐写算法的熟悉程度。</p>
+<p><strong>PWN（溢出）</strong><br>
+PWN在黑客俚语中代表着攻破，取得权限，在CTF比赛中它代表着溢出类的题目，其中常见类型溢出漏洞有栈溢出、堆溢出。在CTF比赛中，线上比赛会有，但是比例不会太重，进入线下比赛，逆向和溢出则是战队实力的关键。主要考察参数选手漏洞挖掘和利用能力。</p>
+<p><strong>WEB（web类）</strong><br>
+WEB应用在今天越来越广泛，也是CTF夺旗竞赛中的主要题型，题目涉及到常见的Web漏洞，诸如注入、XSS、文件包含、代码审计、上传等漏洞。这些题目都不是简单的注入、上传题目，至少会有一层的安全过滤，需要选手想办法绕过。且Web题目是国内比较多也是大家比较喜欢的题目。因为大多数人开始安全都是从web*站开始的。</p>
+<h2 id="0x02-获取web-developer中的flag"><a class="header-anchor" href="#0x02-获取web-developer中的flag">¶</a>0x02 获取Web Developer中的flag</h2>
+<h3 id="1x01-net-discover"><a class="header-anchor" href="#1x01-net-discover">¶</a>1x01 Net Discover</h3>
+<p>首先通过namp扫描存活的主机，成功发现了Web Developer；<br>
+<img src="https://img-blog.csdnimg.cn/20201205181221959.png" alt="在这里插入图片描述"></p>
+<h3 id="1x02-nmap信息收集"><a class="header-anchor" href="#1x02-nmap信息收集">¶</a>1x02 Nmap信息收集</h3>
+<p>接下来使用Nmap扫描Web Developer检查一下端口的开放情况；<br>
+<code>nmap 10.34.80.3</code><br>
+<img src="https://img-blog.csdnimg.cn/20201205183029858.png" alt="在这里插入图片描述"><br>
+可以看到开放了80端口和22端口，这两个端口的作用分别是http端口（网页）和ssh端口（远程登陆）；</p>
+<h3 id="1x03-访问网站"><a class="header-anchor" href="#1x03-访问网站">¶</a>1x03 访问网站</h3>
+<p>因为网站开放了80端口，所以可以尝试登陆http端口<br>
+<img src="https://img-blog.csdnimg.cn/20201205183407180.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+发现有一个搭建了一个个人模块网站，这个网站应该是一个比较经典的CMS了，记得我当初刚买服务器的时候@visualDust给我搭了这一个这个网站。</p>
+<h2 id="1x04-whatweb探寻"><a class="header-anchor" href="#1x04-whatweb探寻">¶</a>1x04 whatweb探寻</h2>
+<p>通过whatweb进行检测可以发现该网站的如下信息：<br>
+<img src="https://img-blog.csdnimg.cn/2020120520233257.png" alt="在这里插入图片描述"><br>
+从内容信息中可以得到，该网站的CMS为WordPress；</p>
+<h2 id="1x05-wpscan"><a class="header-anchor" href="#1x05-wpscan">¶</a>1x05 wpscan</h2>
+<p>WPScan是Kali Linux默认自带的一款漏洞扫描工具，它采用Ruby编写，能够扫描WordPress网站中的多种安全漏洞，其中包括WordPress本身的漏洞、插件漏洞和主题漏洞。</p>
+<h2 id="1x06-dirb爆破"><a class="header-anchor" href="#1x06-dirb爆破">¶</a>1x06 Dirb爆破</h2>
+<p>使用dirb来爆破网站的根目录；<br>
+<code>dirb -u http://10.34.80.3</code><br>
+<img src="https://img-blog.csdnimg.cn/20201205203124928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+找到一个 <code>http://10.34.80.3/ipdata/</code> 感觉这个很像流量信息，进去看一看吧<br>
+<img src="https://img-blog.csdnimg.cn/20201205203544184.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="1x07-wireshark数据分析"><a class="header-anchor" href="#1x07-wireshark数据分析">¶</a>1x07 wireshark数据分析</h2>
+<p>在获取了网站数据流信息后，我们尝试使用wireshark进行一次分析；尝试搜索一下login，结果有惊奇的发现；<br>
+<img src="https://img-blog.csdnimg.cn/20201205204031475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+成功找到了登陆界面:<br>
+<img src="https://img-blog.csdnimg.cn/20201205204320279.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+我们随便提交一个，找到信息post去的地址：<br>
+<img src="https://img-blog.csdnimg.cn/20201205204422711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+确定了之后就去找发送到相应url下的post信息；</p>
+<p>尝试筛选http请求类型为post的请求，找到了这两个：<br>
+<img src="https://img-blog.csdnimg.cn/20201205204715278.png" alt="在这里插入图片描述"><br>
+可以看到账号密码就在这里，密码好像是做了一定的加密，当时这个不是问题；<br>
+<img src="https://img-blog.csdnimg.cn/20201205204805507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+我们把burp打开，然后随便输入一个账号和密码，在burp里面给他改一下，然后再把请求放过去就可以了；<br>
+下图是我们的请求；<br>
+<img src="https://img-blog.csdnimg.cn/20201205210923584.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+很明显可以发现，log对应的是用户名，pwd对应的是密码；然后我们把他给改掉<br>
+<img src="https://img-blog.csdnimg.cn/2020120521112145.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+成功进入网站后台!<br>
+<img src="https://img-blog.csdnimg.cn/20201205211252488.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="1x08-使用wordpress的插件漏洞进行提权"><a class="header-anchor" href="#1x08-使用wordpress的插件漏洞进行提权">¶</a>1x08 使用wordpress的插件漏洞进行提权</h2>
+<p>这里可以使用三种方案进行实现：</p>
+<h3 id="2x01-metersploit-reflex-gallery"><a class="header-anchor" href="#2x01-metersploit-reflex-gallery">¶</a>2x01 MeterSploit + reflex gallery</h3>
+<p>首先我们先需要给这个wordpress安装reflex gallery插件；<br>
+去plugins界面搜索一下reflex，安装上去就好；<br>
+<img src="https://img-blog.csdnimg.cn/20201205212109389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+当然了你也可以选择本地上传安装；<br>
+安装成功之后记得把插件激活一下！<br>
+<img src="https://img-blog.csdnimg.cn/20201205213047657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+接下来使用msf来控制漏洞：</p>
+<p><img src="https://img-blog.csdnimg.cn/20201205214714430.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+出现meterpreter&gt;说明可以控制了，我们可以在这里输入Linux命令来查看一些文件：</p>
+<p>回退到<code>/var/www/html</code>之后可以看到wp-config.php；<br>
+<img src="https://img-blog.csdnimg.cn/20201205214857248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+查看一下里面的内容：<br>
+<img src="https://img-blog.csdnimg.cn/20201205215206975.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+可以在里面找到<strong>数据库</strong>的用户和密码：<br>
+<img src="https://img-blog.csdnimg.cn/20201205215438538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="2x02-反弹shell"><a class="header-anchor" href="#2x02-反弹shell">¶</a>2x02 反弹Shell</h3>
+<p>上传反弹shell。<a href="http://pentestmonkey.net/tools/web-shells/php-reverse-shell">http://pentestmonkey.net/tools/web-shells/php-reverse-shell</a><br>
+【目的：PHP网站渗透；实现途径：上传网站后，URL访问(含有)该反弹shell的页面。<br>
+功能：该脚本会发起反弹TCP连接到攻击者（脚本中指定攻击者IP地址和端口号）。】</p>
+<p>我们把代码稍微修改一下，ip改成10.34.80.3, 反弹端口设为4444；</p>
+<p>首先需要把这里的theme给修改为Twenty Sixteen，<strong>记得点击Select，然后点击Leave！</strong><br>
+<img src="https://img-blog.csdnimg.cn/20201205222009796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+然后将php文件复制粘贴过来==》记得upload！<br>
+注意一下，因为我实在找不到404.PHP的url路径，所以我就改了search.php，效果就是搜索的时候触发<br>
+<img src="https://img-blog.csdnimg.cn/20201205222315732.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+还有一件事! , 因为刚才修改了theme，这里需要把对应的主界面也改了；（不改好像也行）<br>
+<img src="https://img-blog.csdnimg.cn/20201205225319137.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>接下来我们使用kali的nc监听刚才设置的4444端口。<br>
+<img src="https://img-blog.csdnimg.cn/20201205222458581.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+现在我们search一下就可以发现nc里面已经可以操作了！<br>
+<img src="https://img-blog.csdnimg.cn/20201205225349205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20201205224229463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+经过路径的探寻后找到了wp_config.php 文件<br>
+<img src="https://img-blog.csdnimg.cn/20201205224535747.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="2x03-利用文件管理插件-file-manager-漏洞"><a class="header-anchor" href="#2x03-利用文件管理插件-file-manager-漏洞">¶</a>2x03 利用文件管理插件（File manager）漏洞</h3>
+<p>这个没啥技术含量，安装了插件之后直接就可以查看了；这里就不写了</p>
+<h2 id="1x09-ssh登陆该网站"><a class="header-anchor" href="#1x09-ssh登陆该网站">¶</a>1x09 ssh登陆该网站</h2>
+<p>这里我们尝试用上一步中获取的数据库密码来登陆</p>
+<p>结果发现遇到了这个问题：<br>
+<img src="https://img-blog.csdnimg.cn/20201205231137148.png" alt="在这里插入图片描述"><br>
+这里我们进行一下修改配置文件，<code>sudo vim /etc/ssh/ssh_config</code>打开这个文件，然后在最下面添加：</p>
+<p><code># StrictHostKeyChecking ask</code>改成<code>StrictHostKeyChecking no</code><br>
+<img src="https://img-blog.csdnimg.cn/20201205232430170.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+然后输入：<code>ssh webdeveloper@10.34.80.3</code><br>
+<img src="https://img-blog.csdnimg.cn/20201205232601234.png" alt="在这里插入图片描述"><br>
+成功登录了进来!<br>
+<img src="https://img-blog.csdnimg.cn/20201205232649772.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+尝试查看发现权限不足：<br>
+<img src="https://img-blog.csdnimg.cn/20201205232827221.png" alt="在这里插入图片描述"><br>
+查看一下可以执行的sudo命令<br>
+<img src="https://img-blog.csdnimg.cn/20201205232910627.png" alt="在这里插入图片描述"><br>
+发现可以root权限执行tcpdump命令<br>
+创建攻击文件<br>
+<img src="https://img-blog.csdnimg.cn/2020120523373429.png" alt="在这里插入图片描述"><br>
+tcpdump命令详解：</p>
+<ul>
+<li>-i eth0 从指定网卡捕获数据包</li>
+<li>-w /dev/null 将捕获到的数据包输出到空设备（不输出数据包结果）</li>
+<li>-z [command] 运行指定的命令</li>
+<li>-Z [user] 指定用户执行命令</li>
+<li>-G [rotate_seconds] 每rotate_seconds秒一次的频率执行-w指定的转储</li>
+<li>-W [num] 指定抓包数量</li>
+</ul>
+<h2 id="0x03-实验小结"><a class="header-anchor" href="#0x03-实验小结">¶</a>0x03 实验小结</h2>
+<p>本次的实验中完整的做了一次从发现目标主机到获取flag的过程，在实现的过程中包括了</p>
+<ul>
+<li>通过扫描发现目标主机</li>
+<li>根据主机开放的80端口找到其的网页</li>
+<li>通过扫描网页目录找到流量包</li>
+<li>Wireshark解析流量包</li>
+<li>获取管理员密码</li>
+<li>根据网页的cms找到通用漏洞</li>
+<li>tcpdump提权</li>
+</ul>
+<p>总之这次的实验做的很爽</p>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【白帽子学习笔记】XSS和SQL注入</title>
     <url>/2020/11/17/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91XSS%E5%92%8CSQL%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="白帽子学习笔记-xss和sql注入"><a class="header-anchor" href="#白帽子学习笔记-xss和sql注入">¶</a>【白帽子学习笔记】XSS和SQL注入</h1>
@@ -1865,164 +2023,6 @@ XSS注入代码如下：<br>
 <li>如何使用Beef利用网站中的XSS漏洞</li>
 <li>如何使用SQLMAP利用网站的注入漏洞</li>
 </ul>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>security</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【白帽子学习笔记】CTF实践</title>
-    <url>/2020/12/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91CTF%E5%AE%9E%E8%B7%B5/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="白帽子学习笔记-ctf实践"><a class="header-anchor" href="#白帽子学习笔记-ctf实践">¶</a>【白帽子学习笔记】CTF实践</h1>
-<h2 id="0x01-实验知识点"><a class="header-anchor" href="#0x01-实验知识点">¶</a>0x01 实验知识点</h2>
-<h3 id="1x01-什么是ctf？"><a class="header-anchor" href="#1x01-什么是ctf？">¶</a>1x01 什么是CTF？</h3>
-<p>CTF（Capture The Flag）中文一般译作夺旗赛，在网络安全领域中指的是网络安全技术人员之间进行技术竞技的一种比赛形式。CTF起源于1996年DEFCON全球黑客大会，以代替之前黑客们通过互相发起真实攻击进行技术比拼的方式。发展至今，已经成为全球范围网络安全圈流行的竞赛形式，2013年全球举办了超过五十场国际性CTF赛事。而DEFCON作为CTF赛制的发源地，DEFCON CTF也成为了目前全球最高技术水平和影响力的CTF竞赛，类似于CTF赛场中的“世界杯”。</p>
-<h3 id="1x02-ctf竞赛模式"><a class="header-anchor" href="#1x02-ctf竞赛模式">¶</a>1x02 CTF竞赛模式</h3>
-<p>（1）解题模式（Jeopardy）在解题模式CTF赛制中，参赛队伍可以通过互联网或者现场网络参与，这种模式的CTF竞赛与ACM编程竞赛、信息学奥赛比较类似，以解决网络安全技术挑战题目的分值和时间来排名，通常用于在线选拔赛。题目主要包含逆向、漏洞挖掘与利用、Web渗透、密码、取证、隐写、安全编程等类别。</p>
-<p>（2）攻防模式（Attack-Defense）在攻防模式CTF赛制中，参赛队伍在网络空间互相进行攻击和防守，挖掘网络服务漏洞并攻击对手服务来得分，修补自身服务漏洞进行防御来避免丢分。攻防模式CTF赛制可以实时通过得分反映出比赛情况，最终也以得分直接分出胜负，是一种竞争激烈，具有很强观赏性和高度透明性的网络安全赛制。在这种赛制中，不仅仅是比参赛队员的智力和技术，也比体力（因为比赛一般都会持续48小时及以上），同时也比团队之间的分工配合与合作。</p>
-<p>（3）混合模式（Mix）结合了解题模式与攻防模式的CTF赛制，比如参赛队伍通过解题可以获取一些初始分数，然后通过攻防对抗进行得分增减的零和游戏，最终以得分高低分出胜负。采用混合模式CTF赛制的典型代表如iCTF国际CTF竞赛。</p>
-<span id="more"></span>
-<p>1.2 CTF各大题型简介</p>
-<h3 id="1x03-ctf各大题型简介"><a class="header-anchor" href="#1x03-ctf各大题型简介">¶</a>1x03 CTF各大题型简介</h3>
-<p><strong>MISC（安全杂项）</strong><br>
-全称Miscellaneous。题目涉及流量分析、电子取证、人肉搜索、数据分析、大数据统计等等，覆盖面比较广。我们平时看到的社工类题目；给你一个流量包让你分析的题目；取证分析题目，都属于这类题目。主要考查参赛选手的各种基础综合知识，考察范围比较广。</p>
-<p><strong>PPC（编程类）</strong><br>
-全称Professionally Program Coder。题目涉及到程序编写、编程算法实现。算法的逆向编写，批量处理等，有时候用编程去处理问题，会方便的多。当然PPC相比ACM来说，还是较为容易的。至于编程语言嘛，推荐使用Python来尝试。这部分主要考察选手的快速编程能力。</p>
-<p><strong>CRYPTO（密码学）</strong><br>
-全称Cryptography。题目考察各种加解密技术，包括古典加密技术、现代加密技术甚至出题者自创加密技术。这样的题目汇集的最多。这部分主要考查参赛选手密码学相关知识点。</p>
-<p><strong>REVERSE（逆向）</strong><br>
-题目涉及到软件逆向、破解技术等，要求有较强的反汇编、反编译扎实功底。需要掌握汇编，堆栈、寄存器方面的知识。有好的逻辑思维能力。主要考查参赛选手的逆向分析能力。此类题目也是线下比赛的考察重点。</p>
-<p><strong>STEGA（隐写）</strong><br>
-全称Steganography。题目的Flag会隐藏到图片、音频、视频等各类数据载体中供参赛选手获取。载体就是图片、音频、视频等，可能是修改了这些载体来隐藏flag，也可能将flag隐藏在这些载体的二进制空白位置。有时候需要你侦探精神足够的强，才能发现。此类题目主要考查参赛选手的对各种隐写工具、隐写算法的熟悉程度。</p>
-<p><strong>PWN（溢出）</strong><br>
-PWN在黑客俚语中代表着攻破，取得权限，在CTF比赛中它代表着溢出类的题目，其中常见类型溢出漏洞有栈溢出、堆溢出。在CTF比赛中，线上比赛会有，但是比例不会太重，进入线下比赛，逆向和溢出则是战队实力的关键。主要考察参数选手漏洞挖掘和利用能力。</p>
-<p><strong>WEB（web类）</strong><br>
-WEB应用在今天越来越广泛，也是CTF夺旗竞赛中的主要题型，题目涉及到常见的Web漏洞，诸如注入、XSS、文件包含、代码审计、上传等漏洞。这些题目都不是简单的注入、上传题目，至少会有一层的安全过滤，需要选手想办法绕过。且Web题目是国内比较多也是大家比较喜欢的题目。因为大多数人开始安全都是从web*站开始的。</p>
-<h2 id="0x02-获取web-developer中的flag"><a class="header-anchor" href="#0x02-获取web-developer中的flag">¶</a>0x02 获取Web Developer中的flag</h2>
-<h3 id="1x01-net-discover"><a class="header-anchor" href="#1x01-net-discover">¶</a>1x01 Net Discover</h3>
-<p>首先通过namp扫描存活的主机，成功发现了Web Developer；<br>
-<img src="https://img-blog.csdnimg.cn/20201205181221959.png" alt="在这里插入图片描述"></p>
-<h3 id="1x02-nmap信息收集"><a class="header-anchor" href="#1x02-nmap信息收集">¶</a>1x02 Nmap信息收集</h3>
-<p>接下来使用Nmap扫描Web Developer检查一下端口的开放情况；<br>
-<code>nmap 10.34.80.3</code><br>
-<img src="https://img-blog.csdnimg.cn/20201205183029858.png" alt="在这里插入图片描述"><br>
-可以看到开放了80端口和22端口，这两个端口的作用分别是http端口（网页）和ssh端口（远程登陆）；</p>
-<h3 id="1x03-访问网站"><a class="header-anchor" href="#1x03-访问网站">¶</a>1x03 访问网站</h3>
-<p>因为网站开放了80端口，所以可以尝试登陆http端口<br>
-<img src="https://img-blog.csdnimg.cn/20201205183407180.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-发现有一个搭建了一个个人模块网站，这个网站应该是一个比较经典的CMS了，记得我当初刚买服务器的时候@visualDust给我搭了这一个这个网站。</p>
-<h2 id="1x04-whatweb探寻"><a class="header-anchor" href="#1x04-whatweb探寻">¶</a>1x04 whatweb探寻</h2>
-<p>通过whatweb进行检测可以发现该网站的如下信息：<br>
-<img src="https://img-blog.csdnimg.cn/2020120520233257.png" alt="在这里插入图片描述"><br>
-从内容信息中可以得到，该网站的CMS为WordPress；</p>
-<h2 id="1x05-wpscan"><a class="header-anchor" href="#1x05-wpscan">¶</a>1x05 wpscan</h2>
-<p>WPScan是Kali Linux默认自带的一款漏洞扫描工具，它采用Ruby编写，能够扫描WordPress网站中的多种安全漏洞，其中包括WordPress本身的漏洞、插件漏洞和主题漏洞。</p>
-<h2 id="1x06-dirb爆破"><a class="header-anchor" href="#1x06-dirb爆破">¶</a>1x06 Dirb爆破</h2>
-<p>使用dirb来爆破网站的根目录；<br>
-<code>dirb -u http://10.34.80.3</code><br>
-<img src="https://img-blog.csdnimg.cn/20201205203124928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-找到一个 <code>http://10.34.80.3/ipdata/</code> 感觉这个很像流量信息，进去看一看吧<br>
-<img src="https://img-blog.csdnimg.cn/20201205203544184.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="1x07-wireshark数据分析"><a class="header-anchor" href="#1x07-wireshark数据分析">¶</a>1x07 wireshark数据分析</h2>
-<p>在获取了网站数据流信息后，我们尝试使用wireshark进行一次分析；尝试搜索一下login，结果有惊奇的发现；<br>
-<img src="https://img-blog.csdnimg.cn/20201205204031475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-成功找到了登陆界面:<br>
-<img src="https://img-blog.csdnimg.cn/20201205204320279.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-我们随便提交一个，找到信息post去的地址：<br>
-<img src="https://img-blog.csdnimg.cn/20201205204422711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-确定了之后就去找发送到相应url下的post信息；</p>
-<p>尝试筛选http请求类型为post的请求，找到了这两个：<br>
-<img src="https://img-blog.csdnimg.cn/20201205204715278.png" alt="在这里插入图片描述"><br>
-可以看到账号密码就在这里，密码好像是做了一定的加密，当时这个不是问题；<br>
-<img src="https://img-blog.csdnimg.cn/20201205204805507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-我们把burp打开，然后随便输入一个账号和密码，在burp里面给他改一下，然后再把请求放过去就可以了；<br>
-下图是我们的请求；<br>
-<img src="https://img-blog.csdnimg.cn/20201205210923584.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-很明显可以发现，log对应的是用户名，pwd对应的是密码；然后我们把他给改掉<br>
-<img src="https://img-blog.csdnimg.cn/2020120521112145.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-成功进入网站后台!<br>
-<img src="https://img-blog.csdnimg.cn/20201205211252488.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="1x08-使用wordpress的插件漏洞进行提权"><a class="header-anchor" href="#1x08-使用wordpress的插件漏洞进行提权">¶</a>1x08 使用wordpress的插件漏洞进行提权</h2>
-<p>这里可以使用三种方案进行实现：</p>
-<h3 id="2x01-metersploit-reflex-gallery"><a class="header-anchor" href="#2x01-metersploit-reflex-gallery">¶</a>2x01 MeterSploit + reflex gallery</h3>
-<p>首先我们先需要给这个wordpress安装reflex gallery插件；<br>
-去plugins界面搜索一下reflex，安装上去就好；<br>
-<img src="https://img-blog.csdnimg.cn/20201205212109389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-当然了你也可以选择本地上传安装；<br>
-安装成功之后记得把插件激活一下！<br>
-<img src="https://img-blog.csdnimg.cn/20201205213047657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-接下来使用msf来控制漏洞：</p>
-<p><img src="https://img-blog.csdnimg.cn/20201205214714430.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-出现meterpreter&gt;说明可以控制了，我们可以在这里输入Linux命令来查看一些文件：</p>
-<p>回退到<code>/var/www/html</code>之后可以看到wp-config.php；<br>
-<img src="https://img-blog.csdnimg.cn/20201205214857248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-查看一下里面的内容：<br>
-<img src="https://img-blog.csdnimg.cn/20201205215206975.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-可以在里面找到<strong>数据库</strong>的用户和密码：<br>
-<img src="https://img-blog.csdnimg.cn/20201205215438538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="2x02-反弹shell"><a class="header-anchor" href="#2x02-反弹shell">¶</a>2x02 反弹Shell</h3>
-<p>上传反弹shell。<a href="http://pentestmonkey.net/tools/web-shells/php-reverse-shell">http://pentestmonkey.net/tools/web-shells/php-reverse-shell</a><br>
-【目的：PHP网站渗透；实现途径：上传网站后，URL访问(含有)该反弹shell的页面。<br>
-功能：该脚本会发起反弹TCP连接到攻击者（脚本中指定攻击者IP地址和端口号）。】</p>
-<p>我们把代码稍微修改一下，ip改成10.34.80.3, 反弹端口设为4444；</p>
-<p>首先需要把这里的theme给修改为Twenty Sixteen，<strong>记得点击Select，然后点击Leave！</strong><br>
-<img src="https://img-blog.csdnimg.cn/20201205222009796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-然后将php文件复制粘贴过来==》记得upload！<br>
-注意一下，因为我实在找不到404.PHP的url路径，所以我就改了search.php，效果就是搜索的时候触发<br>
-<img src="https://img-blog.csdnimg.cn/20201205222315732.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-还有一件事! , 因为刚才修改了theme，这里需要把对应的主界面也改了；（不改好像也行）<br>
-<img src="https://img-blog.csdnimg.cn/20201205225319137.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>接下来我们使用kali的nc监听刚才设置的4444端口。<br>
-<img src="https://img-blog.csdnimg.cn/20201205222458581.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-现在我们search一下就可以发现nc里面已经可以操作了！<br>
-<img src="https://img-blog.csdnimg.cn/20201205225349205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-<img src="https://img-blog.csdnimg.cn/20201205224229463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-经过路径的探寻后找到了wp_config.php 文件<br>
-<img src="https://img-blog.csdnimg.cn/20201205224535747.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="2x03-利用文件管理插件-file-manager-漏洞"><a class="header-anchor" href="#2x03-利用文件管理插件-file-manager-漏洞">¶</a>2x03 利用文件管理插件（File manager）漏洞</h3>
-<p>这个没啥技术含量，安装了插件之后直接就可以查看了；这里就不写了</p>
-<h2 id="1x09-ssh登陆该网站"><a class="header-anchor" href="#1x09-ssh登陆该网站">¶</a>1x09 ssh登陆该网站</h2>
-<p>这里我们尝试用上一步中获取的数据库密码来登陆</p>
-<p>结果发现遇到了这个问题：<br>
-<img src="https://img-blog.csdnimg.cn/20201205231137148.png" alt="在这里插入图片描述"><br>
-这里我们进行一下修改配置文件，<code>sudo vim /etc/ssh/ssh_config</code>打开这个文件，然后在最下面添加：</p>
-<p><code># StrictHostKeyChecking ask</code>改成<code>StrictHostKeyChecking no</code><br>
-<img src="https://img-blog.csdnimg.cn/20201205232430170.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-然后输入：<code>ssh webdeveloper@10.34.80.3</code><br>
-<img src="https://img-blog.csdnimg.cn/20201205232601234.png" alt="在这里插入图片描述"><br>
-成功登录了进来!<br>
-<img src="https://img-blog.csdnimg.cn/20201205232649772.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
-尝试查看发现权限不足：<br>
-<img src="https://img-blog.csdnimg.cn/20201205232827221.png" alt="在这里插入图片描述"><br>
-查看一下可以执行的sudo命令<br>
-<img src="https://img-blog.csdnimg.cn/20201205232910627.png" alt="在这里插入图片描述"><br>
-发现可以root权限执行tcpdump命令<br>
-创建攻击文件<br>
-<img src="https://img-blog.csdnimg.cn/2020120523373429.png" alt="在这里插入图片描述"><br>
-tcpdump命令详解：</p>
-<ul>
-<li>-i eth0 从指定网卡捕获数据包</li>
-<li>-w /dev/null 将捕获到的数据包输出到空设备（不输出数据包结果）</li>
-<li>-z [command] 运行指定的命令</li>
-<li>-Z [user] 指定用户执行命令</li>
-<li>-G [rotate_seconds] 每rotate_seconds秒一次的频率执行-w指定的转储</li>
-<li>-W [num] 指定抓包数量</li>
-</ul>
-<h2 id="0x03-实验小结"><a class="header-anchor" href="#0x03-实验小结">¶</a>0x03 实验小结</h2>
-<p>本次的实验中完整的做了一次从发现目标主机到获取flag的过程，在实现的过程中包括了</p>
-<ul>
-<li>通过扫描发现目标主机</li>
-<li>根据主机开放的80端口找到其的网页</li>
-<li>通过扫描网页目录找到流量包</li>
-<li>Wireshark解析流量包</li>
-<li>获取管理员密码</li>
-<li>根据网页的cms找到通用漏洞</li>
-<li>tcpdump提权</li>
-</ul>
-<p>总之这次的实验做的很爽</p>
 ]]></content>
       <categories>
         <category>课程学习</category>
@@ -2419,6 +2419,29 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
       </tags>
   </entry>
   <entry>
+    <title>【算法】竞赛中常用的c++黑魔法</title>
+    <url>/2021/05/08/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84c++%E9%BB%91%E9%AD%94%E6%B3%95/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>内容大部分查考<strong>therainisme</strong>的笔记本</p>
+<p>🔗 <a href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html#%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84-vector">这里是他的笔记本</a></p>
+<h1 id="动态数组-vector"><a class="header-anchor" href="#动态数组-vector">¶</a>动态数组 vector</h1>
+<p>操作和Python的list类似</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">vector&lt;<span class="keyword">int</span>&gt; v; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">v.<span class="built_in">push_back</span>(x); <span class="comment">// 尾部添加一个元素</span></span><br><span class="line">v.<span class="built_in">pop_back</span>(); <span class="comment">// 删除尾部元素</span></span><br><span class="line">v.<span class="built_in">insert</span>(v.<span class="built_in">begin</span>()+<span class="number">2</span>,<span class="number">2</span>); <span class="comment">// 在第二个元素后插入新元素</span></span><br><span class="line">v.<span class="built_in">back</span>(); <span class="comment">// 取出尾部的元素</span></span><br><span class="line">v.<span class="built_in">size</span>(); <span class="comment">// 返回vector的大小</span></span><br><span class="line">v.<span class="built_in">clear</span>(); <span class="comment">// 清空vector</span></span><br></pre></td></tr></table></figure>
+<h1 id="栈-stack"><a class="header-anchor" href="#栈-stack">¶</a>栈 stack</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">stack&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">s.<span class="built_in">push</span>(x); <span class="comment">// 压入栈中元素</span></span><br><span class="line"><span class="keyword">int</span> n = s.<span class="built_in">top</span>(); <span class="comment">// 返回栈顶元素</span></span><br><span class="line"><span class="keyword">int</span>  = s.<span class="built_in">size</span>(); <span class="comment">// 返回栈的大小</span></span><br><span class="line">s.<span class="built_in">pop</span>(); <span class="comment">// 弹出栈顶元素</span></span><br><span class="line">s.<span class="built_in">empty</span>(); <span class="comment">// 判断栈是否为空</span></span><br></pre></td></tr></table></figure>
+<h1 id="单向队列-queue"><a class="header-anchor" href="#单向队列-queue">¶</a>单向队列 queue</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> x=<span class="number">1</span>;</span><br><span class="line">queue&lt;<span class="keyword">int</span>&gt; q; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">q.<span class="built_in">push</span>(x); <span class="comment">// 推入队列中元素</span></span><br><span class="line">q.<span class="built_in">empty</span>(); <span class="comment">// 判断是否为空</span></span><br><span class="line">q.<span class="built_in">front</span>(); <span class="comment">// 取出对列首部的元素</span></span><br><span class="line">q.<span class="built_in">back</span>(); <span class="comment">// 取出队尾元素</span></span><br><span class="line">q.<span class="built_in">size</span>(); <span class="comment">// 返回队列长度</span></span><br><span class="line">q.<span class="built_in">pop</span>(); <span class="comment">// 弹出队首元素</span></span><br></pre></td></tr></table></figure>
+<h1 id="字符串-string"><a class="header-anchor" href="#字符串-string">¶</a>字符串 string</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;aabbcc&quot;</span>;</span><br><span class="line">s.<span class="built_in">push_back</span>(<span class="string">&#x27;a&#x27;</span>); <span class="comment">// 像尾部追加一个字符</span></span><br><span class="line"><span class="keyword">char</span> c = s.<span class="built_in">back</span>(); <span class="comment">// 获取尾部的字符</span></span><br><span class="line"><span class="keyword">char</span> c2= s.<span class="built_in">front</span>(); <span class="comment">// 获取头部的字符</span></span><br><span class="line">s.<span class="built_in">pop_back</span>(); <span class="comment">// 弹出尾部的字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串翻转</span></span><br><span class="line"><span class="built_in">reverse</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>()); <span class="comment">// 不需要重新赋值</span></span><br><span class="line"><span class="comment">// 排序</span></span><br><span class="line"><span class="built_in">sort</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>());</span><br><span class="line"><span class="comment">// 插入元素</span></span><br><span class="line">s.<span class="built_in">insert</span>(<span class="number">2</span>,<span class="string">&quot;ahh&quot;</span>); <span class="comment">// 在第二个元素后插入</span></span><br><span class="line"><span class="comment">// 删除元素</span></span><br><span class="line">s.<span class="built_in">erase</span>(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 从第二个元素开始删除后面的3个元素</span></span><br><span class="line"></span><br><span class="line">string d = s.<span class="built_in">substr</span>(<span class="number">1</span>,<span class="number">3</span>); <span class="comment">// 从索引为1的元素开始获取3个元素</span></span><br><span class="line"><span class="keyword">int</span> a = s.<span class="built_in">find</span>(<span class="string">&quot;aa&quot;</span>); <span class="comment">// 找到返回索引，找不到返回-1</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【白帽子学习笔记】网络扫描与网络侦查</title>
     <url>/2020/10/29/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F%E4%B8%8E%E7%BD%91%E7%BB%9C%E4%BE%A6%E6%9F%A5/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>[toc]</p>
@@ -2644,19 +2667,53 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
-    <title>【算法】竞赛中常用的c++黑魔法</title>
-    <url>/2021/05/08/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84c++%E9%BB%91%E9%AD%94%E6%B3%95/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>内容大部分查考<strong>therainisme</strong>的笔记本</p>
-<p>🔗 <a href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html#%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84-vector">这里是他的笔记本</a></p>
-<h1 id="动态数组-vector"><a class="header-anchor" href="#动态数组-vector">¶</a>动态数组 vector</h1>
-<p>操作和Python的list类似</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">vector&lt;<span class="keyword">int</span>&gt; v; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">v.<span class="built_in">push_back</span>(x); <span class="comment">// 尾部添加一个元素</span></span><br><span class="line">v.<span class="built_in">pop_back</span>(); <span class="comment">// 删除尾部元素</span></span><br><span class="line">v.<span class="built_in">insert</span>(v.<span class="built_in">begin</span>()+<span class="number">2</span>,<span class="number">2</span>); <span class="comment">// 在第二个元素后插入新元素</span></span><br><span class="line">v.<span class="built_in">back</span>(); <span class="comment">// 取出尾部的元素</span></span><br><span class="line">v.<span class="built_in">size</span>(); <span class="comment">// 返回vector的大小</span></span><br><span class="line">v.<span class="built_in">clear</span>(); <span class="comment">// 清空vector</span></span><br></pre></td></tr></table></figure>
-<h1 id="栈-stack"><a class="header-anchor" href="#栈-stack">¶</a>栈 stack</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">stack&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">s.<span class="built_in">push</span>(x); <span class="comment">// 压入栈中元素</span></span><br><span class="line"><span class="keyword">int</span> n = s.<span class="built_in">top</span>(); <span class="comment">// 返回栈顶元素</span></span><br><span class="line"><span class="keyword">int</span>  = s.<span class="built_in">size</span>(); <span class="comment">// 返回栈的大小</span></span><br><span class="line">s.<span class="built_in">pop</span>(); <span class="comment">// 弹出栈顶元素</span></span><br><span class="line">s.<span class="built_in">empty</span>(); <span class="comment">// 判断栈是否为空</span></span><br></pre></td></tr></table></figure>
-<h1 id="单向队列-queue"><a class="header-anchor" href="#单向队列-queue">¶</a>单向队列 queue</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> x=<span class="number">1</span>;</span><br><span class="line">queue&lt;<span class="keyword">int</span>&gt; q; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">q.<span class="built_in">push</span>(x); <span class="comment">// 推入队列中元素</span></span><br><span class="line">q.<span class="built_in">empty</span>(); <span class="comment">// 判断是否为空</span></span><br><span class="line">q.<span class="built_in">front</span>(); <span class="comment">// 取出对列首部的元素</span></span><br><span class="line">q.<span class="built_in">back</span>(); <span class="comment">// 取出队尾元素</span></span><br><span class="line">q.<span class="built_in">size</span>(); <span class="comment">// 返回队列长度</span></span><br><span class="line">q.<span class="built_in">pop</span>(); <span class="comment">// 弹出队首元素</span></span><br></pre></td></tr></table></figure>
-<h1 id="字符串-string"><a class="header-anchor" href="#字符串-string">¶</a>字符串 string</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;aabbcc&quot;</span>;</span><br><span class="line">s.<span class="built_in">push_back</span>(<span class="string">&#x27;a&#x27;</span>); <span class="comment">// 像尾部追加一个字符</span></span><br><span class="line"><span class="keyword">char</span> c = s.<span class="built_in">back</span>(); <span class="comment">// 获取尾部的字符</span></span><br><span class="line"><span class="keyword">char</span> c2= s.<span class="built_in">front</span>(); <span class="comment">// 获取头部的字符</span></span><br><span class="line">s.<span class="built_in">pop_back</span>(); <span class="comment">// 弹出尾部的字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串翻转</span></span><br><span class="line"><span class="built_in">reverse</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>()); <span class="comment">// 不需要重新赋值</span></span><br><span class="line"><span class="comment">// 排序</span></span><br><span class="line"><span class="built_in">sort</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>());</span><br><span class="line"><span class="comment">// 插入元素</span></span><br><span class="line">s.<span class="built_in">insert</span>(<span class="number">2</span>,<span class="string">&quot;ahh&quot;</span>); <span class="comment">// 在第二个元素后插入</span></span><br><span class="line"><span class="comment">// 删除元素</span></span><br><span class="line">s.<span class="built_in">erase</span>(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 从第二个元素开始删除后面的3个元素</span></span><br><span class="line"></span><br><span class="line">string d = s.<span class="built_in">substr</span>(<span class="number">1</span>,<span class="number">3</span>); <span class="comment">// 从索引为1的元素开始获取3个元素</span></span><br><span class="line"><span class="keyword">int</span> a = s.<span class="built_in">find</span>(<span class="string">&quot;aa&quot;</span>); <span class="comment">// 找到返回索引，找不到返回-1</span></span><br></pre></td></tr></table></figure>
+    <title>【算法】第十二届蓝桥杯省赛第二场题解</title>
+    <url>/2021/05/10/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AC%AC%E5%8D%81%E4%BA%8C%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%81%E8%B5%9B%E7%AC%AC%E4%BA%8C%E5%9C%BA%E9%A2%98%E8%A7%A3/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="求余"><a class="header-anchor" href="#求余">¶</a>求余</h1>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210511073121image-20210511071843731.png" alt="image-20210511071843731" style="zoom:50%;" />
+<blockquote>
+<p>提示：</p>
+<p>​	签到题不多说了</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  cout &lt;&lt; <span class="number">2021</span>%<span class="number">20</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ans： 1</li>
+</ul>
+<h1 id="双阶乘"><a class="header-anchor" href="#双阶乘">¶</a>双阶乘</h1>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210511073121image-20210511071959073.png" alt="image-20210511071959073" style="zoom:50%;" />
+<blockquote>
+<p>提示：</p>
+<p>​	输出奇数位的乘积, 需要注意一下每次的运算都取下余数，只算最后几位。 考试的时候电脑上有python环境，我直接python解决</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> res = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">2021</span>; i += <span class="number">2</span>) &#123;</span><br><span class="line">        res = res * i % <span class="number">100000</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; res;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ans：59375</li>
+</ul>
+<h1 id="格点"><a class="header-anchor" href="#格点">¶</a>格点</h1>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210511073121image-20210511073105667.png" alt="image-20210511073105667" style="zoom:50%;" />
+<blockquote>
+<p>提示：</p>
+<p>​	暴力一下就出来，花不了多少时间</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> x, y;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (x = <span class="number">1</span>; x &lt;= <span class="number">2021</span>; x++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (y = <span class="number">1</span>; y &lt;= <span class="number">2021</span>; y++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (x * y &lt;= <span class="number">2021</span>)&#123;</span><br><span class="line">                ans += <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ans：15698</li>
+</ul>
+<h1 id="整数分解"><a class="header-anchor" href="#整数分解">¶</a>整数分解</h1>
+<img src="/Users/keter/Documents/image/image-20210511073453937.png" alt="image-20210511073453937" style="zoom:50%;" />
+<blockquote>
+<p>提示：</p>
+<p>​	枚举前3个数，最后两个数只有m-1种情况, 注意一下int的数据范围问题</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">2021</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; <span class="number">2021</span>; ++j) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt; <span class="number">2021</span>; ++k) &#123;</span><br><span class="line">                <span class="keyword">int</span> m = <span class="number">2021</span> - i - j - k;</span><br><span class="line">                <span class="keyword">if</span> (m &lt;= <span class="number">1</span>) <span class="keyword">break</span>;</span><br><span class="line">                ans += m - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ans : 691677274345</li>
+</ul>
+<h1 id="城邦"><a class="header-anchor" href="#城邦">¶</a>城邦</h1>
+<img src="/Users/keter/Documents/image/image-20210511074151926.png" alt="image-20210511074151926" style="zoom:50%;" />
+<blockquote>
+<p>最小生成树问题： 比赛的时候忘记Prim算法怎么写了，脑壳疼。用领接矩阵写一下；</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>算法</category>
@@ -2664,6 +2721,90 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       <tags>
         <tag>算法</tag>
         <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【计算机网络】课程知识点笔记</title>
+    <url>/2021/05/11/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E8%AF%BE%E7%A8%8B%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="导论"><a class="header-anchor" href="#导论">¶</a>导论</h1>
+<h2 id="课程要求"><a class="header-anchor" href="#课程要求">¶</a>课程要求</h2>
+<ul>
+<li>掌握五层网络的模型结构和原理</li>
+<li>掌握应用层中相关协议的基本组成和原理</li>
+<li>掌握Ethernet的原理和协议</li>
+<li>掌握主要的路由算法及路由协议</li>
+<li>掌握主要的传输层协议</li>
+</ul>
+<h2 id="ieee-标准"><a class="header-anchor" href="#ieee-标准">¶</a>IEEE 标准</h2>
+<p>几个常用的：</p>
+<ul>
+<li>Bus，IEEE 802.3【以太网】</li>
+<li>Ring，IEEE 802.5【环网】</li>
+<li>Token RING，IEEE 802.4 【令牌环网】</li>
+<li>Wireless LANS，IEEE 802.11 【无线局域网】</li>
+</ul>
+<h2 id="数据-信号-信息之间的关系"><a class="header-anchor" href="#数据-信号-信息之间的关系">¶</a>数据、信号、信息之间的关系</h2>
+<ul>
+<li>数据：就是0和1，看作货物。数据就是信息的载体</li>
+<li>信号：车：传输的是数据【数据的载体】</li>
+<li>信息：是数据的组合，比如C语言就会有ascii这种东西来给数据赋予具体的意义。</li>
+</ul>
+<h1 id="物理层"><a class="header-anchor" href="#物理层">¶</a>物理层</h1>
+<h2 id="功能"><a class="header-anchor" href="#功能">¶</a>功能</h2>
+<p>通过规定物理设备和物理媒体之间的借口技术，实现物理设备之间的比特流传输。<br>
+<strong>服务是透明的，实现的细节不是透明的</strong> =&gt; 层与层之间是相互独立又是联系的；</p>
+<h2 id="专有名词"><a class="header-anchor" href="#专有名词">¶</a>专有名词</h2>
+<ul>
+<li>带宽： 信号占据的频道范围；</li>
+<li>信号传输速率：单位时间里传输信息波形的个数，单位为波特；【车辆通行的数量】<br>
+最大采样频率：B = 2H (bund)</li>
+<li>数据传输率：单位时间内传输比特的个数，比特率，单位b/s，Kb/s 【这里的K是1000，只有说存储的时候才是1024】</li>
+</ul>
+<p><strong>波特与比特的关系：</strong><br>
+波特是码元传输的速率单位，比特是信息量的单位<br>
+若一个码元上携带一个bit的信息这波特和比特在数值上相等</p>
+<h2 id="nyquist定理"><a class="header-anchor" href="#nyquist定理">¶</a>Nyquist定理</h2>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mn>2</mn><mi>H</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>N</mi></mrow><annotation encoding="application/x-tex">C_{max}=2Hlog_2N
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">2</span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span></span></p>
+<p>其中H是带宽，单位是Hz</p>
+<p>N：离散基数，代表一个信号上面能够储存的比特；比如一次发送两个，N就是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">2^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>, 一次发送六个，N就是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">2^6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></p>
+<h2 id="shannon定理"><a class="header-anchor" href="#shannon定理">¶</a>Shannon定理</h2>
+<p>有噪声信道</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi>H</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>S</mi><mi mathvariant="normal">/</mi><mi>N</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>b</mi><mi>p</mi><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C = Hlog_2(1+S/N) (bps)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mord mathdefault">p</span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span></p>
+<ul>
+<li>H: 信道带宽 （Hz）</li>
+<li>S：信道内所传信号的平均功率</li>
+<li>N：信道内部的高斯噪声功率</li>
+<li>S/N：信噪比</li>
+</ul>
+<p><strong>关键转换公式</strong></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>S</mi><mi mathvariant="normal">/</mi><mi>N</mi><msub><mo stretchy="false">)</mo><mrow><mi>d</mi><mi>B</mi></mrow></msub><mo>=</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub><mo stretchy="false">(</mo><mi>S</mi><mi mathvariant="normal">/</mi><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(S/N)_{dB} = 10log_{10}(S/N)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight" style="margin-right:0.05017em;">B</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span></span></p>
+<p><strong>重要例题：</strong></p>
+<p>如果在一条长3kHz的信道上发送一个二进制信号，该信道的信噪比为20dB，试问可达到的最大数据率是多少？</p>
+<p>解：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>S</mi><mi mathvariant="normal">/</mi><mi>N</mi><msub><mo stretchy="false">)</mo><mrow><mi>d</mi><mi>B</mi></mrow></msub><mo>=</mo><mn>10</mn><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub><mo stretchy="false">(</mo><mi>S</mi><mi mathvariant="normal">/</mi><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(S/N)_{dB} = 10log_{10}(S/N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight" style="margin-right:0.05017em;">B</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span>  ==》 可得 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi mathvariant="normal">/</mi><mi>N</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">S/N=100</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">0</span></span></span></span></p>
+<p><strong>Shannon:</strong></p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mn>3000</mn><mtext> </mtext><mo>∗</mo><mtext> </mtext><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mn>101</mn><mo stretchy="false">)</mo><mtext> </mtext><mo stretchy="false">(</mo><mi>b</mi><mi>p</mi><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C = 3000 \ * \ log_2(101) \ (bps)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mspace"> </span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mspace"> </span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">1</span><span class="mord">0</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace"> </span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mord mathdefault">p</span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></p>
+<p><strong>Nyquist:</strong></p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mn>2</mn><mo>∗</mo><mn>3000</mn><mo>∗</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mn>2</mn><mo>=</mo><mn>6000</mn><mo stretchy="false">(</mo><mi>b</mi><mi>p</mi><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C = 2 * 3000 *log_22  = 6000 (bps)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">6</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mord mathdefault">p</span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></p>
+<p>可得可以达到的最大数据率是6000bps</p>
+<h2 id="10base-t"><a class="header-anchor" href="#10base-t">¶</a>10base-T</h2>
+<p>考试重点：<br>
+<strong>10base-T中的T就是双绞线，base是基带信号，10是10Mbps</strong></p>
+<h2 id="电话系统-telephone-system"><a class="header-anchor" href="#电话系统-telephone-system">¶</a>电话系统（telephone system）</h2>
+<p>电话系统的三种组成部分：</p>
+<ul>
+<li>本地回路（local loop）</li>
+<li>干线（trunks）</li>
+<li>交换局</li>
+</ul>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>课程学习</tag>
       </tags>
   </entry>
   <entry>
