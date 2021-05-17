@@ -503,574 +503,6 @@ These funds are used to improve educational facilities, purchase books and more 
       </tags>
   </entry>
   <entry>
-    <title>Database Review</title>
-    <url>/2021/04/11/Database-Review/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="database-review"><a class="header-anchor" href="#database-review">¶</a>DataBase Review</h1>
-<h2 id="关系代数"><a class="header-anchor" href="#关系代数">¶</a>关系代数</h2>
-<p>选择： <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>F</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sigma_{F}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">F</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span>   <code>SELECT * FROM R WHERE F</code></p>
-<p>投影：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∏</mo><mi>A</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\prod_{A}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0497100000000001em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.17862099999999992em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span> <code>SELECT A FROM R</code></p>
-<h3 id="连接："><a class="header-anchor" href="#连接：">¶</a>连接：</h3>
-<img src="https://gitee.com/coronapolvo/images/raw/master/20210411154757image-20210411154521617.png" alt="image-20210411154521617" style="zoom:50%;" />
-<h4 id="笛卡尔积："><a class="header-anchor" href="#笛卡尔积：">¶</a>笛卡尔积：</h4>
-<p>现在有两个表如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sql&gt; select * from S;</span><br><span class="line">+------+------+</span><br><span class="line">| A    | B    |</span><br><span class="line">+------+------+</span><br><span class="line">|    1 |    2 |</span><br><span class="line">|    3 |    3 |</span><br><span class="line">|    5 |    9 |</span><br><span class="line">+------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">sql&gt; select * from R;</span><br><span class="line">+------+------+</span><br><span class="line">| B    | C    |</span><br><span class="line">+------+------+</span><br><span class="line">|    2 |    1 |</span><br><span class="line">|    7 |    2 |</span><br><span class="line">|    3 |    5 |</span><br><span class="line">+------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>进行笛卡尔积操作后为：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sql&gt; select * from S,R;</span><br><span class="line">+------+------+------+------+</span><br><span class="line">| A    | B    | B    | C    |</span><br><span class="line">+------+------+------+------+</span><br><span class="line">|    1 |    2 |    2 |    1 |</span><br><span class="line">|    3 |    3 |    2 |    1 |</span><br><span class="line">|    5 |    9 |    2 |    1 |</span><br><span class="line">|    1 |    2 |    7 |    2 |</span><br><span class="line">|    3 |    3 |    7 |    2 |</span><br><span class="line">|    5 |    9 |    7 |    2 |</span><br><span class="line">|    1 |    2 |    3 |    5 |</span><br><span class="line">|    3 |    3 |    3 |    5 |</span><br><span class="line">|    5 |    9 |    3 |    5 |</span><br><span class="line">+------+------+------+------+</span><br><span class="line">9 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>笛卡尔积的连接会对两个表的每一列进行排列组合</p>
-<span id="more"></span>
-<h4 id="等值连接"><a class="header-anchor" href="#等值连接">¶</a>等值连接</h4>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span></span></span></span> 为“＝” 的连接运算称为等值连接。它是从关系R与S的笛卡尔积中选取A、B属性值相等的那些元组。即等值连接为：</p>
-<img src="https://gitee.com/coronapolvo/images/raw/master/20210412142812image-20210411160451967.png" alt="image-20210411160451967" style="zoom:50%;" />
-<h4 id="自然连接"><a class="header-anchor" href="#自然连接">¶</a>自然连接</h4>
-<p>自然连接（Natural join）是一种特殊的等值连接，它要求两个关系中进行比较的分量必须是相同的属性组，并且要在结果中把重复的属性去掉。即若R和S具有相同的属性组B，则自然连接可记作：</p>
-<img src="https://gitee.com/coronapolvo/images/raw/master/20210411160114image-20210411160105845.png" alt="image-20210411160105845" style="zoom:50%;" />
-<h4 id="外连接"><a class="header-anchor" href="#外连接">¶</a>外连接</h4>
-<h5 id="左连接"><a class="header-anchor" href="#左连接">¶</a>左连接</h5>
-<p>在自然连接的基础上补上左集合中没有的列。没有对应值的项补null</p>
-<h5 id="右连接"><a class="header-anchor" href="#右连接">¶</a>右连接</h5>
-<p>在自然连接的基础上补上右集合中没有的列。没有对应值的项补null</p>
-<p>外连接就是左连接和右连接的组合。</p>
-<h4 id="除法"><a class="header-anchor" href="#除法">¶</a>除法</h4>
-<p>去看： <a href="https://www.jianshu.com/p/d80dbaef637e">https://www.jianshu.com/p/d80dbaef637e</a> 讲的好啊</p>
-<p>还有：<a href="https://blog.csdn.net/qq_35361859/article/details/105027905">https://blog.csdn.net/qq_35361859/article/details/105027905</a> 也不错</p>
-<hr>
-<h2 id="sql语句的一些高级操作"><a class="header-anchor" href="#sql语句的一些高级操作">¶</a>SQL语句的一些高级操作</h2>
-<h3 id="where"><a class="header-anchor" href="#where">¶</a>WHERE</h3>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"># <span class="keyword">between</span> <span class="keyword">and</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_auto <span class="keyword">where</span> age <span class="keyword">between</span> <span class="number">20</span> <span class="keyword">and</span> <span class="number">22</span>;</span><br><span class="line"></span><br><span class="line"># <span class="keyword">in</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_auto <span class="keyword">where</span> age <span class="keyword">in</span> (<span class="number">20</span>,<span class="number">30</span>);</span><br><span class="line"></span><br><span class="line"># <span class="keyword">like</span> <span class="keyword">or</span> <span class="keyword">not</span> <span class="keyword">like</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_auto <span class="keyword">where</span> age <span class="keyword">like</span> <span class="string">&#x27;Li%&#x27;</span> # 以Li开头的学生</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_auto <span class="keyword">where</span> age <span class="keyword">like</span> <span class="string">&#x27;Li_&#x27;</span> # 代替任何一个字符</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>总结</p>
-</blockquote>
-<ol>
-<li>where 子句的目的是通过条件匹配进行数据的筛选，数据筛选的原理是在数据表（磁盘）进行；</li>
-<li>where中可以通过多种运算符来实现数据匹配：比较，逻辑，空运算，匹配运算；</li>
-<li>在使用多种运算符的时候，需要考虑运算符的优先级；</li>
-</ol>
-<h3 id="distinct"><a class="header-anchor" href="#distinct">¶</a>DISTINCT</h3>
-<p>Distinct 去重针对的是所有查出来的字段数据，记录相同则去重，而不是某一个字段值重复；</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="operator">*</span> <span class="keyword">from</span> my_student;</span><br></pre></td></tr></table></figure>
-<h3 id="group-by"><a class="header-anchor" href="#group-by">¶</a>GROUP BY</h3>
-<ol>
-<li>语法：where 后 gourp by class_name</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> class_name <span class="keyword">from</span> my_student <span class="keyword">group</span> <span class="keyword">by</span> class_name</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>Group by 分组原理</li>
-</ol>
-<ul>
-<li>按照分组字段，将获取到的记录分为几块</li>
-<li>保留每块的第一条记录</li>
-</ul>
-<ol start="3">
-<li>group by 的目的： 实现<strong>分组统计</strong>，分组统计主要要用到一下的聚类函数</li>
-</ol>
-<ul>
-<li>count(*/字段名)： 统计分组字段对应的记录数量</li>
-<li>max(字段名)：统计分组后某个字段的最大值</li>
-<li>min(字段名)：统计分组后某个字段的最小值</li>
-<li>avg(字段名)：统计分组后某个字段的平均值</li>
-<li>sum(字段名)：统计分组后某个字段的和</li>
-</ul>
-<h3 id="having-子句"><a class="header-anchor" href="#having-子句">¶</a>HAVING 子句</h3>
-<p>定义：where是从磁盘读取数据时进行判断，而在数据进入内存之后where就不能生效了，HAVING是完全针对进入内存后的数据进行判定。</p>
-<ol>
-<li>HAVING 语法： HAVING几乎能做所有WHERE能做的事情：HAVING条件判断</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_student <span class="keyword">having</span> id <span class="operator">=</span> <span class="number">1</span>;	</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>having主要针对group by后的统计结果进行判断</li>
-</ol>
-<p>比如: 统计班级人数大于1的班级</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) number,class_name,group_concat(name) <span class="keyword">from</span> my_student <span class="keyword">group</span> <span class="keyword">by</span> class_name <span class="keyword">having</span> number <span class="operator">&gt;</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-<p>注意： having 子句中用到的字段，必须在select后出现过，即字段从磁盘读入到内存当中。</p>
-<ol start="3">
-<li>having 条件判断中可以直接使用聚类函数</li>
-</ol>
-<p>上面语句也可以替换为：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) , class_name,group_concat(name) <span class="keyword">from</span> my_student <span class="keyword">group</span> <span class="keyword">by</span> class_name <span class="keyword">having</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="operator">&gt;</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="order-by-子句"><a class="header-anchor" href="#order-by-子句">¶</a>ORDER BY 子句</h3>
-<p>定义：order by即通过某个字段，使得表对应的校对集实现升序或者降序排序。</p>
-<ol>
-<li>order by语法： order by 字段 [ASC][DESC] ; 其中ASC是升序，DESC为降序</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_student <span class="keyword">order</span> <span class="keyword">by</span> age;</span><br></pre></td></tr></table></figure>
-<h3 id="exists"><a class="header-anchor" href="#exists">¶</a>EXISTS</h3>
-<p>EXISTS的子查询不反回任何的数据，只会产生逻辑真值 true/flase</p>
-<p>语法：</p>
-<p>查询所有选修了1号课程的学生姓名</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> sname</span><br><span class="line"><span class="keyword">from</span> Student</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">exists</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> sc,Student <span class="keyword">where</span> sc.sno <span class="operator">=</span> Student.sno);</span><br></pre></td></tr></table></figure>
-<p>EXISTS还可以表示关系代数中的除法操作：</p>
-<p>比如：查询至少选修了学号为‘200215121’选修的全部课程的学生号码</p>
-<p>关系代数为：</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mrow><mi>s</mi><mi>n</mi><mi>o</mi><mo separator="true">,</mo><mi>c</mi><mi>n</mi><mi>o</mi></mrow></msub><mo stretchy="false">(</mo><mi>S</mi><mi>C</mi><mo stretchy="false">)</mo><mo>÷</mo><msub><mi>π</mi><mrow><mi>c</mi><mi>n</mi><mi>o</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>σ</mi><mrow><msup><mrow></mrow><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mn>20021512</mn><msup><mn>1</mn><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow></msub><mo stretchy="false">(</mo><mi>S</mi><mi>C</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\pi_{sno,cno}(SC) \div \pi_{cno}(\sigma_{&#x27;200215121&#x27;}(SC))
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">÷</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32797999999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mord mtight">2</span><span class="mord mtight">1</span><span class="mord mtight">5</span><span class="mord mtight">1</span><span class="mord mtight">2</span><span class="mord mtight"><span class="mord mtight">1</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
-<p>SQL语句为：</p>
-<p>可以理解为for循环嵌套</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> sno</span><br><span class="line"><span class="keyword">FROM</span> SC SCX</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span></span><br><span class="line">    (<span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line">    <span class="keyword">FROM</span> SC SCY</span><br><span class="line">    <span class="keyword">WHERE</span> SCY.sno<span class="operator">=</span><span class="string">&#x27;201215122&#x27;</span> <span class="keyword">AND</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span></span><br><span class="line">        (<span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line">        <span class="keyword">FROM</span> SC SCZ</span><br><span class="line">        <span class="keyword">WHERE</span> SCZ.sno<span class="operator">=</span>SCX.sno <span class="keyword">AND</span> SCZ.cno<span class="operator">=</span>SCY.cno));</span><br></pre></td></tr></table></figure>
-<h2 id="视图"><a class="header-anchor" href="#视图">¶</a>视图</h2>
-<h3 id="定义视图"><a class="header-anchor" href="#定义视图">¶</a>定义视图</h3>
-<ol>
-<li>语法：</li>
-</ol>
-<p>CREATE VIEW &lt;视图名&gt; [&lt;列名&gt;, &lt;列名&gt;, …]</p>
-<p>AS &lt;子查询&gt;</p>
-<p>[WITH CHECK OPTION]</p>
-<p>其中子查询可以是<strong>任意的SELECT语句</strong>，是否可以含有ORDER BY子句和DISTINCT短语，则取决于具体系统的实现；</p>
-<ol start="2">
-<li>WITH CHECK OPTION</li>
-</ol>
-<p>作用：在对视图进行插入修改和删除时，关系数据库管理系统会自动记上select中的条件；</p>
-<p>例如：建立信息系学生的视图，并要求进行修改和插入操作时仍然需要保证该视图有信息系的学生；</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> IS_Student</span><br><span class="line"><span class="keyword">AS</span> </span><br><span class="line"><span class="keyword">SELECT</span> Sno,Sname,Sage </span><br><span class="line"><span class="keyword">FROM</span> Student</span><br><span class="line"><span class="keyword">WHERE</span> Sdept<span class="operator">=</span><span class="string">&#x27;IS&#x27;</span></span><br><span class="line"><span class="keyword">WITH</span> <span class="keyword">CHECK</span> OPTION;</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>带有聚焦函数的语句</li>
-</ol>
-<p>例如： 将学生的学号和平均成绩定义为一个视图；</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> S_G(Sno,Savg)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> Sno,<span class="built_in">AVG</span>(Grade)</span><br><span class="line"><span class="keyword">FROM</span> SC</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> Sno;</span><br></pre></td></tr></table></figure>
-<h3 id="删除视图"><a class="header-anchor" href="#删除视图">¶</a>删除视图</h3>
-<ol>
-<li>语法：DROP VIEW [CASCADE]</li>
-</ol>
-<p>CASCADE级联删除语句把视图和由他导出的所有视图一起删除了；</p>
-<h3 id="查询和更新视图"><a class="header-anchor" href="#查询和更新视图">¶</a>查询和更新视图</h3>
-<p>视图建立完之后就可以对视图像数据库一样进行查询和更新啦。</p>
-<h3 id="视图的作用："><a class="header-anchor" href="#视图的作用：">¶</a>视图的作用：</h3>
-<ol>
-<li>
-<p>视图能够简化用户的操作</p>
-</li>
-<li>
-<p>视图是用户能以多种角度看待同一数据</p>
-</li>
-<li>
-<p>视图对重构数据库提供了一定程度的逻辑独立性</p>
-</li>
-<li>
-<p>视图能够对机密数据提供安全保护</p>
-</li>
-<li>
-<p>适当利用视图可以更加清晰地对表达查询</p>
-</li>
-</ol>
-<h2 id="数据库的安全性"><a class="header-anchor" href="#数据库的安全性">¶</a>数据库的安全性</h2>
-<h3 id="授权：授予和收回"><a class="header-anchor" href="#授权：授予和收回">¶</a>授权：授予和收回</h3>
-<ol>
-<li>GRANT</li>
-</ol>
-<p>GRANT语句的一般格式为：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="operator">&lt;</span>权限<span class="operator">&gt;</span>[，<span class="operator">&lt;</span>权限<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">ON</span> <span class="operator">&lt;</span>对象类型<span class="operator">&gt;</span><span class="operator">&lt;</span>对象名<span class="operator">&gt;</span>[,<span class="operator">&lt;</span>对象类型<span class="operator">&gt;</span><span class="operator">&lt;</span>对象名<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">TO</span> <span class="operator">&lt;</span>用户<span class="operator">&gt;</span>[,<span class="operator">&lt;</span>用户<span class="operator">&gt;</span>]</span><br><span class="line">[<span class="keyword">WITH</span> <span class="keyword">GRANT</span> OPTION]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>接受授权的用户可以是一个或者多个具体用户，也可以<code>PUBLIC</code>，即全体用户。</li>
-<li>如果是所有权限则可以使用<code>ALL PRIVILEGES</code></li>
-</ul>
-<p>如果指定了WITH GRANT OPTION子句，则获得某种权限的用户还可以把这种权限再授权其他的用户。没有的用户则不能传播该权限。</p>
-<p>例如：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 把查询Student表的权限授权给用户U1</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> <span class="keyword">TABLE</span> Student <span class="keyword">TO</span> U1;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 把对Student和Course表的全部操作权限授予用户U2和U3</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> <span class="keyword">TABLE</span> Student,Course <span class="keyword">TO</span> U2,U3;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 把对表SC的查询权限授予所有用户并允许将该权限进行传播</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">Select</span> <span class="keyword">ON</span> <span class="keyword">TABLE</span> SC <span class="keyword">TO</span> PUBLIC <span class="keyword">WITH</span> <span class="keyword">GRANT</span> OPTION;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 每个学生具有查询SC表中自己信息的权限</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">Select</span> <span class="keyword">ON</span> SC <span class="keyword">WHEN</span> <span class="keyword">USER</span>()<span class="operator">=</span>Sname <span class="keyword">TO</span> PUBLIC;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>REVOKE</li>
-</ol>
-<p>REVOKE 语句的意义是从某个角色/角色组那里收回权限</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">REVOKE</span> <span class="operator">&lt;</span>权限<span class="operator">&gt;</span>[，<span class="operator">&lt;</span>权限<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">ON</span> <span class="operator">&lt;</span>对象类型<span class="operator">&gt;</span><span class="operator">&lt;</span>对象名<span class="operator">&gt;</span>[,<span class="operator">&lt;</span>对象类型<span class="operator">&gt;</span><span class="operator">&lt;</span>对象名<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">FROM</span> <span class="operator">&lt;</span>用户<span class="operator">&gt;</span>[,<span class="operator">&lt;</span>用户<span class="operator">&gt;</span>]</span><br></pre></td></tr></table></figure>
-<h3 id="视图机制"><a class="header-anchor" href="#视图机制">¶</a>视图机制</h3>
-<p>通过为不同的用户定义不同的视图，把数据对象限制在一定的范围内。也就是说通过视图机制把要保密的数据对无权存取对用户隐藏起来，从而自动对数据提供一定程度的安全保护。</p>
-<p>例如：将视图CS_Student的SELECT权限授予U1</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span></span><br><span class="line"><span class="keyword">ON</span> CS_Student</span><br><span class="line"><span class="keyword">TO</span> U1;</span><br></pre></td></tr></table></figure>
-<h2 id="外键约束"><a class="header-anchor" href="#外键约束">¶</a>外键约束</h2>
-<p>定义：外间FOREIGN KEY，指在一张表中有一个字段指向另一个表的主键字段，并且通过外键关联会有一些约束效果</p>
-<p>思考：在学习表关系的时候，在一对多或者多对多的时候，都会在一张表中增加一个字段来指向另一个表的主键，但是此时其实指向没有任何的实际含义，需要人为的去记住，这样有啥意义呢？</p>
-<p>引入：如果只是需要人为的去记住对应的关系，没有任何数据库本身去控制的话，那样的存在没有价值。外键就是负责这样的一个作用啦。</p>
-<h3 id="外键"><a class="header-anchor" href="#外键">¶</a>外键</h3>
-<blockquote>
-<p>定义：外键就是在设定呢字段属于其他表的主键后，使用FOREIGN KEY关键字让表字段与另外表的主键产生内在关联关系。</p>
-</blockquote>
-<ol>
-<li>创建表的使用 FOREIGN KEY (Cno) REFERENCES Course(Cno) 【标准SQL语句】</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> SC</span><br><span class="line">(Sno <span class="type">CHAR</span>(<span class="number">9</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"> Cno <span class="type">CHAR</span>(<span class="number">4</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"> Grade <span class="type">SMALLINT</span>,</span><br><span class="line"> <span class="keyword">PRIMARY</span> KEY (Sno,Cno),</span><br><span class="line"> <span class="keyword">FOREIGN</span> KEY(Sno) <span class="keyword">REFERENCES</span> Student(Sno),</span><br><span class="line"> <span class="keyword">FOREIGN</span> KEY(Cno) <span class="keyword">REFERENCES</span> Student(Cno)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<h3 id="外键约束"><a class="header-anchor" href="#外键约束">¶</a>外键约束</h3>
-<blockquote>
-<p>定义：外键约束，即外键的增加之后对应的父表和子表都有相应的约束关系</p>
-</blockquote>
-<ol>
-<li>外键增加后默认字段插入的数据对应的外键字段必须在浮标存在，否则会报错</li>
-<li>外键增加后默认父表主键如果在外键值有使用，那么不能更新主键值，也不能删除主键所有记录</li>
-<li>外键的作用：</li>
-</ol>
-<ul>
-<li>限定子表（外键所在表）不能插入主表中不存在的外键值（不能更新）</li>
-<li>限定父表（主键被引用）不能删除或者更新子表有外键引用的主键信息</li>
-</ul>
-<ol start="4">
-<li>可以在创建外键的之后制定外键的约束效果：即控制父表的操作对子表的影响</li>
-</ol>
-<ul>
-<li>
-<p>控制情况</p>
-<ul>
-<li>on update：父表更新与子表有关联的主键时</li>
-<li>on delete：父表删除与子表有关联的主键时</li>
-</ul>
-</li>
-<li>
-<p>控制效果</p>
-<ul>
-<li>cascade：级联操作，即父表怎么样，子表有对应关系的记录就怎么样</li>
-<li>set null：置空操作，即父表变化，子表关联的记录对应的外键字段置空（注意：能够使用的前提是外键对应的字段允许空）</li>
-<li>restrict/no action：严格模式，即不允许父表操作</li>
-</ul>
-</li>
-<li>
-<p>通常的搭配如下：</p>
-<ul>
-<li>on update cascade: 父表更新，子表级联更新</li>
-<li>on delete cascade: 父表删除，子表对应外键置空</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>总结</p>
-</blockquote>
-<ol>
-<li>外键约束分为父表的约束和对子表的约束，其中子表的约束是固定的不能插入父表不存在的外键值</li>
-<li>父表外键约束可以通过设定on update和on delete事件来控制，控制方式有cascade，set null和restrict三种</li>
-<li>外键的强大约束作用可以保证数据的完整性和有效性</li>
-<li>外键的强大约束有可能操作负面影响：数据维护变的困难，所以实际开发中需要根据需求选择使用</li>
-<li>外键总有InnoDB存储引擎支持，Mylsam不支持</li>
-</ol>
-<h2 id="用户定义的完整性"><a class="header-anchor" href="#用户定义的完整性">¶</a>用户定义的完整性</h2>
-<p>定义：用户定义的完整性就是针对某一个具体应用的数据必须满足语义要求。</p>
-<ol>
-<li>属性上的约束条件</li>
-</ol>
-<p>在创建表时可以给表中的一些字段规定一些属性：</p>
-<ul>
-<li>列值非空（NOT NULL）</li>
-<li>列值唯一（UNIQUE）</li>
-<li>检查列值是否满足一个条件表达式（CHECK 短语）</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> SC</span><br><span class="line">(Sno <span class="type">CHAR</span>(<span class="number">9</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"> Cno <span class="type">CHAR</span>(<span class="number">9</span>) <span class="keyword">UNIQUE</span>,</span><br><span class="line"> GRADE NUMBER <span class="keyword">CHECK</span>(GRADE <span class="keyword">BETWEEN</span> <span class="number">0</span> <span class="keyword">AND</span> <span class="number">100</span>);</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>元组上的约束</li>
-</ol>
-<p>与属性上的约束条件定义类似，不过元组级的限制可以设置不同属性之间的取值互为约束条件。</p>
-<p>语法： CHECK(…)</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">(</span><br><span class="line">	Sno <span class="type">CHAR</span>(<span class="number">9</span>),</span><br><span class="line">  Sname <span class="type">CHAR</span>(<span class="number">8</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  Ssex <span class="type">CHAR</span>(<span class="number">2</span>),</span><br><span class="line">  Sage <span class="type">SMALLINT</span>,</span><br><span class="line">  Sdept <span class="type">CHAR</span>(<span class="number">20</span>),</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY(Sno),</span><br><span class="line">  <span class="keyword">CHECK</span>(Ssex<span class="operator">=</span><span class="string">&#x27;女&#x27;</span> <span class="keyword">OR</span> Sname <span class="keyword">NOT</span> <span class="keyword">LIKE</span> <span class="string">&#x27;Ms.%&#x27;</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<p>当往表中插入援助否则修改属性的时候，关系数据库关系系统会自动检查元组上的约束条件时候被满足，如果不满足则操作被拒绝执行。</p>
-<h3 id="完整性约束命名子句"><a class="header-anchor" href="#完整性约束命名子句">¶</a>完整性约束命名子句</h3>
-<p>SQL 在 CREATE TABLE语句中提供了完整性约束命名子句CONSTRAINT，用来对完整性约束条件命名，从而可以灵活地增加、删除一个完整性约束条件。</p>
-<ol>
-<li>完整性约束命名子句</li>
-</ol>
-<p>语法：CONSTRAINT &lt;完整性约束条件名&gt;&lt;完整性约束条件&gt;</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">(</span><br><span class="line">	Sno NUMBERIC(<span class="number">6</span>)</span><br><span class="line">  	<span class="keyword">CONSTRAINT</span> C1 <span class="keyword">CHECK</span>(Sno <span class="keyword">BETWEEN</span> <span class="number">90000</span> <span class="keyword">AND</span> <span class="number">99999</span>),</span><br><span class="line">  ...</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>修改表中的完整性限制</li>
-</ol>
-<p>可以使用ALTER TABLE 语句修改表中的完整性限制</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">	<span class="keyword">DROP</span> <span class="keyword">CONSTRAINT</span> C1;</span><br></pre></td></tr></table></figure>
-<h2 id="范式"><a class="header-anchor" href="#范式">¶</a>范式</h2>
-<h3 id="几个函数依赖"><a class="header-anchor" href="#几个函数依赖">¶</a>几个函数依赖</h3>
-<p>设R(U)是属性集U上的关系模式，X，Y是U的子集。若对于R(U)的任意一个可能的关系r，r中不可能存在两个元组在X上的属性值相等，而在Y上的属性值不等，则称X函数确定Y或Y函数依赖于X，记住X-&gt;Y</p>
-<p><strong>部分函数依赖：</strong></p>
-<p>设X,Y是关系R的两个属性集合，存在X→Y，若X’是X的真子集，存在X’→Y，则称Y部分函数依赖于X。</p>
-<p>例子：学生基本信息表R中（学号，身份证号，姓名）当然学号属性取值是唯一的，在R关系中，（学号，身份证号）-&gt;（姓名），（学号）-&gt;（姓名），（身份证号）-&gt;（姓名）；所以姓名部分函数依赖于（学号，身份证号）；</p>
-<p><strong>完全函数依赖：</strong></p>
-<p>设X,Y是关系R的两个属性集合，X’是X的真子集，存在X→Y，但对每一个X’都有X’!→Y，则称Y完全函数依赖于X。</p>
-<p>=例子：学生基本信息表R（学号，班级，姓名）假设不同的班级学号有相同的，班级内学号不能相同，在R关系中，（学号，班级）-&gt;（姓名），但是（学号）-&gt;(姓名)不成立，（班级）-&gt;(姓名)不成立，所以姓名完全函数依赖与（学号，班级);</p>
-<p><strong>传递函数依赖：</strong></p>
-<p>设X,Y,Z是关系R中互不相同的属性集合，存在X→Y(Y !→X),Y→Z，则称Z传递函数依赖于X。</p>
-<p>例子：在关系R(学号 ,宿舍, 费用)中，(学号)-&gt;(宿舍),宿舍！=学号，(宿舍)-&gt;(费用),费用!=宿舍，所以符合传递函数的要求；即费用传递函数依赖于学号</p>
-<h3 id="属性集的函数依赖"><a class="header-anchor" href="#属性集的函数依赖">¶</a>属性集的函数依赖</h3>
-<p>就是将所有的可以推导出来的函数依赖关系全部给加进去，需要注意的就是<strong>有一个和空集的关系</strong></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210429141430image-20210429141428712.png" alt="image-20210429141428712"></p>
-<p>剩下的就是对各个元素闭包的排列组合；比如上面的例题中 (A)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow></mrow><mo>+</mo></msub></mrow><annotation encoding="application/x-tex">_+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.466662em;vertical-align:-0.208331em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.25833100000000003em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span> = ABC, 所以他就对应了如图的ABC的所有排列组合情况再加一个对空集对关系。</p>
-<h3 id="码"><a class="header-anchor" href="#码">¶</a>码</h3>
-<h4 id="候选码的概念"><a class="header-anchor" href="#候选码的概念">¶</a>候选码的概念</h4>
-<p>这样一个集合，他可以推出所有的属性，但是他的任意一个真子集无法退出所有的属性。</p>
-<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423171253image-20210423171236681.png" alt="image-20210423171236681" style="zoom:50%;" /></p>
-<h4 id="如何求候选码？"><a class="header-anchor" href="#如何求候选码？">¶</a>如何求候选码？</h4>
-<ol>
-<li>只出现在左边的一定是候选码中的元素</li>
-<li>只出现在右边的一定不是候选码中的元素</li>
-<li>左右都出现的不一定</li>
-<li>左右都不出现的一定是候选码中的元素</li>
-</ol>
-<p>在确定了可能出现的元素之后就可以使用闭包运算进行测试：如果组合可以推出所有的属性话就说明是候选码。</p>
-<p>,<img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423173637055.png" alt="image-20210423173637055" style="zoom:50%;" /></p>
-<p><code>如果三个一组推不出来的话，就再加变成4个一组</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">闭包：BD的闭包 是指由BD能推出来的所有属性</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>主属性： 候选码中的属性都是主属性</p>
-</blockquote>
-<h3 id="第一范式"><a class="header-anchor" href="#第一范式">¶</a>第一范式</h3>
-<p>定义：第一范式，在设计表存储数据的时候，如果表中设计的字段存储的数据，在取出来使用之前还需要额外的处理（拆分）就不符合1NF，第一范式就是<strong>处理数据颗粒度大的问题</strong></p>
-<p>1.案例:设计一张学生选修课成绩表</p>
-<table id="tabular">
-<tbody>
-<tr style="border-top: none !important; border-bottom: none !important;">
-<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">学生</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">性别</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">课程</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">教室</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">成绩</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">学习时间</td>
-</tr>
-<tr style="border-top: none !important; border-bottom: none !important;">
-<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">PHP</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">101</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">100</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">2月1日,2月28日</td>
-</tr>
-<tr style="border-top: none !important; border-bottom: none !important;">
-<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">李四</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">女</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">90</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日,3月31日</td>
-</tr>
-<tr style="border-top: none !important; border-bottom: none !important;">
-<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">95</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日,3月31日</td>
-</tr>
-</tbody>
-</table>
-2.以上表设计是一种非常常见的数据,但是如果想要知道学生上课的开始时间和结束时间,那就意味着这个学习时间取出之后需要再进行拆分,因此就不符合1NF。要保证数据取出来就可以直接使用,就需要将学习时间进行拆分。
-<table id="tabular">
-<tbody>
-<tr style="border-top: none !important; border-bottom: none !important;">
-<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">学生</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">性别</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">课程</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">教室</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">成绩</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">开始时间</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">结束时间</td>
-</tr>
-<tr style="border-top: none !important; border-bottom: none !important;">
-<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">PHP</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">101</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">100</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">2月1日</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">2月28日</td>
-</tr>
-<tr style="border-top: none !important; border-bottom: none !important;">
-<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">李四</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">女</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">90</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月31日</td>
-</tr>
-<tr style="border-top: none !important; border-bottom: none !important;">
-<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">95</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日</td>
-<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月31日</td>
-</tr>
-</tbody>
-</table>
-<p>总结：</p>
-<ol>
-<li>要满足1NF就是要保证数据在实际使用的时候不用对字段数据进行二次拆分</li>
-<li>1DF的核心就行数据要有原子性（不可拆分）</li>
-</ol>
-<h3 id="第二范式"><a class="header-anchor" href="#第二范式">¶</a>第二范式</h3>
-<blockquote>
-<p>以上数据表的设计中满足了原子性，但是学生在某个课程中应该只有一个考试成绩，也就是说学生对应的课程的成绩应该是有唯一性的，那么以上数据表应该如何进行设计呢？</p>
-</blockquote>
-<blockquote>
-<p>引入：要解决以上问题，其实很简单就是学生姓名和课程名字应该说唯一的，那么只要增加一个复合主键即可。</p>
-</blockquote>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414103304image-20210414103302534.png" alt="image-20210414103302534"></p>
-<p>定义： 第二范式（2NF），在数据表的设计过程中如果有复合主键（多字段主键），且表中有字段且并不是由整个主键来确定，而是依赖主键中的某个字段（主键的部分）：存在字段依赖主键的部分的问题，称之为部分依赖：第二范式就是要<strong>解决表设计中非主属性对主属性的部分依赖。</strong></p>
-<ol>
-<li>以上表中性别有学生决定，而不受到课程影响；同时教室由课程决定，而不受到学生影响。此时形成了字段部分依赖部分主键的情况，因此会存在部分依赖问题，也就不满足第二范式。</li>
-<li>解决方案：就是让字段不会存储依赖部分主键的问题，因此需要做的就是增加一个逻辑主键字段：性别依赖学生但学生不是主键，教室依赖课程也不是主键。</li>
-</ol>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414104639594.png" alt="image-20210414104639594"></p>
-<ol start="3">
-<li>以上虽然解决了依赖问题，但是学生和课程又不具有唯一性了，所以应该增加符合唯一键：unique(学生，课程)</li>
-</ol>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414104813163.png" alt="image-20210414104813163"></p>
-<p>总结：</p>
-<ol>
-<li>第二范式就是解决字段部分依赖主键的问题，也就是部分字段依赖的问题</li>
-</ol>
-<blockquote>
-<p>思考： 上述表虽然满足了1NF和2NF，但是总感觉怪怪的，理论上讲性别逻辑主键除外，实际业务主键还是学生和课程，这个表应该是学生与课程对应的成绩，为什么会出现性别和教室呢？</p>
-</blockquote>
-<blockquote>
-<p>引入：之所以会出现上述矛盾，原因就是我们将数据都揉到了一张表里面，而且出现了性别依赖学生，而学生依赖ID，形成了字段性别依赖非主键字段学分的问题，也就是触法了3NF的问题。</p>
-</blockquote>
-<h3 id="第三范式"><a class="header-anchor" href="#第三范式">¶</a>第三范式</h3>
-<p>定义：第三范式（3NF），理论上讲，应该一张表中的所有字段都应该直接依赖主键（逻辑主键：代表的是业务主键），如果表设计中存在这样一个字段，并不直接依赖主键，而是通过某一个非主键字段依赖，最终实现依赖主键：把这种不是直接依赖主键，而是依赖主键非主键字段的依赖关系称之为传递依赖。第三范式就是要解决传递的问题。</p>
-<ol>
-<li>第三范式的解决方案：<strong>如果某一个表中有字段依赖非主键字段，而被依赖字段依赖主键</strong>，我们就应该将这种非主键依赖关系进行分离，单独形成一张表。</li>
-</ol>
-<p>学生表：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414111729166.png" alt="image-20210414111729166"></p>
-<p>课程表：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414112230099.png" alt="image-20210414112230099"></p>
-<ol start="2">
-<li>此时，虽然性别依然依赖姓名而不是Stu_id, 教室依赖课程而不是Class_id, 那是因为Stu_id和Class_id代表逻辑主键，而不是实际的业务主键，学生表的实际主键应该是姓名，课程表的实际主键应该是课程</li>
-<li>新学生选修课成绩表的设计，应该就是去的对应学生表和课程表的ID</li>
-</ol>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414112526031.png" alt="image-20210414112526031"></p>
-<blockquote>
-<p>总结</p>
-</blockquote>
-<ol>
-<li>第三范式是不允许传递依赖：<strong>即有字段依赖非主键字段</strong>；</li>
-<li>消除传递依赖的方案就是将相关数据对应创建一张表；</li>
-</ol>
-<h4 id="第三范式的模式分解"><a class="header-anchor" href="#第三范式的模式分解">¶</a>第三范式的模式分解</h4>
-<p>求出第三范式对应函数集的最小函数依赖 Fm，使用左部相同合并原则：</p>
-<p>Fm中左边相同的合并成一个数据表</p>
-<p><strong>例1：U=(A,B,C,D,E,G)  F={BG-&gt;C，BD-&gt;E，DG-&gt;C，ADG-&gt;BC，AG-&gt;B，B-&gt;D}  若R不是3NF，将R分解为无损且保持函数依赖的3NF。</strong></p>
-<p>很简单可以求出候选键为AG</p>
-<ol>
-<li>求最小函数依赖</li>
-</ol>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BCDEG}   G在其中，删除</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>D</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BD)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BD} , E不在其中，保留</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(DG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {DG}, C不在其中，保留</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(ADG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span>  = {ABCDG}, B在其中，C也在其中，删除</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(AG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {AG}, B不在其中，保留</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(B)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {B} , D不在其中保留</p>
-<p>可以得到：F = {BD-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
-<p>接下来判断一下左边有没有冗余；</p>
-<p>BD-&gt;E:  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>B</mi><mo>+</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(B^+)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>=BD, D 在里面，所以D有冗余</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>D</mi><mo>+</mo></msup><mo stretchy="false">)</mo><mo>=</mo><mi>D</mi></mrow><annotation encoding="application/x-tex">(D^+)=D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span></span></span></span>, B不在里面所以B没有冗余</p>
-<p>所以用B-&gt;E 替换，BD-&gt;E</p>
-<p>同理可以得到Fm = {B-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
-<ol start="2">
-<li>根据左部相同原则进行合并</li>
-</ol>
-<p>根据左部相同原则可以得到：</p>
-<p>R1 = BED, R2 = CDG, R3 = ABG</p>
-<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210424215608image-20210424214705698.png" alt="image-20210424214705698" style="zoom:67%;" /></p>
-<p>因为AG已经在R3中了所以得到的分解是无损分解</p>
-<h3 id="bcnf范式"><a class="header-anchor" href="#bcnf范式">¶</a>BCNF范式</h3>
-<p><code>在3NF的基础上如果所有的函数依赖的左边都是超码，那这个关系就满足第三范式；如果有一个不是超码就不满足；</code></p>
-<blockquote>
-<p>超码： 一个码的闭包如果就是这个集合，那这个码就叫做超码</p>
-</blockquote>
-<h4 id="bcnf范式的模式分解"><a class="header-anchor" href="#bcnf范式的模式分解">¶</a>BCNF范式的模式分解</h4>
-<p>…</p>
-<h2 id="armstrong-公理系统"><a class="header-anchor" href="#armstrong-公理系统">¶</a>Armstrong 公理系统</h2>
-<p>设U为属性集总体，F是U上的一组函数依赖，于是又关系模式R&lt;U,F&gt;，对于R&lt;U,F&gt;来说有以下的推理规则</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174437414.png" alt="image-20210423174437414"></p>
-<p>由上面的三个公理我们可以得到：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174513774.png" alt="image-20210423174513774"></p>
-<h2 id="最小函数依赖集"><a class="header-anchor" href="#最小函数依赖集">¶</a>最小函数依赖集</h2>
-<p>F中的每一个依赖，都不可以被其他的依赖推出，且右边一定是单元素</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174824image-20210423174818397.png" alt="image-20210423174818397"></p>
-<p><strong>如何求最小依赖集？</strong></p>
-<p>Step1： 把右边的元素拆分成单个的</p>
-<p>Step2： 对所有的依赖意义排查，找出多余的</p>
-<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423175213image-20210423175205001.png" alt="image-20210423175205001" style="zoom:50%;" /></p>
-<p>排查A-&gt;B： 把A-&gt;B去掉,那么F=(B-&gt;A, B-&gt;C,A-&gt;C, C-&gt;A) 且(A)_+ = AC,不包含B,所以排除嫌疑,保留</p>
-<p>排查B-&gt;A：把B-&gt;A去掉,那么F={A-&gt;B,A-&gt;C,C-&gt;A} 且(B)_+=BCA,包含A,就是嫌疑人,剔除</p>
-<p>…</p>
-<p>注：由于排查的顺序不一样可能会造成最小依赖集的不同</p>
-<h2 id="模式分解"><a class="header-anchor" href="#模式分解">¶</a>模式分解</h2>
-<h3 id="无损分解"><a class="header-anchor" href="#无损分解">¶</a>无损分解</h3>
-<p>分解之后可以自然连接结合起来</p>
-<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423190506image-20210423180119935.png" alt="image-20210423180119935" style="zoom:60%;" /></p>
-<h3 id="保持函数依赖"><a class="header-anchor" href="#保持函数依赖">¶</a>保持函数依赖</h3>
-<p>保持函数依赖就是F分解之后还能够还原回来</p>
-<p>考题：如何把数据库分解成3NF，并保持无损分解和函数依赖</p>
-<p>Step1： 求出最小函数依赖集</p>
-<p>Step2：把不在F中的属性全部找出来，单独分出一类，并从这些属性中删除</p>
-<p>Step3：把每个依赖左边相同的分成一类</p>
-<p>Step4：如果候选码没有出现在分类中，把任意一个候选码作为一类</p>
-<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423190715image-20210423180657643.png" alt="image-20210423180657643" style="zoom:50%;" /></p>
-<p><strong>例：U=(A,B,C,D,E)   F={AB-&gt;C，C-&gt;B，D-&gt;E，D-&gt;C}   若R不是3NF，将R分解为无损且保持函数依赖的3NF。</strong></p>
-<p>解：易求得，码是AD，属于1NF</p>
-<ol>
-<li>
-<p>第一步：U1=ABC       U2=BC     U3=DCE</p>
-</li>
-<li>
-<p>第二步：</p>
-<p>将R分解为ρ={<br>
-R1({A,B,C}，{AB-&gt;C})，<br>
-R2({B,C}，{C-&gt;B})，<br>
-R3({D,E}，{D-&gt;E,D-&gt;C}) }</p>
-<p>合并吸收：<br>
-ρ={ R1({A,B,C}，{AB-&gt;C,C-&gt;B})，<br>
-R2({D,E}，{D-&gt;E,D-&gt;C}) }</p>
-</li>
-<li>
-<p>第三步：不是无损连接，添加码。</p>
-<p>R3({A,D}，{∅})</p>
-<p>所以ρ={ R1({A,B,C}，{AB-&gt;C,C-&gt;B})，<br>
-R2({D,E}，{D-&gt;E,D-&gt;C}),<br>
-R3({A,D}，{∅}) }</p>
-</li>
-</ol>
-<h2 id="数据库设计"><a class="header-anchor" href="#数据库设计">¶</a>数据库设计</h2>
-<h3 id="er图转关系模式"><a class="header-anchor" href="#er图转关系模式">¶</a>ER图转关系模式</h3>
-<p><strong><img src="https://gitee.com/coronapolvo/images/raw/master/20210429152543image-20210429152538934.png" alt="image-20210429152538934"></strong></p>
-<p>去看： <a href="https://blog.csdn.net/Flora_SM/article/details/84645752">https://blog.csdn.net/Flora_SM/article/details/84645752</a> 这里讲的非常好！</p>
-<h1 id="高阶操作总结"><a class="header-anchor" href="#高阶操作总结">¶</a>高阶操作总结</h1>
-<h2 id="自身连接查询"><a class="header-anchor" href="#自身连接查询">¶</a>自身连接查询</h2>
-<p>对自身进行笛卡尔积连接</p>
-<p>例如：选修关系elective(sno, cno, grade)</p>
-<ul>
-<li>查询选修了CO2和CO4课程的学生的学号</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e1.sno <span class="keyword">from</span> elective e1,elective e2 <span class="keyword">WHERE</span> e1.sno <span class="operator">=</span> e2.sno <span class="keyword">AND</span> e1.sno<span class="operator">=</span><span class="string">&#x27;CO2&#x27;</span> <span class="keyword">AND</span> e2.sno<span class="operator">=</span><span class="string">&#x27;CO4&#x27;</span></span><br></pre></td></tr></table></figure>
-<h2 id="exist实现除法操作"><a class="header-anchor" href="#exist实现除法操作">¶</a>EXIST实现除法操作</h2>
-<h3 id="除法的语义"><a class="header-anchor" href="#除法的语义">¶</a>除法的语义</h3>
-<p>除法的真正的语义应该为<strong>包含</strong>。常见的表述形式有：</p>
-<ul>
-<li>查询至少…的对象</li>
-<li>查询xx了全部的对象</li>
-<li>查询xx包含了xx的对象、</li>
-</ul>
-<h3 id="举个栗子"><a class="header-anchor" href="#举个栗子">¶</a>举个栗子</h3>
-<p>假设教学数据库中已建立三个关系：</p>
-<p>学生关系 student(sno, sname, sex, birth, height, class, address)</p>
-<p>课程关系course(cno, cname, credit)</p>
-<p>选修关系elective(sno, cno, grade)</p>
-<p><strong>检索学习全部课程的学生姓名。</strong></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> sname </span><br><span class="line"><span class="keyword">FROM</span> student s</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> EXIST(</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> course c</span><br><span class="line">  <span class="keyword">WHERE</span> <span class="keyword">NOT</span> EXIST(</span><br><span class="line">  	<span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line">    <span class="keyword">FROM</span> elective e</span><br><span class="line">    <span class="keyword">WHERE</span> </span><br><span class="line">    e.sno<span class="operator">=</span>s.sno <span class="keyword">AND</span> c.cno<span class="operator">=</span>e.cno</span><br><span class="line">  )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<p><strong>检索至少选修了课程号为S08的学生的学号</strong></p>
-<p>关系代数： <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mtext>sno,cno </mtext></msub><mo stretchy="false">(</mo><mi>e</mi><mi>l</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>v</mi><mi>e</mi><mo stretchy="false">)</mo><mo>÷</mo><msub><mi>π</mi><mtext>cno </mtext></msub><mo stretchy="false">(</mo><msub><mi>σ</mi><mrow><mi>c</mi><mi>n</mi><mi>o</mi><msup><mo>=</mo><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mi>s</mi><mn>0</mn><msup><mn>8</mn><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow></msub><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mi>e</mi><mi>l</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>v</mi><mi>e</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\pi_{\text {sno,cno }}( elective ) \div \pi_{\text {cno }}(\sigma_{cno=&#x27;s08&#x27;}( (elective))))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">sno,cno </span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">e</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">÷</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">cno </span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32797999999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mrel mtight"><span class="mrel mtight">=</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord mathdefault mtight">s</span><span class="mord mtight">0</span><span class="mord mtight"><span class="mord mtight">8</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mopen">(</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">e</span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></p>
-<p>SQL语句：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> sno </span><br><span class="line"><span class="keyword">FROM</span> elective e1</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> EXIST(</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line">  <span class="keyword">FROM</span> elective e2</span><br><span class="line">  <span class="keyword">WHERE</span> </span><br><span class="line">  e2.cno<span class="operator">=</span><span class="string">&#x27;s08&#x27;</span> <span class="keyword">AND</span> <span class="keyword">NOT</span> EXIST(</span><br><span class="line">  	<span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line">    <span class="keyword">FROM</span> elective e3</span><br><span class="line">    <span class="keyword">WHERE</span></span><br><span class="line">    e1.sno<span class="operator">=</span>e3.sno <span class="keyword">AND</span> e2.sno<span class="operator">=</span>e3.sno</span><br><span class="line">  )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<h1 id="那些常用的关键词"><a class="header-anchor" href="#那些常用的关键词">¶</a>那些常用的关键词</h1>
-<ul>
-<li>REFERENCES</li>
-<li>FOREIGN</li>
-<li>GRANT</li>
-<li>ALL PRIVILEGES</li>
-<li>PRIMARY KEY</li>
-<li>DESC【降序】</li>
-<li>CASCADE</li>
-</ul>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【信息安全数学基础】二次同余式与平方剩余</title>
     <url>/2020/12/10/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E3%80%91%E4%BA%8C%E6%AC%A1%E5%90%8C%E4%BD%99%E5%BC%8F%E4%B8%8E%E5%B9%B3%E6%96%B9%E5%89%A9%E4%BD%99/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h3 id="平方剩余-二次剩余"><a class="header-anchor" href="#平方剩余-二次剩余">¶</a>平方剩余(二次剩余)</h3>
@@ -2644,30 +2076,571 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
-    <title>【算法】 《算法竞赛进阶指南》-基本算法篇</title>
-    <url>/2021/05/12/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91-%E3%80%8A%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97%E3%80%8B-%E5%9F%BA%E6%9C%AC%E7%AE%97%E6%B3%95%E7%AF%87/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="位运算"><a class="header-anchor" href="#位运算">¶</a>位运算</h1>
-<h2 id="a-b"><a class="header-anchor" href="#a-b">¶</a>a^b</h2>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210513082747image-20210512223422917.png" alt="image-20210512223422917"></p>
+    <title>Database Review</title>
+    <url>/2021/04/11/Database-Review/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="database-review"><a class="header-anchor" href="#database-review">¶</a>DataBase Review</h1>
+<h2 id="关系代数"><a class="header-anchor" href="#关系代数">¶</a>关系代数</h2>
+<p>选择： <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>F</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sigma_{F}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">F</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span>   <code>SELECT * FROM R WHERE F</code></p>
+<p>投影：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∏</mo><mi>A</mi></msub><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\prod_{A}(R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0497100000000001em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∏</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.17862099999999992em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mclose">)</span></span></span></span> <code>SELECT A FROM R</code></p>
+<h3 id="连接："><a class="header-anchor" href="#连接：">¶</a>连接：</h3>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210411154757image-20210411154521617.png" alt="image-20210411154521617" style="zoom:50%;" />
+<h4 id="笛卡尔积："><a class="header-anchor" href="#笛卡尔积：">¶</a>笛卡尔积：</h4>
+<p>现在有两个表如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sql&gt; select * from S;</span><br><span class="line">+------+------+</span><br><span class="line">| A    | B    |</span><br><span class="line">+------+------+</span><br><span class="line">|    1 |    2 |</span><br><span class="line">|    3 |    3 |</span><br><span class="line">|    5 |    9 |</span><br><span class="line">+------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">sql&gt; select * from R;</span><br><span class="line">+------+------+</span><br><span class="line">| B    | C    |</span><br><span class="line">+------+------+</span><br><span class="line">|    2 |    1 |</span><br><span class="line">|    7 |    2 |</span><br><span class="line">|    3 |    5 |</span><br><span class="line">+------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>进行笛卡尔积操作后为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sql&gt; select * from S,R;</span><br><span class="line">+------+------+------+------+</span><br><span class="line">| A    | B    | B    | C    |</span><br><span class="line">+------+------+------+------+</span><br><span class="line">|    1 |    2 |    2 |    1 |</span><br><span class="line">|    3 |    3 |    2 |    1 |</span><br><span class="line">|    5 |    9 |    2 |    1 |</span><br><span class="line">|    1 |    2 |    7 |    2 |</span><br><span class="line">|    3 |    3 |    7 |    2 |</span><br><span class="line">|    5 |    9 |    7 |    2 |</span><br><span class="line">|    1 |    2 |    3 |    5 |</span><br><span class="line">|    3 |    3 |    3 |    5 |</span><br><span class="line">|    5 |    9 |    3 |    5 |</span><br><span class="line">+------+------+------+------+</span><br><span class="line">9 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>笛卡尔积的连接会对两个表的每一列进行排列组合</p>
+<span id="more"></span>
+<h4 id="等值连接"><a class="header-anchor" href="#等值连接">¶</a>等值连接</h4>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span></span></span></span> 为“＝” 的连接运算称为等值连接。它是从关系R与S的笛卡尔积中选取A、B属性值相等的那些元组。即等值连接为：</p>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210412142812image-20210411160451967.png" alt="image-20210411160451967" style="zoom:50%;" />
+<h4 id="自然连接"><a class="header-anchor" href="#自然连接">¶</a>自然连接</h4>
+<p>自然连接（Natural join）是一种特殊的等值连接，它要求两个关系中进行比较的分量必须是相同的属性组，并且要在结果中把重复的属性去掉。即若R和S具有相同的属性组B，则自然连接可记作：</p>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210411160114image-20210411160105845.png" alt="image-20210411160105845" style="zoom:50%;" />
+<h4 id="外连接"><a class="header-anchor" href="#外连接">¶</a>外连接</h4>
+<h5 id="左连接"><a class="header-anchor" href="#左连接">¶</a>左连接</h5>
+<p>在自然连接的基础上补上左集合中没有的列。没有对应值的项补null</p>
+<h5 id="右连接"><a class="header-anchor" href="#右连接">¶</a>右连接</h5>
+<p>在自然连接的基础上补上右集合中没有的列。没有对应值的项补null</p>
+<p>外连接就是左连接和右连接的组合。</p>
+<h4 id="除法"><a class="header-anchor" href="#除法">¶</a>除法</h4>
+<p>去看： <a href="https://www.jianshu.com/p/d80dbaef637e">https://www.jianshu.com/p/d80dbaef637e</a> 讲的好啊</p>
+<p>还有：<a href="https://blog.csdn.net/qq_35361859/article/details/105027905">https://blog.csdn.net/qq_35361859/article/details/105027905</a> 也不错</p>
+<hr>
+<h2 id="sql语句的一些高级操作"><a class="header-anchor" href="#sql语句的一些高级操作">¶</a>SQL语句的一些高级操作</h2>
+<h3 id="where"><a class="header-anchor" href="#where">¶</a>WHERE</h3>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"># <span class="keyword">between</span> <span class="keyword">and</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_auto <span class="keyword">where</span> age <span class="keyword">between</span> <span class="number">20</span> <span class="keyword">and</span> <span class="number">22</span>;</span><br><span class="line"></span><br><span class="line"># <span class="keyword">in</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_auto <span class="keyword">where</span> age <span class="keyword">in</span> (<span class="number">20</span>,<span class="number">30</span>);</span><br><span class="line"></span><br><span class="line"># <span class="keyword">like</span> <span class="keyword">or</span> <span class="keyword">not</span> <span class="keyword">like</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_auto <span class="keyword">where</span> age <span class="keyword">like</span> <span class="string">&#x27;Li%&#x27;</span> # 以Li开头的学生</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_auto <span class="keyword">where</span> age <span class="keyword">like</span> <span class="string">&#x27;Li_&#x27;</span> # 代替任何一个字符</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>非常经典的快速幂算法，总之就是非常6啊，话不多数直接上代码吧；</p>
-<p>C++ 技巧： 使用 &gt;&gt;= 来完成二进制数字的移位</p>
+<p>总结</p>
 </blockquote>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> a,b,p;</span><br><span class="line">    cin &gt;&gt; a &gt;&gt; b &gt;&gt; p;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">1</span> % p;</span><br><span class="line">    <span class="keyword">while</span>(b)&#123;</span><br><span class="line">        <span class="keyword">if</span>(b&amp;<span class="number">1</span>) res = a * res % p;</span><br><span class="line">        a = a * a % p;</span><br><span class="line">        b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; res;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="64位整数乘法"><a class="header-anchor" href="#64位整数乘法">¶</a>64位整数乘法</h2>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210513082748image-20210513082306793.png" alt="image-20210513082306793"></p>
+<ol>
+<li>where 子句的目的是通过条件匹配进行数据的筛选，数据筛选的原理是在数据表（磁盘）进行；</li>
+<li>where中可以通过多种运算符来实现数据匹配：比较，逻辑，空运算，匹配运算；</li>
+<li>在使用多种运算符的时候，需要考虑运算符的优先级；</li>
+</ol>
+<h3 id="distinct"><a class="header-anchor" href="#distinct">¶</a>DISTINCT</h3>
+<p>Distinct 去重针对的是所有查出来的字段数据，记录相同则去重，而不是某一个字段值重复；</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="operator">*</span> <span class="keyword">from</span> my_student;</span><br></pre></td></tr></table></figure>
+<h3 id="group-by"><a class="header-anchor" href="#group-by">¶</a>GROUP BY</h3>
+<ol>
+<li>语法：where 后 gourp by class_name</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> class_name <span class="keyword">from</span> my_student <span class="keyword">group</span> <span class="keyword">by</span> class_name</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Group by 分组原理</li>
+</ol>
+<ul>
+<li>按照分组字段，将获取到的记录分为几块</li>
+<li>保留每块的第一条记录</li>
+</ul>
+<ol start="3">
+<li>group by 的目的： 实现<strong>分组统计</strong>，分组统计主要要用到一下的聚类函数</li>
+</ol>
+<ul>
+<li>count(*/字段名)： 统计分组字段对应的记录数量</li>
+<li>max(字段名)：统计分组后某个字段的最大值</li>
+<li>min(字段名)：统计分组后某个字段的最小值</li>
+<li>avg(字段名)：统计分组后某个字段的平均值</li>
+<li>sum(字段名)：统计分组后某个字段的和</li>
+</ul>
+<h3 id="having-子句"><a class="header-anchor" href="#having-子句">¶</a>HAVING 子句</h3>
+<p>定义：where是从磁盘读取数据时进行判断，而在数据进入内存之后where就不能生效了，HAVING是完全针对进入内存后的数据进行判定。</p>
+<ol>
+<li>HAVING 语法： HAVING几乎能做所有WHERE能做的事情：HAVING条件判断</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_student <span class="keyword">having</span> id <span class="operator">=</span> <span class="number">1</span>;	</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>having主要针对group by后的统计结果进行判断</li>
+</ol>
+<p>比如: 统计班级人数大于1的班级</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) number,class_name,group_concat(name) <span class="keyword">from</span> my_student <span class="keyword">group</span> <span class="keyword">by</span> class_name <span class="keyword">having</span> number <span class="operator">&gt;</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>注意： having 子句中用到的字段，必须在select后出现过，即字段从磁盘读入到内存当中。</p>
+<ol start="3">
+<li>having 条件判断中可以直接使用聚类函数</li>
+</ol>
+<p>上面语句也可以替换为：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) , class_name,group_concat(name) <span class="keyword">from</span> my_student <span class="keyword">group</span> <span class="keyword">by</span> class_name <span class="keyword">having</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="operator">&gt;</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="order-by-子句"><a class="header-anchor" href="#order-by-子句">¶</a>ORDER BY 子句</h3>
+<p>定义：order by即通过某个字段，使得表对应的校对集实现升序或者降序排序。</p>
+<ol>
+<li>order by语法： order by 字段 [ASC][DESC] ; 其中ASC是升序，DESC为降序</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> my_student <span class="keyword">order</span> <span class="keyword">by</span> age;</span><br></pre></td></tr></table></figure>
+<h3 id="exists"><a class="header-anchor" href="#exists">¶</a>EXISTS</h3>
+<p>EXISTS的子查询不反回任何的数据，只会产生逻辑真值 true/flase</p>
+<p>语法：</p>
+<p>查询所有选修了1号课程的学生姓名</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> sname</span><br><span class="line"><span class="keyword">from</span> Student</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">exists</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> sc,Student <span class="keyword">where</span> sc.sno <span class="operator">=</span> Student.sno);</span><br></pre></td></tr></table></figure>
+<p>EXISTS还可以表示关系代数中的除法操作：</p>
+<p>比如：查询至少选修了学号为‘200215121’选修的全部课程的学生号码</p>
+<p>关系代数为：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mrow><mi>s</mi><mi>n</mi><mi>o</mi><mo separator="true">,</mo><mi>c</mi><mi>n</mi><mi>o</mi></mrow></msub><mo stretchy="false">(</mo><mi>S</mi><mi>C</mi><mo stretchy="false">)</mo><mo>÷</mo><msub><mi>π</mi><mrow><mi>c</mi><mi>n</mi><mi>o</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>σ</mi><mrow><msup><mrow></mrow><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mn>20021512</mn><msup><mn>1</mn><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow></msub><mo stretchy="false">(</mo><mi>S</mi><mi>C</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\pi_{sno,cno}(SC) \div \pi_{cno}(\sigma_{&#x27;200215121&#x27;}(SC))
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">÷</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32797999999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord mtight">2</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mord mtight">2</span><span class="mord mtight">1</span><span class="mord mtight">5</span><span class="mord mtight">1</span><span class="mord mtight">2</span><span class="mord mtight"><span class="mord mtight">1</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
+<p>SQL语句为：</p>
+<p>可以理解为for循环嵌套</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> sno</span><br><span class="line"><span class="keyword">FROM</span> SC SCX</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span></span><br><span class="line">    (<span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line">    <span class="keyword">FROM</span> SC SCY</span><br><span class="line">    <span class="keyword">WHERE</span> SCY.sno<span class="operator">=</span><span class="string">&#x27;201215122&#x27;</span> <span class="keyword">AND</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span></span><br><span class="line">        (<span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line">        <span class="keyword">FROM</span> SC SCZ</span><br><span class="line">        <span class="keyword">WHERE</span> SCZ.sno<span class="operator">=</span>SCX.sno <span class="keyword">AND</span> SCZ.cno<span class="operator">=</span>SCY.cno));</span><br></pre></td></tr></table></figure>
+<h2 id="视图"><a class="header-anchor" href="#视图">¶</a>视图</h2>
+<h3 id="定义视图"><a class="header-anchor" href="#定义视图">¶</a>定义视图</h3>
+<ol>
+<li>语法：</li>
+</ol>
+<p>CREATE VIEW &lt;视图名&gt; [&lt;列名&gt;, &lt;列名&gt;, …]</p>
+<p>AS &lt;子查询&gt;</p>
+<p>[WITH CHECK OPTION]</p>
+<p>其中子查询可以是<strong>任意的SELECT语句</strong>，是否可以含有ORDER BY子句和DISTINCT短语，则取决于具体系统的实现；</p>
+<ol start="2">
+<li>WITH CHECK OPTION</li>
+</ol>
+<p>作用：在对视图进行插入修改和删除时，关系数据库管理系统会自动记上select中的条件；</p>
+<p>例如：建立信息系学生的视图，并要求进行修改和插入操作时仍然需要保证该视图有信息系的学生；</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> IS_Student</span><br><span class="line"><span class="keyword">AS</span> </span><br><span class="line"><span class="keyword">SELECT</span> Sno,Sname,Sage </span><br><span class="line"><span class="keyword">FROM</span> Student</span><br><span class="line"><span class="keyword">WHERE</span> Sdept<span class="operator">=</span><span class="string">&#x27;IS&#x27;</span></span><br><span class="line"><span class="keyword">WITH</span> <span class="keyword">CHECK</span> OPTION;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>带有聚焦函数的语句</li>
+</ol>
+<p>例如： 将学生的学号和平均成绩定义为一个视图；</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> S_G(Sno,Savg)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> Sno,<span class="built_in">AVG</span>(Grade)</span><br><span class="line"><span class="keyword">FROM</span> SC</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> Sno;</span><br></pre></td></tr></table></figure>
+<h3 id="删除视图"><a class="header-anchor" href="#删除视图">¶</a>删除视图</h3>
+<ol>
+<li>语法：DROP VIEW [CASCADE]</li>
+</ol>
+<p>CASCADE级联删除语句把视图和由他导出的所有视图一起删除了；</p>
+<h3 id="查询和更新视图"><a class="header-anchor" href="#查询和更新视图">¶</a>查询和更新视图</h3>
+<p>视图建立完之后就可以对视图像数据库一样进行查询和更新啦。</p>
+<h3 id="视图的作用："><a class="header-anchor" href="#视图的作用：">¶</a>视图的作用：</h3>
+<ol>
+<li>
+<p>视图能够简化用户的操作</p>
+</li>
+<li>
+<p>视图是用户能以多种角度看待同一数据</p>
+</li>
+<li>
+<p>视图对重构数据库提供了一定程度的逻辑独立性</p>
+</li>
+<li>
+<p>视图能够对机密数据提供安全保护</p>
+</li>
+<li>
+<p>适当利用视图可以更加清晰地对表达查询</p>
+</li>
+</ol>
+<h2 id="数据库的安全性"><a class="header-anchor" href="#数据库的安全性">¶</a>数据库的安全性</h2>
+<h3 id="授权：授予和收回"><a class="header-anchor" href="#授权：授予和收回">¶</a>授权：授予和收回</h3>
+<ol>
+<li>GRANT</li>
+</ol>
+<p>GRANT语句的一般格式为：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="operator">&lt;</span>权限<span class="operator">&gt;</span>[，<span class="operator">&lt;</span>权限<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">ON</span> <span class="operator">&lt;</span>对象类型<span class="operator">&gt;</span><span class="operator">&lt;</span>对象名<span class="operator">&gt;</span>[,<span class="operator">&lt;</span>对象类型<span class="operator">&gt;</span><span class="operator">&lt;</span>对象名<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">TO</span> <span class="operator">&lt;</span>用户<span class="operator">&gt;</span>[,<span class="operator">&lt;</span>用户<span class="operator">&gt;</span>]</span><br><span class="line">[<span class="keyword">WITH</span> <span class="keyword">GRANT</span> OPTION]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接受授权的用户可以是一个或者多个具体用户，也可以<code>PUBLIC</code>，即全体用户。</li>
+<li>如果是所有权限则可以使用<code>ALL PRIVILEGES</code></li>
+</ul>
+<p>如果指定了WITH GRANT OPTION子句，则获得某种权限的用户还可以把这种权限再授权其他的用户。没有的用户则不能传播该权限。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 把查询Student表的权限授权给用户U1</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> <span class="keyword">TABLE</span> Student <span class="keyword">TO</span> U1;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 把对Student和Course表的全部操作权限授予用户U2和U3</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> <span class="keyword">TABLE</span> Student,Course <span class="keyword">TO</span> U2,U3;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 把对表SC的查询权限授予所有用户并允许将该权限进行传播</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">Select</span> <span class="keyword">ON</span> <span class="keyword">TABLE</span> SC <span class="keyword">TO</span> PUBLIC <span class="keyword">WITH</span> <span class="keyword">GRANT</span> OPTION;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 每个学生具有查询SC表中自己信息的权限</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">Select</span> <span class="keyword">ON</span> SC <span class="keyword">WHEN</span> <span class="keyword">USER</span>()<span class="operator">=</span>Sname <span class="keyword">TO</span> PUBLIC;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>REVOKE</li>
+</ol>
+<p>REVOKE 语句的意义是从某个角色/角色组那里收回权限</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">REVOKE</span> <span class="operator">&lt;</span>权限<span class="operator">&gt;</span>[，<span class="operator">&lt;</span>权限<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">ON</span> <span class="operator">&lt;</span>对象类型<span class="operator">&gt;</span><span class="operator">&lt;</span>对象名<span class="operator">&gt;</span>[,<span class="operator">&lt;</span>对象类型<span class="operator">&gt;</span><span class="operator">&lt;</span>对象名<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">FROM</span> <span class="operator">&lt;</span>用户<span class="operator">&gt;</span>[,<span class="operator">&lt;</span>用户<span class="operator">&gt;</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="视图机制"><a class="header-anchor" href="#视图机制">¶</a>视图机制</h3>
+<p>通过为不同的用户定义不同的视图，把数据对象限制在一定的范围内。也就是说通过视图机制把要保密的数据对无权存取对用户隐藏起来，从而自动对数据提供一定程度的安全保护。</p>
+<p>例如：将视图CS_Student的SELECT权限授予U1</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span></span><br><span class="line"><span class="keyword">ON</span> CS_Student</span><br><span class="line"><span class="keyword">TO</span> U1;</span><br></pre></td></tr></table></figure>
+<h2 id="外键约束"><a class="header-anchor" href="#外键约束">¶</a>外键约束</h2>
+<p>定义：外间FOREIGN KEY，指在一张表中有一个字段指向另一个表的主键字段，并且通过外键关联会有一些约束效果</p>
+<p>思考：在学习表关系的时候，在一对多或者多对多的时候，都会在一张表中增加一个字段来指向另一个表的主键，但是此时其实指向没有任何的实际含义，需要人为的去记住，这样有啥意义呢？</p>
+<p>引入：如果只是需要人为的去记住对应的关系，没有任何数据库本身去控制的话，那样的存在没有价值。外键就是负责这样的一个作用啦。</p>
+<h3 id="外键"><a class="header-anchor" href="#外键">¶</a>外键</h3>
 <blockquote>
-<p>a * b mod p 其实就是n个a相乘后模p，将b看做一个二进制数，从左往右分别是1，2，4，8… 具体看代码了，总之就是非常的妙啊！</p>
+<p>定义：外键就是在设定呢字段属于其他表的主键后，使用FOREIGN KEY关键字让表字段与另外表的主键产生内在关联关系。</p>
 </blockquote>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ULL a,b,p;</span><br><span class="line">    cin &gt;&gt; a &gt;&gt; b &gt;&gt; p;</span><br><span class="line">    ULL res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(b)&#123;</span><br><span class="line">        <span class="keyword">if</span>(b&amp;<span class="number">1</span>) res = (res + a)%p;</span><br><span class="line">        b &gt;&gt;= <span class="number">1</span>; <span class="comment">// b的二进制往右边移动一位（妙！）</span></span><br><span class="line">        a = a* <span class="number">2</span>% p; <span class="comment">// 对应2进制的1，2，4，8，因为是对b进行2进制位运算的；</span></span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>创建表的使用 FOREIGN KEY (Cno) REFERENCES Course(Cno) 【标准SQL语句】</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> SC</span><br><span class="line">(Sno <span class="type">CHAR</span>(<span class="number">9</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"> Cno <span class="type">CHAR</span>(<span class="number">4</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"> Grade <span class="type">SMALLINT</span>,</span><br><span class="line"> <span class="keyword">PRIMARY</span> KEY (Sno,Cno),</span><br><span class="line"> <span class="keyword">FOREIGN</span> KEY(Sno) <span class="keyword">REFERENCES</span> Student(Sno),</span><br><span class="line"> <span class="keyword">FOREIGN</span> KEY(Cno) <span class="keyword">REFERENCES</span> Student(Cno)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="外键约束"><a class="header-anchor" href="#外键约束">¶</a>外键约束</h3>
+<blockquote>
+<p>定义：外键约束，即外键的增加之后对应的父表和子表都有相应的约束关系</p>
+</blockquote>
+<ol>
+<li>外键增加后默认字段插入的数据对应的外键字段必须在浮标存在，否则会报错</li>
+<li>外键增加后默认父表主键如果在外键值有使用，那么不能更新主键值，也不能删除主键所有记录</li>
+<li>外键的作用：</li>
+</ol>
+<ul>
+<li>限定子表（外键所在表）不能插入主表中不存在的外键值（不能更新）</li>
+<li>限定父表（主键被引用）不能删除或者更新子表有外键引用的主键信息</li>
+</ul>
+<ol start="4">
+<li>可以在创建外键的之后制定外键的约束效果：即控制父表的操作对子表的影响</li>
+</ol>
+<ul>
+<li>
+<p>控制情况</p>
+<ul>
+<li>on update：父表更新与子表有关联的主键时</li>
+<li>on delete：父表删除与子表有关联的主键时</li>
+</ul>
+</li>
+<li>
+<p>控制效果</p>
+<ul>
+<li>cascade：级联操作，即父表怎么样，子表有对应关系的记录就怎么样</li>
+<li>set null：置空操作，即父表变化，子表关联的记录对应的外键字段置空（注意：能够使用的前提是外键对应的字段允许空）</li>
+<li>restrict/no action：严格模式，即不允许父表操作</li>
+</ul>
+</li>
+<li>
+<p>通常的搭配如下：</p>
+<ul>
+<li>on update cascade: 父表更新，子表级联更新</li>
+<li>on delete cascade: 父表删除，子表对应外键置空</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>总结</p>
+</blockquote>
+<ol>
+<li>外键约束分为父表的约束和对子表的约束，其中子表的约束是固定的不能插入父表不存在的外键值</li>
+<li>父表外键约束可以通过设定on update和on delete事件来控制，控制方式有cascade，set null和restrict三种</li>
+<li>外键的强大约束作用可以保证数据的完整性和有效性</li>
+<li>外键的强大约束有可能操作负面影响：数据维护变的困难，所以实际开发中需要根据需求选择使用</li>
+<li>外键总有InnoDB存储引擎支持，Mylsam不支持</li>
+</ol>
+<h2 id="用户定义的完整性"><a class="header-anchor" href="#用户定义的完整性">¶</a>用户定义的完整性</h2>
+<p>定义：用户定义的完整性就是针对某一个具体应用的数据必须满足语义要求。</p>
+<ol>
+<li>属性上的约束条件</li>
+</ol>
+<p>在创建表时可以给表中的一些字段规定一些属性：</p>
+<ul>
+<li>列值非空（NOT NULL）</li>
+<li>列值唯一（UNIQUE）</li>
+<li>检查列值是否满足一个条件表达式（CHECK 短语）</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> SC</span><br><span class="line">(Sno <span class="type">CHAR</span>(<span class="number">9</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"> Cno <span class="type">CHAR</span>(<span class="number">9</span>) <span class="keyword">UNIQUE</span>,</span><br><span class="line"> GRADE NUMBER <span class="keyword">CHECK</span>(GRADE <span class="keyword">BETWEEN</span> <span class="number">0</span> <span class="keyword">AND</span> <span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>元组上的约束</li>
+</ol>
+<p>与属性上的约束条件定义类似，不过元组级的限制可以设置不同属性之间的取值互为约束条件。</p>
+<p>语法： CHECK(…)</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">(</span><br><span class="line">	Sno <span class="type">CHAR</span>(<span class="number">9</span>),</span><br><span class="line">  Sname <span class="type">CHAR</span>(<span class="number">8</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  Ssex <span class="type">CHAR</span>(<span class="number">2</span>),</span><br><span class="line">  Sage <span class="type">SMALLINT</span>,</span><br><span class="line">  Sdept <span class="type">CHAR</span>(<span class="number">20</span>),</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY(Sno),</span><br><span class="line">  <span class="keyword">CHECK</span>(Ssex<span class="operator">=</span><span class="string">&#x27;女&#x27;</span> <span class="keyword">OR</span> Sname <span class="keyword">NOT</span> <span class="keyword">LIKE</span> <span class="string">&#x27;Ms.%&#x27;</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>当往表中插入援助否则修改属性的时候，关系数据库关系系统会自动检查元组上的约束条件时候被满足，如果不满足则操作被拒绝执行。</p>
+<h3 id="完整性约束命名子句"><a class="header-anchor" href="#完整性约束命名子句">¶</a>完整性约束命名子句</h3>
+<p>SQL 在 CREATE TABLE语句中提供了完整性约束命名子句CONSTRAINT，用来对完整性约束条件命名，从而可以灵活地增加、删除一个完整性约束条件。</p>
+<ol>
+<li>完整性约束命名子句</li>
+</ol>
+<p>语法：CONSTRAINT &lt;完整性约束条件名&gt;&lt;完整性约束条件&gt;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">(</span><br><span class="line">	Sno NUMBERIC(<span class="number">6</span>)</span><br><span class="line">  	<span class="keyword">CONSTRAINT</span> C1 <span class="keyword">CHECK</span>(Sno <span class="keyword">BETWEEN</span> <span class="number">90000</span> <span class="keyword">AND</span> <span class="number">99999</span>),</span><br><span class="line">  ...</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>修改表中的完整性限制</li>
+</ol>
+<p>可以使用ALTER TABLE 语句修改表中的完整性限制</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">	<span class="keyword">DROP</span> <span class="keyword">CONSTRAINT</span> C1;</span><br></pre></td></tr></table></figure>
+<h2 id="范式"><a class="header-anchor" href="#范式">¶</a>范式</h2>
+<h3 id="几个函数依赖"><a class="header-anchor" href="#几个函数依赖">¶</a>几个函数依赖</h3>
+<p>设R(U)是属性集U上的关系模式，X，Y是U的子集。若对于R(U)的任意一个可能的关系r，r中不可能存在两个元组在X上的属性值相等，而在Y上的属性值不等，则称X函数确定Y或Y函数依赖于X，记住X-&gt;Y</p>
+<p><strong>部分函数依赖：</strong></p>
+<p>设X,Y是关系R的两个属性集合，存在X→Y，若X’是X的真子集，存在X’→Y，则称Y部分函数依赖于X。</p>
+<p>例子：学生基本信息表R中（学号，身份证号，姓名）当然学号属性取值是唯一的，在R关系中，（学号，身份证号）-&gt;（姓名），（学号）-&gt;（姓名），（身份证号）-&gt;（姓名）；所以姓名部分函数依赖于（学号，身份证号）；</p>
+<p><strong>完全函数依赖：</strong></p>
+<p>设X,Y是关系R的两个属性集合，X’是X的真子集，存在X→Y，但对每一个X’都有X’!→Y，则称Y完全函数依赖于X。</p>
+<p>=例子：学生基本信息表R（学号，班级，姓名）假设不同的班级学号有相同的，班级内学号不能相同，在R关系中，（学号，班级）-&gt;（姓名），但是（学号）-&gt;(姓名)不成立，（班级）-&gt;(姓名)不成立，所以姓名完全函数依赖与（学号，班级);</p>
+<p><strong>传递函数依赖：</strong></p>
+<p>设X,Y,Z是关系R中互不相同的属性集合，存在X→Y(Y !→X),Y→Z，则称Z传递函数依赖于X。</p>
+<p>例子：在关系R(学号 ,宿舍, 费用)中，(学号)-&gt;(宿舍),宿舍！=学号，(宿舍)-&gt;(费用),费用!=宿舍，所以符合传递函数的要求；即费用传递函数依赖于学号</p>
+<h3 id="属性集的函数依赖"><a class="header-anchor" href="#属性集的函数依赖">¶</a>属性集的函数依赖</h3>
+<p>就是将所有的可以推导出来的函数依赖关系全部给加进去，需要注意的就是<strong>有一个和空集的关系</strong></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210429141430image-20210429141428712.png" alt="image-20210429141428712"></p>
+<p>剩下的就是对各个元素闭包的排列组合；比如上面的例题中 (A)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow></mrow><mo>+</mo></msub></mrow><annotation encoding="application/x-tex">_+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.466662em;vertical-align:-0.208331em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.25833100000000003em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span> = ABC, 所以他就对应了如图的ABC的所有排列组合情况再加一个对空集对关系。</p>
+<h3 id="码"><a class="header-anchor" href="#码">¶</a>码</h3>
+<h4 id="候选码的概念"><a class="header-anchor" href="#候选码的概念">¶</a>候选码的概念</h4>
+<p>这样一个集合，他可以推出所有的属性，但是他的任意一个真子集无法退出所有的属性。</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423171253image-20210423171236681.png" alt="image-20210423171236681" style="zoom:50%;" /></p>
+<h4 id="如何求候选码？"><a class="header-anchor" href="#如何求候选码？">¶</a>如何求候选码？</h4>
+<ol>
+<li>只出现在左边的一定是候选码中的元素</li>
+<li>只出现在右边的一定不是候选码中的元素</li>
+<li>左右都出现的不一定</li>
+<li>左右都不出现的一定是候选码中的元素</li>
+</ol>
+<p>在确定了可能出现的元素之后就可以使用闭包运算进行测试：如果组合可以推出所有的属性话就说明是候选码。</p>
+<p>,<img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423173637055.png" alt="image-20210423173637055" style="zoom:50%;" /></p>
+<p><code>如果三个一组推不出来的话，就再加变成4个一组</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">闭包：BD的闭包 是指由BD能推出来的所有属性</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>主属性： 候选码中的属性都是主属性</p>
+</blockquote>
+<h3 id="第一范式"><a class="header-anchor" href="#第一范式">¶</a>第一范式</h3>
+<p>定义：第一范式，在设计表存储数据的时候，如果表中设计的字段存储的数据，在取出来使用之前还需要额外的处理（拆分）就不符合1NF，第一范式就是<strong>处理数据颗粒度大的问题</strong></p>
+<p>1.案例:设计一张学生选修课成绩表</p>
+<table id="tabular">
+<tbody>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">学生</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">性别</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">课程</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">教室</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">成绩</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">学习时间</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">PHP</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">101</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">100</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">2月1日,2月28日</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">李四</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">女</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">90</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日,3月31日</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">95</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日,3月31日</td>
+</tr>
+</tbody>
+</table>
+2.以上表设计是一种非常常见的数据,但是如果想要知道学生上课的开始时间和结束时间,那就意味着这个学习时间取出之后需要再进行拆分,因此就不符合1NF。要保证数据取出来就可以直接使用,就需要将学习时间进行拆分。
+<table id="tabular">
+<tbody>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">学生</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">性别</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">课程</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">教室</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">成绩</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">开始时间</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top-style: solid !important; border-top-width: 1px !important; width: auto; vertical-align: middle; ">结束时间</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">PHP</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">101</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">100</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">2月1日</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">2月28日</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">李四</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">女</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">90</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月31日</td>
+</tr>
+<tr style="border-top: none !important; border-bottom: none !important;">
+<td style="text-align: left; border-left-style: solid !important; border-left-width: 1px !important; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">张三</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">男</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">Java</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">102</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">95</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月1日</td>
+<td style="text-align: left; border-right-style: solid !important; border-right-width: 1px !important; border-bottom-style: solid !important; border-bottom-width: 1px !important; border-top: none !important; width: auto; vertical-align: middle; ">3月31日</td>
+</tr>
+</tbody>
+</table>
+<p>总结：</p>
+<ol>
+<li>要满足1NF就是要保证数据在实际使用的时候不用对字段数据进行二次拆分</li>
+<li>1DF的核心就行数据要有原子性（不可拆分）</li>
+</ol>
+<h3 id="第二范式"><a class="header-anchor" href="#第二范式">¶</a>第二范式</h3>
+<blockquote>
+<p>以上数据表的设计中满足了原子性，但是学生在某个课程中应该只有一个考试成绩，也就是说学生对应的课程的成绩应该是有唯一性的，那么以上数据表应该如何进行设计呢？</p>
+</blockquote>
+<blockquote>
+<p>引入：要解决以上问题，其实很简单就是学生姓名和课程名字应该说唯一的，那么只要增加一个复合主键即可。</p>
+</blockquote>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414103304image-20210414103302534.png" alt="image-20210414103302534"></p>
+<p>定义： 第二范式（2NF），在数据表的设计过程中如果有复合主键（多字段主键），且表中有字段且并不是由整个主键来确定，而是依赖主键中的某个字段（主键的部分）：存在字段依赖主键的部分的问题，称之为部分依赖：第二范式就是要<strong>解决表设计中非主属性对主属性的部分依赖。</strong></p>
+<ol>
+<li>以上表中性别有学生决定，而不受到课程影响；同时教室由课程决定，而不受到学生影响。此时形成了字段部分依赖部分主键的情况，因此会存在部分依赖问题，也就不满足第二范式。</li>
+<li>解决方案：就是让字段不会存储依赖部分主键的问题，因此需要做的就是增加一个逻辑主键字段：性别依赖学生但学生不是主键，教室依赖课程也不是主键。</li>
+</ol>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414104639594.png" alt="image-20210414104639594"></p>
+<ol start="3">
+<li>以上虽然解决了依赖问题，但是学生和课程又不具有唯一性了，所以应该增加符合唯一键：unique(学生，课程)</li>
+</ol>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414104813163.png" alt="image-20210414104813163"></p>
+<p>总结：</p>
+<ol>
+<li>第二范式就是解决字段部分依赖主键的问题，也就是部分字段依赖的问题</li>
+</ol>
+<blockquote>
+<p>思考： 上述表虽然满足了1NF和2NF，但是总感觉怪怪的，理论上讲性别逻辑主键除外，实际业务主键还是学生和课程，这个表应该是学生与课程对应的成绩，为什么会出现性别和教室呢？</p>
+</blockquote>
+<blockquote>
+<p>引入：之所以会出现上述矛盾，原因就是我们将数据都揉到了一张表里面，而且出现了性别依赖学生，而学生依赖ID，形成了字段性别依赖非主键字段学分的问题，也就是触法了3NF的问题。</p>
+</blockquote>
+<h3 id="第三范式"><a class="header-anchor" href="#第三范式">¶</a>第三范式</h3>
+<p>定义：第三范式（3NF），理论上讲，应该一张表中的所有字段都应该直接依赖主键（逻辑主键：代表的是业务主键），如果表设计中存在这样一个字段，并不直接依赖主键，而是通过某一个非主键字段依赖，最终实现依赖主键：把这种不是直接依赖主键，而是依赖主键非主键字段的依赖关系称之为传递依赖。第三范式就是要解决传递的问题。</p>
+<ol>
+<li>第三范式的解决方案：<strong>如果某一个表中有字段依赖非主键字段，而被依赖字段依赖主键</strong>，我们就应该将这种非主键依赖关系进行分离，单独形成一张表。</li>
+</ol>
+<p>学生表：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414111729166.png" alt="image-20210414111729166"></p>
+<p>课程表：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414112230099.png" alt="image-20210414112230099"></p>
+<ol start="2">
+<li>此时，虽然性别依然依赖姓名而不是Stu_id, 教室依赖课程而不是Class_id, 那是因为Stu_id和Class_id代表逻辑主键，而不是实际的业务主键，学生表的实际主键应该是姓名，课程表的实际主键应该是课程</li>
+<li>新学生选修课成绩表的设计，应该就是去的对应学生表和课程表的ID</li>
+</ol>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414112526031.png" alt="image-20210414112526031"></p>
+<blockquote>
+<p>总结</p>
+</blockquote>
+<ol>
+<li>第三范式是不允许传递依赖：<strong>即有字段依赖非主键字段</strong>；</li>
+<li>消除传递依赖的方案就是将相关数据对应创建一张表；</li>
+</ol>
+<h4 id="第三范式的模式分解"><a class="header-anchor" href="#第三范式的模式分解">¶</a>第三范式的模式分解</h4>
+<p>求出第三范式对应函数集的最小函数依赖 Fm，使用左部相同合并原则：</p>
+<p>Fm中左边相同的合并成一个数据表</p>
+<p><strong>例1：U=(A,B,C,D,E,G)  F={BG-&gt;C，BD-&gt;E，DG-&gt;C，ADG-&gt;BC，AG-&gt;B，B-&gt;D}  若R不是3NF，将R分解为无损且保持函数依赖的3NF。</strong></p>
+<p>很简单可以求出候选键为AG</p>
+<ol>
+<li>求最小函数依赖</li>
+</ol>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BCDEG}   G在其中，删除</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><mi>D</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(BD)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {BD} , E不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(DG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {DG}, C不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>D</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(ADG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span>  = {ABCDG}, B在其中，C也在其中，删除</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mi>G</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(AG)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault">G</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {AG}, B不在其中，保留</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>B</mi><msup><mo stretchy="false">)</mo><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">(B)^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span> = {B} , D不在其中保留</p>
+<p>可以得到：F = {BD-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
+<p>接下来判断一下左边有没有冗余；</p>
+<p>BD-&gt;E:  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>B</mi><mo>+</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(B^+)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>=BD, D 在里面，所以D有冗余</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>D</mi><mo>+</mo></msup><mo stretchy="false">)</mo><mo>=</mo><mi>D</mi></mrow><annotation encoding="application/x-tex">(D^+)=D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span></span></span></span>, B不在里面所以B没有冗余</p>
+<p>所以用B-&gt;E 替换，BD-&gt;E</p>
+<p>同理可以得到Fm = {B-&gt;E, DG-&gt;C, AG-&gt;B, B-&gt;D}</p>
+<ol start="2">
+<li>根据左部相同原则进行合并</li>
+</ol>
+<p>根据左部相同原则可以得到：</p>
+<p>R1 = BED, R2 = CDG, R3 = ABG</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210424215608image-20210424214705698.png" alt="image-20210424214705698" style="zoom:67%;" /></p>
+<p>因为AG已经在R3中了所以得到的分解是无损分解</p>
+<h3 id="bcnf范式"><a class="header-anchor" href="#bcnf范式">¶</a>BCNF范式</h3>
+<p><code>在3NF的基础上如果所有的函数依赖的左边都是超码，那这个关系就满足第三范式；如果有一个不是超码就不满足；</code></p>
+<blockquote>
+<p>超码： 一个码的闭包如果就是这个集合，那这个码就叫做超码</p>
+</blockquote>
+<h4 id="bcnf范式的模式分解"><a class="header-anchor" href="#bcnf范式的模式分解">¶</a>BCNF范式的模式分解</h4>
+<p>…</p>
+<h2 id="armstrong-公理系统"><a class="header-anchor" href="#armstrong-公理系统">¶</a>Armstrong 公理系统</h2>
+<p>设U为属性集总体，F是U上的一组函数依赖，于是又关系模式R&lt;U,F&gt;，对于R&lt;U,F&gt;来说有以下的推理规则</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174437414.png" alt="image-20210423174437414"></p>
+<p>由上面的三个公理我们可以得到：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174513774.png" alt="image-20210423174513774"></p>
+<h2 id="最小函数依赖集"><a class="header-anchor" href="#最小函数依赖集">¶</a>最小函数依赖集</h2>
+<p>F中的每一个依赖，都不可以被其他的依赖推出，且右边一定是单元素</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210423174824image-20210423174818397.png" alt="image-20210423174818397"></p>
+<p><strong>如何求最小依赖集？</strong></p>
+<p>Step1： 把右边的元素拆分成单个的</p>
+<p>Step2： 对所有的依赖意义排查，找出多余的</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423175213image-20210423175205001.png" alt="image-20210423175205001" style="zoom:50%;" /></p>
+<p>排查A-&gt;B： 把A-&gt;B去掉,那么F=(B-&gt;A, B-&gt;C,A-&gt;C, C-&gt;A) 且(A)_+ = AC,不包含B,所以排除嫌疑,保留</p>
+<p>排查B-&gt;A：把B-&gt;A去掉,那么F={A-&gt;B,A-&gt;C,C-&gt;A} 且(B)_+=BCA,包含A,就是嫌疑人,剔除</p>
+<p>…</p>
+<p>注：由于排查的顺序不一样可能会造成最小依赖集的不同</p>
+<h2 id="模式分解"><a class="header-anchor" href="#模式分解">¶</a>模式分解</h2>
+<h3 id="无损分解"><a class="header-anchor" href="#无损分解">¶</a>无损分解</h3>
+<p>分解之后可以自然连接结合起来</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423190506image-20210423180119935.png" alt="image-20210423180119935" style="zoom:60%;" /></p>
+<h3 id="保持函数依赖"><a class="header-anchor" href="#保持函数依赖">¶</a>保持函数依赖</h3>
+<p>保持函数依赖就是F分解之后还能够还原回来</p>
+<p>考题：如何把数据库分解成3NF，并保持无损分解和函数依赖</p>
+<p>Step1： 求出最小函数依赖集</p>
+<p>Step2：把不在F中的属性全部找出来，单独分出一类，并从这些属性中删除</p>
+<p>Step3：把每个依赖左边相同的分成一类</p>
+<p>Step4：如果候选码没有出现在分类中，把任意一个候选码作为一类</p>
+<p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423190715image-20210423180657643.png" alt="image-20210423180657643" style="zoom:50%;" /></p>
+<p><strong>例：U=(A,B,C,D,E)   F={AB-&gt;C，C-&gt;B，D-&gt;E，D-&gt;C}   若R不是3NF，将R分解为无损且保持函数依赖的3NF。</strong></p>
+<p>解：易求得，码是AD，属于1NF</p>
+<ol>
+<li>
+<p>第一步：U1=ABC       U2=BC     U3=DCE</p>
+</li>
+<li>
+<p>第二步：</p>
+<p>将R分解为ρ={<br>
+R1({A,B,C}，{AB-&gt;C})，<br>
+R2({B,C}，{C-&gt;B})，<br>
+R3({D,E}，{D-&gt;E,D-&gt;C}) }</p>
+<p>合并吸收：<br>
+ρ={ R1({A,B,C}，{AB-&gt;C,C-&gt;B})，<br>
+R2({D,E}，{D-&gt;E,D-&gt;C}) }</p>
+</li>
+<li>
+<p>第三步：不是无损连接，添加码。</p>
+<p>R3({A,D}，{∅})</p>
+<p>所以ρ={ R1({A,B,C}，{AB-&gt;C,C-&gt;B})，<br>
+R2({D,E}，{D-&gt;E,D-&gt;C}),<br>
+R3({A,D}，{∅}) }</p>
+</li>
+</ol>
+<h2 id="数据库设计"><a class="header-anchor" href="#数据库设计">¶</a>数据库设计</h2>
+<h3 id="er图转关系模式"><a class="header-anchor" href="#er图转关系模式">¶</a>ER图转关系模式</h3>
+<p><strong><img src="https://gitee.com/coronapolvo/images/raw/master/20210429152543image-20210429152538934.png" alt="image-20210429152538934"></strong></p>
+<p>去看： <a href="https://blog.csdn.net/Flora_SM/article/details/84645752">https://blog.csdn.net/Flora_SM/article/details/84645752</a> 这里讲的非常好！</p>
+<h1 id="高阶操作总结"><a class="header-anchor" href="#高阶操作总结">¶</a>高阶操作总结</h1>
+<h2 id="自身连接查询"><a class="header-anchor" href="#自身连接查询">¶</a>自身连接查询</h2>
+<p>对自身进行笛卡尔积连接</p>
+<p>例如：选修关系elective(sno, cno, grade)</p>
+<ul>
+<li>查询选修了CO2和CO4课程的学生的学号</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e1.sno <span class="keyword">from</span> elective e1,elective e2 <span class="keyword">WHERE</span> e1.sno <span class="operator">=</span> e2.sno <span class="keyword">AND</span> e1.sno<span class="operator">=</span><span class="string">&#x27;CO2&#x27;</span> <span class="keyword">AND</span> e2.sno<span class="operator">=</span><span class="string">&#x27;CO4&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="exist实现除法操作"><a class="header-anchor" href="#exist实现除法操作">¶</a>EXIST实现除法操作</h2>
+<h3 id="除法的语义"><a class="header-anchor" href="#除法的语义">¶</a>除法的语义</h3>
+<p>除法的真正的语义应该为<strong>包含</strong>。常见的表述形式有：</p>
+<ul>
+<li>查询至少…的对象</li>
+<li>查询xx了全部的对象</li>
+<li>查询xx包含了xx的对象、</li>
+</ul>
+<h3 id="举个栗子"><a class="header-anchor" href="#举个栗子">¶</a>举个栗子</h3>
+<p>假设教学数据库中已建立三个关系：</p>
+<p>学生关系 student(sno, sname, sex, birth, height, class, address)</p>
+<p>课程关系course(cno, cname, credit)</p>
+<p>选修关系elective(sno, cno, grade)</p>
+<p><strong>检索学习全部课程的学生姓名。</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> sname </span><br><span class="line"><span class="keyword">FROM</span> student s</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> EXIST(</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> course c</span><br><span class="line">  <span class="keyword">WHERE</span> <span class="keyword">NOT</span> EXIST(</span><br><span class="line">  	<span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line">    <span class="keyword">FROM</span> elective e</span><br><span class="line">    <span class="keyword">WHERE</span> </span><br><span class="line">    e.sno<span class="operator">=</span>s.sno <span class="keyword">AND</span> c.cno<span class="operator">=</span>e.cno</span><br><span class="line">  )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><strong>检索至少选修了课程号为S08的学生的学号</strong></p>
+<p>关系代数： <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mtext>sno,cno </mtext></msub><mo stretchy="false">(</mo><mi>e</mi><mi>l</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>v</mi><mi>e</mi><mo stretchy="false">)</mo><mo>÷</mo><msub><mi>π</mi><mtext>cno </mtext></msub><mo stretchy="false">(</mo><msub><mi>σ</mi><mrow><mi>c</mi><mi>n</mi><mi>o</mi><msup><mo>=</mo><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mi>s</mi><mn>0</mn><msup><mn>8</mn><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow></msub><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mi>e</mi><mi>l</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>v</mi><mi>e</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\pi_{\text {sno,cno }}( elective ) \div \pi_{\text {cno }}(\sigma_{cno=&#x27;s08&#x27;}( (elective))))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">sno,cno </span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">e</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">÷</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">cno </span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32797999999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">o</span><span class="mrel mtight"><span class="mrel mtight">=</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord mathdefault mtight">s</span><span class="mord mtight">0</span><span class="mord mtight"><span class="mord mtight">8</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mopen">(</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">e</span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></p>
+<p>SQL语句：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> sno </span><br><span class="line"><span class="keyword">FROM</span> elective e1</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> EXIST(</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line">  <span class="keyword">FROM</span> elective e2</span><br><span class="line">  <span class="keyword">WHERE</span> </span><br><span class="line">  e2.cno<span class="operator">=</span><span class="string">&#x27;s08&#x27;</span> <span class="keyword">AND</span> <span class="keyword">NOT</span> EXIST(</span><br><span class="line">  	<span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line">    <span class="keyword">FROM</span> elective e3</span><br><span class="line">    <span class="keyword">WHERE</span></span><br><span class="line">    e1.sno<span class="operator">=</span>e3.sno <span class="keyword">AND</span> e2.sno<span class="operator">=</span>e3.sno</span><br><span class="line">  )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h1 id="那些常用的关键词"><a class="header-anchor" href="#那些常用的关键词">¶</a>那些常用的关键词</h1>
+<ul>
+<li>REFERENCES</li>
+<li>FOREIGN</li>
+<li>GRANT</li>
+<li>ALL PRIVILEGES</li>
+<li>PRIMARY KEY</li>
+<li>DESC【降序】</li>
+<li>CASCADE</li>
+</ul>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>课程学习</category>
       </categories>
       <tags>
-        <tag>算法</tag>
-        <tag>c++</tag>
-        <tag>算法竞赛进阶指南</tag>
+        <tag>数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -2692,6 +2665,41 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
         <tag>算法</tag>
         <tag>c++</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>【算法】第十一届蓝桥杯国赛题解</title>
+    <url>/2021/05/17/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AC%AC%E5%8D%81%E4%B8%80%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%9B%BD%E8%B5%9B%E9%A2%98%E8%A7%A3/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote>
+<p>PDF 下载链接：</p>
+<p><a href="https://gitee.com/coronapolvo/images/raw/master/%E8%93%9D%E6%A1%A5%E6%9D%AF10%E5%B1%8A%E5%86%B3%E8%B5%9BB%E7%BB%84%E9%A2%98%E7%9B%AE.pdf">点我下载</a></p>
+</blockquote>
+<h1 id="美丽的二"><a class="header-anchor" href="#美丽的二">¶</a>美丽的二</h1>
+<img src="/Users/keter/Documents/image/image-20210517193050889.png" alt="image-20210517193050889" style="zoom:50%;" />
+<blockquote>
+<p>提示：</p>
+<p>​	std的运用，用string的find函数找一下就可以了</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    string year;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">2021</span>; ++i) &#123;</span><br><span class="line">        year = <span class="built_in">to_string</span>(i);</span><br><span class="line">        <span class="keyword">if</span> (year.<span class="built_in">find</span>(<span class="string">&#x27;2&#x27;</span>) != year.npos) &#123;</span><br><span class="line">            ans += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ans: 563</li>
+</ul>
+<h1 id="扩散"><a class="header-anchor" href="#扩散">¶</a>扩散</h1>
+<img src="/Users/keter/Documents/image/image-20210517194148232.png" alt="image-20210517194148232" style="zoom:50%;" />
+<blockquote>
+<p>提示：</p>
+<p>其实还是std的应用，会用标准库的话真的挺简单的。主要的思想就是用一个集合来存已经扩散后的格子，一个队列用来存储正在扩散的格子</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> loc[<span class="number">4</span>][<span class="number">2</span>] = &#123;<span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ppair</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> xx; <span class="comment">// x坐标</span></span><br><span class="line">    <span class="keyword">int</span> yy; <span class="comment">// y坐标</span></span><br><span class="line">    <span class="keyword">int</span> ss; <span class="comment">// 步数</span></span><br><span class="line">    <span class="built_in">ppair</span>() &#123;</span><br><span class="line">        xx = <span class="number">0</span>;</span><br><span class="line">        yy = <span class="number">0</span>;</span><br><span class="line">        ss = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">ppair</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span> s) &#123;</span><br><span class="line">        xx = x;</span><br><span class="line">        yy = y;</span><br><span class="line">        ss = s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">4</span>;</span><br><span class="line">    set&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&gt; points; <span class="comment">// 存储已经扩散的点</span></span><br><span class="line">    queue&lt;ppair&gt; que;</span><br><span class="line">    <span class="comment">// 将初始点加入队列当中</span></span><br><span class="line">    que.<span class="built_in">push</span>(<span class="built_in">ppair</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">    que.<span class="built_in">push</span>(<span class="built_in">ppair</span>(<span class="number">2020</span>, <span class="number">11</span>, <span class="number">0</span>));</span><br><span class="line">    que.<span class="built_in">push</span>(<span class="built_in">ppair</span>(<span class="number">11</span>, <span class="number">14</span>, <span class="number">0</span>));</span><br><span class="line">    que.<span class="built_in">push</span>(<span class="built_in">ppair</span>(<span class="number">2000</span>, <span class="number">2000</span>, <span class="number">0</span>));</span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    <span class="keyword">int</span> x, y;</span><br><span class="line">    <span class="keyword">while</span> (!que.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">        ppair point = que.<span class="built_in">front</span>();</span><br><span class="line">        x = point.xx;</span><br><span class="line">        y = point.yy;</span><br><span class="line">        <span class="keyword">if</span> (!points.<span class="built_in">count</span>(<span class="built_in">make_pair</span>(x, y)) <span class="keyword">and</span> point.ss &lt;= <span class="number">2020</span>) &#123;</span><br><span class="line">            points.<span class="built_in">insert</span>(<span class="built_in">make_pair</span>(x, y));</span><br><span class="line">            <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">                que.<span class="built_in">push</span>(<span class="built_in">ppair</span>(x + loc[i][<span class="number">0</span>], y + loc[i][<span class="number">1</span>], point.ss + <span class="number">1</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        que.<span class="built_in">pop</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    ans += points.<span class="built_in">size</span>();</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ans: 20312092</li>
+</ul>
+<h1 id="阶乘约数"><a class="header-anchor" href="#阶乘约数">¶</a>阶乘约数</h1>
+<img src="/Users/keter/Documents/image/image-20210517201031023.png" alt="image-20210517201031023" style="zoom:50%;" />
+<blockquote>
+<p>提示：</p>
+<p>​	数论的题目，结论是每一个数都可以被分解为素数的乘积，将得到的结果排列组合就可以得到约数的个数</p>
+</blockquote>
+]]></content>
   </entry>
   <entry>
     <title>【算法】第十二届蓝桥杯省赛第二场题解</title>
@@ -3157,6 +3165,96 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
+    <title>空间金字塔池化网络SPP-Net</title>
+    <url>/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>@[toc]</p>
+<h2 id="0x01概要介绍"><a class="header-anchor" href="#0x01概要介绍">¶</a>0x01概要介绍</h2>
+<p>现有的深卷积神经网络（CNNs）需要一个固定大小（如224×224）的输入图像。这种要求是“人为的”，可能会降低对任意大小/比例的图像或子图像的识别精度。在这项工作中，我们为网络配备了另一种池策略“空间金字塔池”，以消除上述要求。这种新的网络结构称为SPP网，它可以生成一个固定长度的表示，而不考虑图像的大小/比例。金字塔池对对象变形也很健壮。有了这些优势，SPP网应该在总体上改进所有基于CNN的图像分类方法。</p>
+<span id="more"></span>
+<p><code>SPP-net使用单一的完整图像表示而不是精细的方法实现了最先进的分类结果-调音SPP网络的强大功能在目标检测中也很重要。利用SPP网络，我们只需计算一次来自整个图像的特征映射，然后将任意区域（子图像）的特征集合起来生成固定长度的表示，以训练检测器</code>。该方法避免了重复计算卷积特征。在处理测试图像时，我们的方法比R-CNN方法快24-102倍</p>
+<p><code>引出SPP-Net的原因：</code><br>
+在cnn的训练和测试中存在一个技术问题：目前流行的CNNs要求输入图像大小固定（如224×224），这既限制了输入的纵横比，也限制了输入的规模图像。什么时候对于任意大小的图像，当前的方法大多是将输入图像调整为固定大小，通过裁剪或通过翘曲，如图所示。但是裁剪区域可能不包含整个对象，而扭曲的内容可能会导致不需要的几何图形扭曲。识别由于内容丢失或失真，精度可能会受到影响。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029202219733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<code>为什么需要固定尺寸？</code></p>
+<p>cnn主要由两部分组成：卷积层和随后的完全连接层。卷积层以滑动窗口方式操作，并输出表示激活的空间排列的特征图（图2）。事实上，旋转层不需要固定的图像大小，可以生成任何尺寸的特征图。另一方面，完全连接的层需要有固定大小/长度的定义输入。因此，固定大小约束仅来自完全连接层.</p>
+<p>输入本文引入空间金字塔池（SPP）来取消网络固定规模约束</p>
+<h2 id="0x02-spp-net"><a class="header-anchor" href="#0x02-spp-net">¶</a>0x02 SPP-Net</h2>
+<p>我添加了最后一个卷积层上的SPP层。spp层将特征集合起来，生成固定长度的输出，然后输入到完全连接的层（或其他分类器）。换句话说，我们在网络层次结构的高级阶段（在进化层和完全连接层之间）执行一些信息“聚合”，以避免在开始。图1（底部）通过引入SPP层显示了网络体系结构的变化。我们称之为新的网络结构spp-net</p>
+<p><code>SPP的优点</code></p>
+<p>SPP对于深层CNN有几个显著的特性：1）SPP能够生成固定长度的输出，而不考虑输入大小，而以前的deepnetworks中使用的滑动窗口池[3]不能；2）SPP使用多级而滑动窗口池只使用单个窗口大小。多层池对物体变形具有很强的鲁棒性[15]；3）由于输入尺度的灵活性，在可变尺度下提取的SPPcan池特征。实验表明，这些因素都提高了深层网络的识别精度。</p>
+<p>SPP-net不仅可以从任意大小的图像/窗口生成测试的表示，而且还允许我们在训练期间提供不同大小或比例的图像。使用可变大小的图像进行训练可以提高尺度不变性并减少过拟合。我们开发了一种简单的多尺寸采集方法。当我们接受一个网络输入的单一变量时，我们使用一个固定的网络大小来训练它。在每一个纪元中，我们用一个给定的输入大小训练网络，然后切换到另一个输入大小来进行下一步操作。实验表明，这种多尺度训练与传统的单尺度训练一样收敛，具有更好的测试精度。</p>
+<p><code>与R-CNN对对比：</code></p>
+<p>R-CNN中的特征计算是非常耗时的，因为它反复地将深度卷积网络应用于每幅图像上数千个扭曲区域的原始像素。Spp-Net可以在整个图像上运行卷积层（不考虑窗口数），然后通过SPP网络在特征地图上提取特征。注意 <strong>在特征地图（而不是图像区域）上训练/运行探测器实际上是一个更流行的想法。</strong> 但SPP网络继承了CNN深层特征映射的强大功能，同时也继承了SPP在任意窗口大小下的灵活性，从而使SPP网络具有了卓越的精度和效率。在我们的实验中，基于SPP网络的系统（建立在CNN管道上）计算的特征比R-CNN快24-102倍，具有更好的或可比性准确。有SPP网络可以促进更深层和更大的各种网络.</p>
+<h2 id="0x03-网络结构"><a class="header-anchor" href="#0x03-网络结构">¶</a>0x03 网络结构</h2>
+<h3 id="1x01-卷积层和特征图"><a class="header-anchor" href="#1x01-卷积层和特征图">¶</a>1x01 卷积层和特征图</h3>
+<p>考虑一下流行的七层架构，前五层是卷积的，其中一些是池层。这些池层也可以被认为是“卷积的”，因为它们使用的是滑动窗口。</p>
+<p>最后的两层是完全连接的，以N路softmax作为输出，其中N是类别的数目。</p>
+<p>上面描述的深度网络需要一个fixedimage大小。然而，我们注意到，固定尺寸的要求仅仅是由于完全连接的层需要固定长度向量作为输入。另一方面，卷积层接受轨道尺寸的输入。卷积层使用滑动过滤器，其输出与输入的aspectratio大致相同。这些输出被称为特征映射[1]——它们不仅涉及到响应的强度，而且涉及到它们的空间位置。</p>
+<p>将一些特征地图可视化。它们是由conv5layer的一些过滤器生成的。图2（c）显示了ImageNet数据集中这些过滤器的最强激活图像。我们看到过滤器可以被一些语义内容激活。例如，第55个滤波器（图2，左下角）最易被圆形激活；第66个滤波器（图2，右上角）最易被∧形激活；第118个滤波器（图2，右下角）最易被a∨激活-形状。这些输入图像中的形状（图2（a））激活相应位置的特征映射（图2中的箭头）</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029202425874.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>生成图2中的featuremaps，而不需要固定输入大小。这些由深卷积层生成的特征映射与传统方法中的特征映射相似[27]，[28]。在这些方法中，SIFT向量[29]或图像块[28]被密集地提取和编码，例如通过矢量量化、稀疏编码或费希尔核进行编码。这些编码的特征由特征映射组成，然后由词包（BoW）或空间金字塔集合。类似地，深卷积特征可以以类似的方式汇集在一起。</p>
+<h3 id="1x02-空间金字塔池层"><a class="header-anchor" href="#1x02-空间金字塔池层">¶</a>1x02 空间金字塔池层</h3>
+<p><img src="https://img-blog.csdnimg.cn/20201029202443152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>这样的向量可以通过单词包（BoW）方法生成，该方法将这些特征集合在一起。空间金字塔池[14]，[15]改进了BoW，因为它可以通过在局部空间容器中的池来保持空间信息。这些空间存储单元的大小与图像大小成比例，因此无论图像大小，存储单元的数量都是固定的。这与以前的深层网络的滑动窗口池[3]不同，其中滑动窗口的数量取决于输入大小。到对于任意大小的图像采用深网络，我们将最后一个池层（例如，在最后一个卷积层之后的pool5）替换为aspatialpyramd池层。图3说明了方法。输入每一个空间单元，我们将每个滤波器的响应集中起来（在本文中我们使用最大池），空间金字塔池的输出是km维向量，其中格数表示为sm（kis是最后一个卷积层中的滤波器数）。固定维向量被输入到全连通层。</p>
+<h2 id="0x04-训练网络"><a class="header-anchor" href="#0x04-训练网络">¶</a>0x04 训练网络</h2>
+<p>Spp-Net的训练过程分为两部</p>
+<h3 id="1x01-单一尺度训练-single-size"><a class="header-anchor" href="#1x01-单一尺度训练-single-size">¶</a>1x01 单一尺度训练——single-size</h3>
+<p>所谓单一尺寸训练指的是先只对一种固定输入图像进行训练，比如224 x 224，在conv5之后的特征图为：13x13这就是我们的（a x a）而我要得到的输出为4 x 4，2 x 2,1 x 1，怎么办呢？这里金字塔层bins即为 n x n，也就是4 x 4，2 x 2,1 x 1，我们要做的就是如何根据a和n设计一个池化层，使得a x a的输入能够得到n x n的输出。实际上这个池化层很好设计，我们称这个大小和步幅会变化的池化层为sliding window pooling。</p>
+<p>它的大小为：windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整。数据实验如下：</p>
+<p>当a x a为13 x 13时，要得到4 x 4的输出，池化层的大小为4，移动步幅为3；</p>
+<p>当a x a为13 x 13时，要得到2 x 2的输出，池化层的大小为7，移动步幅为6；</p>
+<p>当a x a为13 x 13时，要得到1 x 1的输出，池化层的大小为13，移动步幅为13；</p>
+<p>有的小伙伴一定发现，那如果我的输入a x a变化为10 x 10呢，此时再用上面的三个池化核好像得不到固定的理想输出啊，事实上的确如此，这是训练的第二个过程要讲的，因为此过程称之为“单一尺度训练”，针对的就是某一个固定的输入尺度而言的。</p>
+<h2 id="1x02-多尺寸训练-multi-size-以两种尺度为例"><a class="header-anchor" href="#1x02-多尺寸训练-multi-size-以两种尺度为例">¶</a>1x02 多尺寸训练——multi-size（以两种尺度为例）</h2>
+<p>虽然带有SPP（空间金字塔）的网络可以应用于任意尺寸，为了解决不同图像尺寸的训练问题，我们往往还是会考虑一些预设好的尺寸，而不是一些尺寸种类太多，毫无章法的输入尺寸。现在考虑这两个尺寸：180×180,224×224，此处只考虑这两个。</p>
+<p>我们使用<code>缩放</code>而不是裁剪，将前述的224的区域图像变成180大小。这样，不同尺度的区域仅仅是分辨率上的不同，而不是内容和布局上的不同。</p>
+<p>那么对于接受180输入的网络，我们实现另一个固定尺寸的网络。在论文中，conv5输出的特征图尺寸是axa=10×10。我们仍然使用windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整，实现每个金字塔池化层。这个180网络的空间金字塔层的输出的大小就和224网络的一样了。</p>
+<p>当a x a为10 x 10时，要得到4 x 4的输出，池化层的大小为3，移动步幅为2（注意：此处根据这样的一个池化层，10 x 10的输入好像并得不到4 x 4的输出，9 x 9或者是11 x 11的倒可以得到4 x 4的）这个地方我也还不是特别清楚这个点，后面我会说出我的个人理解。</p>
+<p>当a x a为10 x 10时，要得到2 x 2的输出，池化层的大小为5，移动步幅为5；</p>
+<p>当a x a为10 x 10时，要得到1 x 1的输出，池化层的大小为10，移动步幅为10；</p>
+<p>这样，这个180网络就和224网络拥有一样的参数了。换句话说，训练过程中，我们通过使用共享参数的两个固定尺寸的网络实现了不同输入尺寸的SPP-net。</p>
+<p>为了降低从一个网络（比如224）向另一个网络（比如180）切换的开销，我们在每个网络上训练一个完整的epoch，然后在下一个完成的epoch再切换到另一个网络（权重保留）。依此往复。实验中我们发现多尺寸训练的收敛速度和单尺寸差不多。</p>
+<p>多尺寸训练的主要目的是在保证已经充分利用现在被较好优化的固定尺寸网络实现的同时，模拟不同的输入尺寸。除了上述两个尺度的实现，我们也在每个epoch中测试了不同的s x s输入，s是从180到224之间均匀选取的。后面将在实验部分报告这些测试的结果。</p>
+<p>注意，上面的单尺寸或多尺寸解析度只用于训练。在测试阶段，是直接对各种尺寸的图像应用SPP-net的。</p>
+<h2 id="0x05-spp-net在目标检测上的应用"><a class="header-anchor" href="#0x05-spp-net在目标检测上的应用">¶</a>0x05 Spp-Net在目标检测上的应用</h2>
+<p>SPP网络，这个方法的思想在R-CNN、Fast RCNN， Faster RCNN上都起了举足轻重的作用，对于检测算法，论文中是这样做到：使用ss生成~2k个候选框，缩放图像min(w,h)=s之后提取特征，每个候选框使用一个4层的空间金字塔池化特征，网络使用的是ZF-5的SPPNet形式。之后将12800d的特征输入全连接层，SVM的输入为全连接层的输出。这个算法可以应用到多尺度的特征提取：先将图片resize到五个尺度：480，576，688，864，1200，加自己6个。然后在map window to feature map一步中，选择ROI框尺度在｛6个尺度｝中大小最接近224x224的那个尺度下的feature maps中提取对应的roi feature。这样做可以提高系统的准确率。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>CV</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【算法】 《算法竞赛进阶指南》-基本算法篇</title>
+    <url>/2021/05/12/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91-%E3%80%8A%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97%E3%80%8B-%E5%9F%BA%E6%9C%AC%E7%AE%97%E6%B3%95%E7%AF%87/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="位运算"><a class="header-anchor" href="#位运算">¶</a>位运算</h1>
+<h2 id="a-b"><a class="header-anchor" href="#a-b">¶</a>a^b</h2>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210513082747image-20210512223422917.png" alt="image-20210512223422917"></p>
+<blockquote>
+<p>非常经典的快速幂算法，总之就是非常6啊，话不多数直接上代码吧；</p>
+<p>C++ 技巧： 使用 &gt;&gt;= 来完成二进制数字的移位</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> a,b,p;</span><br><span class="line">    cin &gt;&gt; a &gt;&gt; b &gt;&gt; p;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">1</span> % p;</span><br><span class="line">    <span class="keyword">while</span>(b)&#123;</span><br><span class="line">        <span class="keyword">if</span>(b&amp;<span class="number">1</span>) res = a * res % p;</span><br><span class="line">        a = a * a % p;</span><br><span class="line">        b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; res;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="64位整数乘法"><a class="header-anchor" href="#64位整数乘法">¶</a>64位整数乘法</h2>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210513082748image-20210513082306793.png" alt="image-20210513082306793"></p>
+<blockquote>
+<p>a * b mod p 其实就是n个a相乘后模p，将b看做一个二进制数，从左往右分别是1，2，4，8… 具体看代码了，总之就是非常的妙啊！</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ULL a,b,p;</span><br><span class="line">    cin &gt;&gt; a &gt;&gt; b &gt;&gt; p;</span><br><span class="line">    ULL res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(b)&#123;</span><br><span class="line">        <span class="keyword">if</span>(b&amp;<span class="number">1</span>) res = (res + a)%p;</span><br><span class="line">        b &gt;&gt;= <span class="number">1</span>; <span class="comment">// b的二进制往右边移动一位（妙！）</span></span><br><span class="line">        a = a* <span class="number">2</span>% p; <span class="comment">// 对应2进制的1，2，4，8，因为是对b进行2进制位运算的；</span></span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>c++</tag>
+        <tag>算法竞赛进阶指南</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【论文阅读】Conditional Convolutions for InstanceSegmentation</title>
     <url>/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="0x01-概要"><a class="header-anchor" href="#0x01-概要">¶</a>0x01 概要</h1>
@@ -3240,69 +3338,6 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </categories>
       <tags>
         <tag>神经对抗攻击</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>空间金字塔池化网络SPP-Net</title>
-    <url>/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>@[toc]</p>
-<h2 id="0x01概要介绍"><a class="header-anchor" href="#0x01概要介绍">¶</a>0x01概要介绍</h2>
-<p>现有的深卷积神经网络（CNNs）需要一个固定大小（如224×224）的输入图像。这种要求是“人为的”，可能会降低对任意大小/比例的图像或子图像的识别精度。在这项工作中，我们为网络配备了另一种池策略“空间金字塔池”，以消除上述要求。这种新的网络结构称为SPP网，它可以生成一个固定长度的表示，而不考虑图像的大小/比例。金字塔池对对象变形也很健壮。有了这些优势，SPP网应该在总体上改进所有基于CNN的图像分类方法。</p>
-<span id="more"></span>
-<p><code>SPP-net使用单一的完整图像表示而不是精细的方法实现了最先进的分类结果-调音SPP网络的强大功能在目标检测中也很重要。利用SPP网络，我们只需计算一次来自整个图像的特征映射，然后将任意区域（子图像）的特征集合起来生成固定长度的表示，以训练检测器</code>。该方法避免了重复计算卷积特征。在处理测试图像时，我们的方法比R-CNN方法快24-102倍</p>
-<p><code>引出SPP-Net的原因：</code><br>
-在cnn的训练和测试中存在一个技术问题：目前流行的CNNs要求输入图像大小固定（如224×224），这既限制了输入的纵横比，也限制了输入的规模图像。什么时候对于任意大小的图像，当前的方法大多是将输入图像调整为固定大小，通过裁剪或通过翘曲，如图所示。但是裁剪区域可能不包含整个对象，而扭曲的内容可能会导致不需要的几何图形扭曲。识别由于内容丢失或失真，精度可能会受到影响。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029202219733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-<code>为什么需要固定尺寸？</code></p>
-<p>cnn主要由两部分组成：卷积层和随后的完全连接层。卷积层以滑动窗口方式操作，并输出表示激活的空间排列的特征图（图2）。事实上，旋转层不需要固定的图像大小，可以生成任何尺寸的特征图。另一方面，完全连接的层需要有固定大小/长度的定义输入。因此，固定大小约束仅来自完全连接层.</p>
-<p>输入本文引入空间金字塔池（SPP）来取消网络固定规模约束</p>
-<h2 id="0x02-spp-net"><a class="header-anchor" href="#0x02-spp-net">¶</a>0x02 SPP-Net</h2>
-<p>我添加了最后一个卷积层上的SPP层。spp层将特征集合起来，生成固定长度的输出，然后输入到完全连接的层（或其他分类器）。换句话说，我们在网络层次结构的高级阶段（在进化层和完全连接层之间）执行一些信息“聚合”，以避免在开始。图1（底部）通过引入SPP层显示了网络体系结构的变化。我们称之为新的网络结构spp-net</p>
-<p><code>SPP的优点</code></p>
-<p>SPP对于深层CNN有几个显著的特性：1）SPP能够生成固定长度的输出，而不考虑输入大小，而以前的deepnetworks中使用的滑动窗口池[3]不能；2）SPP使用多级而滑动窗口池只使用单个窗口大小。多层池对物体变形具有很强的鲁棒性[15]；3）由于输入尺度的灵活性，在可变尺度下提取的SPPcan池特征。实验表明，这些因素都提高了深层网络的识别精度。</p>
-<p>SPP-net不仅可以从任意大小的图像/窗口生成测试的表示，而且还允许我们在训练期间提供不同大小或比例的图像。使用可变大小的图像进行训练可以提高尺度不变性并减少过拟合。我们开发了一种简单的多尺寸采集方法。当我们接受一个网络输入的单一变量时，我们使用一个固定的网络大小来训练它。在每一个纪元中，我们用一个给定的输入大小训练网络，然后切换到另一个输入大小来进行下一步操作。实验表明，这种多尺度训练与传统的单尺度训练一样收敛，具有更好的测试精度。</p>
-<p><code>与R-CNN对对比：</code></p>
-<p>R-CNN中的特征计算是非常耗时的，因为它反复地将深度卷积网络应用于每幅图像上数千个扭曲区域的原始像素。Spp-Net可以在整个图像上运行卷积层（不考虑窗口数），然后通过SPP网络在特征地图上提取特征。注意 <strong>在特征地图（而不是图像区域）上训练/运行探测器实际上是一个更流行的想法。</strong> 但SPP网络继承了CNN深层特征映射的强大功能，同时也继承了SPP在任意窗口大小下的灵活性，从而使SPP网络具有了卓越的精度和效率。在我们的实验中，基于SPP网络的系统（建立在CNN管道上）计算的特征比R-CNN快24-102倍，具有更好的或可比性准确。有SPP网络可以促进更深层和更大的各种网络.</p>
-<h2 id="0x03-网络结构"><a class="header-anchor" href="#0x03-网络结构">¶</a>0x03 网络结构</h2>
-<h3 id="1x01-卷积层和特征图"><a class="header-anchor" href="#1x01-卷积层和特征图">¶</a>1x01 卷积层和特征图</h3>
-<p>考虑一下流行的七层架构，前五层是卷积的，其中一些是池层。这些池层也可以被认为是“卷积的”，因为它们使用的是滑动窗口。</p>
-<p>最后的两层是完全连接的，以N路softmax作为输出，其中N是类别的数目。</p>
-<p>上面描述的深度网络需要一个fixedimage大小。然而，我们注意到，固定尺寸的要求仅仅是由于完全连接的层需要固定长度向量作为输入。另一方面，卷积层接受轨道尺寸的输入。卷积层使用滑动过滤器，其输出与输入的aspectratio大致相同。这些输出被称为特征映射[1]——它们不仅涉及到响应的强度，而且涉及到它们的空间位置。</p>
-<p>将一些特征地图可视化。它们是由conv5layer的一些过滤器生成的。图2（c）显示了ImageNet数据集中这些过滤器的最强激活图像。我们看到过滤器可以被一些语义内容激活。例如，第55个滤波器（图2，左下角）最易被圆形激活；第66个滤波器（图2，右上角）最易被∧形激活；第118个滤波器（图2，右下角）最易被a∨激活-形状。这些输入图像中的形状（图2（a））激活相应位置的特征映射（图2中的箭头）</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029202425874.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>生成图2中的featuremaps，而不需要固定输入大小。这些由深卷积层生成的特征映射与传统方法中的特征映射相似[27]，[28]。在这些方法中，SIFT向量[29]或图像块[28]被密集地提取和编码，例如通过矢量量化、稀疏编码或费希尔核进行编码。这些编码的特征由特征映射组成，然后由词包（BoW）或空间金字塔集合。类似地，深卷积特征可以以类似的方式汇集在一起。</p>
-<h3 id="1x02-空间金字塔池层"><a class="header-anchor" href="#1x02-空间金字塔池层">¶</a>1x02 空间金字塔池层</h3>
-<p><img src="https://img-blog.csdnimg.cn/20201029202443152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>这样的向量可以通过单词包（BoW）方法生成，该方法将这些特征集合在一起。空间金字塔池[14]，[15]改进了BoW，因为它可以通过在局部空间容器中的池来保持空间信息。这些空间存储单元的大小与图像大小成比例，因此无论图像大小，存储单元的数量都是固定的。这与以前的深层网络的滑动窗口池[3]不同，其中滑动窗口的数量取决于输入大小。到对于任意大小的图像采用深网络，我们将最后一个池层（例如，在最后一个卷积层之后的pool5）替换为aspatialpyramd池层。图3说明了方法。输入每一个空间单元，我们将每个滤波器的响应集中起来（在本文中我们使用最大池），空间金字塔池的输出是km维向量，其中格数表示为sm（kis是最后一个卷积层中的滤波器数）。固定维向量被输入到全连通层。</p>
-<h2 id="0x04-训练网络"><a class="header-anchor" href="#0x04-训练网络">¶</a>0x04 训练网络</h2>
-<p>Spp-Net的训练过程分为两部</p>
-<h3 id="1x01-单一尺度训练-single-size"><a class="header-anchor" href="#1x01-单一尺度训练-single-size">¶</a>1x01 单一尺度训练——single-size</h3>
-<p>所谓单一尺寸训练指的是先只对一种固定输入图像进行训练，比如224 x 224，在conv5之后的特征图为：13x13这就是我们的（a x a）而我要得到的输出为4 x 4，2 x 2,1 x 1，怎么办呢？这里金字塔层bins即为 n x n，也就是4 x 4，2 x 2,1 x 1，我们要做的就是如何根据a和n设计一个池化层，使得a x a的输入能够得到n x n的输出。实际上这个池化层很好设计，我们称这个大小和步幅会变化的池化层为sliding window pooling。</p>
-<p>它的大小为：windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整。数据实验如下：</p>
-<p>当a x a为13 x 13时，要得到4 x 4的输出，池化层的大小为4，移动步幅为3；</p>
-<p>当a x a为13 x 13时，要得到2 x 2的输出，池化层的大小为7，移动步幅为6；</p>
-<p>当a x a为13 x 13时，要得到1 x 1的输出，池化层的大小为13，移动步幅为13；</p>
-<p>有的小伙伴一定发现，那如果我的输入a x a变化为10 x 10呢，此时再用上面的三个池化核好像得不到固定的理想输出啊，事实上的确如此，这是训练的第二个过程要讲的，因为此过程称之为“单一尺度训练”，针对的就是某一个固定的输入尺度而言的。</p>
-<h2 id="1x02-多尺寸训练-multi-size-以两种尺度为例"><a class="header-anchor" href="#1x02-多尺寸训练-multi-size-以两种尺度为例">¶</a>1x02 多尺寸训练——multi-size（以两种尺度为例）</h2>
-<p>虽然带有SPP（空间金字塔）的网络可以应用于任意尺寸，为了解决不同图像尺寸的训练问题，我们往往还是会考虑一些预设好的尺寸，而不是一些尺寸种类太多，毫无章法的输入尺寸。现在考虑这两个尺寸：180×180,224×224，此处只考虑这两个。</p>
-<p>我们使用<code>缩放</code>而不是裁剪，将前述的224的区域图像变成180大小。这样，不同尺度的区域仅仅是分辨率上的不同，而不是内容和布局上的不同。</p>
-<p>那么对于接受180输入的网络，我们实现另一个固定尺寸的网络。在论文中，conv5输出的特征图尺寸是axa=10×10。我们仍然使用windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整，实现每个金字塔池化层。这个180网络的空间金字塔层的输出的大小就和224网络的一样了。</p>
-<p>当a x a为10 x 10时，要得到4 x 4的输出，池化层的大小为3，移动步幅为2（注意：此处根据这样的一个池化层，10 x 10的输入好像并得不到4 x 4的输出，9 x 9或者是11 x 11的倒可以得到4 x 4的）这个地方我也还不是特别清楚这个点，后面我会说出我的个人理解。</p>
-<p>当a x a为10 x 10时，要得到2 x 2的输出，池化层的大小为5，移动步幅为5；</p>
-<p>当a x a为10 x 10时，要得到1 x 1的输出，池化层的大小为10，移动步幅为10；</p>
-<p>这样，这个180网络就和224网络拥有一样的参数了。换句话说，训练过程中，我们通过使用共享参数的两个固定尺寸的网络实现了不同输入尺寸的SPP-net。</p>
-<p>为了降低从一个网络（比如224）向另一个网络（比如180）切换的开销，我们在每个网络上训练一个完整的epoch，然后在下一个完成的epoch再切换到另一个网络（权重保留）。依此往复。实验中我们发现多尺寸训练的收敛速度和单尺寸差不多。</p>
-<p>多尺寸训练的主要目的是在保证已经充分利用现在被较好优化的固定尺寸网络实现的同时，模拟不同的输入尺寸。除了上述两个尺度的实现，我们也在每个epoch中测试了不同的s x s输入，s是从180到224之间均匀选取的。后面将在实验部分报告这些测试的结果。</p>
-<p>注意，上面的单尺寸或多尺寸解析度只用于训练。在测试阶段，是直接对各种尺寸的图像应用SPP-net的。</p>
-<h2 id="0x05-spp-net在目标检测上的应用"><a class="header-anchor" href="#0x05-spp-net在目标检测上的应用">¶</a>0x05 Spp-Net在目标检测上的应用</h2>
-<p>SPP网络，这个方法的思想在R-CNN、Fast RCNN， Faster RCNN上都起了举足轻重的作用，对于检测算法，论文中是这样做到：使用ss生成~2k个候选框，缩放图像min(w,h)=s之后提取特征，每个候选框使用一个4层的空间金字塔池化特征，网络使用的是ZF-5的SPPNet形式。之后将12800d的特征输入全连接层，SVM的输入为全连接层的输出。这个算法可以应用到多尺度的特征提取：先将图片resize到五个尺度：480，576，688，864，1200，加自己6个。然后在map window to feature map一步中，选择ROI框尺度在｛6个尺度｝中大小最接近224x224的那个尺度下的feature maps中提取对应的roi feature。这样做可以提高系统的准确率。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
-]]></content>
-      <categories>
-        <category>CV</category>
-      </categories>
-      <tags>
-        <tag>CV</tag>
       </tags>
   </entry>
   <entry>
