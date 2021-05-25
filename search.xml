@@ -2731,11 +2731,19 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <li>Ans: 39001250856960000</li>
 </ul>
 <h1 id="本质上升序列"><a class="header-anchor" href="#本质上升序列">¶</a>本质上升序列</h1>
-<img src="/Users/keter/Documents/image/image-20210523183636628.png" alt="image-20210523183636628" style="zoom:70%;" />
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210525224941image-20210525224936768.png" alt="image-20210525224936768" style="zoom:50%;" />
 <blockquote>
 <p>提示：</p>
-<p>这题要是会用C++的排列组合标准库，配合set简直不要太简单，属于送分题。</p>
+<p>动态规划：建立dp数组, dp[i]表示以num[i]为结尾的子序列个数，为什么可以这么想呢？因为我们已经确定了序列的最后一位是 <code>num[i]</code></p>
+<p>A:  假如<code>num[j]</code>(j&lt;i)是小于<code>num[i]</code>的,  那么<code>dp[i]=dp[i]+dp[j]</code>就是我们要求的答案。</p>
+<p>B:  假如<code>num[j]</code>(j&lt;i)是等于<code>num[i]</code>的 <code>dp[i]=dp[i]-dp[j]</code>, 这是因为该种情况已经被加进去了。为了去重所以是dp[i] - dp[j]</p>
 </blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    string S = <span class="string">&quot;tocyjkdzcieoiodfpbgcncsrjbhmugdnojjddhllnofawllbhfiadgdcdjstemphmnjihecoapdjjrprrqnhgccevdarufmliqijgihhfgdcmxvicfauachlifhafpdccfseflcdgjncadfclvfmadvrnaaahahndsikzssoywakgnfjjaihtniptwoulxbaeqkqhfwl&quot;</span>;</span><br><span class="line">    <span class="keyword">int</span> dp[<span class="number">201</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">201</span>; ++i) &#123;</span><br><span class="line">        dp[i] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; S.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (S[i] &gt; S[j])&#123;</span><br><span class="line">                dp[i] += dp[j];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (S[i] == S[j])&#123;</span><br><span class="line">                dp[i] -= dp[j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; S.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        res += dp[i];</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; res &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ans: 3616159</li>
+</ul>
+<h1 id="玩具蛇"><a class="header-anchor" href="#玩具蛇">¶</a>玩具蛇</h1>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210525224918image-20210525224912929.png" alt="image-20210525224912929" style="zoom:50%;" />
 ]]></content>
   </entry>
   <entry>
