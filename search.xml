@@ -1,134 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>SQL Learning</title>
-    <url>/2021/01/12/SQL-Learning/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
-<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
-<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
-<p>Get all the custmers who’s patterns start with b/B</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>get all the custmers who’s last name start with brush</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>don’t care about the first character but the second character is y</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>% :  any number of characters</li>
-<li>_  :  single character</li>
-</ul>
-<p>EXERCISE</p>
-<ol>
-<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>Phone numbers end with 9</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
-<p>REGEXP: regular expression</p>
-<p>REGEXP is similar with LIKE</p>
-<p>Get all the customers who’s last name start with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who’s last name end with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words field,mac or rose in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words ge,me or ie in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>^ beginning</li>
-<li>$ end</li>
-<li>| logical or</li>
-<li>[abcd]</li>
-<li>[a-f]</li>
-</ul>
-<p>EXERCISE</p>
-<p>GET the customers whose</p>
-<ol>
-<li>first names are ELKA or AMBUR</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>last names end with EY or ON</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>Last names start with MY or contains SE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>last name contain B followed by R or U</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
-<p>search who does not have a phone</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<p>EXERCISE</p>
-<p>get the orders that are not shipped</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
-<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
-<p>Search customers order by first_name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
-<p>or you want to reverse the sort order</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
-<p>sort by multiple columns, for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
-<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
-<p>get the first 3 customers</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
-<p>Get customers form 6-9</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<p>6 is an offset, and 3 means the step</p>
-<p>EXERCISE</p>
-<ol>
-<li>Get the top three loyal customers</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
-<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
-<p>you can use JOIN to catch the relation between to tables;</p>
-<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
-<p>we can use alias to simplify the query.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
-<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
-<p>how to combine columns from tables in multiple databases ?</p>
-<p>Using database combines with sql_inventory database.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
-<p>the query will be different depending on the database</p>
-<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
-<p>In sql we can join tables with itself.</p>
-<p>In database sql_hr we have a table named employees.</p>
-<p>Now we need select each employee and their manager.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
-<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
-<p><strong>Exercise</strong></p>
-<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
-<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
-<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
-<p>we have mutiple conditions to join these two tables</p>
-<p>e.g.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
-<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
-<p>In Mysql we can use simple query to instead Join condition.</p>
-<p>for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Database Review</title>
     <url>/2021/04/11/Database-Review/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="database-review"><a class="header-anchor" href="#database-review">¶</a>DataBase Review</h1>
@@ -688,6 +560,134 @@ R3({A,D}，{∅}) }</p>
 <li>DESC【降序】</li>
 <li>CASCADE</li>
 </ul>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SQL Learning</title>
+    <url>/2021/01/12/SQL-Learning/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
+<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
+<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
+<p>Get all the custmers who’s patterns start with b/B</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>get all the custmers who’s last name start with brush</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>don’t care about the first character but the second character is y</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>% :  any number of characters</li>
+<li>_  :  single character</li>
+</ul>
+<p>EXERCISE</p>
+<ol>
+<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Phone numbers end with 9</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
+<p>REGEXP: regular expression</p>
+<p>REGEXP is similar with LIKE</p>
+<p>Get all the customers who’s last name start with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who’s last name end with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words field,mac or rose in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words ge,me or ie in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>^ beginning</li>
+<li>$ end</li>
+<li>| logical or</li>
+<li>[abcd]</li>
+<li>[a-f]</li>
+</ul>
+<p>EXERCISE</p>
+<p>GET the customers whose</p>
+<ol>
+<li>first names are ELKA or AMBUR</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>last names end with EY or ON</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Last names start with MY or contains SE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>last name contain B followed by R or U</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
+<p>search who does not have a phone</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<p>EXERCISE</p>
+<p>get the orders that are not shipped</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
+<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
+<p>Search customers order by first_name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
+<p>or you want to reverse the sort order</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<p>sort by multiple columns, for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
+<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
+<p>get the first 3 customers</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
+<p>Get customers form 6-9</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>6 is an offset, and 3 means the step</p>
+<p>EXERCISE</p>
+<ol>
+<li>Get the top three loyal customers</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
+<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
+<p>you can use JOIN to catch the relation between to tables;</p>
+<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
+<p>we can use alias to simplify the query.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
+<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
+<p>how to combine columns from tables in multiple databases ?</p>
+<p>Using database combines with sql_inventory database.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
+<p>the query will be different depending on the database</p>
+<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
+<p>In sql we can join tables with itself.</p>
+<p>In database sql_hr we have a table named employees.</p>
+<p>Now we need select each employee and their manager.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
+<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
+<p><strong>Exercise</strong></p>
+<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
+<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
+<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
+<p>we have mutiple conditions to join these two tables</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
+<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
+<p>In Mysql we can use simple query to instead Join condition.</p>
+<p>for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
 ]]></content>
       <categories>
         <category>课程学习</category>
@@ -2671,6 +2671,29 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
+    <title>【算法】竞赛中常用的c++黑魔法</title>
+    <url>/2021/05/08/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84c++%E9%BB%91%E9%AD%94%E6%B3%95/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>内容大部分查考<strong>therainisme</strong>的笔记本</p>
+<p>🔗 <a href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html#%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84-vector">这里是他的笔记本</a></p>
+<h1 id="动态数组-vector"><a class="header-anchor" href="#动态数组-vector">¶</a>动态数组 vector</h1>
+<p>操作和Python的list类似</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">vector&lt;<span class="keyword">int</span>&gt; v; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">v.<span class="built_in">push_back</span>(x); <span class="comment">// 尾部添加一个元素</span></span><br><span class="line">v.<span class="built_in">pop_back</span>(); <span class="comment">// 删除尾部元素</span></span><br><span class="line">v.<span class="built_in">insert</span>(v.<span class="built_in">begin</span>()+<span class="number">2</span>,<span class="number">2</span>); <span class="comment">// 在第二个元素后插入新元素</span></span><br><span class="line">v.<span class="built_in">back</span>(); <span class="comment">// 取出尾部的元素</span></span><br><span class="line">v.<span class="built_in">size</span>(); <span class="comment">// 返回vector的大小</span></span><br><span class="line">v.<span class="built_in">clear</span>(); <span class="comment">// 清空vector</span></span><br></pre></td></tr></table></figure>
+<h1 id="栈-stack"><a class="header-anchor" href="#栈-stack">¶</a>栈 stack</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">stack&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">s.<span class="built_in">push</span>(x); <span class="comment">// 压入栈中元素</span></span><br><span class="line"><span class="keyword">int</span> n = s.<span class="built_in">top</span>(); <span class="comment">// 返回栈顶元素</span></span><br><span class="line"><span class="keyword">int</span>  = s.<span class="built_in">size</span>(); <span class="comment">// 返回栈的大小</span></span><br><span class="line">s.<span class="built_in">pop</span>(); <span class="comment">// 弹出栈顶元素</span></span><br><span class="line">s.<span class="built_in">empty</span>(); <span class="comment">// 判断栈是否为空</span></span><br></pre></td></tr></table></figure>
+<h1 id="单向队列-queue"><a class="header-anchor" href="#单向队列-queue">¶</a>单向队列 queue</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> x=<span class="number">1</span>;</span><br><span class="line">queue&lt;<span class="keyword">int</span>&gt; q; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">q.<span class="built_in">push</span>(x); <span class="comment">// 推入队列中元素</span></span><br><span class="line">q.<span class="built_in">empty</span>(); <span class="comment">// 判断是否为空</span></span><br><span class="line">q.<span class="built_in">front</span>(); <span class="comment">// 取出对列首部的元素</span></span><br><span class="line">q.<span class="built_in">back</span>(); <span class="comment">// 取出队尾元素</span></span><br><span class="line">q.<span class="built_in">size</span>(); <span class="comment">// 返回队列长度</span></span><br><span class="line">q.<span class="built_in">pop</span>(); <span class="comment">// 弹出队首元素</span></span><br></pre></td></tr></table></figure>
+<h1 id="字符串-string"><a class="header-anchor" href="#字符串-string">¶</a>字符串 string</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;aabbcc&quot;</span>;</span><br><span class="line">s.<span class="built_in">push_back</span>(<span class="string">&#x27;a&#x27;</span>); <span class="comment">// 像尾部追加一个字符</span></span><br><span class="line"><span class="keyword">char</span> c = s.<span class="built_in">back</span>(); <span class="comment">// 获取尾部的字符</span></span><br><span class="line"><span class="keyword">char</span> c2= s.<span class="built_in">front</span>(); <span class="comment">// 获取头部的字符</span></span><br><span class="line">s.<span class="built_in">pop_back</span>(); <span class="comment">// 弹出尾部的字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串翻转</span></span><br><span class="line"><span class="built_in">reverse</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>()); <span class="comment">// 不需要重新赋值</span></span><br><span class="line"><span class="comment">// 排序</span></span><br><span class="line"><span class="built_in">sort</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>());</span><br><span class="line"><span class="comment">// 插入元素</span></span><br><span class="line">s.<span class="built_in">insert</span>(<span class="number">2</span>,<span class="string">&quot;ahh&quot;</span>); <span class="comment">// 在第二个元素后插入</span></span><br><span class="line"><span class="comment">// 删除元素</span></span><br><span class="line">s.<span class="built_in">erase</span>(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 从第二个元素开始删除后面的3个元素</span></span><br><span class="line"></span><br><span class="line">string d = s.<span class="built_in">substr</span>(<span class="number">1</span>,<span class="number">3</span>); <span class="comment">// 从索引为1的元素开始获取3个元素</span></span><br><span class="line"><span class="keyword">int</span> a = s.<span class="built_in">find</span>(<span class="string">&quot;aa&quot;</span>); <span class="comment">// 找到返回索引，找不到返回-1</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【算法】第十一届蓝桥杯国赛题解</title>
     <url>/2021/05/17/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AC%AC%E5%8D%81%E4%B8%80%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%9B%BD%E8%B5%9B%E9%A2%98%E8%A7%A3/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote>
@@ -2730,29 +2753,6 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <li>Ans：552</li>
 </ul>
 ]]></content>
-  </entry>
-  <entry>
-    <title>【算法】竞赛中常用的c++黑魔法</title>
-    <url>/2021/05/08/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84c++%E9%BB%91%E9%AD%94%E6%B3%95/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>内容大部分查考<strong>therainisme</strong>的笔记本</p>
-<p>🔗 <a href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html#%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84-vector">这里是他的笔记本</a></p>
-<h1 id="动态数组-vector"><a class="header-anchor" href="#动态数组-vector">¶</a>动态数组 vector</h1>
-<p>操作和Python的list类似</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">vector&lt;<span class="keyword">int</span>&gt; v; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">v.<span class="built_in">push_back</span>(x); <span class="comment">// 尾部添加一个元素</span></span><br><span class="line">v.<span class="built_in">pop_back</span>(); <span class="comment">// 删除尾部元素</span></span><br><span class="line">v.<span class="built_in">insert</span>(v.<span class="built_in">begin</span>()+<span class="number">2</span>,<span class="number">2</span>); <span class="comment">// 在第二个元素后插入新元素</span></span><br><span class="line">v.<span class="built_in">back</span>(); <span class="comment">// 取出尾部的元素</span></span><br><span class="line">v.<span class="built_in">size</span>(); <span class="comment">// 返回vector的大小</span></span><br><span class="line">v.<span class="built_in">clear</span>(); <span class="comment">// 清空vector</span></span><br></pre></td></tr></table></figure>
-<h1 id="栈-stack"><a class="header-anchor" href="#栈-stack">¶</a>栈 stack</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">stack&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">s.<span class="built_in">push</span>(x); <span class="comment">// 压入栈中元素</span></span><br><span class="line"><span class="keyword">int</span> n = s.<span class="built_in">top</span>(); <span class="comment">// 返回栈顶元素</span></span><br><span class="line"><span class="keyword">int</span>  = s.<span class="built_in">size</span>(); <span class="comment">// 返回栈的大小</span></span><br><span class="line">s.<span class="built_in">pop</span>(); <span class="comment">// 弹出栈顶元素</span></span><br><span class="line">s.<span class="built_in">empty</span>(); <span class="comment">// 判断栈是否为空</span></span><br></pre></td></tr></table></figure>
-<h1 id="单向队列-queue"><a class="header-anchor" href="#单向队列-queue">¶</a>单向队列 queue</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> x=<span class="number">1</span>;</span><br><span class="line">queue&lt;<span class="keyword">int</span>&gt; q; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">q.<span class="built_in">push</span>(x); <span class="comment">// 推入队列中元素</span></span><br><span class="line">q.<span class="built_in">empty</span>(); <span class="comment">// 判断是否为空</span></span><br><span class="line">q.<span class="built_in">front</span>(); <span class="comment">// 取出对列首部的元素</span></span><br><span class="line">q.<span class="built_in">back</span>(); <span class="comment">// 取出队尾元素</span></span><br><span class="line">q.<span class="built_in">size</span>(); <span class="comment">// 返回队列长度</span></span><br><span class="line">q.<span class="built_in">pop</span>(); <span class="comment">// 弹出队首元素</span></span><br></pre></td></tr></table></figure>
-<h1 id="字符串-string"><a class="header-anchor" href="#字符串-string">¶</a>字符串 string</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;aabbcc&quot;</span>;</span><br><span class="line">s.<span class="built_in">push_back</span>(<span class="string">&#x27;a&#x27;</span>); <span class="comment">// 像尾部追加一个字符</span></span><br><span class="line"><span class="keyword">char</span> c = s.<span class="built_in">back</span>(); <span class="comment">// 获取尾部的字符</span></span><br><span class="line"><span class="keyword">char</span> c2= s.<span class="built_in">front</span>(); <span class="comment">// 获取头部的字符</span></span><br><span class="line">s.<span class="built_in">pop_back</span>(); <span class="comment">// 弹出尾部的字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串翻转</span></span><br><span class="line"><span class="built_in">reverse</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>()); <span class="comment">// 不需要重新赋值</span></span><br><span class="line"><span class="comment">// 排序</span></span><br><span class="line"><span class="built_in">sort</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>());</span><br><span class="line"><span class="comment">// 插入元素</span></span><br><span class="line">s.<span class="built_in">insert</span>(<span class="number">2</span>,<span class="string">&quot;ahh&quot;</span>); <span class="comment">// 在第二个元素后插入</span></span><br><span class="line"><span class="comment">// 删除元素</span></span><br><span class="line">s.<span class="built_in">erase</span>(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 从第二个元素开始删除后面的3个元素</span></span><br><span class="line"></span><br><span class="line">string d = s.<span class="built_in">substr</span>(<span class="number">1</span>,<span class="number">3</span>); <span class="comment">// 从索引为1的元素开始获取3个元素</span></span><br><span class="line"><span class="keyword">int</span> a = s.<span class="built_in">find</span>(<span class="string">&quot;aa&quot;</span>); <span class="comment">// 找到返回索引，找不到返回-1</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>c++</tag>
-      </tags>
   </entry>
   <entry>
     <title>【算法】第十二届蓝桥杯省赛第二场题解</title>
@@ -3332,6 +3332,99 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 </blockquote>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20210522203449image-20210522123012643.png" alt="image-20210522123012643" style="zoom:50%;" />
 <center>各设备在各层中的应用</center>
+<h1 id="网络层"><a class="header-anchor" href="#网络层">¶</a>网络层</h1>
+<h2 id="网络层概述"><a class="header-anchor" href="#网络层概述">¶</a>网络层概述</h2>
+<ul>
+<li>
+<p>ISO定义：网络层为一个网络连接的两个传输实体间交换网络服务数据单元提供功能和规程的方法。</p>
+</li>
+<li>
+<p>网络层是处理端到端的最低层</p>
+</li>
+<li>
+<p>网络层传输的是<code>IP数据包</code></p>
+</li>
+<li>
+<p>要解决的关键问题是了解通行子网的拓扑结构，选择路由</p>
+</li>
+<li>
+<p><code>为什么数据链路层不需要路由？</code> 因为端到端(P to P)的条件是相邻的；其中两者之间的通信是直接连通的；</p>
+</li>
+</ul>
+<h3 id="网络的两种实现方式"><a class="header-anchor" href="#网络的两种实现方式">¶</a>网络的两种实现方式</h3>
+<blockquote>
+<p>必考</p>
+</blockquote>
+<p>填空题：网络的两种实现方式是： ``数据包和虚电路`</p>
+<p><code>简答题：数据包和虚电路的区别：</code></p>
+<ul>
+<li>都属于分组交换，采用存储转发机制</li>
+<li>数据报：每个分组被单独路由，分组带有全网唯一的地址</li>
+<li>虚电路：先在源端和目的端之间建立一条虚电路，所有分组沿虚电路按次序存储转发，最后拆除虚电路。在虚电路中，每个分组无须进行路径选择。</li>
+</ul>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210529111024image-20210529111017820.png" alt="image-20210529111017820" style="zoom:50%;" />
+<ul>
+<li>虚电路和数据报网络的区别与联系</li>
+</ul>
+<h2 id="路由算法"><a class="header-anchor" href="#路由算法">¶</a>路由算法</h2>
+<blockquote>
+<p>必考题：求拓扑图的最短的路径</p>
+</blockquote>
+<p>给定一个拓扑图求拓扑图中的最短路径；</p>
+<h3 id="距离矢量路由算法"><a class="header-anchor" href="#距离矢量路由算法">¶</a>距离矢量路由算法</h3>
+<blockquote>
+<p>每年必考的内容 对应例题：P377 第6题. 基本是每年都考 【查表，相加，取最小】</p>
+<p>必考IP协议分析题</p>
+</blockquote>
+<p>路由选择算法的原则：</p>
+<ul>
+<li>健壮性</li>
+<li>稳定性</li>
+<li>公平性</li>
+<li>最优性</li>
+</ul>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210529110830image-20210529105405149.png" alt="image-20210529105405149" style="zoom:47%;" />
+<p>例题：</p>
+<h3 id="拥塞控制算法"><a class="header-anchor" href="#拥塞控制算法">¶</a>拥塞控制算法</h3>
+<p><code>考点：拥塞控制与流量控制的差别：</code></p>
+<ol>
+<li>
+<p>拥塞控制（congestion control）需要确保通信子网能够承载用户提交的通信量，是一个全局性问题，涉及主机、路由器等很多因素；</p>
+</li>
+<li>
+<p>流量控制（flow control）与<code>点到点</code>的通信量有关，主要解决快速发送方与慢速接收方的问题，是局部问题，一般都是基于反馈进行控制的。</p>
+</li>
+</ol>
+<h3 id="ip协议"><a class="header-anchor" href="#ip协议">¶</a>IP协议</h3>
+<p>IP数据包结构</p>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210529112707image-20210529112658990.png" alt="image-20210529112658990" style="zoom:30%;" />
+<ul>
+<li>
+<p>Version: 协议的版本号</p>
+</li>
+<li>
+<p>IHL(ip header length)：表明标头的长度，<code>单位是4字节</code>；</p>
+</li>
+<li>
+<p>Type of service：服务类型；</p>
+</li>
+<li>
+<p>Total length: 标头以及数据；</p>
+</li>
+<li>
+<p><code>DF:</code> DF为1时表示不分片</p>
+</li>
+<li>
+<p><code>MF:</code> MF为1表示后面还有数据片。也就是说明这个数据片段并不是最后一片。</p>
+</li>
+<li>
+<p><code>ttl:</code> time to live，一般一个包的长度最长也就是255秒。</p>
+</li>
+<li>
+<p><code>Protocol：</code>  TCP是06【10进制】，UDP是17 【10进制】</p>
+</li>
+</ul>
+<p>注意如果问IHL有多少字节，那么需要把结果乘以4。因为IHL的单位为4字节。IP数据包最长就只能够达到64K。如果一个数据的长度大于64K那么就需要DF、MF和Fragment offset来表示数据的分割。</p>
 ]]></content>
       <categories>
         <category>课程学习</category>
