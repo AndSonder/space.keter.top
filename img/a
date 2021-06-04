@@ -113,3 +113,16 @@ int main() {
     return 0;
 
 }
+
+// 用法1
+map<string,int> m;
+map<string,int>::iterator it;
+// 顺序遍历，rbegin()就是逆序遍历
+for(it = m.begin();it!=m.end();it++){
+    // it类指针用法
+}
+// 用法2
+for(auto a : m){
+    cout<<a.first()<<endl;
+    cout<<a.second()<<endl;
+}
