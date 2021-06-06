@@ -10426,9 +10426,6 @@ blockquote.pullquote.right {
 [data-theme='dark'] #post-comment #comment-switch .switch-btn {
   filter: brightness(0.8);
 }
-[data-theme='dark'] .note {
-  filter: brightness(0.8);
-}
 [data-theme='dark'] .hide-button,
 [data-theme='dark'] .btn-beautify,
 [data-theme='dark'] .mermaid,
@@ -10549,9 +10546,6 @@ blockquote.pullquote.right {
   background: #2c2c2c !important;
 }
 [data-theme='dark'] #post-comment #comment-switch .switch-btn {
-  filter: brightness(0.8);
-}
-[data-theme='dark'] .note {
   filter: brightness(0.8);
 }
 [data-theme='dark'] .hide-button,
