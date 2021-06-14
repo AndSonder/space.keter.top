@@ -1,6 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SQL Learning</title>
+    <url>/2021/01/12/SQL-Learning/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
+<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
+<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
+<p>Get all the custmers who’s patterns start with b/B</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>get all the custmers who’s last name start with brush</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>don’t care about the first character but the second character is y</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>% :  any number of characters</li>
+<li>_  :  single character</li>
+</ul>
+<p>EXERCISE</p>
+<ol>
+<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Phone numbers end with 9</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
+<p>REGEXP: regular expression</p>
+<p>REGEXP is similar with LIKE</p>
+<p>Get all the customers who’s last name start with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who’s last name end with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words field,mac or rose in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words ge,me or ie in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>^ beginning</li>
+<li>$ end</li>
+<li>| logical or</li>
+<li>[abcd]</li>
+<li>[a-f]</li>
+</ul>
+<p>EXERCISE</p>
+<p>GET the customers whose</p>
+<ol>
+<li>first names are ELKA or AMBUR</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>last names end with EY or ON</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Last names start with MY or contains SE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>last name contain B followed by R or U</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
+<p>search who does not have a phone</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<p>EXERCISE</p>
+<p>get the orders that are not shipped</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
+<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
+<p>Search customers order by first_name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
+<p>or you want to reverse the sort order</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<p>sort by multiple columns, for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
+<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
+<p>get the first 3 customers</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
+<p>Get customers form 6-9</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>6 is an offset, and 3 means the step</p>
+<p>EXERCISE</p>
+<ol>
+<li>Get the top three loyal customers</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
+<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
+<p>you can use JOIN to catch the relation between to tables;</p>
+<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
+<p>we can use alias to simplify the query.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
+<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
+<p>how to combine columns from tables in multiple databases ?</p>
+<p>Using database combines with sql_inventory database.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
+<p>the query will be different depending on the database</p>
+<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
+<p>In sql we can join tables with itself.</p>
+<p>In database sql_hr we have a table named employees.</p>
+<p>Now we need select each employee and their manager.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
+<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
+<p><strong>Exercise</strong></p>
+<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
+<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
+<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
+<p>we have mutiple conditions to join these two tables</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
+<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
+<p>In Mysql we can use simple query to instead Join condition.</p>
+<p>for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Database Review</title>
     <url>/2021/04/11/Database-Review/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="database-review"><a class="header-anchor" href="#database-review">¶</a>DataBase Review</h1>
@@ -560,134 +688,6 @@ R3({A,D}，{∅}) }</p>
 <li>DESC【降序】</li>
 <li>CASCADE</li>
 </ul>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SQL Learning</title>
-    <url>/2021/01/12/SQL-Learning/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
-<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
-<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
-<p>Get all the custmers who’s patterns start with b/B</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>get all the custmers who’s last name start with brush</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>don’t care about the first character but the second character is y</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>% :  any number of characters</li>
-<li>_  :  single character</li>
-</ul>
-<p>EXERCISE</p>
-<ol>
-<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>Phone numbers end with 9</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
-<p>REGEXP: regular expression</p>
-<p>REGEXP is similar with LIKE</p>
-<p>Get all the customers who’s last name start with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who’s last name end with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words field,mac or rose in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words ge,me or ie in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>^ beginning</li>
-<li>$ end</li>
-<li>| logical or</li>
-<li>[abcd]</li>
-<li>[a-f]</li>
-</ul>
-<p>EXERCISE</p>
-<p>GET the customers whose</p>
-<ol>
-<li>first names are ELKA or AMBUR</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>last names end with EY or ON</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>Last names start with MY or contains SE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>last name contain B followed by R or U</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
-<p>search who does not have a phone</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<p>EXERCISE</p>
-<p>get the orders that are not shipped</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
-<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
-<p>Search customers order by first_name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
-<p>or you want to reverse the sort order</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
-<p>sort by multiple columns, for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
-<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
-<p>get the first 3 customers</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
-<p>Get customers form 6-9</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<p>6 is an offset, and 3 means the step</p>
-<p>EXERCISE</p>
-<ol>
-<li>Get the top three loyal customers</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
-<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
-<p>you can use JOIN to catch the relation between to tables;</p>
-<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
-<p>we can use alias to simplify the query.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
-<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
-<p>how to combine columns from tables in multiple databases ?</p>
-<p>Using database combines with sql_inventory database.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
-<p>the query will be different depending on the database</p>
-<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
-<p>In sql we can join tables with itself.</p>
-<p>In database sql_hr we have a table named employees.</p>
-<p>Now we need select each employee and their manager.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
-<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
-<p><strong>Exercise</strong></p>
-<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
-<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
-<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
-<p>we have mutiple conditions to join these two tables</p>
-<p>e.g.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
-<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
-<p>In Mysql we can use simple query to instead Join condition.</p>
-<p>for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
 ]]></content>
       <categories>
         <category>课程学习</category>
@@ -3066,24 +3066,6 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
-    <title>【论文阅读】Real World Adversarial attack ...</title>
-    <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors"><a class="header-anchor" href="#making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors">¶</a>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
-<p><code>propose a new loss function to produce patch;Print the patch on the cloth. People who wear this cloth can not be detected by object detectors in the real world</code></p>
-<p>Paper url: <a href="https://arxiv.org/abs/1810.05206">https://arxiv.org/abs/1810.05206</a></p>
-<span id="more"></span>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220004Page3.png" alt="Page3"></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220013Page4.png" alt="Page4"></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220021Page5.png" alt="Page5"></p>
-]]></content>
-      <categories>
-        <category>adv learning</category>
-      </categories>
-      <tags>
-        <tag>神经对抗攻击</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【计算机网络】课程知识点笔记</title>
     <url>/2021/05/11/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E8%AF%BE%E7%A8%8B%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><div class="note info simple"><p>持续更新中…</p>
@@ -3352,8 +3334,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <h4 id="一些例题"><a class="header-anchor" href="#一些例题">¶</a>一些例题</h4>
 <div class="note success simple"><p>例1：假设选择的CRC生成多项式为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>x</mi><mn>4</mn></msup><mo>+</mo><msup><mi>x</mi><mn>3</mn></msup><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">G(X) = x^4 + x^3 + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">G</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>，要求出二进制序列10110011的CRC校验码</p>
 </div>
-<p>解：</p>
-<p>第一步：将多项式转化为二进制：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mn>4</mn></msup><mo>+</mo><msup><mi>x</mi><mn>3</mn></msup><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x^4 + x^3 + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> 可以转化为 11001. （多项式只列出二进制值为1的位，也就是这个二进制的第4位、第3位、第0位的二进制均为1，其它位均为0）；</p>
+<p>解： 第一步：将多项式转化为二进制：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mn>4</mn></msup><mo>+</mo><msup><mi>x</mi><mn>3</mn></msup><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x^4 + x^3 + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> 可以转化为 11001. （多项式只列出二进制值为1的位，也就是这个二进制的第4位、第3位、第0位的二进制均为1，其它位均为0）；</p>
 <p>第二步：使用模2除法原则计算CRC校验码；生成的多项式有5位，我们需要在10110011的后面加上4个0来进行计算。</p>
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210613201413image-20210613201411308.png" alt="image-20210613201411308"></p>
 <p>最后我们可以得到CRC校验码为0100；</p>
@@ -3473,7 +3454,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <p>问题解决方法：</p>
 <ul>
 <li>不是一次发送一个</li>
-<li>增加最大发送窗口的数目，Ws （sending window）</li>
+<li>增加最大发送窗口的数目，ws （sending window）</li>
 <li>停-等协议信道利用率计算</li>
 </ul>
 <p>已知信息传输速率b(b.s),帧长度是L(bit), 往返时间为：R(s). 忙 L/b （s），空闲R（s）。则利用率为：</p>
@@ -3492,7 +3473,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <img src="https://gitee.com/coronapolvo/images/raw/master/20210522122033image-20210522122021726.png" alt="image-20210522122021726" style="zoom:50%;" />
 <center>回退重选和选择重传的过程对比</center>
 <ul>
-<li>回退重传是在<em>超时</em>后从传输错误的帧的编号进行重传</li>
+<li>回退重传是在<strong>超时</strong>后从传输错误的帧的编号进行重传</li>
 <li>选择重传是只对错误的编号进行重传</li>
 <li>选择重传帧编号的意义
 <ul>
@@ -3500,7 +3481,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <li>接收方告诉发送方需要重发</li>
 </ul>
 </li>
-<li>选择性重传告诉帧编号，最大ws是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">2^{n-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span> =》 例题 P197 32题</li>
+<li>选择性重传告诉帧编号，最大ws是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">2^{n-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></li>
 <li>回退n帧告诉帧编号，最大ws是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^n-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.747722em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></li>
 </ul>
 <h1 id="介质访问控制子层"><a class="header-anchor" href="#介质访问控制子层">¶</a>介质访问控制子层</h1>
@@ -3625,8 +3606,10 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <blockquote>
 <p>必考</p>
 </blockquote>
-<p>填空题：网络的两种实现方式是： <code>数据包和虚电路</code></p>
-<p><code>简答题：数据包和虚电路的区别：</code></p>
+<p>填空题：网络的两种实现方式是： <code>数据报和虚电路</code></p>
+<p><code>数据报</code>：数据报是通过网络传输的数据的基本单元，包含一个报头（header）和数据本身，其中报头描述了数据的目的地以及和其它数据之间的关系。</p>
+<p><code>虚电路</code>：虚电路是分组交换的两种传输方式中的一种。在通信和网络中，虚电路是由分组交换通信所提供的面向连接的通信服务。在两个节点或应用进程之间建立起一个逻辑上的连接或虚电路后，就可以在两个节点之间依次发送每一个分组，接收端收到分组的顺序必然与发送端的发送顺序一致，因此接收端无须负责在接收分组后重新进行排序。虚电路协议向高层协议隐藏了将数据分割成段，包或帧的过程。</p>
+<p><code>简答题：数据包和虚电路的区别[考点]：</code></p>
 <ul>
 <li>都属于分组交换，采用存储转发机制</li>
 <li>数据报：每个分组被单独路由，分组带有全网唯一的地址</li>
@@ -3640,21 +3623,24 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <blockquote>
 <p>必考题：求拓扑图的最短的路径</p>
 </blockquote>
-<p>给定一个拓扑图求拓扑图中的最短路径；</p>
+<p>给定一个拓扑图求拓扑图中的最短路径：Dijkstra 算法</p>
+<p>首先给定一个连通图，假设我们要求D到达任意顶点的最短路径，那么我们需要做的第一步是求出连通图的最小生成树；</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/202106141601213863d41747e215d2b22b4655db1c5a181603777882623.png" alt=""></p>
+<p>最小生成树的生成过程如下；</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210614160209c5e98ef5691435bc7134353d020d77931603777882623.png" alt=""></p>
 <h3 id="距离矢量路由算法"><a class="header-anchor" href="#距离矢量路由算法">¶</a>距离矢量路由算法</h3>
 <blockquote>
 <p>每年必考的内容 对应例题：P377 第6题. 基本是每年都考 【查表，相加，取最小】</p>
 <p>必考IP协议分析题</p>
 </blockquote>
-<p>路由选择算法的原则：</p>
-<ul>
-<li>健壮性</li>
-<li>稳定性</li>
-<li>公平性</li>
-<li>最优性</li>
-</ul>
+<p>什么是距离路由矢量？</p>
+<p>每个路由器维护一张表，表中列出了当前已知每个目标最佳距离，以及所使用的链路，这些表通过邻居之间相互之间相互交换信息而不断更新，最终每个路由器都了解到达每个目的地的最短路径。</p>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20210529110830image-20210529105405149.png" alt="image-20210529105405149" style="zoom: 30%;" />
-<p>例题：</p>
+ <div class="note success simple"><p>例：考虑图5-12(a) 中的网络。使用距离矢量路由算法，路由器C刚刚收到下列矢量：来自B(5,0,8,12,6,2)；来自D的(16, 12, 6, 0, 9 ,10)；来自E的(7, 6, 3, 9, 0, 4)。从C到B、D和E的链路成本分别为6、3和5。请给出C的新路由表，包括使用的出镜路线和成本。</p>
+</div>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210614161839image-20210614161837884.png" alt="image-20210614161837884" style="zoom:63%;" />
+<p>解：  解题过程如下图所示：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210614170838image-20210614170837718.png" alt="image-20210614170837718"></p>
 <h3 id="拥塞控制算法"><a class="header-anchor" href="#拥塞控制算法">¶</a>拥塞控制算法</h3>
 <p><code>考点：拥塞控制与流量控制的差别：</code></p>
 <ol>
@@ -3662,7 +3648,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <p>拥塞控制（congestion control）需要确保通信子网能够承载用户提交的通信量，是一个全局性问题，涉及主机、路由器等很多因素；</p>
 </li>
 <li>
-<p>流量控制（flow control）与<code>点到点</code>的通信量有关，主要解决快速发送方与慢速接收方的问题，是局部问题，一般都是基于反馈进行控制的。</p>
+<p>流量控制（flow control）与<code>点到点</code>的通信量有关，主要解决快速发送方与慢速接收方的问题，是局部问题，一般都是基于反馈进行控制的。21</p>
 </li>
 </ol>
 <h3 id="ip协议"><a class="header-anchor" href="#ip协议">¶</a>IP协议</h3>
@@ -3695,6 +3681,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 </li>
 </ul>
 <p>注意如果问IHL有多少字节，那么需要把结果乘以4。因为IHL的单位为4字节。IP数据包最长就只能够达到64K。如果一个数据的长度大于64K那么就需要DF、MF和Fragment offset来表示数据的分割。</p>
+<p><code>考点：</code></p>
 <h3 id="ip地址"><a class="header-anchor" href="#ip地址">¶</a>IP地址</h3>
 <p>1.掌握给出一个ip地址，能指出是哪类地址</p>
 <p>2.ip地址的构成</p>
@@ -3703,23 +3690,29 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <p>判断方法：看第一个0前有几个1</p>
 <p>只考：a,b,c类</p>
 <blockquote>
-<p>综合考题形式(必考题)：先问ip是多少，再问ip属于什么类型（将开头第一个数字化为二进制看看属于哪个分类）</p>
+<p>[考点] 综合考题形式(必考题)：先问ip是多少，再问ip属于什么类型（将开头第一个数字化为二进制看看属于哪个分类）</p>
 </blockquote>
-<p>例子：136.17.18.5</p>
+ <div class="note success simple"><p>例1：分析136.17.18.5的类别，给出他的网络号，主机号；</p>
+</div>
 <p>将136化为二进制: <code>10001000</code>，所以属于B类。</p>
 <p>再查看B类的结构知：前16位位网络号（Network）后16位为主机号（Host）</p>
 <p>网络号：136.17</p>
 <p>主机号：18.5</p>
-<p>自主练习：200.3.4.5</p>
+ <div class="note success simple"><p>例2：分析200.3.4.5的类别，给出他的网络号，主机号；</p>
+</div>
+<p>将200转化为二进制：<code>11001000</code>,  所以属于C类；</p>
+<p>再看C类的结构可以知道：前24位为网络号，后8位为主机号；</p>
+<p>网络号：200.3.4</p>
+<p>主机号：5</p>
 <blockquote>
-<p>每类地址最大网络数和最大主机数</p>
+<p>[考点] 每类地址最大网络数和最大主机数</p>
 </blockquote>
 <p>求法：<code> 最大网络数=2^(Network所占位数)-2	最大主机数=2^(Host所占位数)-2</code></p>
 <p>解释：-2的原因是除去全0和全1两种地址</p>
 <ul>
-<li>A类：最大网络数=2^7-2	最大主机数=2^24-2</li>
-<li>B类：最大网络数=2^14-2	最大主机数=2^16-2</li>
-<li>C类：最大网络数=2^7-2	最大主机数=2^24-2</li>
+<li>A类：最大网络数=<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>7</mn></msup><mo>−</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2^7-2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>	最大主机数=<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>24</mn></msup><mo>−</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2^{24}-2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></li>
+<li>B类：最大网络数=<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>14</mn></msup><mo>−</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2^{14}-2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>	最大主机数=<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>16</mn></msup><mo>−</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2^{16}-2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">6</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></li>
+<li>C类：最大网络数=<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>7</mn></msup><mo>−</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2^7-2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>	最大主机数=<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>24</mn></msup><mo>−</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2^{24}-2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></li>
 </ul>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20210606150558image-20210605090625005.png" alt="image-20210605090625005" style="zoom:33%;" />
 <h3 id="子网-暂时没讲-自学-如果要考老师会再提"><a class="header-anchor" href="#子网-暂时没讲-自学-如果要考老师会再提">¶</a>子网（暂时没讲，自学，如果要考老师会再提）</h3>
@@ -3894,6 +3887,24 @@ TCP 的确认是对接收到的数据的最高序号表示确认。接收端返�
       </categories>
       <tags>
         <tag>课程学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【论文阅读】Real World Adversarial attack ...</title>
+    <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors"><a class="header-anchor" href="#making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors">¶</a>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
+<p><code>propose a new loss function to produce patch;Print the patch on the cloth. People who wear this cloth can not be detected by object detectors in the real world</code></p>
+<p>Paper url: <a href="https://arxiv.org/abs/1810.05206">https://arxiv.org/abs/1810.05206</a></p>
+<span id="more"></span>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220004Page3.png" alt="Page3"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220013Page4.png" alt="Page4"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220021Page5.png" alt="Page5"></p>
+]]></content>
+      <categories>
+        <category>adv learning</category>
+      </categories>
+      <tags>
+        <tag>神经对抗攻击</tag>
       </tags>
   </entry>
   <entry>
