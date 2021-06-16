@@ -1,6 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SQL Learning</title>
+    <url>/2021/01/12/SQL-Learning/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
+<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
+<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
+<p>Get all the custmers who’s patterns start with b/B</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>get all the custmers who’s last name start with brush</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>don’t care about the first character but the second character is y</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>% :  any number of characters</li>
+<li>_  :  single character</li>
+</ul>
+<p>EXERCISE</p>
+<ol>
+<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Phone numbers end with 9</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
+<p>REGEXP: regular expression</p>
+<p>REGEXP is similar with LIKE</p>
+<p>Get all the customers who’s last name start with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who’s last name end with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words field,mac or rose in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words ge,me or ie in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>^ beginning</li>
+<li>$ end</li>
+<li>| logical or</li>
+<li>[abcd]</li>
+<li>[a-f]</li>
+</ul>
+<p>EXERCISE</p>
+<p>GET the customers whose</p>
+<ol>
+<li>first names are ELKA or AMBUR</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>last names end with EY or ON</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Last names start with MY or contains SE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>last name contain B followed by R or U</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
+<p>search who does not have a phone</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<p>EXERCISE</p>
+<p>get the orders that are not shipped</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
+<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
+<p>Search customers order by first_name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
+<p>or you want to reverse the sort order</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<p>sort by multiple columns, for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
+<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
+<p>get the first 3 customers</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
+<p>Get customers form 6-9</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>6 is an offset, and 3 means the step</p>
+<p>EXERCISE</p>
+<ol>
+<li>Get the top three loyal customers</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
+<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
+<p>you can use JOIN to catch the relation between to tables;</p>
+<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
+<p>we can use alias to simplify the query.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
+<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
+<p>how to combine columns from tables in multiple databases ?</p>
+<p>Using database combines with sql_inventory database.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
+<p>the query will be different depending on the database</p>
+<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
+<p>In sql we can join tables with itself.</p>
+<p>In database sql_hr we have a table named employees.</p>
+<p>Now we need select each employee and their manager.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
+<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
+<p><strong>Exercise</strong></p>
+<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
+<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
+<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
+<p>we have mutiple conditions to join these two tables</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
+<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
+<p>In Mysql we can use simple query to instead Join condition.</p>
+<p>for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Database Review</title>
     <url>/2021/04/11/Database-Review/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="database-review"><a class="header-anchor" href="#database-review">¶</a>DataBase Review</h1>
@@ -569,186 +697,6 @@ R3({A,D}，{∅}) }</p>
       </tags>
   </entry>
   <entry>
-    <title>SQL Learning</title>
-    <url>/2021/01/12/SQL-Learning/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
-<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
-<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
-<p>Get all the custmers who’s patterns start with b/B</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>get all the custmers who’s last name start with brush</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>don’t care about the first character but the second character is y</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>% :  any number of characters</li>
-<li>_  :  single character</li>
-</ul>
-<p>EXERCISE</p>
-<ol>
-<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>Phone numbers end with 9</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
-<p>REGEXP: regular expression</p>
-<p>REGEXP is similar with LIKE</p>
-<p>Get all the customers who’s last name start with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who’s last name end with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words field,mac or rose in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words ge,me or ie in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>^ beginning</li>
-<li>$ end</li>
-<li>| logical or</li>
-<li>[abcd]</li>
-<li>[a-f]</li>
-</ul>
-<p>EXERCISE</p>
-<p>GET the customers whose</p>
-<ol>
-<li>first names are ELKA or AMBUR</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>last names end with EY or ON</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>Last names start with MY or contains SE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>last name contain B followed by R or U</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
-<p>search who does not have a phone</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<p>EXERCISE</p>
-<p>get the orders that are not shipped</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
-<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
-<p>Search customers order by first_name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
-<p>or you want to reverse the sort order</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
-<p>sort by multiple columns, for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
-<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
-<p>get the first 3 customers</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
-<p>Get customers form 6-9</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<p>6 is an offset, and 3 means the step</p>
-<p>EXERCISE</p>
-<ol>
-<li>Get the top three loyal customers</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
-<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
-<p>you can use JOIN to catch the relation between to tables;</p>
-<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
-<p>we can use alias to simplify the query.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
-<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
-<p>how to combine columns from tables in multiple databases ?</p>
-<p>Using database combines with sql_inventory database.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
-<p>the query will be different depending on the database</p>
-<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
-<p>In sql we can join tables with itself.</p>
-<p>In database sql_hr we have a table named employees.</p>
-<p>Now we need select each employee and their manager.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
-<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
-<p><strong>Exercise</strong></p>
-<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
-<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
-<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
-<p>we have mutiple conditions to join these two tables</p>
-<p>e.g.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
-<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
-<p>In Mysql we can use simple query to instead Join condition.</p>
-<p>for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【信息安全数学基础】 群</title>
-    <url>/2021/01/30/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E3%80%91-%E7%BE%A4/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="第六章-群"><a class="header-anchor" href="#第六章-群">¶</a>第六章 群</h1>
-<h2 id="群的定义"><a class="header-anchor" href="#群的定义">¶</a>群的定义</h2>
-<p>设三元组(G, ,1)中G为集合,・为集G上的二元运算,1为G中一个元。 若(G,1)满足:</p>
-<ul>
-<li>G1(乘法结合律):a・(b・c)=(a・b)・c,a,b,c∈G</li>
-<li>G2(単位元):1・a=a・1=a,a∈G</li>
-<li>G3(逆元):对a∈G,有a’∈G使得a・a=a’:a=1</li>
-</ul>
-<p>则称G1)为群,简称群G,1称为群G的单位元,d’称为a的逆元。</p>
-<p>若(G, ,1)还满足G4(交换律):a・b=b・a,a,b∈G,则称G为<strong>交换群。</strong></p>
-<p>若(G, ,1)仅满足G1,G2,则称G为有单位元的半群。</p>
-<p>若(G, ,1)满足G1,G2,G4,则称G为有单位元的交换半群。</p>
-<p><strong>例(希尔密码)</strong><br>
-在希尔密码( Hill Cipher)中加密变换为：</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>y</mi><mn>1</mn></msub><msub><mi>y</mi><mn>2</mn></msub><mo>…</mo><msub><mi>y</mi><mi>m</mi></msub><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>…</mo><mo>…</mo><msub><mi>x</mi><mi>m</mi></msub><mo stretchy="false">)</mo><mi>M</mi><mtext> </mtext><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mn>26</mn></mrow><annotation encoding="application/x-tex">(y_1y_2…y_m)=(x_1x_2……x_m) M\ mod\ 26
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace"> </span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord">2</span><span class="mord">6</span></span></span></span></span></p>
-<p>这里密钥<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>∈</mo><mi>G</mi><msub><mi>L</mi><mi>m</mi></msub><mrow><mo fence="true">(</mo><msub><mi>Z</mi><mn>26</mn></msub><mo fence="true">)</mo></mrow><mo separator="true">,</mo><msub><mi>x</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>y</mi><mi>i</mi></msub><mo>∈</mo><msub><mi>Z</mi><mn>26</mn></msub><mo separator="true">,</mo><msub><mi>Z</mi><mn>26</mn></msub><mo>=</mo><mo stretchy="false">{</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><mn>25</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">M \in G L_{m}\left(Z_{26}\right), x_{i}, y_{i} \in Z_{26}, Z_{26}=\{0,1, \cdots, 25\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">G</span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">6</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">6</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">6</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mord">5</span><span class="mclose">}</span></span></span></span>,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">x_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为明 文,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">y_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为密文。</p>
-<p>字母AB・Z分别对应0,1,25,加密前先将明文字母串变换为Z26上的数字串,然后再按上述表达式每次m个数字的将明文数字串变换为密文数字串,最后将密文数字串变换为密文字母串。</p>
-<h2 id="子群"><a class="header-anchor" href="#子群">¶</a>子群</h2>
-<p>定义：设(G, ,1)为群,A为G的子集合。若1∈A且(A, ,1)构成群,则 称A为G的子群,并记为A&lt;G。</p>
-<p><strong>如何证明是不是子群？</strong></p>
-<p>例：证明<code>nZ=&#123;0,士m,士2n…&#125;</code>为整数群(Z,+,0)的子群。</p>
-<p>证:</p>
-<ol>
-<li>
-<p>证明是不是子集合：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>Z</mi><mo>⊆</mo><mi>Z</mi></mrow><annotation encoding="application/x-tex">n Z \subseteq Z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span></span></span></span></p>
-</li>
-<li>
-<p>0∈A</p>
-</li>
-<li>
-<p>证明(nZ,+,0)为一个群</p>
-</li>
-</ol>
-<h2 id="循环群"><a class="header-anchor" href="#循环群">¶</a>循环群</h2>
-<p>定义：若群G的每一个元都能表成一个元素a的方幂,则G称为由a生成的循环 群,记作G=&lt;a&gt;,a称为循环群G的生成元。</p>
-<p>根据元素的阶的性质,循环群G=&lt;a&gt;共有两种类型:</p>
-<ul>
-<li>当生成元a是无限阶元素时,则G称为无限阶循环群。</li>
-<li>如果a的阶为n,即an=1,那么这时G=&lt;a&gt;=&lt;1,a,a2,a&quot;-l&gt;,则G称为由a所生成的m阶循 环群,注意此时1,a,2,…,an-两两不同。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>信息安全数学基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【English】六级备考资料</title>
     <url>/2021/05/04/%E3%80%90English%E3%80%91%E5%85%AD%E7%BA%A7%E5%A4%87%E8%80%83%E8%B5%84%E6%96%99/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>coronaPolvo 在这里许个愿望，希望2021年6月份的六级考试可以过</p>
@@ -1074,6 +1022,58 @@ These funds are used to improve educational facilities, purchase books and more 
       </categories>
       <tags>
         <tag>English</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【信息安全数学基础】 群</title>
+    <url>/2021/01/30/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E3%80%91-%E7%BE%A4/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="第六章-群"><a class="header-anchor" href="#第六章-群">¶</a>第六章 群</h1>
+<h2 id="群的定义"><a class="header-anchor" href="#群的定义">¶</a>群的定义</h2>
+<p>设三元组(G, ,1)中G为集合,・为集G上的二元运算,1为G中一个元。 若(G,1)满足:</p>
+<ul>
+<li>G1(乘法结合律):a・(b・c)=(a・b)・c,a,b,c∈G</li>
+<li>G2(単位元):1・a=a・1=a,a∈G</li>
+<li>G3(逆元):对a∈G,有a’∈G使得a・a=a’:a=1</li>
+</ul>
+<p>则称G1)为群,简称群G,1称为群G的单位元,d’称为a的逆元。</p>
+<p>若(G, ,1)还满足G4(交换律):a・b=b・a,a,b∈G,则称G为<strong>交换群。</strong></p>
+<p>若(G, ,1)仅满足G1,G2,则称G为有单位元的半群。</p>
+<p>若(G, ,1)满足G1,G2,G4,则称G为有单位元的交换半群。</p>
+<p><strong>例(希尔密码)</strong><br>
+在希尔密码( Hill Cipher)中加密变换为：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>y</mi><mn>1</mn></msub><msub><mi>y</mi><mn>2</mn></msub><mo>…</mo><msub><mi>y</mi><mi>m</mi></msub><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>…</mo><mo>…</mo><msub><mi>x</mi><mi>m</mi></msub><mo stretchy="false">)</mo><mi>M</mi><mtext> </mtext><mi>m</mi><mi>o</mi><mi>d</mi><mtext> </mtext><mn>26</mn></mrow><annotation encoding="application/x-tex">(y_1y_2…y_m)=(x_1x_2……x_m) M\ mod\ 26
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace"> </span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace"> </span><span class="mord">2</span><span class="mord">6</span></span></span></span></span></p>
+<p>这里密钥<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>∈</mo><mi>G</mi><msub><mi>L</mi><mi>m</mi></msub><mrow><mo fence="true">(</mo><msub><mi>Z</mi><mn>26</mn></msub><mo fence="true">)</mo></mrow><mo separator="true">,</mo><msub><mi>x</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>y</mi><mi>i</mi></msub><mo>∈</mo><msub><mi>Z</mi><mn>26</mn></msub><mo separator="true">,</mo><msub><mi>Z</mi><mn>26</mn></msub><mo>=</mo><mo stretchy="false">{</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><mn>25</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">M \in G L_{m}\left(Z_{26}\right), x_{i}, y_{i} \in Z_{26}, Z_{26}=\{0,1, \cdots, 25\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">G</span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">6</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">6</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">6</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mord">5</span><span class="mclose">}</span></span></span></span>,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">x_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为明 文,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">y_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为密文。</p>
+<p>字母AB・Z分别对应0,1,25,加密前先将明文字母串变换为Z26上的数字串,然后再按上述表达式每次m个数字的将明文数字串变换为密文数字串,最后将密文数字串变换为密文字母串。</p>
+<h2 id="子群"><a class="header-anchor" href="#子群">¶</a>子群</h2>
+<p>定义：设(G, ,1)为群,A为G的子集合。若1∈A且(A, ,1)构成群,则 称A为G的子群,并记为A&lt;G。</p>
+<p><strong>如何证明是不是子群？</strong></p>
+<p>例：证明<code>nZ=&#123;0,士m,士2n…&#125;</code>为整数群(Z,+,0)的子群。</p>
+<p>证:</p>
+<ol>
+<li>
+<p>证明是不是子集合：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>Z</mi><mo>⊆</mo><mi>Z</mi></mrow><annotation encoding="application/x-tex">n Z \subseteq Z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span></span></span></span></p>
+</li>
+<li>
+<p>0∈A</p>
+</li>
+<li>
+<p>证明(nZ,+,0)为一个群</p>
+</li>
+</ol>
+<h2 id="循环群"><a class="header-anchor" href="#循环群">¶</a>循环群</h2>
+<p>定义：若群G的每一个元都能表成一个元素a的方幂,则G称为由a生成的循环 群,记作G=&lt;a&gt;,a称为循环群G的生成元。</p>
+<p>根据元素的阶的性质,循环群G=&lt;a&gt;共有两种类型:</p>
+<ul>
+<li>当生成元a是无限阶元素时,则G称为无限阶循环群。</li>
+<li>如果a的阶为n,即an=1,那么这时G=&lt;a&gt;=&lt;1,a,a2,a&quot;-l&gt;,则G称为由a所生成的m阶循 环群,注意此时1,a,2,…,an-两两不同。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>信息安全数学基础</tag>
       </tags>
   </entry>
   <entry>
@@ -2038,189 +2038,6 @@ XSS注入代码如下：<br>
       </tags>
   </entry>
   <entry>
-    <title>【白帽子学习笔记】网络嗅探与身份验证</title>
-    <url>/2020/11/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E5%97%85%E6%8E%A2%E4%B8%8E%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>@一个在写实验报告的人，/(ㄒoㄒ)/~~</p>
-<h1 id="0x01-网络嗅探相关概念"><a class="header-anchor" href="#0x01-网络嗅探相关概念">¶</a>0x01 网络嗅探相关概念</h1>
-<h2 id="1x01-网络嗅探概述"><a class="header-anchor" href="#1x01-网络嗅探概述">¶</a>1x01 网络嗅探概述</h2>
-<p>Sniffer（嗅探器）工作在OSI模型的第二层，利用计算机的网卡截获网络数据报文的一种工具，<strong>可用来监听网络中的数据，分析网络的流量，以便找出所关心的网络中潜在的问题</strong>。例如,假设网络的某一段运行得不是很好,报文的发送比较慢,而我们又不知道问题出在什么地方,此时就可以用嗅探器确定不同网络协议、不同用户的通信流量，相互主机的报文传送间隔时间等，这些信息为管理员判断网络问题、管理网络区域提供了非常宝贵的信息。<br>
-在正常情况下，一个合法的网络接口应该只响应这样的两种数据帧：</p>
-<ul>
-<li>帧的目标区域具有和本地网络接口相匹配的硬件地址；</li>
-<li>帧的目标区域具有“广播地址”。</li>
-</ul>
-<span id="more"></span>
-<p>如果网卡处于混杂（promiscuous）模式，那么它就可以捕获网络上所有的数据帧，处于对网络的“监听”状态，如果一台机器被配置成这样的方式，它（包括其软件）就是一个嗅探器。<br>
-在交换型以太网中，上述条件2是不满足的。所有的主机连接到SWITCH，<strong>SWITCH比HUB更聪明</strong>，它知道每台计算机的MAC地址信息和与之相连的特定端口，发给某个主机的数据包会被SWITCH从特定的端口送出，而不是象HUB那样，广播给网络上所有的机器。这种传输形式使交换型以太网的性能大大提高，同时还有一个附加的作用：使传统的嗅探器无法工作。<br>
-交换型网络环境嗅探的核心问题是：如何使本不应到达的数据包到达本地。通常的方法有<strong>MAC洪水包和ARP欺骗</strong>。其中MAC洪水包是向交换机发送大量含有虚构MAC地址和IP地址的IP包，使交换机无法处理如此多的信息，致使交换机就进入了所谓的&quot;打开失效&quot;模式，也就是开始了类似于集线器的工作方式，向网络上所有的机器广播数据包。</p>
-<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
-<p>每一个主机都有一个ARP高速缓存，此缓存中记录了最近一段时间内其它IP地址与其MAC地址的对应关系。如果本机想与某台主机通信，则首先在ARP高速缓存中查找此台主机的IP和MAC信息，如果存在，则直接利用此MAC地址构造以太帧；如果不存在，则向本网络上每一个主机广播一个ARP请求报文，其意义是&quot;如果你有此IP地址，请告诉我你的MAC地址&quot;，目的主机收到此请求包后，发送一个ARP响应报文，本机收到此响应后，把相关信息记录在ARP高速缓存中，以下的步骤同上。<br>
-<strong>ARP报文格式：</strong><br>
-<img src="https://img-blog.csdnimg.cn/20201104213312881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>可以看出，ARP协议是有缺点的，第三方主机可以构造一个ARP欺骗报文，而源主机却无法分辨真假。如果发送者硬件地址字段填入攻击者的硬件地址，而发送者IP地址填入被假冒者的IP地址，那么就构造出了一个用于欺骗的ARP请求报文。那么被欺骗主机的ARP高速缓存，被假冒者的IP地址与其MAC地址的对应关系就会更改为欺骗者的，从而达到ARP欺骗的目的。特别的，如果攻击者冒充网关，将转发子网内到外网的所有通信量，以达到捕获其他主机的通信量，从而破坏数据传输的保密性。</p>
-<h2 id="1x03-密码安全"><a class="header-anchor" href="#1x03-密码安全">¶</a>1x03 密码安全</h2>
-<p>在现实网络中，攻击事件发生的频率越来越高，其中相当多的都是由于网站密码泄露的缘故，或是人为因素导致，或是口令遭到破解，所以从某种角度而言，密码的安全问题不仅仅是技术上的问题，更主要的是人的安全意识问题。</p>
-<ul>
-<li>口令破解方法<br>
-口令破解主要有两种方法：字典破解和暴力破解。<br>
-字典破解是指通过破解者对管理员的了解，猜测其可能使用某些信息作为密码，例如其姓名、生日、电话号码等，同时结合对密码长度的猜测，利用工具来生成密码破解字典。如果相关信息设置准确，字典破解的成功率很高，并且其速度快，因此字典破解是密码破解的首选。<br>
-而暴力破解是指对密码可能使用的字符和长度进行设定后（例如限定为所有英文字母和所有数字，长度不超过8），对所有可能的密码组合逐个实验。随着可能字符和可能长度的增加，存在的密码组合数量也会变得非常庞大，因此暴力破解往往需要花费很长的时间，尤其是在密码长度大于10，并且包含各种字符（英文字母、数字和标点符号）的情况下。</li>
-<li><strong>口令破解方式</strong><br>
-口令破解主要有两种方式：离线破解和在线破解。<br>
-离线破解攻击者得到目标主机存放密码的文件后，就可以脱离目标主机，在其他计算机上通过口令破解程序穷举各种可能的口令，如果计算出的新密码与密码文件存放的密码相同，则口令已被破解。</li>
-<li><strong>候选口令产生器</strong><br>
-候选口令产生器的作用是不断生成可能的口令。有几种方法产生候选口令，一种是用枚举法来构造候选口令（暴力破解），另一种方法是从一个字典文件里读取候选口令（字典破解）。</li>
-<li><strong>口令加密</strong><br>
-口令加密过程就是用加密算法对从口令候选器送来的候选口令进行加密运算而得到密码。这要求加密算法要采用和目标主机一致的加密算法。加密算法有很多种，通常与操作系统或应用程序的类型和版本相关。<br>
-Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工具使用Java编写，由PortSwigger Security开发。该工具有两个版本。可免费下载的免费版（免费版）和试用期后可购买的完整版（专业版）。免费版本功能显着降低。它的开发旨在为Web应用程序安全检查提供全面的解决方案，Burp Suite是进行Web应用安全测试集成平台。它将各种安全工具无缝地融合在一起，以支持整个测试过程中，从最初的映射和应用程序的攻击面分析，到发现和利用安全漏洞。</li>
-</ul>
-<h1 id="0x02-网络嗅探部分"><a class="header-anchor" href="#0x02-网络嗅探部分">¶</a>0x02 网络嗅探部分</h1>
-<p><img src="https://img-blog.csdnimg.cn/20201104213552527.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x01-sinffer-wireshark抓包"><a class="header-anchor" href="#1x01-sinffer-wireshark抓包">¶</a>1x01 sinffer（Wireshark抓包）</h2>
-<p>A主机上外网，B运行sinffer(Wireshark)选定只抓源为A的数据)。</p>
-<p>我们选择Metasploit2主机作为A，Kali作为B。首先我们需要确认kali和Windows处于同一网段（可相互ping通的状态)。<strong>（PS：这一步是使用的Metasploit2，后面因为需要到网页里面提交数据就换成了win7）</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201104223018979.png#pic_center" alt="在这里插入图片描述"><br>
-接下来在kali中打开Wireshark，如果想要抓源只为A的数据，那么过滤语句为：<br>
-<code>ip.src == 10.34.80.4</code><br>
-接下来我们使用A去ping B观察一下wireshark的反应。<br>
-<img src="https://img-blog.csdnimg.cn/20201104224124598.png#pic_center" alt="在这里插入图片描述"></p>
-<p>但是如果A ping的是百度，或者往某一个网址发送包含账号和密码的HTTP报文。就可以获取相应信息。</p>
-<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
-<p>关于ARP的原理已经攻击原理我在以前的一篇博客中有写到：<br>
-<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/109270741">【白帽子学习笔记20】arp协议原理与攻击应用</a></p>
-<p>为了欺骗B，让B把报文全部发到A这里来。A需要冒充局域网中交换机的角色。<strong>（此时B为Win7主机）</strong><br>
-这一步我们需要使用一个工具就是<strong>arpspoof</strong>。在安装这个包的过程中可能会遇到一些坑。下面记录一下我遇到的一些问题。</p>
-<ul>
-<li>建议更换kali源，否则有可能出现找不到的情况</li>
-<li>安装过程使用<code>sudo apt-get install dsniff</code>而不是直接install arpspoof</li>
-</ul>
-<p>这里我们使用单向攻击：<br>
-受攻击主机将数据发送到攻击主机，并由攻击主机转发至网关，网关将数据发送至服务器，服务器返回数据给网关，网关返回数据给受攻击主机</p>
-<p><strong>步骤如下：</strong></p>
-<ol>
-<li>
-<p>开启端口转发，允许本机像路由器那样转发数据包<br>
-<code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code></p>
-</li>
-<li>
-<p>ARP投毒，向主机B声称自己(攻击者)就是网关<br>
-<code>arpspoof -i eth0 -t IP1 IP2</code>(IP1是我们的攻击目标、IP2是网关IP地址)<br>
-首先确认Win7的IP地址，然后确认网关地址。<br>
-<img src="https://img-blog.csdnimg.cn/20201105002023834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-接下来查询网关：<br>
-<img src="https://img-blog.csdnimg.cn/20201105002519492.png#pic_center" alt="在这里插入图片描述"></p>
-</li>
-<li>
-<p>wireshark抓包分析</p>
-</li>
-</ol>
-<p>我们使用<strong>Win7</strong>尝试访问一下百度。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105002841512.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-接下来到wireshark里面看一下。修改wireshark的筛选规则为<code>ip.src == 10.34.80.3</code>。结果可以看到成功抓取到了数据！<br>
-<img src="https://img-blog.csdnimg.cn/20201105003005214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-接下来我们选择一个网站输入以下账号密码。就选择大家&quot;最爱&quot;的X班吧. 我记得他的信息上传是没有加密的。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105074044844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>点击登陆；<br>
-之后在wireshark里查找发送到易班服务器的http post包。<br>
-<img src="https://img-blog.csdnimg.cn/20201105005514496.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-但是最后发现某班的密码是加密发送的，所以账号密码信息还是不能获得。但是可以从包里面获取到cookie信息，这样再通过Chrome修改cookie的插件就可以完成免密登陆。</p>
-<p><strong>由于没有完成任务，我们切换到某大学的学生选课系统的登陆界面。</strong><br>
-<img src="https://img-blog.csdnimg.cn/20201105012215269.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-经过相同的操作之后抓到了包。<br>
-<img src="https://img-blog.csdnimg.cn/20201105012432476.png#pic_center" alt="在这里插入图片描述"><br>
-在数据报里面成功的发现我过程输入的账号和密码的明文信息。<br>
-<img src="https://img-blog.csdnimg.cn/20201105012544392.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x03-wireshark分析文件"><a class="header-anchor" href="#1x03-wireshark分析文件">¶</a>1x03 WireShark分析文件</h2>
-<p><strong>1.如何发现有FTP服务器？且找到FTP服务器的IP地址？</strong></p>
-<p>通过观察流量数据，可以发现有大量基于FTP协议传输的数据库，所以推测有FTP服务器。<br>
-<img src="https://img-blog.csdnimg.cn/20201105013341403.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-通过对部分数据包的分析，比如如下两个：<br>
-<img src="https://img-blog.csdnimg.cn/20201105013424449.png#pic_center" alt="在这里插入图片描述"><br>
-可以知道192.168.182.1是FTP文件服务器。</p>
-<p><strong>2.客户端登陆FTP服务器的账号和密码分别是什么？</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201105013714892.png#pic_center" alt="在这里插入图片描述"><br>
-通过这两个数据包可以确定服务器的账号和密码。</p>
-<p><strong>3.客户端从FTP下载或查看了2个文件，一个是zip文件，一个是txt文件，文件名分别是什么？</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201105013929225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-在数据包中可以发现，用户分别查看了1.zip 和 复习题.txt</p>
-<p><strong>4.还原ZIP文件并打开</strong></p>
-<p>这里我们需要知道的一个知识是对FTP服务器的操作虽然是基于FTP协议解决的，但是真正在下载文件的时候还是使用tcp协议。所以需要zip数据包的时候需要在TCP数据包里面找，可以根据zip文件的文件头和文件尾快速的确认zip包的位置。<br>
-<img src="https://img-blog.csdnimg.cn/20201105023108818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-将<strong>原始数据</strong>另存为a.zip, 可以得到一个正常的压缩包，但是有密码。<br>
-<img src="https://img-blog.csdnimg.cn/20201105023432708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-我们使用kali下的fcrakzip密码破解工具，对zip进行破解。先<code>sudo apt-get install fcrackzip</code>安装</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105024450191.png#pic_center" alt="在这里插入图片描述"><br>
-破解命令 <code>fcrackzip -b -c1 -l 6 -u a.zip</code> 接下来解释一下这个命令。</p>
-<ul>
-<li>-b：使用暴力模式</li>
-<li>-c1：使用纯数字进行破解</li>
-<li>-l：规定破解密码长度/范围</li>
-<li>-u：使用unzip</li>
-</ul>
-<p>最后得到了我们的小企鹅。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105024802841.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p><strong>5.TXT的内容是什么？</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201105024939728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-通过追踪TXT信息，可以确定文件内容如下：<br>
-<img src="https://img-blog.csdnimg.cn/20201105025003861.png#pic_center" alt="在这里插入图片描述"><br>
-<strong>6. 网站密码破解部分：</strong></p>
-<p>为了合法的完成渗透测试报告，我们选择Bugku中一道需要运用到暴力破解的题目为例，解析一下如何运用Burp Suite爆破一个网站。</p>
-<p>网站网址: <a href="http://123.206.87.240:8002/baopo/">http://123.206.87.240:8002/baopo/</a><br>
-<img src="https://img-blog.csdnimg.cn/20200812135204959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>看到这个5位的密码，在检查源码和抓包之后都没有发现什么端倪，尝试bp一波</p>
-<p>这里想尝试一下5位数字，5位字母需要的时间太长了. 使用BP自带的字典就可以满足我们的需求<br>
-<img src="https://img-blog.csdnimg.cn/20200812135925759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-这里可以根据Length的大小来判断时候爆破出密码，密码正确和密码错误的返回长度肯定是不一样的。<br>
-<img src="https://img-blog.csdnimg.cn/20200812141849955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-爆破成功啦！<br>
-<img src="https://img-blog.csdnimg.cn/20200812141942854.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-md5破解"><a class="header-anchor" href="#1x04-md5破解">¶</a>1x04 MD5破解</h2>
-<p>打开一个在线md5解密网站就可以解开简单的md5码。<br>
-<img src="https://img-blog.csdnimg.cn/20201105025933699.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x05-john-the-ripper"><a class="header-anchor" href="#1x05-john-the-ripper">¶</a>1x05 John the Ripper</h2>
-<p>John the Ripper 是一款速度很快的密码破解工具，目前可用于 Unix、macOS、Windows、DOS、BeOS 与 OpenVMS 等多种操作系统。最初其主要目的是检测弱 Unix 密码，而现在，除了支持许多 Unix crypt(3) 密码哈希类型，John the Ripper “-jumbo”版本还支持数百种其它哈希类型和密码。</p>
-<h1 id="0x03-做有所得"><a class="header-anchor" href="#0x03-做有所得">¶</a>0x03 做有所得</h1>
-<h2 id="1x01-如何防止arp攻击"><a class="header-anchor" href="#1x01-如何防止arp攻击">¶</a>1x01 如何防止ARP攻击</h2>
-<ul>
-<li>
-<p>终端对网关的绑定要坚实可靠，这个绑定能够抵制被病毒捣毁。</p>
-</li>
-<li>
-<p>接入路由器或网关要对下面终端IP-MAC的识别始终保证唯一准确。</p>
-</li>
-<li>
-<p>网络内要有一个最可依赖的机构，提供对网关IP-MAC最强大的保护。它既能够分发正确的网关信息，又能够对出现的假网关信息立即封杀。</p>
-</li>
-</ul>
-<h2 id="1x02-安全的密码-口令-应遵守的原则"><a class="header-anchor" href="#1x02-安全的密码-口令-应遵守的原则">¶</a>1x02 安全的密码（口令）应遵守的原则</h2>
-<ul>
-<li>避免出现弱密码</li>
-<li>记住的密码才是好密码</li>
-<li>每个平台密码最好能够有一定的区别</li>
-</ul>
-<h2 id="1x03-字典的重要性"><a class="header-anchor" href="#1x03-字典的重要性">¶</a>1x03 字典的重要性</h2>
-<p>在破解密码或密钥时，逐一尝试用户自定义词典中的可能密码（单词或短语）的攻击方式。与暴力破解的区别是，暴力破解会逐一尝试所有可能的组合密码，而字典式攻击会使用一个预先定义好的单词列表（可能的密码）。对于暴力破解<strong>社会工程学</strong>是经常用到的方法。根据社会工程学生成的字典可以极大的增大密码破译的成功率。</p>
-<h2 id="1x04-小结"><a class="header-anchor" href="#1x04-小结">¶</a>1x04 小结</h2>
-<p>通过本次的实验我们学习到了以下内容：</p>
-<ul>
-<li>什么是网络嗅探</li>
-<li>ARP协议原理</li>
-<li>FTP协议</li>
-<li>如何使用WireShark抓包并对数据包进行分析</li>
-<li>MD5加密方式</li>
-<li>如何使用密码字典爆破数据</li>
-<li>密码安全</li>
-</ul>
-<p>通过这次的实验我对网络嗅探有了比较充分的了解，对网络中的协议如ARP，FTP等又有了更深的了解。可以更加熟练的使用WireShark, 了解了暴力破解网站和压缩文件的基本操作。以及对于密码安全防护的意识加强。<strong>收益良多</strong></p>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>security</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【白帽子学习笔记】加油NPT</title>
     <url>/2020/12/06/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8A%A0%E6%B2%B9NPT/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="白帽子学习笔记-加油npt"><a class="header-anchor" href="#白帽子学习笔记-加油npt">¶</a>【白帽子学习笔记】加油NPT</h1>
@@ -2416,6 +2233,189 @@ Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工�
 <li><a href="https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities"><strong>Using Components with Known Vulnerabilities</strong></a>. Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts.</li>
 <li><a href="https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%26Monitoring"><strong>Insufficient Logging &amp; Monitoring</strong></a>. Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data. Most breach studies show time to detect a breach is over 200 days, typically detected by external parties rather than internal processes or monitoring.</li>
 </ol>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【白帽子学习笔记】网络嗅探与身份验证</title>
+    <url>/2020/11/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E5%97%85%E6%8E%A2%E4%B8%8E%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>@一个在写实验报告的人，/(ㄒoㄒ)/~~</p>
+<h1 id="0x01-网络嗅探相关概念"><a class="header-anchor" href="#0x01-网络嗅探相关概念">¶</a>0x01 网络嗅探相关概念</h1>
+<h2 id="1x01-网络嗅探概述"><a class="header-anchor" href="#1x01-网络嗅探概述">¶</a>1x01 网络嗅探概述</h2>
+<p>Sniffer（嗅探器）工作在OSI模型的第二层，利用计算机的网卡截获网络数据报文的一种工具，<strong>可用来监听网络中的数据，分析网络的流量，以便找出所关心的网络中潜在的问题</strong>。例如,假设网络的某一段运行得不是很好,报文的发送比较慢,而我们又不知道问题出在什么地方,此时就可以用嗅探器确定不同网络协议、不同用户的通信流量，相互主机的报文传送间隔时间等，这些信息为管理员判断网络问题、管理网络区域提供了非常宝贵的信息。<br>
+在正常情况下，一个合法的网络接口应该只响应这样的两种数据帧：</p>
+<ul>
+<li>帧的目标区域具有和本地网络接口相匹配的硬件地址；</li>
+<li>帧的目标区域具有“广播地址”。</li>
+</ul>
+<span id="more"></span>
+<p>如果网卡处于混杂（promiscuous）模式，那么它就可以捕获网络上所有的数据帧，处于对网络的“监听”状态，如果一台机器被配置成这样的方式，它（包括其软件）就是一个嗅探器。<br>
+在交换型以太网中，上述条件2是不满足的。所有的主机连接到SWITCH，<strong>SWITCH比HUB更聪明</strong>，它知道每台计算机的MAC地址信息和与之相连的特定端口，发给某个主机的数据包会被SWITCH从特定的端口送出，而不是象HUB那样，广播给网络上所有的机器。这种传输形式使交换型以太网的性能大大提高，同时还有一个附加的作用：使传统的嗅探器无法工作。<br>
+交换型网络环境嗅探的核心问题是：如何使本不应到达的数据包到达本地。通常的方法有<strong>MAC洪水包和ARP欺骗</strong>。其中MAC洪水包是向交换机发送大量含有虚构MAC地址和IP地址的IP包，使交换机无法处理如此多的信息，致使交换机就进入了所谓的&quot;打开失效&quot;模式，也就是开始了类似于集线器的工作方式，向网络上所有的机器广播数据包。</p>
+<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
+<p>每一个主机都有一个ARP高速缓存，此缓存中记录了最近一段时间内其它IP地址与其MAC地址的对应关系。如果本机想与某台主机通信，则首先在ARP高速缓存中查找此台主机的IP和MAC信息，如果存在，则直接利用此MAC地址构造以太帧；如果不存在，则向本网络上每一个主机广播一个ARP请求报文，其意义是&quot;如果你有此IP地址，请告诉我你的MAC地址&quot;，目的主机收到此请求包后，发送一个ARP响应报文，本机收到此响应后，把相关信息记录在ARP高速缓存中，以下的步骤同上。<br>
+<strong>ARP报文格式：</strong><br>
+<img src="https://img-blog.csdnimg.cn/20201104213312881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>可以看出，ARP协议是有缺点的，第三方主机可以构造一个ARP欺骗报文，而源主机却无法分辨真假。如果发送者硬件地址字段填入攻击者的硬件地址，而发送者IP地址填入被假冒者的IP地址，那么就构造出了一个用于欺骗的ARP请求报文。那么被欺骗主机的ARP高速缓存，被假冒者的IP地址与其MAC地址的对应关系就会更改为欺骗者的，从而达到ARP欺骗的目的。特别的，如果攻击者冒充网关，将转发子网内到外网的所有通信量，以达到捕获其他主机的通信量，从而破坏数据传输的保密性。</p>
+<h2 id="1x03-密码安全"><a class="header-anchor" href="#1x03-密码安全">¶</a>1x03 密码安全</h2>
+<p>在现实网络中，攻击事件发生的频率越来越高，其中相当多的都是由于网站密码泄露的缘故，或是人为因素导致，或是口令遭到破解，所以从某种角度而言，密码的安全问题不仅仅是技术上的问题，更主要的是人的安全意识问题。</p>
+<ul>
+<li>口令破解方法<br>
+口令破解主要有两种方法：字典破解和暴力破解。<br>
+字典破解是指通过破解者对管理员的了解，猜测其可能使用某些信息作为密码，例如其姓名、生日、电话号码等，同时结合对密码长度的猜测，利用工具来生成密码破解字典。如果相关信息设置准确，字典破解的成功率很高，并且其速度快，因此字典破解是密码破解的首选。<br>
+而暴力破解是指对密码可能使用的字符和长度进行设定后（例如限定为所有英文字母和所有数字，长度不超过8），对所有可能的密码组合逐个实验。随着可能字符和可能长度的增加，存在的密码组合数量也会变得非常庞大，因此暴力破解往往需要花费很长的时间，尤其是在密码长度大于10，并且包含各种字符（英文字母、数字和标点符号）的情况下。</li>
+<li><strong>口令破解方式</strong><br>
+口令破解主要有两种方式：离线破解和在线破解。<br>
+离线破解攻击者得到目标主机存放密码的文件后，就可以脱离目标主机，在其他计算机上通过口令破解程序穷举各种可能的口令，如果计算出的新密码与密码文件存放的密码相同，则口令已被破解。</li>
+<li><strong>候选口令产生器</strong><br>
+候选口令产生器的作用是不断生成可能的口令。有几种方法产生候选口令，一种是用枚举法来构造候选口令（暴力破解），另一种方法是从一个字典文件里读取候选口令（字典破解）。</li>
+<li><strong>口令加密</strong><br>
+口令加密过程就是用加密算法对从口令候选器送来的候选口令进行加密运算而得到密码。这要求加密算法要采用和目标主机一致的加密算法。加密算法有很多种，通常与操作系统或应用程序的类型和版本相关。<br>
+Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工具使用Java编写，由PortSwigger Security开发。该工具有两个版本。可免费下载的免费版（免费版）和试用期后可购买的完整版（专业版）。免费版本功能显着降低。它的开发旨在为Web应用程序安全检查提供全面的解决方案，Burp Suite是进行Web应用安全测试集成平台。它将各种安全工具无缝地融合在一起，以支持整个测试过程中，从最初的映射和应用程序的攻击面分析，到发现和利用安全漏洞。</li>
+</ul>
+<h1 id="0x02-网络嗅探部分"><a class="header-anchor" href="#0x02-网络嗅探部分">¶</a>0x02 网络嗅探部分</h1>
+<p><img src="https://img-blog.csdnimg.cn/20201104213552527.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x01-sinffer-wireshark抓包"><a class="header-anchor" href="#1x01-sinffer-wireshark抓包">¶</a>1x01 sinffer（Wireshark抓包）</h2>
+<p>A主机上外网，B运行sinffer(Wireshark)选定只抓源为A的数据)。</p>
+<p>我们选择Metasploit2主机作为A，Kali作为B。首先我们需要确认kali和Windows处于同一网段（可相互ping通的状态)。<strong>（PS：这一步是使用的Metasploit2，后面因为需要到网页里面提交数据就换成了win7）</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201104223018979.png#pic_center" alt="在这里插入图片描述"><br>
+接下来在kali中打开Wireshark，如果想要抓源只为A的数据，那么过滤语句为：<br>
+<code>ip.src == 10.34.80.4</code><br>
+接下来我们使用A去ping B观察一下wireshark的反应。<br>
+<img src="https://img-blog.csdnimg.cn/20201104224124598.png#pic_center" alt="在这里插入图片描述"></p>
+<p>但是如果A ping的是百度，或者往某一个网址发送包含账号和密码的HTTP报文。就可以获取相应信息。</p>
+<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
+<p>关于ARP的原理已经攻击原理我在以前的一篇博客中有写到：<br>
+<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/109270741">【白帽子学习笔记20】arp协议原理与攻击应用</a></p>
+<p>为了欺骗B，让B把报文全部发到A这里来。A需要冒充局域网中交换机的角色。<strong>（此时B为Win7主机）</strong><br>
+这一步我们需要使用一个工具就是<strong>arpspoof</strong>。在安装这个包的过程中可能会遇到一些坑。下面记录一下我遇到的一些问题。</p>
+<ul>
+<li>建议更换kali源，否则有可能出现找不到的情况</li>
+<li>安装过程使用<code>sudo apt-get install dsniff</code>而不是直接install arpspoof</li>
+</ul>
+<p>这里我们使用单向攻击：<br>
+受攻击主机将数据发送到攻击主机，并由攻击主机转发至网关，网关将数据发送至服务器，服务器返回数据给网关，网关返回数据给受攻击主机</p>
+<p><strong>步骤如下：</strong></p>
+<ol>
+<li>
+<p>开启端口转发，允许本机像路由器那样转发数据包<br>
+<code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code></p>
+</li>
+<li>
+<p>ARP投毒，向主机B声称自己(攻击者)就是网关<br>
+<code>arpspoof -i eth0 -t IP1 IP2</code>(IP1是我们的攻击目标、IP2是网关IP地址)<br>
+首先确认Win7的IP地址，然后确认网关地址。<br>
+<img src="https://img-blog.csdnimg.cn/20201105002023834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+接下来查询网关：<br>
+<img src="https://img-blog.csdnimg.cn/20201105002519492.png#pic_center" alt="在这里插入图片描述"></p>
+</li>
+<li>
+<p>wireshark抓包分析</p>
+</li>
+</ol>
+<p>我们使用<strong>Win7</strong>尝试访问一下百度。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105002841512.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+接下来到wireshark里面看一下。修改wireshark的筛选规则为<code>ip.src == 10.34.80.3</code>。结果可以看到成功抓取到了数据！<br>
+<img src="https://img-blog.csdnimg.cn/20201105003005214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+接下来我们选择一个网站输入以下账号密码。就选择大家&quot;最爱&quot;的X班吧. 我记得他的信息上传是没有加密的。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105074044844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>点击登陆；<br>
+之后在wireshark里查找发送到易班服务器的http post包。<br>
+<img src="https://img-blog.csdnimg.cn/20201105005514496.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+但是最后发现某班的密码是加密发送的，所以账号密码信息还是不能获得。但是可以从包里面获取到cookie信息，这样再通过Chrome修改cookie的插件就可以完成免密登陆。</p>
+<p><strong>由于没有完成任务，我们切换到某大学的学生选课系统的登陆界面。</strong><br>
+<img src="https://img-blog.csdnimg.cn/20201105012215269.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+经过相同的操作之后抓到了包。<br>
+<img src="https://img-blog.csdnimg.cn/20201105012432476.png#pic_center" alt="在这里插入图片描述"><br>
+在数据报里面成功的发现我过程输入的账号和密码的明文信息。<br>
+<img src="https://img-blog.csdnimg.cn/20201105012544392.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x03-wireshark分析文件"><a class="header-anchor" href="#1x03-wireshark分析文件">¶</a>1x03 WireShark分析文件</h2>
+<p><strong>1.如何发现有FTP服务器？且找到FTP服务器的IP地址？</strong></p>
+<p>通过观察流量数据，可以发现有大量基于FTP协议传输的数据库，所以推测有FTP服务器。<br>
+<img src="https://img-blog.csdnimg.cn/20201105013341403.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+通过对部分数据包的分析，比如如下两个：<br>
+<img src="https://img-blog.csdnimg.cn/20201105013424449.png#pic_center" alt="在这里插入图片描述"><br>
+可以知道192.168.182.1是FTP文件服务器。</p>
+<p><strong>2.客户端登陆FTP服务器的账号和密码分别是什么？</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201105013714892.png#pic_center" alt="在这里插入图片描述"><br>
+通过这两个数据包可以确定服务器的账号和密码。</p>
+<p><strong>3.客户端从FTP下载或查看了2个文件，一个是zip文件，一个是txt文件，文件名分别是什么？</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201105013929225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+在数据包中可以发现，用户分别查看了1.zip 和 复习题.txt</p>
+<p><strong>4.还原ZIP文件并打开</strong></p>
+<p>这里我们需要知道的一个知识是对FTP服务器的操作虽然是基于FTP协议解决的，但是真正在下载文件的时候还是使用tcp协议。所以需要zip数据包的时候需要在TCP数据包里面找，可以根据zip文件的文件头和文件尾快速的确认zip包的位置。<br>
+<img src="https://img-blog.csdnimg.cn/20201105023108818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+将<strong>原始数据</strong>另存为a.zip, 可以得到一个正常的压缩包，但是有密码。<br>
+<img src="https://img-blog.csdnimg.cn/20201105023432708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+我们使用kali下的fcrakzip密码破解工具，对zip进行破解。先<code>sudo apt-get install fcrackzip</code>安装</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105024450191.png#pic_center" alt="在这里插入图片描述"><br>
+破解命令 <code>fcrackzip -b -c1 -l 6 -u a.zip</code> 接下来解释一下这个命令。</p>
+<ul>
+<li>-b：使用暴力模式</li>
+<li>-c1：使用纯数字进行破解</li>
+<li>-l：规定破解密码长度/范围</li>
+<li>-u：使用unzip</li>
+</ul>
+<p>最后得到了我们的小企鹅。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105024802841.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><strong>5.TXT的内容是什么？</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201105024939728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+通过追踪TXT信息，可以确定文件内容如下：<br>
+<img src="https://img-blog.csdnimg.cn/20201105025003861.png#pic_center" alt="在这里插入图片描述"><br>
+<strong>6. 网站密码破解部分：</strong></p>
+<p>为了合法的完成渗透测试报告，我们选择Bugku中一道需要运用到暴力破解的题目为例，解析一下如何运用Burp Suite爆破一个网站。</p>
+<p>网站网址: <a href="http://123.206.87.240:8002/baopo/">http://123.206.87.240:8002/baopo/</a><br>
+<img src="https://img-blog.csdnimg.cn/20200812135204959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>看到这个5位的密码，在检查源码和抓包之后都没有发现什么端倪，尝试bp一波</p>
+<p>这里想尝试一下5位数字，5位字母需要的时间太长了. 使用BP自带的字典就可以满足我们的需求<br>
+<img src="https://img-blog.csdnimg.cn/20200812135925759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+这里可以根据Length的大小来判断时候爆破出密码，密码正确和密码错误的返回长度肯定是不一样的。<br>
+<img src="https://img-blog.csdnimg.cn/20200812141849955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+爆破成功啦！<br>
+<img src="https://img-blog.csdnimg.cn/20200812141942854.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x04-md5破解"><a class="header-anchor" href="#1x04-md5破解">¶</a>1x04 MD5破解</h2>
+<p>打开一个在线md5解密网站就可以解开简单的md5码。<br>
+<img src="https://img-blog.csdnimg.cn/20201105025933699.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x05-john-the-ripper"><a class="header-anchor" href="#1x05-john-the-ripper">¶</a>1x05 John the Ripper</h2>
+<p>John the Ripper 是一款速度很快的密码破解工具，目前可用于 Unix、macOS、Windows、DOS、BeOS 与 OpenVMS 等多种操作系统。最初其主要目的是检测弱 Unix 密码，而现在，除了支持许多 Unix crypt(3) 密码哈希类型，John the Ripper “-jumbo”版本还支持数百种其它哈希类型和密码。</p>
+<h1 id="0x03-做有所得"><a class="header-anchor" href="#0x03-做有所得">¶</a>0x03 做有所得</h1>
+<h2 id="1x01-如何防止arp攻击"><a class="header-anchor" href="#1x01-如何防止arp攻击">¶</a>1x01 如何防止ARP攻击</h2>
+<ul>
+<li>
+<p>终端对网关的绑定要坚实可靠，这个绑定能够抵制被病毒捣毁。</p>
+</li>
+<li>
+<p>接入路由器或网关要对下面终端IP-MAC的识别始终保证唯一准确。</p>
+</li>
+<li>
+<p>网络内要有一个最可依赖的机构，提供对网关IP-MAC最强大的保护。它既能够分发正确的网关信息，又能够对出现的假网关信息立即封杀。</p>
+</li>
+</ul>
+<h2 id="1x02-安全的密码-口令-应遵守的原则"><a class="header-anchor" href="#1x02-安全的密码-口令-应遵守的原则">¶</a>1x02 安全的密码（口令）应遵守的原则</h2>
+<ul>
+<li>避免出现弱密码</li>
+<li>记住的密码才是好密码</li>
+<li>每个平台密码最好能够有一定的区别</li>
+</ul>
+<h2 id="1x03-字典的重要性"><a class="header-anchor" href="#1x03-字典的重要性">¶</a>1x03 字典的重要性</h2>
+<p>在破解密码或密钥时，逐一尝试用户自定义词典中的可能密码（单词或短语）的攻击方式。与暴力破解的区别是，暴力破解会逐一尝试所有可能的组合密码，而字典式攻击会使用一个预先定义好的单词列表（可能的密码）。对于暴力破解<strong>社会工程学</strong>是经常用到的方法。根据社会工程学生成的字典可以极大的增大密码破译的成功率。</p>
+<h2 id="1x04-小结"><a class="header-anchor" href="#1x04-小结">¶</a>1x04 小结</h2>
+<p>通过本次的实验我们学习到了以下内容：</p>
+<ul>
+<li>什么是网络嗅探</li>
+<li>ARP协议原理</li>
+<li>FTP协议</li>
+<li>如何使用WireShark抓包并对数据包进行分析</li>
+<li>MD5加密方式</li>
+<li>如何使用密码字典爆破数据</li>
+<li>密码安全</li>
+</ul>
+<p>通过这次的实验我对网络嗅探有了比较充分的了解，对网络中的协议如ARP，FTP等又有了更深的了解。可以更加熟练的使用WireShark, 了解了暴力破解网站和压缩文件的基本操作。以及对于密码安全防护的意识加强。<strong>收益良多</strong></p>
 ]]></content>
       <categories>
         <category>课程学习</category>
@@ -2691,6 +2691,29 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
+    <title>【算法】竞赛中常用的c++黑魔法</title>
+    <url>/2021/05/08/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84c++%E9%BB%91%E9%AD%94%E6%B3%95/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>内容大部分查考<strong>therainisme</strong>的笔记本</p>
+<p>🔗 <a href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html#%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84-vector">这里是他的笔记本</a></p>
+<h1 id="动态数组-vector"><a class="header-anchor" href="#动态数组-vector">¶</a>动态数组 vector</h1>
+<p>操作和Python的list类似</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">vector&lt;<span class="keyword">int</span>&gt; v; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">v.<span class="built_in">push_back</span>(x); <span class="comment">// 尾部添加一个元素</span></span><br><span class="line">v.<span class="built_in">pop_back</span>(); <span class="comment">// 删除尾部元素</span></span><br><span class="line">v.<span class="built_in">insert</span>(v.<span class="built_in">begin</span>()+<span class="number">2</span>,<span class="number">2</span>); <span class="comment">// 在第二个元素后插入新元素</span></span><br><span class="line">v.<span class="built_in">back</span>(); <span class="comment">// 取出尾部的元素</span></span><br><span class="line">v.<span class="built_in">size</span>(); <span class="comment">// 返回vector的大小</span></span><br><span class="line">v.<span class="built_in">clear</span>(); <span class="comment">// 清空vector</span></span><br></pre></td></tr></table></figure>
+<h1 id="栈-stack"><a class="header-anchor" href="#栈-stack">¶</a>栈 stack</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">stack&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">s.<span class="built_in">push</span>(x); <span class="comment">// 压入栈中元素</span></span><br><span class="line"><span class="keyword">int</span> n = s.<span class="built_in">top</span>(); <span class="comment">// 返回栈顶元素</span></span><br><span class="line"><span class="keyword">int</span>  = s.<span class="built_in">size</span>(); <span class="comment">// 返回栈的大小</span></span><br><span class="line">s.<span class="built_in">pop</span>(); <span class="comment">// 弹出栈顶元素</span></span><br><span class="line">s.<span class="built_in">empty</span>(); <span class="comment">// 判断栈是否为空</span></span><br></pre></td></tr></table></figure>
+<h1 id="单向队列-queue"><a class="header-anchor" href="#单向队列-queue">¶</a>单向队列 queue</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> x=<span class="number">1</span>;</span><br><span class="line">queue&lt;<span class="keyword">int</span>&gt; q; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">q.<span class="built_in">push</span>(x); <span class="comment">// 推入队列中元素</span></span><br><span class="line">q.<span class="built_in">empty</span>(); <span class="comment">// 判断是否为空</span></span><br><span class="line">q.<span class="built_in">front</span>(); <span class="comment">// 取出对列首部的元素</span></span><br><span class="line">q.<span class="built_in">back</span>(); <span class="comment">// 取出队尾元素</span></span><br><span class="line">q.<span class="built_in">size</span>(); <span class="comment">// 返回队列长度</span></span><br><span class="line">q.<span class="built_in">pop</span>(); <span class="comment">// 弹出队首元素</span></span><br></pre></td></tr></table></figure>
+<h1 id="字符串-string"><a class="header-anchor" href="#字符串-string">¶</a>字符串 string</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;aabbcc&quot;</span>;</span><br><span class="line">s.<span class="built_in">push_back</span>(<span class="string">&#x27;a&#x27;</span>); <span class="comment">// 像尾部追加一个字符</span></span><br><span class="line"><span class="keyword">char</span> c = s.<span class="built_in">back</span>(); <span class="comment">// 获取尾部的字符</span></span><br><span class="line"><span class="keyword">char</span> c2= s.<span class="built_in">front</span>(); <span class="comment">// 获取头部的字符</span></span><br><span class="line">s.<span class="built_in">pop_back</span>(); <span class="comment">// 弹出尾部的字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串翻转</span></span><br><span class="line"><span class="built_in">reverse</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>()); <span class="comment">// 不需要重新赋值</span></span><br><span class="line"><span class="comment">// 排序</span></span><br><span class="line"><span class="built_in">sort</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>());</span><br><span class="line"><span class="comment">// 插入元素</span></span><br><span class="line">s.<span class="built_in">insert</span>(<span class="number">2</span>,<span class="string">&quot;ahh&quot;</span>); <span class="comment">// 在第二个元素后插入</span></span><br><span class="line"><span class="comment">// 删除元素</span></span><br><span class="line">s.<span class="built_in">erase</span>(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 从第二个元素开始删除后面的3个元素</span></span><br><span class="line"></span><br><span class="line">string d = s.<span class="built_in">substr</span>(<span class="number">1</span>,<span class="number">3</span>); <span class="comment">// 从索引为1的元素开始获取3个元素</span></span><br><span class="line"><span class="keyword">int</span> a = s.<span class="built_in">find</span>(<span class="string">&quot;aa&quot;</span>); <span class="comment">// 找到返回索引，找不到返回-1</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【算法】第十一届蓝桥杯国赛题解</title>
     <url>/2021/05/17/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AC%AC%E5%8D%81%E4%B8%80%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%9B%BD%E8%B5%9B%E9%A2%98%E8%A7%A3/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote>
@@ -2749,29 +2772,6 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <ul>
 <li>Ans：552</li>
 </ul>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>c++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【算法】竞赛中常用的c++黑魔法</title>
-    <url>/2021/05/08/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84c++%E9%BB%91%E9%AD%94%E6%B3%95/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>内容大部分查考<strong>therainisme</strong>的笔记本</p>
-<p>🔗 <a href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html#%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84-vector">这里是他的笔记本</a></p>
-<h1 id="动态数组-vector"><a class="header-anchor" href="#动态数组-vector">¶</a>动态数组 vector</h1>
-<p>操作和Python的list类似</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">vector&lt;<span class="keyword">int</span>&gt; v; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">v.<span class="built_in">push_back</span>(x); <span class="comment">// 尾部添加一个元素</span></span><br><span class="line">v.<span class="built_in">pop_back</span>(); <span class="comment">// 删除尾部元素</span></span><br><span class="line">v.<span class="built_in">insert</span>(v.<span class="built_in">begin</span>()+<span class="number">2</span>,<span class="number">2</span>); <span class="comment">// 在第二个元素后插入新元素</span></span><br><span class="line">v.<span class="built_in">back</span>(); <span class="comment">// 取出尾部的元素</span></span><br><span class="line">v.<span class="built_in">size</span>(); <span class="comment">// 返回vector的大小</span></span><br><span class="line">v.<span class="built_in">clear</span>(); <span class="comment">// 清空vector</span></span><br></pre></td></tr></table></figure>
-<h1 id="栈-stack"><a class="header-anchor" href="#栈-stack">¶</a>栈 stack</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">stack&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">s.<span class="built_in">push</span>(x); <span class="comment">// 压入栈中元素</span></span><br><span class="line"><span class="keyword">int</span> n = s.<span class="built_in">top</span>(); <span class="comment">// 返回栈顶元素</span></span><br><span class="line"><span class="keyword">int</span>  = s.<span class="built_in">size</span>(); <span class="comment">// 返回栈的大小</span></span><br><span class="line">s.<span class="built_in">pop</span>(); <span class="comment">// 弹出栈顶元素</span></span><br><span class="line">s.<span class="built_in">empty</span>(); <span class="comment">// 判断栈是否为空</span></span><br></pre></td></tr></table></figure>
-<h1 id="单向队列-queue"><a class="header-anchor" href="#单向队列-queue">¶</a>单向队列 queue</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> x=<span class="number">1</span>;</span><br><span class="line">queue&lt;<span class="keyword">int</span>&gt; q; <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line">q.<span class="built_in">push</span>(x); <span class="comment">// 推入队列中元素</span></span><br><span class="line">q.<span class="built_in">empty</span>(); <span class="comment">// 判断是否为空</span></span><br><span class="line">q.<span class="built_in">front</span>(); <span class="comment">// 取出对列首部的元素</span></span><br><span class="line">q.<span class="built_in">back</span>(); <span class="comment">// 取出队尾元素</span></span><br><span class="line">q.<span class="built_in">size</span>(); <span class="comment">// 返回队列长度</span></span><br><span class="line">q.<span class="built_in">pop</span>(); <span class="comment">// 弹出队首元素</span></span><br></pre></td></tr></table></figure>
-<h1 id="字符串-string"><a class="header-anchor" href="#字符串-string">¶</a>字符串 string</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;aabbcc&quot;</span>;</span><br><span class="line">s.<span class="built_in">push_back</span>(<span class="string">&#x27;a&#x27;</span>); <span class="comment">// 像尾部追加一个字符</span></span><br><span class="line"><span class="keyword">char</span> c = s.<span class="built_in">back</span>(); <span class="comment">// 获取尾部的字符</span></span><br><span class="line"><span class="keyword">char</span> c2= s.<span class="built_in">front</span>(); <span class="comment">// 获取头部的字符</span></span><br><span class="line">s.<span class="built_in">pop_back</span>(); <span class="comment">// 弹出尾部的字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串翻转</span></span><br><span class="line"><span class="built_in">reverse</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>()); <span class="comment">// 不需要重新赋值</span></span><br><span class="line"><span class="comment">// 排序</span></span><br><span class="line"><span class="built_in">sort</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>());</span><br><span class="line"><span class="comment">// 插入元素</span></span><br><span class="line">s.<span class="built_in">insert</span>(<span class="number">2</span>,<span class="string">&quot;ahh&quot;</span>); <span class="comment">// 在第二个元素后插入</span></span><br><span class="line"><span class="comment">// 删除元素</span></span><br><span class="line">s.<span class="built_in">erase</span>(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 从第二个元素开始删除后面的3个元素</span></span><br><span class="line"></span><br><span class="line">string d = s.<span class="built_in">substr</span>(<span class="number">1</span>,<span class="number">3</span>); <span class="comment">// 从索引为1的元素开始获取3个元素</span></span><br><span class="line"><span class="keyword">int</span> a = s.<span class="built_in">find</span>(<span class="string">&quot;aa&quot;</span>); <span class="comment">// 找到返回索引，找不到返回-1</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>算法</category>
@@ -3518,7 +3518,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210613231744image-20210613231723616.png" alt="image-20210613231723616"></p>
 <h3 id="以太网的mac帧结构"><a class="header-anchor" href="#以太网的mac帧结构">¶</a>以太网的MAC帧结构</h3>
 <p>[考点] 可能会结合后面网络层的知识考你协议分析，务必掌握这个结构；</p>
-<p><img src="/Users/keter/Documents/image/image-20210616170350250.png" alt="image-20210616170350250"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210616174242image-20210616170350250.png" alt="image-20210616170350250"></p>
 <h1 id="网络层"><a class="header-anchor" href="#网络层">¶</a>网络层</h1>
 <h2 id="网络层概述"><a class="header-anchor" href="#网络层概述">¶</a>网络层概述</h2>
 <ul>
@@ -3847,6 +3847,24 @@ TCP 的确认是对接收到的数据的最高序号表示确认。接收端返�
       </tags>
   </entry>
   <entry>
+    <title>【论文阅读】Real World Adversarial attack ...</title>
+    <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors"><a class="header-anchor" href="#making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors">¶</a>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
+<p><code>propose a new loss function to produce patch;Print the patch on the cloth. People who wear this cloth can not be detected by object detectors in the real world</code></p>
+<p>Paper url: <a href="https://arxiv.org/abs/1810.05206">https://arxiv.org/abs/1810.05206</a></p>
+<span id="more"></span>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220004Page3.png" alt="Page3"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220013Page4.png" alt="Page4"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220021Page5.png" alt="Page5"></p>
+]]></content>
+      <categories>
+        <category>adv learning</category>
+      </categories>
+      <tags>
+        <tag>神经对抗攻击</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【论文阅读】Conditional Convolutions for InstanceSegmentation</title>
     <url>/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="0x01-概要"><a class="header-anchor" href="#0x01-概要">¶</a>0x01 概要</h1>
@@ -3915,21 +3933,66 @@ TCP 的确认是对接收到的数据的最高序号表示确认。接收端返�
       </tags>
   </entry>
   <entry>
-    <title>【论文阅读】Real World Adversarial attack ...</title>
-    <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors"><a class="header-anchor" href="#making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors">¶</a>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
-<p><code>propose a new loss function to produce patch;Print the patch on the cloth. People who wear this cloth can not be detected by object detectors in the real world</code></p>
-<p>Paper url: <a href="https://arxiv.org/abs/1810.05206">https://arxiv.org/abs/1810.05206</a></p>
+    <title>空间金字塔池化网络SPP-Net</title>
+    <url>/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>@[toc]</p>
+<h2 id="0x01概要介绍"><a class="header-anchor" href="#0x01概要介绍">¶</a>0x01概要介绍</h2>
+<p>现有的深卷积神经网络（CNNs）需要一个固定大小（如224×224）的输入图像。这种要求是“人为的”，可能会降低对任意大小/比例的图像或子图像的识别精度。在这项工作中，我们为网络配备了另一种池策略“空间金字塔池”，以消除上述要求。这种新的网络结构称为SPP网，它可以生成一个固定长度的表示，而不考虑图像的大小/比例。金字塔池对对象变形也很健壮。有了这些优势，SPP网应该在总体上改进所有基于CNN的图像分类方法。</p>
 <span id="more"></span>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220004Page3.png" alt="Page3"></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220013Page4.png" alt="Page4"></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220021Page5.png" alt="Page5"></p>
+<p><code>SPP-net使用单一的完整图像表示而不是精细的方法实现了最先进的分类结果-调音SPP网络的强大功能在目标检测中也很重要。利用SPP网络，我们只需计算一次来自整个图像的特征映射，然后将任意区域（子图像）的特征集合起来生成固定长度的表示，以训练检测器</code>。该方法避免了重复计算卷积特征。在处理测试图像时，我们的方法比R-CNN方法快24-102倍</p>
+<p><code>引出SPP-Net的原因：</code><br>
+在cnn的训练和测试中存在一个技术问题：目前流行的CNNs要求输入图像大小固定（如224×224），这既限制了输入的纵横比，也限制了输入的规模图像。什么时候对于任意大小的图像，当前的方法大多是将输入图像调整为固定大小，通过裁剪或通过翘曲，如图所示。但是裁剪区域可能不包含整个对象，而扭曲的内容可能会导致不需要的几何图形扭曲。识别由于内容丢失或失真，精度可能会受到影响。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029202219733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<code>为什么需要固定尺寸？</code></p>
+<p>cnn主要由两部分组成：卷积层和随后的完全连接层。卷积层以滑动窗口方式操作，并输出表示激活的空间排列的特征图（图2）。事实上，旋转层不需要固定的图像大小，可以生成任何尺寸的特征图。另一方面，完全连接的层需要有固定大小/长度的定义输入。因此，固定大小约束仅来自完全连接层.</p>
+<p>输入本文引入空间金字塔池（SPP）来取消网络固定规模约束</p>
+<h2 id="0x02-spp-net"><a class="header-anchor" href="#0x02-spp-net">¶</a>0x02 SPP-Net</h2>
+<p>我添加了最后一个卷积层上的SPP层。spp层将特征集合起来，生成固定长度的输出，然后输入到完全连接的层（或其他分类器）。换句话说，我们在网络层次结构的高级阶段（在进化层和完全连接层之间）执行一些信息“聚合”，以避免在开始。图1（底部）通过引入SPP层显示了网络体系结构的变化。我们称之为新的网络结构spp-net</p>
+<p><code>SPP的优点</code></p>
+<p>SPP对于深层CNN有几个显著的特性：1）SPP能够生成固定长度的输出，而不考虑输入大小，而以前的deepnetworks中使用的滑动窗口池[3]不能；2）SPP使用多级而滑动窗口池只使用单个窗口大小。多层池对物体变形具有很强的鲁棒性[15]；3）由于输入尺度的灵活性，在可变尺度下提取的SPPcan池特征。实验表明，这些因素都提高了深层网络的识别精度。</p>
+<p>SPP-net不仅可以从任意大小的图像/窗口生成测试的表示，而且还允许我们在训练期间提供不同大小或比例的图像。使用可变大小的图像进行训练可以提高尺度不变性并减少过拟合。我们开发了一种简单的多尺寸采集方法。当我们接受一个网络输入的单一变量时，我们使用一个固定的网络大小来训练它。在每一个纪元中，我们用一个给定的输入大小训练网络，然后切换到另一个输入大小来进行下一步操作。实验表明，这种多尺度训练与传统的单尺度训练一样收敛，具有更好的测试精度。</p>
+<p><code>与R-CNN对对比：</code></p>
+<p>R-CNN中的特征计算是非常耗时的，因为它反复地将深度卷积网络应用于每幅图像上数千个扭曲区域的原始像素。Spp-Net可以在整个图像上运行卷积层（不考虑窗口数），然后通过SPP网络在特征地图上提取特征。注意 <strong>在特征地图（而不是图像区域）上训练/运行探测器实际上是一个更流行的想法。</strong> 但SPP网络继承了CNN深层特征映射的强大功能，同时也继承了SPP在任意窗口大小下的灵活性，从而使SPP网络具有了卓越的精度和效率。在我们的实验中，基于SPP网络的系统（建立在CNN管道上）计算的特征比R-CNN快24-102倍，具有更好的或可比性准确。有SPP网络可以促进更深层和更大的各种网络.</p>
+<h2 id="0x03-网络结构"><a class="header-anchor" href="#0x03-网络结构">¶</a>0x03 网络结构</h2>
+<h3 id="1x01-卷积层和特征图"><a class="header-anchor" href="#1x01-卷积层和特征图">¶</a>1x01 卷积层和特征图</h3>
+<p>考虑一下流行的七层架构，前五层是卷积的，其中一些是池层。这些池层也可以被认为是“卷积的”，因为它们使用的是滑动窗口。</p>
+<p>最后的两层是完全连接的，以N路softmax作为输出，其中N是类别的数目。</p>
+<p>上面描述的深度网络需要一个fixedimage大小。然而，我们注意到，固定尺寸的要求仅仅是由于完全连接的层需要固定长度向量作为输入。另一方面，卷积层接受轨道尺寸的输入。卷积层使用滑动过滤器，其输出与输入的aspectratio大致相同。这些输出被称为特征映射[1]——它们不仅涉及到响应的强度，而且涉及到它们的空间位置。</p>
+<p>将一些特征地图可视化。它们是由conv5layer的一些过滤器生成的。图2（c）显示了ImageNet数据集中这些过滤器的最强激活图像。我们看到过滤器可以被一些语义内容激活。例如，第55个滤波器（图2，左下角）最易被圆形激活；第66个滤波器（图2，右上角）最易被∧形激活；第118个滤波器（图2，右下角）最易被a∨激活-形状。这些输入图像中的形状（图2（a））激活相应位置的特征映射（图2中的箭头）</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029202425874.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>生成图2中的featuremaps，而不需要固定输入大小。这些由深卷积层生成的特征映射与传统方法中的特征映射相似[27]，[28]。在这些方法中，SIFT向量[29]或图像块[28]被密集地提取和编码，例如通过矢量量化、稀疏编码或费希尔核进行编码。这些编码的特征由特征映射组成，然后由词包（BoW）或空间金字塔集合。类似地，深卷积特征可以以类似的方式汇集在一起。</p>
+<h3 id="1x02-空间金字塔池层"><a class="header-anchor" href="#1x02-空间金字塔池层">¶</a>1x02 空间金字塔池层</h3>
+<p><img src="https://img-blog.csdnimg.cn/20201029202443152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>这样的向量可以通过单词包（BoW）方法生成，该方法将这些特征集合在一起。空间金字塔池[14]，[15]改进了BoW，因为它可以通过在局部空间容器中的池来保持空间信息。这些空间存储单元的大小与图像大小成比例，因此无论图像大小，存储单元的数量都是固定的。这与以前的深层网络的滑动窗口池[3]不同，其中滑动窗口的数量取决于输入大小。到对于任意大小的图像采用深网络，我们将最后一个池层（例如，在最后一个卷积层之后的pool5）替换为aspatialpyramd池层。图3说明了方法。输入每一个空间单元，我们将每个滤波器的响应集中起来（在本文中我们使用最大池），空间金字塔池的输出是km维向量，其中格数表示为sm（kis是最后一个卷积层中的滤波器数）。固定维向量被输入到全连通层。</p>
+<h2 id="0x04-训练网络"><a class="header-anchor" href="#0x04-训练网络">¶</a>0x04 训练网络</h2>
+<p>Spp-Net的训练过程分为两部</p>
+<h3 id="1x01-单一尺度训练-single-size"><a class="header-anchor" href="#1x01-单一尺度训练-single-size">¶</a>1x01 单一尺度训练——single-size</h3>
+<p>所谓单一尺寸训练指的是先只对一种固定输入图像进行训练，比如224 x 224，在conv5之后的特征图为：13x13这就是我们的（a x a）而我要得到的输出为4 x 4，2 x 2,1 x 1，怎么办呢？这里金字塔层bins即为 n x n，也就是4 x 4，2 x 2,1 x 1，我们要做的就是如何根据a和n设计一个池化层，使得a x a的输入能够得到n x n的输出。实际上这个池化层很好设计，我们称这个大小和步幅会变化的池化层为sliding window pooling。</p>
+<p>它的大小为：windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整。数据实验如下：</p>
+<p>当a x a为13 x 13时，要得到4 x 4的输出，池化层的大小为4，移动步幅为3；</p>
+<p>当a x a为13 x 13时，要得到2 x 2的输出，池化层的大小为7，移动步幅为6；</p>
+<p>当a x a为13 x 13时，要得到1 x 1的输出，池化层的大小为13，移动步幅为13；</p>
+<p>有的小伙伴一定发现，那如果我的输入a x a变化为10 x 10呢，此时再用上面的三个池化核好像得不到固定的理想输出啊，事实上的确如此，这是训练的第二个过程要讲的，因为此过程称之为“单一尺度训练”，针对的就是某一个固定的输入尺度而言的。</p>
+<h2 id="1x02-多尺寸训练-multi-size-以两种尺度为例"><a class="header-anchor" href="#1x02-多尺寸训练-multi-size-以两种尺度为例">¶</a>1x02 多尺寸训练——multi-size（以两种尺度为例）</h2>
+<p>虽然带有SPP（空间金字塔）的网络可以应用于任意尺寸，为了解决不同图像尺寸的训练问题，我们往往还是会考虑一些预设好的尺寸，而不是一些尺寸种类太多，毫无章法的输入尺寸。现在考虑这两个尺寸：180×180,224×224，此处只考虑这两个。</p>
+<p>我们使用<code>缩放</code>而不是裁剪，将前述的224的区域图像变成180大小。这样，不同尺度的区域仅仅是分辨率上的不同，而不是内容和布局上的不同。</p>
+<p>那么对于接受180输入的网络，我们实现另一个固定尺寸的网络。在论文中，conv5输出的特征图尺寸是axa=10×10。我们仍然使用windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整，实现每个金字塔池化层。这个180网络的空间金字塔层的输出的大小就和224网络的一样了。</p>
+<p>当a x a为10 x 10时，要得到4 x 4的输出，池化层的大小为3，移动步幅为2（注意：此处根据这样的一个池化层，10 x 10的输入好像并得不到4 x 4的输出，9 x 9或者是11 x 11的倒可以得到4 x 4的）这个地方我也还不是特别清楚这个点，后面我会说出我的个人理解。</p>
+<p>当a x a为10 x 10时，要得到2 x 2的输出，池化层的大小为5，移动步幅为5；</p>
+<p>当a x a为10 x 10时，要得到1 x 1的输出，池化层的大小为10，移动步幅为10；</p>
+<p>这样，这个180网络就和224网络拥有一样的参数了。换句话说，训练过程中，我们通过使用共享参数的两个固定尺寸的网络实现了不同输入尺寸的SPP-net。</p>
+<p>为了降低从一个网络（比如224）向另一个网络（比如180）切换的开销，我们在每个网络上训练一个完整的epoch，然后在下一个完成的epoch再切换到另一个网络（权重保留）。依此往复。实验中我们发现多尺寸训练的收敛速度和单尺寸差不多。</p>
+<p>多尺寸训练的主要目的是在保证已经充分利用现在被较好优化的固定尺寸网络实现的同时，模拟不同的输入尺寸。除了上述两个尺度的实现，我们也在每个epoch中测试了不同的s x s输入，s是从180到224之间均匀选取的。后面将在实验部分报告这些测试的结果。</p>
+<p>注意，上面的单尺寸或多尺寸解析度只用于训练。在测试阶段，是直接对各种尺寸的图像应用SPP-net的。</p>
+<h2 id="0x05-spp-net在目标检测上的应用"><a class="header-anchor" href="#0x05-spp-net在目标检测上的应用">¶</a>0x05 Spp-Net在目标检测上的应用</h2>
+<p>SPP网络，这个方法的思想在R-CNN、Fast RCNN， Faster RCNN上都起了举足轻重的作用，对于检测算法，论文中是这样做到：使用ss生成~2k个候选框，缩放图像min(w,h)=s之后提取特征，每个候选框使用一个4层的空间金字塔池化特征，网络使用的是ZF-5的SPPNet形式。之后将12800d的特征输入全连接层，SVM的输入为全连接层的输出。这个算法可以应用到多尺度的特征提取：先将图片resize到五个尺度：480，576，688，864，1200，加自己6个。然后在map window to feature map一步中，选择ROI框尺度在｛6个尺度｝中大小最接近224x224的那个尺度下的feature maps中提取对应的roi feature。这样做可以提高系统的准确率。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
 ]]></content>
       <categories>
-        <category>adv learning</category>
+        <category>CV</category>
       </categories>
       <tags>
-        <tag>神经对抗攻击</tag>
+        <tag>CV</tag>
       </tags>
   </entry>
   <entry>
@@ -4279,69 +4342,6 @@ TCP 的确认是对接收到的数据的最高序号表示确认。接收端返�
       </categories>
       <tags>
         <tag>神经对抗攻击</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>空间金字塔池化网络SPP-Net</title>
-    <url>/2020/10/29/%E7%A9%BA%E9%97%B4%E9%87%91%E5%AD%97%E5%A1%94%E6%B1%A0%E5%8C%96%E7%BD%91%E7%BB%9CSPP-Net/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>@[toc]</p>
-<h2 id="0x01概要介绍"><a class="header-anchor" href="#0x01概要介绍">¶</a>0x01概要介绍</h2>
-<p>现有的深卷积神经网络（CNNs）需要一个固定大小（如224×224）的输入图像。这种要求是“人为的”，可能会降低对任意大小/比例的图像或子图像的识别精度。在这项工作中，我们为网络配备了另一种池策略“空间金字塔池”，以消除上述要求。这种新的网络结构称为SPP网，它可以生成一个固定长度的表示，而不考虑图像的大小/比例。金字塔池对对象变形也很健壮。有了这些优势，SPP网应该在总体上改进所有基于CNN的图像分类方法。</p>
-<span id="more"></span>
-<p><code>SPP-net使用单一的完整图像表示而不是精细的方法实现了最先进的分类结果-调音SPP网络的强大功能在目标检测中也很重要。利用SPP网络，我们只需计算一次来自整个图像的特征映射，然后将任意区域（子图像）的特征集合起来生成固定长度的表示，以训练检测器</code>。该方法避免了重复计算卷积特征。在处理测试图像时，我们的方法比R-CNN方法快24-102倍</p>
-<p><code>引出SPP-Net的原因：</code><br>
-在cnn的训练和测试中存在一个技术问题：目前流行的CNNs要求输入图像大小固定（如224×224），这既限制了输入的纵横比，也限制了输入的规模图像。什么时候对于任意大小的图像，当前的方法大多是将输入图像调整为固定大小，通过裁剪或通过翘曲，如图所示。但是裁剪区域可能不包含整个对象，而扭曲的内容可能会导致不需要的几何图形扭曲。识别由于内容丢失或失真，精度可能会受到影响。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029202219733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-<code>为什么需要固定尺寸？</code></p>
-<p>cnn主要由两部分组成：卷积层和随后的完全连接层。卷积层以滑动窗口方式操作，并输出表示激活的空间排列的特征图（图2）。事实上，旋转层不需要固定的图像大小，可以生成任何尺寸的特征图。另一方面，完全连接的层需要有固定大小/长度的定义输入。因此，固定大小约束仅来自完全连接层.</p>
-<p>输入本文引入空间金字塔池（SPP）来取消网络固定规模约束</p>
-<h2 id="0x02-spp-net"><a class="header-anchor" href="#0x02-spp-net">¶</a>0x02 SPP-Net</h2>
-<p>我添加了最后一个卷积层上的SPP层。spp层将特征集合起来，生成固定长度的输出，然后输入到完全连接的层（或其他分类器）。换句话说，我们在网络层次结构的高级阶段（在进化层和完全连接层之间）执行一些信息“聚合”，以避免在开始。图1（底部）通过引入SPP层显示了网络体系结构的变化。我们称之为新的网络结构spp-net</p>
-<p><code>SPP的优点</code></p>
-<p>SPP对于深层CNN有几个显著的特性：1）SPP能够生成固定长度的输出，而不考虑输入大小，而以前的deepnetworks中使用的滑动窗口池[3]不能；2）SPP使用多级而滑动窗口池只使用单个窗口大小。多层池对物体变形具有很强的鲁棒性[15]；3）由于输入尺度的灵活性，在可变尺度下提取的SPPcan池特征。实验表明，这些因素都提高了深层网络的识别精度。</p>
-<p>SPP-net不仅可以从任意大小的图像/窗口生成测试的表示，而且还允许我们在训练期间提供不同大小或比例的图像。使用可变大小的图像进行训练可以提高尺度不变性并减少过拟合。我们开发了一种简单的多尺寸采集方法。当我们接受一个网络输入的单一变量时，我们使用一个固定的网络大小来训练它。在每一个纪元中，我们用一个给定的输入大小训练网络，然后切换到另一个输入大小来进行下一步操作。实验表明，这种多尺度训练与传统的单尺度训练一样收敛，具有更好的测试精度。</p>
-<p><code>与R-CNN对对比：</code></p>
-<p>R-CNN中的特征计算是非常耗时的，因为它反复地将深度卷积网络应用于每幅图像上数千个扭曲区域的原始像素。Spp-Net可以在整个图像上运行卷积层（不考虑窗口数），然后通过SPP网络在特征地图上提取特征。注意 <strong>在特征地图（而不是图像区域）上训练/运行探测器实际上是一个更流行的想法。</strong> 但SPP网络继承了CNN深层特征映射的强大功能，同时也继承了SPP在任意窗口大小下的灵活性，从而使SPP网络具有了卓越的精度和效率。在我们的实验中，基于SPP网络的系统（建立在CNN管道上）计算的特征比R-CNN快24-102倍，具有更好的或可比性准确。有SPP网络可以促进更深层和更大的各种网络.</p>
-<h2 id="0x03-网络结构"><a class="header-anchor" href="#0x03-网络结构">¶</a>0x03 网络结构</h2>
-<h3 id="1x01-卷积层和特征图"><a class="header-anchor" href="#1x01-卷积层和特征图">¶</a>1x01 卷积层和特征图</h3>
-<p>考虑一下流行的七层架构，前五层是卷积的，其中一些是池层。这些池层也可以被认为是“卷积的”，因为它们使用的是滑动窗口。</p>
-<p>最后的两层是完全连接的，以N路softmax作为输出，其中N是类别的数目。</p>
-<p>上面描述的深度网络需要一个fixedimage大小。然而，我们注意到，固定尺寸的要求仅仅是由于完全连接的层需要固定长度向量作为输入。另一方面，卷积层接受轨道尺寸的输入。卷积层使用滑动过滤器，其输出与输入的aspectratio大致相同。这些输出被称为特征映射[1]——它们不仅涉及到响应的强度，而且涉及到它们的空间位置。</p>
-<p>将一些特征地图可视化。它们是由conv5layer的一些过滤器生成的。图2（c）显示了ImageNet数据集中这些过滤器的最强激活图像。我们看到过滤器可以被一些语义内容激活。例如，第55个滤波器（图2，左下角）最易被圆形激活；第66个滤波器（图2，右上角）最易被∧形激活；第118个滤波器（图2，右下角）最易被a∨激活-形状。这些输入图像中的形状（图2（a））激活相应位置的特征映射（图2中的箭头）</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029202425874.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>生成图2中的featuremaps，而不需要固定输入大小。这些由深卷积层生成的特征映射与传统方法中的特征映射相似[27]，[28]。在这些方法中，SIFT向量[29]或图像块[28]被密集地提取和编码，例如通过矢量量化、稀疏编码或费希尔核进行编码。这些编码的特征由特征映射组成，然后由词包（BoW）或空间金字塔集合。类似地，深卷积特征可以以类似的方式汇集在一起。</p>
-<h3 id="1x02-空间金字塔池层"><a class="header-anchor" href="#1x02-空间金字塔池层">¶</a>1x02 空间金字塔池层</h3>
-<p><img src="https://img-blog.csdnimg.cn/20201029202443152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>这样的向量可以通过单词包（BoW）方法生成，该方法将这些特征集合在一起。空间金字塔池[14]，[15]改进了BoW，因为它可以通过在局部空间容器中的池来保持空间信息。这些空间存储单元的大小与图像大小成比例，因此无论图像大小，存储单元的数量都是固定的。这与以前的深层网络的滑动窗口池[3]不同，其中滑动窗口的数量取决于输入大小。到对于任意大小的图像采用深网络，我们将最后一个池层（例如，在最后一个卷积层之后的pool5）替换为aspatialpyramd池层。图3说明了方法。输入每一个空间单元，我们将每个滤波器的响应集中起来（在本文中我们使用最大池），空间金字塔池的输出是km维向量，其中格数表示为sm（kis是最后一个卷积层中的滤波器数）。固定维向量被输入到全连通层。</p>
-<h2 id="0x04-训练网络"><a class="header-anchor" href="#0x04-训练网络">¶</a>0x04 训练网络</h2>
-<p>Spp-Net的训练过程分为两部</p>
-<h3 id="1x01-单一尺度训练-single-size"><a class="header-anchor" href="#1x01-单一尺度训练-single-size">¶</a>1x01 单一尺度训练——single-size</h3>
-<p>所谓单一尺寸训练指的是先只对一种固定输入图像进行训练，比如224 x 224，在conv5之后的特征图为：13x13这就是我们的（a x a）而我要得到的输出为4 x 4，2 x 2,1 x 1，怎么办呢？这里金字塔层bins即为 n x n，也就是4 x 4，2 x 2,1 x 1，我们要做的就是如何根据a和n设计一个池化层，使得a x a的输入能够得到n x n的输出。实际上这个池化层很好设计，我们称这个大小和步幅会变化的池化层为sliding window pooling。</p>
-<p>它的大小为：windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整。数据实验如下：</p>
-<p>当a x a为13 x 13时，要得到4 x 4的输出，池化层的大小为4，移动步幅为3；</p>
-<p>当a x a为13 x 13时，要得到2 x 2的输出，池化层的大小为7，移动步幅为6；</p>
-<p>当a x a为13 x 13时，要得到1 x 1的输出，池化层的大小为13，移动步幅为13；</p>
-<p>有的小伙伴一定发现，那如果我的输入a x a变化为10 x 10呢，此时再用上面的三个池化核好像得不到固定的理想输出啊，事实上的确如此，这是训练的第二个过程要讲的，因为此过程称之为“单一尺度训练”，针对的就是某一个固定的输入尺度而言的。</p>
-<h2 id="1x02-多尺寸训练-multi-size-以两种尺度为例"><a class="header-anchor" href="#1x02-多尺寸训练-multi-size-以两种尺度为例">¶</a>1x02 多尺寸训练——multi-size（以两种尺度为例）</h2>
-<p>虽然带有SPP（空间金字塔）的网络可以应用于任意尺寸，为了解决不同图像尺寸的训练问题，我们往往还是会考虑一些预设好的尺寸，而不是一些尺寸种类太多，毫无章法的输入尺寸。现在考虑这两个尺寸：180×180,224×224，此处只考虑这两个。</p>
-<p>我们使用<code>缩放</code>而不是裁剪，将前述的224的区域图像变成180大小。这样，不同尺度的区域仅仅是分辨率上的不同，而不是内容和布局上的不同。</p>
-<p>那么对于接受180输入的网络，我们实现另一个固定尺寸的网络。在论文中，conv5输出的特征图尺寸是axa=10×10。我们仍然使用windows_size=[a/n] 向上取整 ， stride_size=[a/n]向下取整，实现每个金字塔池化层。这个180网络的空间金字塔层的输出的大小就和224网络的一样了。</p>
-<p>当a x a为10 x 10时，要得到4 x 4的输出，池化层的大小为3，移动步幅为2（注意：此处根据这样的一个池化层，10 x 10的输入好像并得不到4 x 4的输出，9 x 9或者是11 x 11的倒可以得到4 x 4的）这个地方我也还不是特别清楚这个点，后面我会说出我的个人理解。</p>
-<p>当a x a为10 x 10时，要得到2 x 2的输出，池化层的大小为5，移动步幅为5；</p>
-<p>当a x a为10 x 10时，要得到1 x 1的输出，池化层的大小为10，移动步幅为10；</p>
-<p>这样，这个180网络就和224网络拥有一样的参数了。换句话说，训练过程中，我们通过使用共享参数的两个固定尺寸的网络实现了不同输入尺寸的SPP-net。</p>
-<p>为了降低从一个网络（比如224）向另一个网络（比如180）切换的开销，我们在每个网络上训练一个完整的epoch，然后在下一个完成的epoch再切换到另一个网络（权重保留）。依此往复。实验中我们发现多尺寸训练的收敛速度和单尺寸差不多。</p>
-<p>多尺寸训练的主要目的是在保证已经充分利用现在被较好优化的固定尺寸网络实现的同时，模拟不同的输入尺寸。除了上述两个尺度的实现，我们也在每个epoch中测试了不同的s x s输入，s是从180到224之间均匀选取的。后面将在实验部分报告这些测试的结果。</p>
-<p>注意，上面的单尺寸或多尺寸解析度只用于训练。在测试阶段，是直接对各种尺寸的图像应用SPP-net的。</p>
-<h2 id="0x05-spp-net在目标检测上的应用"><a class="header-anchor" href="#0x05-spp-net在目标检测上的应用">¶</a>0x05 Spp-Net在目标检测上的应用</h2>
-<p>SPP网络，这个方法的思想在R-CNN、Fast RCNN， Faster RCNN上都起了举足轻重的作用，对于检测算法，论文中是这样做到：使用ss生成~2k个候选框，缩放图像min(w,h)=s之后提取特征，每个候选框使用一个4层的空间金字塔池化特征，网络使用的是ZF-5的SPPNet形式。之后将12800d的特征输入全连接层，SVM的输入为全连接层的输出。这个算法可以应用到多尺度的特征提取：先将图片resize到五个尺度：480，576，688，864，1200，加自己6个。然后在map window to feature map一步中，选择ROI框尺度在｛6个尺度｝中大小最接近224x224的那个尺度下的feature maps中提取对应的roi feature。这样做可以提高系统的准确率。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
-]]></content>
-      <categories>
-        <category>CV</category>
-      </categories>
-      <tags>
-        <tag>CV</tag>
       </tags>
   </entry>
 </search>
