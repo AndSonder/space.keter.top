@@ -1,134 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>SQL Learning</title>
-    <url>/2021/01/12/SQL-Learning/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
-<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
-<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
-<p>Get all the custmers who’s patterns start with b/B</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>get all the custmers who’s last name start with brush</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>don’t care about the first character but the second character is y</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>% :  any number of characters</li>
-<li>_  :  single character</li>
-</ul>
-<p>EXERCISE</p>
-<ol>
-<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>Phone numbers end with 9</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
-<p>REGEXP: regular expression</p>
-<p>REGEXP is similar with LIKE</p>
-<p>Get all the customers who’s last name start with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who’s last name end with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words field,mac or rose in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words ge,me or ie in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>^ beginning</li>
-<li>$ end</li>
-<li>| logical or</li>
-<li>[abcd]</li>
-<li>[a-f]</li>
-</ul>
-<p>EXERCISE</p>
-<p>GET the customers whose</p>
-<ol>
-<li>first names are ELKA or AMBUR</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>last names end with EY or ON</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>Last names start with MY or contains SE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>last name contain B followed by R or U</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
-<p>search who does not have a phone</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<p>EXERCISE</p>
-<p>get the orders that are not shipped</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
-<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
-<p>Search customers order by first_name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
-<p>or you want to reverse the sort order</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
-<p>sort by multiple columns, for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
-<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
-<p>get the first 3 customers</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
-<p>Get customers form 6-9</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<p>6 is an offset, and 3 means the step</p>
-<p>EXERCISE</p>
-<ol>
-<li>Get the top three loyal customers</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
-<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
-<p>you can use JOIN to catch the relation between to tables;</p>
-<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
-<p>we can use alias to simplify the query.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
-<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
-<p>how to combine columns from tables in multiple databases ?</p>
-<p>Using database combines with sql_inventory database.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
-<p>the query will be different depending on the database</p>
-<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
-<p>In sql we can join tables with itself.</p>
-<p>In database sql_hr we have a table named employees.</p>
-<p>Now we need select each employee and their manager.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
-<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
-<p><strong>Exercise</strong></p>
-<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
-<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
-<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
-<p>we have mutiple conditions to join these two tables</p>
-<p>e.g.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
-<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
-<p>In Mysql we can use simple query to instead Join condition.</p>
-<p>for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Database Review</title>
     <url>/2021/04/11/Database-Review/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="database-review"><a class="header-anchor" href="#database-review">¶</a>DataBase Review</h1>
@@ -688,6 +560,134 @@ R3({A,D}，{∅}) }</p>
 <li>DESC【降序】</li>
 <li>CASCADE</li>
 </ul>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SQL Learning</title>
+    <url>/2021/01/12/SQL-Learning/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
+<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
+<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
+<p>Get all the custmers who’s patterns start with b/B</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>get all the custmers who’s last name start with brush</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>don’t care about the first character but the second character is y</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>% :  any number of characters</li>
+<li>_  :  single character</li>
+</ul>
+<p>EXERCISE</p>
+<ol>
+<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Phone numbers end with 9</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
+<p>REGEXP: regular expression</p>
+<p>REGEXP is similar with LIKE</p>
+<p>Get all the customers who’s last name start with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who’s last name end with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words field,mac or rose in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words ge,me or ie in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>^ beginning</li>
+<li>$ end</li>
+<li>| logical or</li>
+<li>[abcd]</li>
+<li>[a-f]</li>
+</ul>
+<p>EXERCISE</p>
+<p>GET the customers whose</p>
+<ol>
+<li>first names are ELKA or AMBUR</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>last names end with EY or ON</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Last names start with MY or contains SE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>last name contain B followed by R or U</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
+<p>search who does not have a phone</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<p>EXERCISE</p>
+<p>get the orders that are not shipped</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
+<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
+<p>Search customers order by first_name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
+<p>or you want to reverse the sort order</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<p>sort by multiple columns, for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
+<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
+<p>get the first 3 customers</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
+<p>Get customers form 6-9</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>6 is an offset, and 3 means the step</p>
+<p>EXERCISE</p>
+<ol>
+<li>Get the top three loyal customers</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
+<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
+<p>you can use JOIN to catch the relation between to tables;</p>
+<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
+<p>we can use alias to simplify the query.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
+<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
+<p>how to combine columns from tables in multiple databases ?</p>
+<p>Using database combines with sql_inventory database.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
+<p>the query will be different depending on the database</p>
+<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
+<p>In sql we can join tables with itself.</p>
+<p>In database sql_hr we have a table named employees.</p>
+<p>Now we need select each employee and their manager.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
+<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
+<p><strong>Exercise</strong></p>
+<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
+<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
+<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
+<p>we have mutiple conditions to join these two tables</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
+<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
+<p>In Mysql we can use simple query to instead Join condition.</p>
+<p>for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
 ]]></content>
       <categories>
         <category>课程学习</category>
@@ -3387,7 +3387,7 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <p>问题解决方法：</p>
 <ul>
 <li>不是一次发送一个</li>
-<li>增加最大发送窗口的数目，ws （sending window）</li>
+<li>增加最大发送窗口的数目，： （sending window）</li>
 <li>停-等协议信道利用率计算</li>
 </ul>
 <p>已知信息传输速率b(b.s),帧长度是L(bit), 往返时间为：R(s). 忙 L/b （s），空闲R（s）。则利用率为：</p>
@@ -3808,13 +3808,29 @@ TCP 的确认是对接收到的数据的最高序号表示确认。接收端返�
 <p>紧急指针字段 —— 占 16 bit。紧急指针指出在本报文段中的紧急数据的最后一个字节的位置。</p>
 <p>选项字段 —— 长度可变。TCP 只规定了一种选项，即最大报文段长度 MSS (Maximum Segment Size)。MSS 告诉对方 TCP：“我的缓存所能接收的报文段的数据字段的最大长度是 MSS 个字节。”</p>
 <p>填充字段 —— 这是为了使整个首部长度是 4 字节的整数倍。</p>
-<p>三次握手建立TCP连接</p>
-<img src="https://gitee.com/coronapolvo/images/raw/master/20210606150839image-20210605112418186.png" alt="image-20210605112418186" style="zoom:37%;" />
+<h4 id="三次握手建立tcp连接"><a class="header-anchor" href="#三次握手建立tcp连接">¶</a>三次握手建立TCP连接</h4>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210606150839image-20210605112418186.png" alt="image-20210605112418186" style="zoom:27%;" />
 <p>第二行的含义：x+1之前的报文全部接受；下一次发的序列号是x+1</p>
 <p>SEQ:发送的数据包</p>
 <blockquote>
 <p>考点：会在图中挖空，以填空的方式考察。需要我们完全掌握掌握这个图</p>
 </blockquote>
+<p>符号说明：</p>
+<ol>
+<li>序列号：SEQ：用来标记数据段的顺序</li>
+<li>确认号：ack：期待收到对方的下一个报文段的第一个数据字节序号</li>
+<li>确认ACK：当ACK=1时，确认字段才有效，否则确认字段没有效</li>
+<li>同步SYN：连接建立时用于同步序号
+<ul>
+<li>SYN=1，ACK=0 --&gt; 连接请求报文</li>
+<li>SYN=1,   ACK=1 --&gt;  同意连接</li>
+</ul>
+</li>
+<li>终止FIN：用来释放一个连接，FIN=1表示数据发送完毕，请求释放连接；</li>
+</ol>
+<p><code>第一次握手：</code>客户端将标志位SYN置为1，随机产生一个值SQL=x，并将数据包发送给服务器端，等待服务器的确认；</p>
+<p><code>第二次握手：</code>服务器端收到数据包后，由标志位SYN=1知道客户端要请求连接，服务器将标志位SYN和ACK都置为1，ack=x+1，随机产生一个SEQ=有，并将该数据包发送给客户端以请求确认</p>
+<p><code>第三次握手：</code>客户端收到确认后，检测ack时候为x+1，ACK是否为1，如果正确则将标志位ACK置为1，ack=y+1，并将该数据包发送给服务器，服务器检查ack是否为y+1，ACK是否为1，如果正确则连接建立成功；</p>
 <h3 id="tcp传输策略"><a class="header-anchor" href="#tcp传输策略">¶</a>TCP传输策略</h3>
 <p>掌握这个图：</p>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20210606150853image-20210605112904778.png" alt="image-20210605112904778" style="zoom:33%;" />
@@ -3822,46 +3838,36 @@ TCP 的确认是对接收到的数据的最高序号表示确认。接收端返�
 <p>SEQ:是数据包中第一个编号</p>
 <p>2K：地址0-2047，因为从0开始</p>
 <p>ACK=2048，因为ACK指向下一个文段的数据的第一个字节的序号</p>
-<p>Win：还可以发多少给我，例如：WIN=2k，表示还可以发2k</p>
+<p>WIN：还可以发多少给我，例如：WIN=2k，表示还可以发2k</p>
 <blockquote>
 <p>考试题型：</p>
 <p>传输过程中该填什么？（以上图为例，最后一次右边到左边发送什么？）</p>
 </blockquote>
 <p>答：ACK=4096+1023+1 WIN=1k</p>
-<p>重点：慢启动和拥塞避免算法的实现举例</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210606150916image-20210605114512891.png" alt="image-20210605114512891"></p>
-<p><code>发生超时的两个动作:</code></p>
-<p>1.阈值减半</p>
-<p>2.重新发送时以**<u>最大段大小</u>**开始传</p>
-<p>超时之后的阈值是指数增长与线性增长的分水岭</p>
-<p>注：这里的指数规律增长是指 ==最大段大小*2^(x-1)== ，线性增长也是每次加上最大段大小。</p>
-<blockquote>
-<p>考点：题型见图片</p>
-</blockquote>
+<h4 id="tcp拥塞控制"><a class="header-anchor" href="#tcp拥塞控制">¶</a>TCP拥塞控制</h4>
+<p><code>[考点]</code></p>
+<p>（1） 慢开始算法：</p>
+<p>在TCP刚刚连接好，开始发送TCP报文的时候，先让拥塞窗口cwnd=1，即一个最大报文段长度MSS。而在每收到一个对新的报文段的确认后，将cwnd加1，即增大一个MSS。用这样的方法逐步增大发送方的拥塞窗口cwnd，可以使得分组注入到网络的速率更加合理。</p>
+<p>使用慢开始算法后，每经过一个传输轮次，拥塞窗口的cwnd就会加倍，即cwnd的大小呈<code>指数型</code>增长。这样慢开始一直吧拥塞窗口cwnd增大一个规定的慢开始门限ssthresh，然后采用拥塞避免算法。</p>
+<p>（2）拥塞避免算法：</p>
+<p>拥塞避免算法的做法是：发送端的拥塞窗口cwnd每经过一个往返时延RTT就增加一个MSS的大小，而不是加倍，使得cwnd按照<code>线性</code>的规律增长，而当复现一次超时时，则让慢开始门限ssthresh等于当前cwnd的一半。</p>
+<p><img src="/Users/keter/Documents/image/image-20210618101908264.png" alt="image-20210618101908264"></p>
+<p><code>快重传和快恢复是对慢开始和拥塞避免算法的改进</code></p>
+<p>（1） 快重传</p>
+<p>快速重传技术使用了冗余ACK来检测丢包的发生。同样，冗余ACK也用于网络拥塞的检测（丢了包当然意味着网络可能出现了拥塞）。1快重传并非取消重传计时器，而是在某些情况下可以更早地重传丢失的报文段。</p>
+<p>当发送方连续收到三个重复的ACK报文时，直接重传对方尚未结果到的报文段，而不必等待那个报文段设置的重传计时器超时。</p>
+<p>（2）快恢复</p>
+<p>快恢复算法的原理：当发送端收到连续三个冗余ACK（即重复确认）时，就执行“乘法减小”算法，把慢开始门限sshresh设置为拥塞时发送方cwnd的一半。与慢开始不同之处是他爸cwnd的值设置为慢开始门限ssthresh改变后的数值，然后开始执行拥塞避免算法，使得拥塞窗口缓慢地<code>线性增大</code>。</p>
+ <div class="note success simple"><p>例题：设TCP的拥塞窗口的慢开始门限值初始为8（单位为报文段），当拥塞窗口上升到12时发生超时，TCP开始慢启动和拥塞避免，那么第13次传输时拥塞窗口的大小为：</p>
+</div>
+<p>解：1 -&gt; 2 -&gt; 4 -&gt; 8 -&gt; 9 -&gt; 10 -&gt; 11 -&gt; 12 -&gt; 1 -&gt; 2 -&gt; 4 -&gt; 6 -&gt; 7</p>
+<p>所以在第13次传输时拥塞窗口为7；</p>
 ]]></content>
       <categories>
         <category>课程学习</category>
       </categories>
       <tags>
         <tag>课程学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【论文阅读】Real World Adversarial attack ...</title>
-    <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors"><a class="header-anchor" href="#making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors">¶</a>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
-<p><code>propose a new loss function to produce patch;Print the patch on the cloth. People who wear this cloth can not be detected by object detectors in the real world</code></p>
-<p>Paper url: <a href="https://arxiv.org/abs/1810.05206">https://arxiv.org/abs/1810.05206</a></p>
-<span id="more"></span>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220004Page3.png" alt="Page3"></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220013Page4.png" alt="Page4"></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220021Page5.png" alt="Page5"></p>
-]]></content>
-      <categories>
-        <category>adv learning</category>
-      </categories>
-      <tags>
-        <tag>神经对抗攻击</tag>
       </tags>
   </entry>
   <entry>
@@ -3930,6 +3936,24 @@ TCP 的确认是对接收到的数据的最高序号表示确认。接收端返�
       </categories>
       <tags>
         <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【论文阅读】Real World Adversarial attack ...</title>
+    <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors"><a class="header-anchor" href="#making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors">¶</a>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
+<p><code>propose a new loss function to produce patch;Print the patch on the cloth. People who wear this cloth can not be detected by object detectors in the real world</code></p>
+<p>Paper url: <a href="https://arxiv.org/abs/1810.05206">https://arxiv.org/abs/1810.05206</a></p>
+<span id="more"></span>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220004Page3.png" alt="Page3"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220013Page4.png" alt="Page4"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220021Page5.png" alt="Page5"></p>
+]]></content>
+      <categories>
+        <category>adv learning</category>
+      </categories>
+      <tags>
+        <tag>神经对抗攻击</tag>
       </tags>
   </entry>
   <entry>
