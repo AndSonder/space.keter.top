@@ -457,6 +457,47 @@ These funds are used to improve educational facilities, purchase books and more 
       </tags>
   </entry>
   <entry>
+    <title>【GAN】GAN损失函数总结</title>
+    <url>/2021/07/26/%E3%80%90GAN%E3%80%91GAN%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="朴素gan"><a class="header-anchor" href="#朴素gan">¶</a>朴素GAN</h1>
+<p>朴素GAN的思想比较单纯，生成器负责生成假的数据。然后判别器负责鉴别这些数据。在计算LOSS的时候就是计算BCE LOSS，看一看代码就非常的清楚了。朴素GAN在计算损失函数的时候的计算依据是真的数据label就是1，假的数据label就是0。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 首先训练鉴别器</span></span><br><span class="line"><span class="keyword">for</span> d_index <span class="keyword">in</span> <span class="built_in">range</span>(d_steps):</span><br><span class="line">  <span class="comment">#  1A: Train D on real</span></span><br><span class="line">  d_real_data = Variable(d_sampler(d_input_size))</span><br><span class="line">  <span class="comment"># 让判别器判断真的数据</span></span><br><span class="line">  d_real_decision = D(preprocess(d_real_data))</span><br><span class="line">  <span class="comment"># 告诉判别器这些数据是真的</span></span><br><span class="line">  d_real_error = criterion(d_real_decision, Variable(torch.ones([<span class="number">1</span>])))  <span class="comment"># ones = true</span></span><br><span class="line">  d_real_error.backward() <span class="comment"># compute/store gradients, but don&#x27;t change params</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">#  1B: Train D on fake</span></span><br><span class="line">  d_gen_input = Variable(gi_sampler(minibatch_size, g_input_size))          </span><br><span class="line">  <span class="comment"># 生成假的数据				</span></span><br><span class="line">  d_fake_data = G(d_gen_input).detach()  <span class="comment"># detach to avoid training G on these labels</span></span><br><span class="line">  <span class="comment"># 让判别器判断这些假数据</span></span><br><span class="line">  d_fake_decision = D(preprocess(d_fake_data.t()))</span><br><span class="line">  <span class="comment"># 告诉判别器这些数据是假的</span></span><br><span class="line">  d_fake_error = criterion(d_fake_decision, Variable(torch.zeros([<span class="number">1</span>])))  <span class="comment"># zeros = fake</span></span><br><span class="line">  d_fake_error.backward()</span><br><span class="line">  d_optimizer.step()  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后训练生成器</span></span><br><span class="line"><span class="keyword">for</span> g_index <span class="keyword">in</span> <span class="built_in">range</span>(g_steps):</span><br><span class="line">  <span class="comment"># 基于D的结果训练G，但是要注意不要训练到D了</span></span><br><span class="line">  G.zero_grad()</span><br><span class="line">  gen_input = Variable(gi_sampler(minibatch_size, g_input_size))</span><br><span class="line">  g_fake_data = G(gen_input)</span><br><span class="line">  dg_fake_decision = D(preprocess(g_fake_data.t()))</span><br><span class="line">  <span class="comment"># 欺骗鉴别器这些数据都是真的</span></span><br><span class="line">  g_error = criterion(dg_fake_decision, Variable(torch.ones([<span class="number">1</span>])))  </span><br><span class="line">  g_error.backward()</span><br><span class="line">  g_optimizer.step()  <span class="comment"># 只更新生成器的参数</span></span><br><span class="line">  ge = extract(g_error)[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<h1 id="wgan"><a class="header-anchor" href="#wgan">¶</a>WGAN</h1>
+<p>WGAN有以下的优点，只能说太妙了！</p>
+<ul>
+<li>彻底解决GAN训练不稳定的问题，不再需要小心平衡生成器和判别器的训练程度</li>
+<li>基本解决了collapse mode的问题，确保了生成样本的多样性</li>
+<li>训练过程中终于有一个像交叉熵、准确率这样的数值来指示训练的进程，这个数值越小代表GAN训练得越好，代表生成器产生的图像质量越高（如题图所示）</li>
+<li>以上一切好处不需要精心设计的网络架构，最简单的多层全连接网络就可以做到</li>
+</ul>
+<p>WGAN的改进只有如下几点：</p>
+<ul>
+<li>判别器最后一层去掉sigmoid</li>
+<li>生成器和判别器的loss不取log</li>
+<li>每次更新判别器的参数之后把它们的绝对值截断到不超过一个固定常数c</li>
+<li>不要用基于动量的优化算法（包括momentum和Adam），推荐RMSProp，SGD也行</li>
+</ul>
+<p>前两点的其实就是不再使用JS散度，而第三点用于工程实训上保证判别器的目标函数平滑。最后一点其实是在实验中发现的，当使用Adam之类涉及动量的梯度下降算法时，判别器的损失可能会出现大幅度抖动的现象，而使用RMSProb或SGD算法后，这个问题就不会出现。   ·</p>
+<img src="/Users/keter/Documents/image/image-20210726141055299.png" alt="image-20210726141055299" style="zoom:50%;" />
+<p>更多的内容可以参考：<a href="https://zhuanlan.zhihu.com/p/25071913">令人拍案叫绝的Wasserstein GAN</a></p>
+<h2 id="wgan损失函数部分代码"><a class="header-anchor" href="#wgan损失函数部分代码">¶</a>WGAN损失函数部分代码</h2>
+<p>Code from: <a href="https://github.com/martinarjovsky/WassersteinGAN/blob/master/main.py">https://github.com/martinarjovsky/WassersteinGAN/blob/master/main.py</a></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> i &lt; <span class="built_in">len</span>(dataloader):</span><br><span class="line">  <span class="comment">############################</span></span><br><span class="line">  <span class="comment"># (1) 更新鉴别器</span></span><br><span class="line">  <span class="comment">###########################</span></span><br><span class="line">  <span class="keyword">for</span> p <span class="keyword">in</span> netD.parameters(): <span class="comment"># reset requires_grad</span></span><br><span class="line">    <span class="comment"># 此项在更新生成器网络的时候应该设置为Flase</span></span><br><span class="line">    p.requires_grad = <span class="literal">True</span> </span><br><span class="line"></span><br><span class="line">  <span class="comment"># 训练鉴别器Diter次</span></span><br><span class="line">  <span class="keyword">if</span> gen_iterations &lt; <span class="number">25</span> <span class="keyword">or</span> gen_iterations % <span class="number">500</span> == <span class="number">0</span>:</span><br><span class="line">    Diters = <span class="number">100</span></span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    Diters = opt.Diters</span><br><span class="line">  j = <span class="number">0</span></span><br><span class="line">  <span class="keyword">while</span> j &lt; Diters <span class="keyword">and</span> i &lt; <span class="built_in">len</span>(dataloader):</span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line">    data = data_iter.<span class="built_in">next</span>()</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    <span class="comment"># train with real</span></span><br><span class="line">    real_cpu, _ = data</span><br><span class="line">    netD.zero_grad()</span><br><span class="line">    batch_size = real_cpu.size(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> opt.cuda:</span><br><span class="line">      real_cpu = real_cpu.cuda()</span><br><span class="line">      <span class="built_in">input</span>.resize_as_(real_cpu).copy_(real_cpu)</span><br><span class="line">      inputv = Variable(<span class="built_in">input</span>)</span><br><span class="line"></span><br><span class="line">      errD_real = netD(inputv)</span><br><span class="line">      errD_real.backward(one)</span><br><span class="line"></span><br><span class="line">      <span class="comment"># train with fake</span></span><br><span class="line">      noise.resize_(opt.batchSize, nz, <span class="number">1</span>, <span class="number">1</span>).normal_(<span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">      noisev = Variable(noise, volatile = <span class="literal">True</span>) <span class="comment"># totally freeze netG</span></span><br><span class="line">      fake = Variable(netG(noisev).data)</span><br><span class="line">      inputv = fake</span><br><span class="line">      errD_fake = netD(inputv)</span><br><span class="line">      errD_fake.backward(mone)</span><br><span class="line">      <span class="comment"># 计算EM距离</span></span><br><span class="line">      errD = errD_real - errD_fake</span><br><span class="line">      optimizerD.step()</span><br><span class="line">    <span class="comment"># 将判别器的梯度限制在一个范围之内【WGAN核心之处】</span></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> netD.parameters():</span><br><span class="line">      p.data.clamp_(opt.clamp_lower, opt.clamp_upper)</span><br><span class="line"></span><br><span class="line">  <span class="comment">############################</span></span><br><span class="line">  <span class="comment"># (2) 更新生成器</span></span><br><span class="line">  <span class="comment">###########################</span></span><br><span class="line">  <span class="keyword">for</span> p <span class="keyword">in</span> netD.parameters():</span><br><span class="line">    p.requires_grad = <span class="literal">False</span></span><br><span class="line">  netG.zero_grad()</span><br><span class="line">  <span class="comment"># in case our last batch was the tail batch of the dataloader,</span></span><br><span class="line">  <span class="comment"># make sure we feed a full batch of noise</span></span><br><span class="line">  noise.resize_(opt.batchSize, nz, <span class="number">1</span>, <span class="number">1</span>).normal_(<span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">  noisev = Variable(noise)</span><br><span class="line">  fake = netG(noisev)</span><br><span class="line">  errG = netD(fake)</span><br><span class="line">  errG.backward(one)</span><br><span class="line">  optimizerG.step()</span><br><span class="line">  gen_iterations += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="wgan-gp损失函数部分代码"><a class="header-anchor" href="#wgan-gp损失函数部分代码">¶</a>WGAN-GP损失函数部分代码</h2>
+<p>Code from：<a href="https://github.com/caogang/wgan-gp/blob/master/gan_mnist.py">https://github.com/caogang/wgan-gp/blob/master/gan_mnist.py</a></p>
+<p>计算gradient_penalty部分的代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_gradient_penalty</span>(<span class="params">netD, real_data, fake_data</span>):</span></span><br><span class="line">    <span class="comment"># 从生成数据和真实数据之间的空间分布中抽取样本用来计算</span></span><br><span class="line">    alpha = torch.rand(BATCH_SIZE, <span class="number">1</span>)</span><br><span class="line">    alpha = alpha.expand(real_data.size())</span><br><span class="line">    alpha = alpha.cuda(gpu) <span class="keyword">if</span> use_cuda <span class="keyword">else</span> alpha</span><br><span class="line"></span><br><span class="line">    interpolates = alpha * real_data + ((<span class="number">1</span> - alpha) * fake_data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> use_cuda:</span><br><span class="line">        interpolates = interpolates.cuda(gpu)</span><br><span class="line">    interpolates = autograd.Variable(interpolates, requires_grad=<span class="literal">True</span>)</span><br><span class="line">	</span><br><span class="line">    disc_interpolates = netD(interpolates)</span><br><span class="line"></span><br><span class="line">    gradients = autograd.grad(outputs=disc_interpolates, inputs=interpolates,</span><br><span class="line">                              grad_outputs=torch.ones(disc_interpolates.size()).cuda(gpu) <span class="keyword">if</span> use_cuda <span class="keyword">else</span> torch.ones(</span><br><span class="line">                                  disc_interpolates.size()),</span><br><span class="line">                              create_graph=<span class="literal">True</span>, retain_graph=<span class="literal">True</span>, only_inputs=<span class="literal">True</span>)[<span class="number">0</span>]</span><br><span class="line">		</span><br><span class="line">    gradient_penalty = ((gradients.norm(<span class="number">2</span>, dim=<span class="number">1</span>) - <span class="number">1</span>) ** <span class="number">2</span>).mean() * LAMBDA</span><br><span class="line">    <span class="keyword">return</span> gradient_penalty</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">############################</span></span><br><span class="line"><span class="comment"># (1) 更新鉴别器</span></span><br><span class="line"><span class="comment">###########################</span></span><br><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> netD.parameters():  </span><br><span class="line">  <span class="comment"># 此项在更新生成器网络的时候应该设置为Flase</span></span><br><span class="line">  p.requires_grad = <span class="literal">True</span>  </span><br><span class="line">  <span class="keyword">for</span> iter_d <span class="keyword">in</span> xrange(CRITIC_ITERS):</span><br><span class="line">    _data = data.<span class="built_in">next</span>()</span><br><span class="line">    real_data = torch.Tensor(_data)</span><br><span class="line">    <span class="keyword">if</span> use_cuda:</span><br><span class="line">      real_data = real_data.cuda(gpu)</span><br><span class="line">      real_data_v = autograd.Variable(real_data)</span><br><span class="line"></span><br><span class="line">      netD.zero_grad()</span><br><span class="line"></span><br><span class="line">      <span class="comment"># train with real</span></span><br><span class="line">      D_real = netD(real_data_v)</span><br><span class="line">      D_real = D_real.mean()</span><br><span class="line">      <span class="comment"># print D_real</span></span><br><span class="line">      D_real.backward(mone)</span><br><span class="line"></span><br><span class="line">      <span class="comment"># train with fake</span></span><br><span class="line">      noise = torch.randn(BATCH_SIZE, <span class="number">128</span>)</span><br><span class="line">      <span class="keyword">if</span> use_cuda:</span><br><span class="line">        noise = noise.cuda(gpu)</span><br><span class="line">      noisev = autograd.Variable(noise, volatile=<span class="literal">True</span>)  <span class="comment"># totally freeze netG</span></span><br><span class="line">      fake = autograd.Variable(netG(noisev).data)</span><br><span class="line">      inputv = fake</span><br><span class="line">      D_fake = netD(inputv)</span><br><span class="line">      D_fake = D_fake.mean()</span><br><span class="line">      D_fake.backward(one)</span><br><span class="line"></span><br><span class="line">      <span class="comment"># 计算 gradient penalty</span></span><br><span class="line">      gradient_penalty = calc_gradient_penalty(netD, real_data_v.data, fake.data)</span><br><span class="line">      gradient_penalty.backward()</span><br><span class="line"></span><br><span class="line">      D_cost = D_fake - D_real + gradient_penalty</span><br><span class="line">      </span><br><span class="line">      Wasserstein_D = D_real - D_fake</span><br><span class="line">      optimizerD.step()</span><br><span class="line"><span class="comment">############################</span></span><br><span class="line"><span class="comment"># (2) Update G network</span></span><br><span class="line"><span class="comment">###########################</span></span><br><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> netD.parameters():</span><br><span class="line">  <span class="comment"># 避免计算鉴别器</span></span><br><span class="line">  p.requires_grad = <span class="literal">False</span></span><br><span class="line">netG.zero_grad()</span><br><span class="line">noise = torch.randn(BATCH_SIZE, <span class="number">128</span>)</span><br><span class="line"><span class="keyword">if</span> use_cuda:</span><br><span class="line">  noise = noise.cuda(gpu)</span><br><span class="line">  noisev = autograd.Variable(noise)</span><br><span class="line">  fake = netG(noisev)</span><br><span class="line">  G = netD(fake)</span><br><span class="line">  G = G.mean()</span><br><span class="line">  G.backward(mone)</span><br><span class="line">  G_cost = -G</span><br><span class="line">  optimizerG.step()</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>深度学习基础知识</category>
+      </categories>
+      <tags>
+        <tag>GAN</tag>
+        <tag>深度学习基础知识</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【mist】配置mist论文环境</title>
     <url>/2021/06/20/%E3%80%90mist%E3%80%91%E9%85%8D%E7%BD%AEmist%E8%AE%BA%E6%96%87%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>个人配置mistGPU论文训练环境的代码：</p>
@@ -469,6 +510,20 @@ These funds are used to improve educational facilities, purchase books and more 
       </categories>
       <tags>
         <tag>环境配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【pandoc】MarkDown2Word</title>
+    <url>/2021/06/21/%E3%80%90pandoc%E3%80%91MarkDown2Word/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>只能说pandoc yyds！</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pandoc -s 2-test.md -o test.docx --reference-doc reference.docx</span><br></pre></td></tr></table></figure>
+<p>点击下载：<a href="https://blog.keter.top/docs/reference.docx">reference.docx</a></p>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>pandoc</tag>
       </tags>
   </entry>
   <entry>
@@ -521,20 +576,6 @@ These funds are used to improve educational facilities, purchase books and more 
       </categories>
       <tags>
         <tag>信息安全数学基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【pandoc】MarkDown2Word</title>
-    <url>/2021/06/21/%E3%80%90pandoc%E3%80%91MarkDown2Word/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>只能说pandoc yyds！</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pandoc -s 2-test.md -o test.docx --reference-doc reference.docx</span><br></pre></td></tr></table></figure>
-<p>点击下载：<a href="https://blog.keter.top/docs/reference.docx">reference.docx</a></p>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>pandoc</tag>
       </tags>
   </entry>
   <entry>
@@ -1365,6 +1406,172 @@ x \equiv b2 \ (mod \ 29) \\
 <p>请参照：<a href="https://www.runoob.com/css/css-tutorial.html">菜鸟教程</a></p>
 <p>本次培训的目的不是把你们培训成网页开发者，只是让你们熟悉一下网页的结构将来可以和算法对接。</p>
 <h2 id="js基础知识"><a class="header-anchor" href="#js基础知识">¶</a>JS基础知识</h2>
+<h3 id="什么是js"><a class="header-anchor" href="#什么是js">¶</a>什么是JS</h3>
+<p>JS全称JavaScript：</p>
+<p>JavaScript 是一种轻量级的编程语言。</p>
+<p>JavaScript 是可插入 HTML 页面的编程代码。</p>
+<p>JavaScript 插入 HTML 页面后，可由所有的现代浏览器执行。</p>
+<h3 id="js的用法"><a class="header-anchor" href="#js的用法">¶</a>JS的用法</h3>
+<p>HTML 中的脚本必须位于 &lt;script&gt; 与 &lt;/script&gt; 标签之间。</p>
+<p>脚本可被放置在 HTML 页面的 &lt;body&gt; 和&lt;head&gt; 部分中。</p>
+<h4 id="script-标签"><a class="header-anchor" href="#script-标签">¶</a>&lt;script&gt; 标签</h4>
+<p>如需在 HTML 页面中插入 JavaScript，请使用 <script> 标签。</p>
+<p><code>&lt;script&gt; 和 &lt;/script&gt;</code> 会告诉 JavaScript 在何处开始和结束。</p>
+<p>比如：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">alert(<span class="string">&quot;我的第一个 JavaScript&quot;</span>);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>你们暂时无需理解上面的代码。只需明白，浏览器会解释并执行位于 <code>&lt;script&gt; 和 &lt;/script&gt;</code>之间的 JavaScript 代码 。</p>
+<h4 id="写js代码的三个位置"><a class="header-anchor" href="#写js代码的三个位置">¶</a>写JS代码的三个位置</h4>
+<ol>
+<li>写在head当中</li>
+<li>写在body当中</li>
+<li>写在外置文件当中</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 写在外置文件当中 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;myScript.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 写在head中 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">document</span>.write(<span class="string">&quot;&lt;h1&gt;223333&lt;/h1&gt;&quot;</span>);</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 写在body中 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">document</span>.write(<span class="string">&quot;&lt;h1&gt;1111&lt;/h1&gt;&quot;</span>);</span></span><br><span class="line"><span class="javascript">		alert(<span class="string">&quot;666，我的宝贝&quot;</span>);</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>写在body和写在head中的代码其实没有什么特殊的区别，需要注意的就是head中的JS代码是先被执行的，body中的代码是后被执行的。有时候JS代码是需要和HTML元素绑定的，JS代码一定要写在绑定元素的下面（x）。</p>
+<h4 id="js语法"><a class="header-anchor" href="#js语法">¶</a>JS语法</h4>
+<p><code>JS变量：</code></p>
+<p>在JS中如果你要声明一个变量可以使用：<code>var x = 1</code>;</p>
+<p><code>JS中的数据类型：</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> length = <span class="number">16</span>;                                  <span class="comment">// Number 通过数字字面量赋值    </span></span><br><span class="line"><span class="keyword">var</span> points = x * <span class="number">10</span>;                              <span class="comment">// Number 通过表达式字面量赋值  </span></span><br><span class="line"><span class="keyword">var</span> lastName = <span class="string">&quot;Johnson&quot;</span>;                         <span class="comment">// String 通过字符串字面量赋值  </span></span><br><span class="line"><span class="keyword">var</span> cars = [<span class="string">&quot;Saab&quot;</span>, <span class="string">&quot;Volvo&quot;</span>, <span class="string">&quot;BMW&quot;</span>];              <span class="comment">// Array  通过数组字面量赋值   </span></span><br><span class="line"><span class="keyword">var</span> person = &#123;<span class="attr">firstName</span>:<span class="string">&quot;John&quot;</span>, <span class="attr">lastName</span>:<span class="string">&quot;Doe&quot;</span>&#125;;  <span class="comment">// Object 通过对象字面量赋值   </span></span><br></pre></td></tr></table></figure>
+<p><code>JS函数：</code></p>
+<p>JavaScript 语句可以写在函数内，函数可以重复引用：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a * b;                                <span class="comment">// 返回 a 乘以 b 的结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还有JS中的for循环啊，while循环啊之类的就不多说了和C语言的用法基本一致。</p>
+<h4 id="如何使用html元素触发函数"><a class="header-anchor" href="#如何使用html元素触发函数">¶</a>如何使用HTML元素触发函数</h4>
+<p>我们知道函数在没有调用的时候说不会执行的，我们编写JS函数的目的是希望在用户操作页面的时候可以有对应的响应。下面我们就介绍一下HTML元素绑定函数的几种方法：</p>
+<p><code>onclick()</code></p>
+<p>比如下面这个代码：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">&quot;myFunction()&quot;</span>&gt;</span>点我啊<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">		<span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">			alert(<span class="string">&quot;aaaa&quot;</span>);</span></span><br><span class="line">		&#125;;</span><br><span class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这个代码就是将button绑定了myFunction()这个函数。</p>
+<p><code>使用普通的JS代码绑定</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;button id=<span class="string">&quot;b1&quot;</span>&gt;点我啊&lt;/button&gt;</span><br><span class="line">	&lt;script&gt;</span><br><span class="line">		<span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			alert(<span class="string">&quot;aaaa&quot;</span>);</span><br><span class="line">		&#125;;</span><br><span class="line">		<span class="keyword">var</span> bt = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;b1&#x27;</span>);</span><br><span class="line">		bt.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			myFunction();</span><br><span class="line">		&#125;</span><br><span class="line">	&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>首先我们需要获取到按钮这个对象，使用document.getElementById可以获取。接着定义这个对象的onclick对应的事件。</p>
+<p><code>使用JQuery库绑定</code></p>
+<p>JQuery是JS的一个库提供了一些比较好用的接口，具体的介绍这里就不说了直接说他要怎么用。还是那句话这篇教程不是为了培养一个高端的前端工程师的，我直接也不是专业的说的地方也有可能是错的。只是想让大家看过之后可以对前后端有个了解，能够看懂别人的代码或者在别人代码的基础上做一定的修改。</p>
+<p>引入JQuery库：</p>
+<p>一般引入的代码写在head的位置</p>
+<p><code>&lt;script src=&quot;https://cdn.staticfile.org/jquery/1.8.3/jquery.min.js&quot;&gt;</code></p>
+<p>绑定的方式如下：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;b1&quot;</span>&gt;</span>点我啊<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">		$(<span class="string">&quot;#b1&quot;</span>).on(<span class="string">&quot;click&quot;</span>,myFunction);</span></span><br><span class="line"><span class="javascript">		<span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">			alert(<span class="string">&quot;aaaa&quot;</span>);</span></span><br><span class="line">		&#125;;</span><br><span class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>除了点击，jq也可以便捷的实现鼠标移动到上面就触发的效果。把上述的代码改成mouseover即可；</p>
+<h3 id="jq的一些基本操作"><a class="header-anchor" href="#jq的一些基本操作">¶</a>JQ的一些基本操作</h3>
+<h4 id="基本语法格式"><a class="header-anchor" href="#基本语法格式">¶</a>基本语法格式</h4>
+<p><code>$(selector).action()</code></p>
+<ul>
+<li>选择符（selector）查询HTML 元素：this、标签名称、.类名、#id</li>
+<li>jQuery 的 action() 执行对元素的操作</li>
+</ul>
+<h4 id="jq的选择器"><a class="header-anchor" href="#jq的选择器">¶</a>JQ的选择器</h4>
+<p>它完全继承了 CSS 的风格,可以对元素的标签名、属性名、状态等进行快速准确的选择,并且不必担心浏览器的兼容性,写法更加简洁。</p>
+<p><code>基本选择器</code></p>
+<table>
+<thead>
+<tr>
+<th>选择题</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#id</td>
+<td>根据指定的ID匹配元素</td>
+<td>$(’#box’)选择id为box的标签</td>
+</tr>
+<tr>
+<td>.class</td>
+<td>根据给定的类名匹配元素</td>
+<td>$(’.left’)选择class为left的标签</td>
+</tr>
+<tr>
+<td>Element</td>
+<td>根据给定的元素名匹配元素</td>
+<td>$(‘p’)选择所有段落标签</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配所有元素</td>
+<td>$(’*’)选择所有不分类型标签</td>
+</tr>
+<tr>
+<td>Seletor1,Seletor2</td>
+<td>将每一个选择器匹配到的元素合并到一起返回</td>
+<td>$(‘p,h1’)同时选择段落和标题一</td>
+</tr>
+</tbody>
+</table>
+<p><code>层级选择器</code></p>
+<table>
+<thead>
+<tr>
+<th>选择题</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(‘ul li’)</td>
+<td>选择ul当中所有li（所有后代元素）</td>
+</tr>
+<tr>
+<td>$(‘ul&gt;li’)</td>
+<td>选择ul当中子元素li所有的子元素</td>
+</tr>
+<tr>
+<td>$(‘p+div’)</td>
+<td>选择段落后的第一个div</td>
+</tr>
+</tbody>
+</table>
+<p>等等… 主要要用到的就是基本选择器了。</p>
+<h4 id="jq操作html元素"><a class="header-anchor" href="#jq操作html元素">¶</a>JQ操作html元素</h4>
+<p><code>获得内容</code></p>
+<ul>
+<li>text() - 设置或返回所选元素的文本内容</li>
+<li>html() - 设置或返回所选元素的内容（包括 HTML 标记）</li>
+<li>val() - 设置或返回表单字段的值</li>
+</ul>
+<p><code>设置内容</code></p>
+<ul>
+<li>
+<p>text(参数) - 设置或返回所选元素的文本内容</p>
+</li>
+<li>
+<p>html(参数) - 设置或返回所选元素的内容（包括 HTML 标记）</p>
+</li>
+<li>
+<p>val(参数) - 设置或返回表单字段的值</p>
+</li>
+<li>
+<p>回调函数：<br>
+回调函数由两个参数：被选元素列表中当前元素的下标，以及原始（旧的）值。然后以函数新值返回；<br>
+示例：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">text(<span class="function"><span class="keyword">function</span>(<span class="params">i,origText</span>)</span>&#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="string">&quot;Old text: &quot;</span> + origText + <span class="string">&quot; New text: Hello world!</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="ajax"><a class="header-anchor" href="#ajax">¶</a>ajax</h3>
+<h4 id="什么是ajax"><a class="header-anchor" href="#什么是ajax">¶</a>什么是AJAX</h4>
+<p>AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）。</p>
+<p>AJAX 不是新的编程语言，而是一种使用现有标准的新方法。</p>
+<p>AJAX 最大的优点是在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容。</p>
+<p>AJAX 不需要任何浏览器插件，但需要用户允许JavaScript在浏览器上执行。</p>
+<h4 id="jq与ajax"><a class="header-anchor" href="#jq与ajax">¶</a>JQ与Ajax</h4>
+<p>jQuery 提供多个与 AJAX 有关的方法。</p>
+<p>通过 jQuery AJAX 方法，能够使用 HTTP Get 和 HTTP Post 从远程服务器上请求文本、HTML、XML 或 JSON - 同时能够把这些外部数据直接载入网页的被选元素中。</p>
+<h3 id="get方法"><a class="header-anchor" href="#get方法">¶</a>GET方法</h3>
+<p><code>使用JQ实现GET方法：</code></p>
+<p>例子：</p>
+<p>请求 “test.php”，但是忽略返回结果：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">$.get(<span class="string">&quot;test.php&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>请求 “test.php” 并连同请求发送一些额外的数据（忽略返回结果）：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">$.get(<span class="string">&quot;test.php&quot;</span>, &#123; <span class="attr">name</span>:<span class="string">&quot;Donald&quot;</span>, <span class="attr">town</span>:<span class="string">&quot;Ducktown&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+<p>请求 “test.php” 并传递数据数组到服务器（忽略返回结果）：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">$.get(<span class="string">&quot;test.php&quot;</span>, &#123; <span class="string">&#x27;colors[]&#x27;</span> : [<span class="string">&quot;Red&quot;</span>,<span class="string">&quot;Green&quot;</span>,<span class="string">&quot;Blue&quot;</span>] &#125;);</span><br></pre></td></tr></table></figure>
+<p>请求 “test.php” 并提醒请求的结果：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">$.get(<span class="string">&quot;test.php&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">alert(<span class="string">&quot;Data: &quot;</span> + data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>语法</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">$.get(URL,data,<span class="function"><span class="keyword">function</span>(<span class="params">data,status,xhr</span>),<span class="title">dataType</span>)</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210726232537image-20210726232535309.png" alt="image-20210726232535309"></p>
 <h1 id="后端flask基础知识"><a class="header-anchor" href="#后端flask基础知识">¶</a>后端Flask基础知识</h1>
 <h1 id="多多实践"><a class="header-anchor" href="#多多实践">¶</a>多多实践</h1>
 <p><img src="https://gitee.com/coronapolvo/images/raw/master/20210724092239image-20210724092237834.png" alt="image-20210724092237834"></p>
@@ -1376,7 +1583,7 @@ x \equiv b2 \ (mod \ 29) \\
       </tags>
   </entry>
   <entry>
-    <title>【DL】Neural Network Embeddings Explained</title>
+    <title>【基础知识】Neural Network Embeddings Explained</title>
     <url>/2021/07/18/%E3%80%90%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E3%80%91Neural-Network-Embeddings-Explained/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>原文链接：<a href="https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526">https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526</a></p>
 <blockquote>
@@ -1460,7 +1667,7 @@ x \equiv b2 \ (mod \ 29) \\
       </tags>
   </entry>
   <entry>
-    <title>对于正则化的理解</title>
+    <title>【基础知识】对于正则化的理解</title>
     <url>/2021/07/22/%E3%80%90%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E3%80%91%E5%AF%B9%E4%BA%8E%E6%AD%A3%E5%88%99%E5%8C%96%E7%9A%84%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote>
 <p>这篇文章主要介绍L1和L2正则化是如何在梯度下降中工作的；</p>
@@ -1936,6 +2143,189 @@ XSS注入代码如下：<br>
       </tags>
   </entry>
   <entry>
+    <title>【白帽子学习笔记】网络嗅探与身份验证</title>
+    <url>/2020/11/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E5%97%85%E6%8E%A2%E4%B8%8E%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>@一个在写实验报告的人，/(ㄒoㄒ)/~~</p>
+<h1 id="0x01-网络嗅探相关概念"><a class="header-anchor" href="#0x01-网络嗅探相关概念">¶</a>0x01 网络嗅探相关概念</h1>
+<h2 id="1x01-网络嗅探概述"><a class="header-anchor" href="#1x01-网络嗅探概述">¶</a>1x01 网络嗅探概述</h2>
+<p>Sniffer（嗅探器）工作在OSI模型的第二层，利用计算机的网卡截获网络数据报文的一种工具，<strong>可用来监听网络中的数据，分析网络的流量，以便找出所关心的网络中潜在的问题</strong>。例如,假设网络的某一段运行得不是很好,报文的发送比较慢,而我们又不知道问题出在什么地方,此时就可以用嗅探器确定不同网络协议、不同用户的通信流量，相互主机的报文传送间隔时间等，这些信息为管理员判断网络问题、管理网络区域提供了非常宝贵的信息。<br>
+在正常情况下，一个合法的网络接口应该只响应这样的两种数据帧：</p>
+<ul>
+<li>帧的目标区域具有和本地网络接口相匹配的硬件地址；</li>
+<li>帧的目标区域具有“广播地址”。</li>
+</ul>
+<span id="more"></span>
+<p>如果网卡处于混杂（promiscuous）模式，那么它就可以捕获网络上所有的数据帧，处于对网络的“监听”状态，如果一台机器被配置成这样的方式，它（包括其软件）就是一个嗅探器。<br>
+在交换型以太网中，上述条件2是不满足的。所有的主机连接到SWITCH，<strong>SWITCH比HUB更聪明</strong>，它知道每台计算机的MAC地址信息和与之相连的特定端口，发给某个主机的数据包会被SWITCH从特定的端口送出，而不是象HUB那样，广播给网络上所有的机器。这种传输形式使交换型以太网的性能大大提高，同时还有一个附加的作用：使传统的嗅探器无法工作。<br>
+交换型网络环境嗅探的核心问题是：如何使本不应到达的数据包到达本地。通常的方法有<strong>MAC洪水包和ARP欺骗</strong>。其中MAC洪水包是向交换机发送大量含有虚构MAC地址和IP地址的IP包，使交换机无法处理如此多的信息，致使交换机就进入了所谓的&quot;打开失效&quot;模式，也就是开始了类似于集线器的工作方式，向网络上所有的机器广播数据包。</p>
+<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
+<p>每一个主机都有一个ARP高速缓存，此缓存中记录了最近一段时间内其它IP地址与其MAC地址的对应关系。如果本机想与某台主机通信，则首先在ARP高速缓存中查找此台主机的IP和MAC信息，如果存在，则直接利用此MAC地址构造以太帧；如果不存在，则向本网络上每一个主机广播一个ARP请求报文，其意义是&quot;如果你有此IP地址，请告诉我你的MAC地址&quot;，目的主机收到此请求包后，发送一个ARP响应报文，本机收到此响应后，把相关信息记录在ARP高速缓存中，以下的步骤同上。<br>
+<strong>ARP报文格式：</strong><br>
+<img src="https://img-blog.csdnimg.cn/20201104213312881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>可以看出，ARP协议是有缺点的，第三方主机可以构造一个ARP欺骗报文，而源主机却无法分辨真假。如果发送者硬件地址字段填入攻击者的硬件地址，而发送者IP地址填入被假冒者的IP地址，那么就构造出了一个用于欺骗的ARP请求报文。那么被欺骗主机的ARP高速缓存，被假冒者的IP地址与其MAC地址的对应关系就会更改为欺骗者的，从而达到ARP欺骗的目的。特别的，如果攻击者冒充网关，将转发子网内到外网的所有通信量，以达到捕获其他主机的通信量，从而破坏数据传输的保密性。</p>
+<h2 id="1x03-密码安全"><a class="header-anchor" href="#1x03-密码安全">¶</a>1x03 密码安全</h2>
+<p>在现实网络中，攻击事件发生的频率越来越高，其中相当多的都是由于网站密码泄露的缘故，或是人为因素导致，或是口令遭到破解，所以从某种角度而言，密码的安全问题不仅仅是技术上的问题，更主要的是人的安全意识问题。</p>
+<ul>
+<li>口令破解方法<br>
+口令破解主要有两种方法：字典破解和暴力破解。<br>
+字典破解是指通过破解者对管理员的了解，猜测其可能使用某些信息作为密码，例如其姓名、生日、电话号码等，同时结合对密码长度的猜测，利用工具来生成密码破解字典。如果相关信息设置准确，字典破解的成功率很高，并且其速度快，因此字典破解是密码破解的首选。<br>
+而暴力破解是指对密码可能使用的字符和长度进行设定后（例如限定为所有英文字母和所有数字，长度不超过8），对所有可能的密码组合逐个实验。随着可能字符和可能长度的增加，存在的密码组合数量也会变得非常庞大，因此暴力破解往往需要花费很长的时间，尤其是在密码长度大于10，并且包含各种字符（英文字母、数字和标点符号）的情况下。</li>
+<li><strong>口令破解方式</strong><br>
+口令破解主要有两种方式：离线破解和在线破解。<br>
+离线破解攻击者得到目标主机存放密码的文件后，就可以脱离目标主机，在其他计算机上通过口令破解程序穷举各种可能的口令，如果计算出的新密码与密码文件存放的密码相同，则口令已被破解。</li>
+<li><strong>候选口令产生器</strong><br>
+候选口令产生器的作用是不断生成可能的口令。有几种方法产生候选口令，一种是用枚举法来构造候选口令（暴力破解），另一种方法是从一个字典文件里读取候选口令（字典破解）。</li>
+<li><strong>口令加密</strong><br>
+口令加密过程就是用加密算法对从口令候选器送来的候选口令进行加密运算而得到密码。这要求加密算法要采用和目标主机一致的加密算法。加密算法有很多种，通常与操作系统或应用程序的类型和版本相关。<br>
+Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工具使用Java编写，由PortSwigger Security开发。该工具有两个版本。可免费下载的免费版（免费版）和试用期后可购买的完整版（专业版）。免费版本功能显着降低。它的开发旨在为Web应用程序安全检查提供全面的解决方案，Burp Suite是进行Web应用安全测试集成平台。它将各种安全工具无缝地融合在一起，以支持整个测试过程中，从最初的映射和应用程序的攻击面分析，到发现和利用安全漏洞。</li>
+</ul>
+<h1 id="0x02-网络嗅探部分"><a class="header-anchor" href="#0x02-网络嗅探部分">¶</a>0x02 网络嗅探部分</h1>
+<p><img src="https://img-blog.csdnimg.cn/20201104213552527.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x01-sinffer-wireshark抓包"><a class="header-anchor" href="#1x01-sinffer-wireshark抓包">¶</a>1x01 sinffer（Wireshark抓包）</h2>
+<p>A主机上外网，B运行sinffer(Wireshark)选定只抓源为A的数据)。</p>
+<p>我们选择Metasploit2主机作为A，Kali作为B。首先我们需要确认kali和Windows处于同一网段（可相互ping通的状态)。<strong>（PS：这一步是使用的Metasploit2，后面因为需要到网页里面提交数据就换成了win7）</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201104223018979.png#pic_center" alt="在这里插入图片描述"><br>
+接下来在kali中打开Wireshark，如果想要抓源只为A的数据，那么过滤语句为：<br>
+<code>ip.src == 10.34.80.4</code><br>
+接下来我们使用A去ping B观察一下wireshark的反应。<br>
+<img src="https://img-blog.csdnimg.cn/20201104224124598.png#pic_center" alt="在这里插入图片描述"></p>
+<p>但是如果A ping的是百度，或者往某一个网址发送包含账号和密码的HTTP报文。就可以获取相应信息。</p>
+<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
+<p>关于ARP的原理已经攻击原理我在以前的一篇博客中有写到：<br>
+<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/109270741">【白帽子学习笔记20】arp协议原理与攻击应用</a></p>
+<p>为了欺骗B，让B把报文全部发到A这里来。A需要冒充局域网中交换机的角色。<strong>（此时B为Win7主机）</strong><br>
+这一步我们需要使用一个工具就是<strong>arpspoof</strong>。在安装这个包的过程中可能会遇到一些坑。下面记录一下我遇到的一些问题。</p>
+<ul>
+<li>建议更换kali源，否则有可能出现找不到的情况</li>
+<li>安装过程使用<code>sudo apt-get install dsniff</code>而不是直接install arpspoof</li>
+</ul>
+<p>这里我们使用单向攻击：<br>
+受攻击主机将数据发送到攻击主机，并由攻击主机转发至网关，网关将数据发送至服务器，服务器返回数据给网关，网关返回数据给受攻击主机</p>
+<p><strong>步骤如下：</strong></p>
+<ol>
+<li>
+<p>开启端口转发，允许本机像路由器那样转发数据包<br>
+<code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code></p>
+</li>
+<li>
+<p>ARP投毒，向主机B声称自己(攻击者)就是网关<br>
+<code>arpspoof -i eth0 -t IP1 IP2</code>(IP1是我们的攻击目标、IP2是网关IP地址)<br>
+首先确认Win7的IP地址，然后确认网关地址。<br>
+<img src="https://img-blog.csdnimg.cn/20201105002023834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+接下来查询网关：<br>
+<img src="https://img-blog.csdnimg.cn/20201105002519492.png#pic_center" alt="在这里插入图片描述"></p>
+</li>
+<li>
+<p>wireshark抓包分析</p>
+</li>
+</ol>
+<p>我们使用<strong>Win7</strong>尝试访问一下百度。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105002841512.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+接下来到wireshark里面看一下。修改wireshark的筛选规则为<code>ip.src == 10.34.80.3</code>。结果可以看到成功抓取到了数据！<br>
+<img src="https://img-blog.csdnimg.cn/20201105003005214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+接下来我们选择一个网站输入以下账号密码。就选择大家&quot;最爱&quot;的X班吧. 我记得他的信息上传是没有加密的。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105074044844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>点击登陆；<br>
+之后在wireshark里查找发送到易班服务器的http post包。<br>
+<img src="https://img-blog.csdnimg.cn/20201105005514496.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+但是最后发现某班的密码是加密发送的，所以账号密码信息还是不能获得。但是可以从包里面获取到cookie信息，这样再通过Chrome修改cookie的插件就可以完成免密登陆。</p>
+<p><strong>由于没有完成任务，我们切换到某大学的学生选课系统的登陆界面。</strong><br>
+<img src="https://img-blog.csdnimg.cn/20201105012215269.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+经过相同的操作之后抓到了包。<br>
+<img src="https://img-blog.csdnimg.cn/20201105012432476.png#pic_center" alt="在这里插入图片描述"><br>
+在数据报里面成功的发现我过程输入的账号和密码的明文信息。<br>
+<img src="https://img-blog.csdnimg.cn/20201105012544392.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x03-wireshark分析文件"><a class="header-anchor" href="#1x03-wireshark分析文件">¶</a>1x03 WireShark分析文件</h2>
+<p><strong>1.如何发现有FTP服务器？且找到FTP服务器的IP地址？</strong></p>
+<p>通过观察流量数据，可以发现有大量基于FTP协议传输的数据库，所以推测有FTP服务器。<br>
+<img src="https://img-blog.csdnimg.cn/20201105013341403.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+通过对部分数据包的分析，比如如下两个：<br>
+<img src="https://img-blog.csdnimg.cn/20201105013424449.png#pic_center" alt="在这里插入图片描述"><br>
+可以知道192.168.182.1是FTP文件服务器。</p>
+<p><strong>2.客户端登陆FTP服务器的账号和密码分别是什么？</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201105013714892.png#pic_center" alt="在这里插入图片描述"><br>
+通过这两个数据包可以确定服务器的账号和密码。</p>
+<p><strong>3.客户端从FTP下载或查看了2个文件，一个是zip文件，一个是txt文件，文件名分别是什么？</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201105013929225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+在数据包中可以发现，用户分别查看了1.zip 和 复习题.txt</p>
+<p><strong>4.还原ZIP文件并打开</strong></p>
+<p>这里我们需要知道的一个知识是对FTP服务器的操作虽然是基于FTP协议解决的，但是真正在下载文件的时候还是使用tcp协议。所以需要zip数据包的时候需要在TCP数据包里面找，可以根据zip文件的文件头和文件尾快速的确认zip包的位置。<br>
+<img src="https://img-blog.csdnimg.cn/20201105023108818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+将<strong>原始数据</strong>另存为a.zip, 可以得到一个正常的压缩包，但是有密码。<br>
+<img src="https://img-blog.csdnimg.cn/20201105023432708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+我们使用kali下的fcrakzip密码破解工具，对zip进行破解。先<code>sudo apt-get install fcrackzip</code>安装</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105024450191.png#pic_center" alt="在这里插入图片描述"><br>
+破解命令 <code>fcrackzip -b -c1 -l 6 -u a.zip</code> 接下来解释一下这个命令。</p>
+<ul>
+<li>-b：使用暴力模式</li>
+<li>-c1：使用纯数字进行破解</li>
+<li>-l：规定破解密码长度/范围</li>
+<li>-u：使用unzip</li>
+</ul>
+<p>最后得到了我们的小企鹅。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201105024802841.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><strong>5.TXT的内容是什么？</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20201105024939728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+通过追踪TXT信息，可以确定文件内容如下：<br>
+<img src="https://img-blog.csdnimg.cn/20201105025003861.png#pic_center" alt="在这里插入图片描述"><br>
+<strong>6. 网站密码破解部分：</strong></p>
+<p>为了合法的完成渗透测试报告，我们选择Bugku中一道需要运用到暴力破解的题目为例，解析一下如何运用Burp Suite爆破一个网站。</p>
+<p>网站网址: <a href="http://123.206.87.240:8002/baopo/">http://123.206.87.240:8002/baopo/</a><br>
+<img src="https://img-blog.csdnimg.cn/20200812135204959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>看到这个5位的密码，在检查源码和抓包之后都没有发现什么端倪，尝试bp一波</p>
+<p>这里想尝试一下5位数字，5位字母需要的时间太长了. 使用BP自带的字典就可以满足我们的需求<br>
+<img src="https://img-blog.csdnimg.cn/20200812135925759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+这里可以根据Length的大小来判断时候爆破出密码，密码正确和密码错误的返回长度肯定是不一样的。<br>
+<img src="https://img-blog.csdnimg.cn/20200812141849955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+爆破成功啦！<br>
+<img src="https://img-blog.csdnimg.cn/20200812141942854.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x04-md5破解"><a class="header-anchor" href="#1x04-md5破解">¶</a>1x04 MD5破解</h2>
+<p>打开一个在线md5解密网站就可以解开简单的md5码。<br>
+<img src="https://img-blog.csdnimg.cn/20201105025933699.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="1x05-john-the-ripper"><a class="header-anchor" href="#1x05-john-the-ripper">¶</a>1x05 John the Ripper</h2>
+<p>John the Ripper 是一款速度很快的密码破解工具，目前可用于 Unix、macOS、Windows、DOS、BeOS 与 OpenVMS 等多种操作系统。最初其主要目的是检测弱 Unix 密码，而现在，除了支持许多 Unix crypt(3) 密码哈希类型，John the Ripper “-jumbo”版本还支持数百种其它哈希类型和密码。</p>
+<h1 id="0x03-做有所得"><a class="header-anchor" href="#0x03-做有所得">¶</a>0x03 做有所得</h1>
+<h2 id="1x01-如何防止arp攻击"><a class="header-anchor" href="#1x01-如何防止arp攻击">¶</a>1x01 如何防止ARP攻击</h2>
+<ul>
+<li>
+<p>终端对网关的绑定要坚实可靠，这个绑定能够抵制被病毒捣毁。</p>
+</li>
+<li>
+<p>接入路由器或网关要对下面终端IP-MAC的识别始终保证唯一准确。</p>
+</li>
+<li>
+<p>网络内要有一个最可依赖的机构，提供对网关IP-MAC最强大的保护。它既能够分发正确的网关信息，又能够对出现的假网关信息立即封杀。</p>
+</li>
+</ul>
+<h2 id="1x02-安全的密码-口令-应遵守的原则"><a class="header-anchor" href="#1x02-安全的密码-口令-应遵守的原则">¶</a>1x02 安全的密码（口令）应遵守的原则</h2>
+<ul>
+<li>避免出现弱密码</li>
+<li>记住的密码才是好密码</li>
+<li>每个平台密码最好能够有一定的区别</li>
+</ul>
+<h2 id="1x03-字典的重要性"><a class="header-anchor" href="#1x03-字典的重要性">¶</a>1x03 字典的重要性</h2>
+<p>在破解密码或密钥时，逐一尝试用户自定义词典中的可能密码（单词或短语）的攻击方式。与暴力破解的区别是，暴力破解会逐一尝试所有可能的组合密码，而字典式攻击会使用一个预先定义好的单词列表（可能的密码）。对于暴力破解<strong>社会工程学</strong>是经常用到的方法。根据社会工程学生成的字典可以极大的增大密码破译的成功率。</p>
+<h2 id="1x04-小结"><a class="header-anchor" href="#1x04-小结">¶</a>1x04 小结</h2>
+<p>通过本次的实验我们学习到了以下内容：</p>
+<ul>
+<li>什么是网络嗅探</li>
+<li>ARP协议原理</li>
+<li>FTP协议</li>
+<li>如何使用WireShark抓包并对数据包进行分析</li>
+<li>MD5加密方式</li>
+<li>如何使用密码字典爆破数据</li>
+<li>密码安全</li>
+</ul>
+<p>通过这次的实验我对网络嗅探有了比较充分的了解，对网络中的协议如ARP，FTP等又有了更深的了解。可以更加熟练的使用WireShark, 了解了暴力破解网站和压缩文件的基本操作。以及对于密码安全防护的意识加强。<strong>收益良多</strong></p>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【白帽子学习笔记】加油NPT</title>
     <url>/2020/12/06/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8A%A0%E6%B2%B9NPT/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="白帽子学习笔记-加油npt"><a class="header-anchor" href="#白帽子学习笔记-加油npt">¶</a>【白帽子学习笔记】加油NPT</h1>
@@ -2131,189 +2521,6 @@ XSS注入代码如下：<br>
 <li><a href="https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities"><strong>Using Components with Known Vulnerabilities</strong></a>. Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts.</li>
 <li><a href="https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%26Monitoring"><strong>Insufficient Logging &amp; Monitoring</strong></a>. Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data. Most breach studies show time to detect a breach is over 200 days, typically detected by external parties rather than internal processes or monitoring.</li>
 </ol>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>security</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【白帽子学习笔记】网络嗅探与身份验证</title>
-    <url>/2020/11/05/%E3%80%90%E7%99%BD%E5%B8%BD%E5%AD%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BD%91%E7%BB%9C%E5%97%85%E6%8E%A2%E4%B8%8E%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>@一个在写实验报告的人，/(ㄒoㄒ)/~~</p>
-<h1 id="0x01-网络嗅探相关概念"><a class="header-anchor" href="#0x01-网络嗅探相关概念">¶</a>0x01 网络嗅探相关概念</h1>
-<h2 id="1x01-网络嗅探概述"><a class="header-anchor" href="#1x01-网络嗅探概述">¶</a>1x01 网络嗅探概述</h2>
-<p>Sniffer（嗅探器）工作在OSI模型的第二层，利用计算机的网卡截获网络数据报文的一种工具，<strong>可用来监听网络中的数据，分析网络的流量，以便找出所关心的网络中潜在的问题</strong>。例如,假设网络的某一段运行得不是很好,报文的发送比较慢,而我们又不知道问题出在什么地方,此时就可以用嗅探器确定不同网络协议、不同用户的通信流量，相互主机的报文传送间隔时间等，这些信息为管理员判断网络问题、管理网络区域提供了非常宝贵的信息。<br>
-在正常情况下，一个合法的网络接口应该只响应这样的两种数据帧：</p>
-<ul>
-<li>帧的目标区域具有和本地网络接口相匹配的硬件地址；</li>
-<li>帧的目标区域具有“广播地址”。</li>
-</ul>
-<span id="more"></span>
-<p>如果网卡处于混杂（promiscuous）模式，那么它就可以捕获网络上所有的数据帧，处于对网络的“监听”状态，如果一台机器被配置成这样的方式，它（包括其软件）就是一个嗅探器。<br>
-在交换型以太网中，上述条件2是不满足的。所有的主机连接到SWITCH，<strong>SWITCH比HUB更聪明</strong>，它知道每台计算机的MAC地址信息和与之相连的特定端口，发给某个主机的数据包会被SWITCH从特定的端口送出，而不是象HUB那样，广播给网络上所有的机器。这种传输形式使交换型以太网的性能大大提高，同时还有一个附加的作用：使传统的嗅探器无法工作。<br>
-交换型网络环境嗅探的核心问题是：如何使本不应到达的数据包到达本地。通常的方法有<strong>MAC洪水包和ARP欺骗</strong>。其中MAC洪水包是向交换机发送大量含有虚构MAC地址和IP地址的IP包，使交换机无法处理如此多的信息，致使交换机就进入了所谓的&quot;打开失效&quot;模式，也就是开始了类似于集线器的工作方式，向网络上所有的机器广播数据包。</p>
-<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
-<p>每一个主机都有一个ARP高速缓存，此缓存中记录了最近一段时间内其它IP地址与其MAC地址的对应关系。如果本机想与某台主机通信，则首先在ARP高速缓存中查找此台主机的IP和MAC信息，如果存在，则直接利用此MAC地址构造以太帧；如果不存在，则向本网络上每一个主机广播一个ARP请求报文，其意义是&quot;如果你有此IP地址，请告诉我你的MAC地址&quot;，目的主机收到此请求包后，发送一个ARP响应报文，本机收到此响应后，把相关信息记录在ARP高速缓存中，以下的步骤同上。<br>
-<strong>ARP报文格式：</strong><br>
-<img src="https://img-blog.csdnimg.cn/20201104213312881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>可以看出，ARP协议是有缺点的，第三方主机可以构造一个ARP欺骗报文，而源主机却无法分辨真假。如果发送者硬件地址字段填入攻击者的硬件地址，而发送者IP地址填入被假冒者的IP地址，那么就构造出了一个用于欺骗的ARP请求报文。那么被欺骗主机的ARP高速缓存，被假冒者的IP地址与其MAC地址的对应关系就会更改为欺骗者的，从而达到ARP欺骗的目的。特别的，如果攻击者冒充网关，将转发子网内到外网的所有通信量，以达到捕获其他主机的通信量，从而破坏数据传输的保密性。</p>
-<h2 id="1x03-密码安全"><a class="header-anchor" href="#1x03-密码安全">¶</a>1x03 密码安全</h2>
-<p>在现实网络中，攻击事件发生的频率越来越高，其中相当多的都是由于网站密码泄露的缘故，或是人为因素导致，或是口令遭到破解，所以从某种角度而言，密码的安全问题不仅仅是技术上的问题，更主要的是人的安全意识问题。</p>
-<ul>
-<li>口令破解方法<br>
-口令破解主要有两种方法：字典破解和暴力破解。<br>
-字典破解是指通过破解者对管理员的了解，猜测其可能使用某些信息作为密码，例如其姓名、生日、电话号码等，同时结合对密码长度的猜测，利用工具来生成密码破解字典。如果相关信息设置准确，字典破解的成功率很高，并且其速度快，因此字典破解是密码破解的首选。<br>
-而暴力破解是指对密码可能使用的字符和长度进行设定后（例如限定为所有英文字母和所有数字，长度不超过8），对所有可能的密码组合逐个实验。随着可能字符和可能长度的增加，存在的密码组合数量也会变得非常庞大，因此暴力破解往往需要花费很长的时间，尤其是在密码长度大于10，并且包含各种字符（英文字母、数字和标点符号）的情况下。</li>
-<li><strong>口令破解方式</strong><br>
-口令破解主要有两种方式：离线破解和在线破解。<br>
-离线破解攻击者得到目标主机存放密码的文件后，就可以脱离目标主机，在其他计算机上通过口令破解程序穷举各种可能的口令，如果计算出的新密码与密码文件存放的密码相同，则口令已被破解。</li>
-<li><strong>候选口令产生器</strong><br>
-候选口令产生器的作用是不断生成可能的口令。有几种方法产生候选口令，一种是用枚举法来构造候选口令（暴力破解），另一种方法是从一个字典文件里读取候选口令（字典破解）。</li>
-<li><strong>口令加密</strong><br>
-口令加密过程就是用加密算法对从口令候选器送来的候选口令进行加密运算而得到密码。这要求加密算法要采用和目标主机一致的加密算法。加密算法有很多种，通常与操作系统或应用程序的类型和版本相关。<br>
-Burp Suite是一个用于测试Web应用程序安全性的图形工具。该工具使用Java编写，由PortSwigger Security开发。该工具有两个版本。可免费下载的免费版（免费版）和试用期后可购买的完整版（专业版）。免费版本功能显着降低。它的开发旨在为Web应用程序安全检查提供全面的解决方案，Burp Suite是进行Web应用安全测试集成平台。它将各种安全工具无缝地融合在一起，以支持整个测试过程中，从最初的映射和应用程序的攻击面分析，到发现和利用安全漏洞。</li>
-</ul>
-<h1 id="0x02-网络嗅探部分"><a class="header-anchor" href="#0x02-网络嗅探部分">¶</a>0x02 网络嗅探部分</h1>
-<p><img src="https://img-blog.csdnimg.cn/20201104213552527.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x01-sinffer-wireshark抓包"><a class="header-anchor" href="#1x01-sinffer-wireshark抓包">¶</a>1x01 sinffer（Wireshark抓包）</h2>
-<p>A主机上外网，B运行sinffer(Wireshark)选定只抓源为A的数据)。</p>
-<p>我们选择Metasploit2主机作为A，Kali作为B。首先我们需要确认kali和Windows处于同一网段（可相互ping通的状态)。<strong>（PS：这一步是使用的Metasploit2，后面因为需要到网页里面提交数据就换成了win7）</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201104223018979.png#pic_center" alt="在这里插入图片描述"><br>
-接下来在kali中打开Wireshark，如果想要抓源只为A的数据，那么过滤语句为：<br>
-<code>ip.src == 10.34.80.4</code><br>
-接下来我们使用A去ping B观察一下wireshark的反应。<br>
-<img src="https://img-blog.csdnimg.cn/20201104224124598.png#pic_center" alt="在这里插入图片描述"></p>
-<p>但是如果A ping的是百度，或者往某一个网址发送包含账号和密码的HTTP报文。就可以获取相应信息。</p>
-<h2 id="1x02-arp欺骗"><a class="header-anchor" href="#1x02-arp欺骗">¶</a>1x02 ARP欺骗</h2>
-<p>关于ARP的原理已经攻击原理我在以前的一篇博客中有写到：<br>
-<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/109270741">【白帽子学习笔记20】arp协议原理与攻击应用</a></p>
-<p>为了欺骗B，让B把报文全部发到A这里来。A需要冒充局域网中交换机的角色。<strong>（此时B为Win7主机）</strong><br>
-这一步我们需要使用一个工具就是<strong>arpspoof</strong>。在安装这个包的过程中可能会遇到一些坑。下面记录一下我遇到的一些问题。</p>
-<ul>
-<li>建议更换kali源，否则有可能出现找不到的情况</li>
-<li>安装过程使用<code>sudo apt-get install dsniff</code>而不是直接install arpspoof</li>
-</ul>
-<p>这里我们使用单向攻击：<br>
-受攻击主机将数据发送到攻击主机，并由攻击主机转发至网关，网关将数据发送至服务器，服务器返回数据给网关，网关返回数据给受攻击主机</p>
-<p><strong>步骤如下：</strong></p>
-<ol>
-<li>
-<p>开启端口转发，允许本机像路由器那样转发数据包<br>
-<code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code></p>
-</li>
-<li>
-<p>ARP投毒，向主机B声称自己(攻击者)就是网关<br>
-<code>arpspoof -i eth0 -t IP1 IP2</code>(IP1是我们的攻击目标、IP2是网关IP地址)<br>
-首先确认Win7的IP地址，然后确认网关地址。<br>
-<img src="https://img-blog.csdnimg.cn/20201105002023834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-接下来查询网关：<br>
-<img src="https://img-blog.csdnimg.cn/20201105002519492.png#pic_center" alt="在这里插入图片描述"></p>
-</li>
-<li>
-<p>wireshark抓包分析</p>
-</li>
-</ol>
-<p>我们使用<strong>Win7</strong>尝试访问一下百度。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105002841512.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-接下来到wireshark里面看一下。修改wireshark的筛选规则为<code>ip.src == 10.34.80.3</code>。结果可以看到成功抓取到了数据！<br>
-<img src="https://img-blog.csdnimg.cn/20201105003005214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-接下来我们选择一个网站输入以下账号密码。就选择大家&quot;最爱&quot;的X班吧. 我记得他的信息上传是没有加密的。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105074044844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>点击登陆；<br>
-之后在wireshark里查找发送到易班服务器的http post包。<br>
-<img src="https://img-blog.csdnimg.cn/20201105005514496.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-但是最后发现某班的密码是加密发送的，所以账号密码信息还是不能获得。但是可以从包里面获取到cookie信息，这样再通过Chrome修改cookie的插件就可以完成免密登陆。</p>
-<p><strong>由于没有完成任务，我们切换到某大学的学生选课系统的登陆界面。</strong><br>
-<img src="https://img-blog.csdnimg.cn/20201105012215269.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-经过相同的操作之后抓到了包。<br>
-<img src="https://img-blog.csdnimg.cn/20201105012432476.png#pic_center" alt="在这里插入图片描述"><br>
-在数据报里面成功的发现我过程输入的账号和密码的明文信息。<br>
-<img src="https://img-blog.csdnimg.cn/20201105012544392.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x03-wireshark分析文件"><a class="header-anchor" href="#1x03-wireshark分析文件">¶</a>1x03 WireShark分析文件</h2>
-<p><strong>1.如何发现有FTP服务器？且找到FTP服务器的IP地址？</strong></p>
-<p>通过观察流量数据，可以发现有大量基于FTP协议传输的数据库，所以推测有FTP服务器。<br>
-<img src="https://img-blog.csdnimg.cn/20201105013341403.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-通过对部分数据包的分析，比如如下两个：<br>
-<img src="https://img-blog.csdnimg.cn/20201105013424449.png#pic_center" alt="在这里插入图片描述"><br>
-可以知道192.168.182.1是FTP文件服务器。</p>
-<p><strong>2.客户端登陆FTP服务器的账号和密码分别是什么？</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201105013714892.png#pic_center" alt="在这里插入图片描述"><br>
-通过这两个数据包可以确定服务器的账号和密码。</p>
-<p><strong>3.客户端从FTP下载或查看了2个文件，一个是zip文件，一个是txt文件，文件名分别是什么？</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201105013929225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-在数据包中可以发现，用户分别查看了1.zip 和 复习题.txt</p>
-<p><strong>4.还原ZIP文件并打开</strong></p>
-<p>这里我们需要知道的一个知识是对FTP服务器的操作虽然是基于FTP协议解决的，但是真正在下载文件的时候还是使用tcp协议。所以需要zip数据包的时候需要在TCP数据包里面找，可以根据zip文件的文件头和文件尾快速的确认zip包的位置。<br>
-<img src="https://img-blog.csdnimg.cn/20201105023108818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-将<strong>原始数据</strong>另存为a.zip, 可以得到一个正常的压缩包，但是有密码。<br>
-<img src="https://img-blog.csdnimg.cn/20201105023432708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-我们使用kali下的fcrakzip密码破解工具，对zip进行破解。先<code>sudo apt-get install fcrackzip</code>安装</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105024450191.png#pic_center" alt="在这里插入图片描述"><br>
-破解命令 <code>fcrackzip -b -c1 -l 6 -u a.zip</code> 接下来解释一下这个命令。</p>
-<ul>
-<li>-b：使用暴力模式</li>
-<li>-c1：使用纯数字进行破解</li>
-<li>-l：规定破解密码长度/范围</li>
-<li>-u：使用unzip</li>
-</ul>
-<p>最后得到了我们的小企鹅。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201105024802841.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p><strong>5.TXT的内容是什么？</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201105024939728.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-通过追踪TXT信息，可以确定文件内容如下：<br>
-<img src="https://img-blog.csdnimg.cn/20201105025003861.png#pic_center" alt="在这里插入图片描述"><br>
-<strong>6. 网站密码破解部分：</strong></p>
-<p>为了合法的完成渗透测试报告，我们选择Bugku中一道需要运用到暴力破解的题目为例，解析一下如何运用Burp Suite爆破一个网站。</p>
-<p>网站网址: <a href="http://123.206.87.240:8002/baopo/">http://123.206.87.240:8002/baopo/</a><br>
-<img src="https://img-blog.csdnimg.cn/20200812135204959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>看到这个5位的密码，在检查源码和抓包之后都没有发现什么端倪，尝试bp一波</p>
-<p>这里想尝试一下5位数字，5位字母需要的时间太长了. 使用BP自带的字典就可以满足我们的需求<br>
-<img src="https://img-blog.csdnimg.cn/20200812135925759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-这里可以根据Length的大小来判断时候爆破出密码，密码正确和密码错误的返回长度肯定是不一样的。<br>
-<img src="https://img-blog.csdnimg.cn/20200812141849955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
-爆破成功啦！<br>
-<img src="https://img-blog.csdnimg.cn/20200812141942854.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x04-md5破解"><a class="header-anchor" href="#1x04-md5破解">¶</a>1x04 MD5破解</h2>
-<p>打开一个在线md5解密网站就可以解开简单的md5码。<br>
-<img src="https://img-blog.csdnimg.cn/20201105025933699.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="1x05-john-the-ripper"><a class="header-anchor" href="#1x05-john-the-ripper">¶</a>1x05 John the Ripper</h2>
-<p>John the Ripper 是一款速度很快的密码破解工具，目前可用于 Unix、macOS、Windows、DOS、BeOS 与 OpenVMS 等多种操作系统。最初其主要目的是检测弱 Unix 密码，而现在，除了支持许多 Unix crypt(3) 密码哈希类型，John the Ripper “-jumbo”版本还支持数百种其它哈希类型和密码。</p>
-<h1 id="0x03-做有所得"><a class="header-anchor" href="#0x03-做有所得">¶</a>0x03 做有所得</h1>
-<h2 id="1x01-如何防止arp攻击"><a class="header-anchor" href="#1x01-如何防止arp攻击">¶</a>1x01 如何防止ARP攻击</h2>
-<ul>
-<li>
-<p>终端对网关的绑定要坚实可靠，这个绑定能够抵制被病毒捣毁。</p>
-</li>
-<li>
-<p>接入路由器或网关要对下面终端IP-MAC的识别始终保证唯一准确。</p>
-</li>
-<li>
-<p>网络内要有一个最可依赖的机构，提供对网关IP-MAC最强大的保护。它既能够分发正确的网关信息，又能够对出现的假网关信息立即封杀。</p>
-</li>
-</ul>
-<h2 id="1x02-安全的密码-口令-应遵守的原则"><a class="header-anchor" href="#1x02-安全的密码-口令-应遵守的原则">¶</a>1x02 安全的密码（口令）应遵守的原则</h2>
-<ul>
-<li>避免出现弱密码</li>
-<li>记住的密码才是好密码</li>
-<li>每个平台密码最好能够有一定的区别</li>
-</ul>
-<h2 id="1x03-字典的重要性"><a class="header-anchor" href="#1x03-字典的重要性">¶</a>1x03 字典的重要性</h2>
-<p>在破解密码或密钥时，逐一尝试用户自定义词典中的可能密码（单词或短语）的攻击方式。与暴力破解的区别是，暴力破解会逐一尝试所有可能的组合密码，而字典式攻击会使用一个预先定义好的单词列表（可能的密码）。对于暴力破解<strong>社会工程学</strong>是经常用到的方法。根据社会工程学生成的字典可以极大的增大密码破译的成功率。</p>
-<h2 id="1x04-小结"><a class="header-anchor" href="#1x04-小结">¶</a>1x04 小结</h2>
-<p>通过本次的实验我们学习到了以下内容：</p>
-<ul>
-<li>什么是网络嗅探</li>
-<li>ARP协议原理</li>
-<li>FTP协议</li>
-<li>如何使用WireShark抓包并对数据包进行分析</li>
-<li>MD5加密方式</li>
-<li>如何使用密码字典爆破数据</li>
-<li>密码安全</li>
-</ul>
-<p>通过这次的实验我对网络嗅探有了比较充分的了解，对网络中的协议如ARP，FTP等又有了更深的了解。可以更加熟练的使用WireShark, 了解了暴力破解网站和压缩文件的基本操作。以及对于密码安全防护的意识加强。<strong>收益良多</strong></p>
 ]]></content>
       <categories>
         <category>课程学习</category>
@@ -2612,6 +2819,50 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
+    <title>【算法】第十届蓝桥杯B组国赛真题</title>
+    <url>/2021/05/30/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AC%AC%E5%8D%81%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AFB-%E7%BB%84%E5%9B%BD%E8%B5%9B%E7%9C%9F%E9%A2%98/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="换零钞"><a class="header-anchor" href="#换零钞">¶</a>换零钞</h1>
+<p>x 星球的钞票的面额只有：100元，5元，2元，1元，共4种。小明去x星旅游，他手里只有2张100元的x星币，太不方便，恰好路过x星银行就去换零钱。小明有点强迫症，他坚持要求200元换出的零钞中2元的张数刚好是1元的张数的10倍，剩下的当然都是5元面额的。银行的工作人员有点为难，你能帮助算出：在满足小明要求的前提下，最少要换给他多少张钞票吗？（5元，2元，1元面额的必须都有，不能是0）</p>
+<p>注意，需要提交的是一个整数，不要填写任何多余的内容。</p>
+<blockquote>
+<p>用数学方法解决：</p>
+<p>要求钞票张数最少，满足5元钞票最多即可。</p>
+<p>设 1 元钞票有 x 张，则 2 元钞票有 10x 张，5 元钞票 y 张。</p>
+<p>有：x+2*10x+5y=200</p>
+<p>整理得：y=40-21*x/5</p>
+<p>要想 y 最大，x必须最小，所以 x=5；</p>
+<p>所以 1 元钞票有 5 张，则 2 元钞票有 50 张，5 元钞票 19 张。</p>
+</blockquote>
+<ul>
+<li>Ans： 74</li>
+</ul>
+<h1 id="激光样式"><a class="header-anchor" href="#激光样式">¶</a>激光样式</h1>
+<p>x星球的盛大节日为增加气氛，用30台机光器一字排开，向太空中打出光柱。 安装调试的时候才发现，不知什么原因，相邻的两台激光器不能同时打开！ 国王很想知道，在目前这种bug存在的情况下，一共能打出多少种激光效果？</p>
+<p>显然，如果只有3台机器，一共可以成5种样式，即： 全都关上（sorry, 此时无声胜有声，这也算一种） 开一台，共3种 开两台，只1种。30台就不好算了，国王只好请你帮忙了。要求提交一个整数，表示30台激光器能形成的样式种数。</p>
+<blockquote>
+<p>提示：</p>
+<p>斐波那契数列</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> f[<span class="number">30</span>];</span><br><span class="line">  f[<span class="number">0</span>] = <span class="number">2</span>;</span><br><span class="line">  f[<span class="number">1</span>] = <span class="number">3</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;<span class="number">30</span>;i++)&#123;</span><br><span class="line">    f[i] = f[i<span class="number">-1</span>] + f[i<span class="number">-2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  cout &lt;&lt; f[<span class="number">29</span>] &lt;&lt; endl;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ans：2178309</li>
+</ul>
+<h1 id="调手表"><a class="header-anchor" href="#调手表">¶</a>调手表</h1>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210531141408image-20210531141405703.png" alt="image-20210531141405703"></p>
+<blockquote>
+<p>提示：</p>
+<p>广度搜索</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【算法】第十一届蓝桥杯国赛题解</title>
     <url>/2021/05/17/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AC%AC%E5%8D%81%E4%B8%80%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%9B%BD%E8%B5%9B%E9%A2%98%E8%A7%A3/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote>
@@ -2768,50 +3019,6 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
-    <title>【算法】第十届蓝桥杯B组国赛真题</title>
-    <url>/2021/05/30/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E7%AC%AC%E5%8D%81%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AFB-%E7%BB%84%E5%9B%BD%E8%B5%9B%E7%9C%9F%E9%A2%98/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="换零钞"><a class="header-anchor" href="#换零钞">¶</a>换零钞</h1>
-<p>x 星球的钞票的面额只有：100元，5元，2元，1元，共4种。小明去x星旅游，他手里只有2张100元的x星币，太不方便，恰好路过x星银行就去换零钱。小明有点强迫症，他坚持要求200元换出的零钞中2元的张数刚好是1元的张数的10倍，剩下的当然都是5元面额的。银行的工作人员有点为难，你能帮助算出：在满足小明要求的前提下，最少要换给他多少张钞票吗？（5元，2元，1元面额的必须都有，不能是0）</p>
-<p>注意，需要提交的是一个整数，不要填写任何多余的内容。</p>
-<blockquote>
-<p>用数学方法解决：</p>
-<p>要求钞票张数最少，满足5元钞票最多即可。</p>
-<p>设 1 元钞票有 x 张，则 2 元钞票有 10x 张，5 元钞票 y 张。</p>
-<p>有：x+2*10x+5y=200</p>
-<p>整理得：y=40-21*x/5</p>
-<p>要想 y 最大，x必须最小，所以 x=5；</p>
-<p>所以 1 元钞票有 5 张，则 2 元钞票有 50 张，5 元钞票 19 张。</p>
-</blockquote>
-<ul>
-<li>Ans： 74</li>
-</ul>
-<h1 id="激光样式"><a class="header-anchor" href="#激光样式">¶</a>激光样式</h1>
-<p>x星球的盛大节日为增加气氛，用30台机光器一字排开，向太空中打出光柱。 安装调试的时候才发现，不知什么原因，相邻的两台激光器不能同时打开！ 国王很想知道，在目前这种bug存在的情况下，一共能打出多少种激光效果？</p>
-<p>显然，如果只有3台机器，一共可以成5种样式，即： 全都关上（sorry, 此时无声胜有声，这也算一种） 开一台，共3种 开两台，只1种。30台就不好算了，国王只好请你帮忙了。要求提交一个整数，表示30台激光器能形成的样式种数。</p>
-<blockquote>
-<p>提示：</p>
-<p>斐波那契数列</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> f[<span class="number">30</span>];</span><br><span class="line">  f[<span class="number">0</span>] = <span class="number">2</span>;</span><br><span class="line">  f[<span class="number">1</span>] = <span class="number">3</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;<span class="number">30</span>;i++)&#123;</span><br><span class="line">    f[i] = f[i<span class="number">-1</span>] + f[i<span class="number">-2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  cout &lt;&lt; f[<span class="number">29</span>] &lt;&lt; endl;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Ans：2178309</li>
-</ul>
-<h1 id="调手表"><a class="header-anchor" href="#调手表">¶</a>调手表</h1>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210531141408image-20210531141405703.png" alt="image-20210531141405703"></p>
-<blockquote>
-<p>提示：</p>
-<p>广度搜索</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>c++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【算法】闫氏DP分析法</title>
     <url>/2021/05/30/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E9%97%AB%E6%B0%8FDP%E5%88%86%E6%9E%90%E6%B3%95/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="闫氏dp分析法"><a class="header-anchor" href="#闫氏dp分析法">¶</a>闫氏DP分析法</h1>
@@ -2896,6 +3103,24 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
       </tags>
   </entry>
   <entry>
+    <title>【论文阅读】Real World Adversarial attack ...</title>
+    <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors"><a class="header-anchor" href="#making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors">¶</a>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
+<p><code>propose a new loss function to produce patch;Print the patch on the cloth. People who wear this cloth can not be detected by object detectors in the real world</code></p>
+<p>Paper url: <a href="https://arxiv.org/abs/1810.05206">https://arxiv.org/abs/1810.05206</a></p>
+<span id="more"></span>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220004Page3.png" alt="Page3"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220013Page4.png" alt="Page4"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220021Page5.png" alt="Page5"></p>
+]]></content>
+      <categories>
+        <category>神经网络对抗攻击</category>
+      </categories>
+      <tags>
+        <tag>神经对抗攻击</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【论文阅读】Conditional Convolutions for InstanceSegmentation</title>
     <url>/2020/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Conditional-Convolutions-for-InstanceSegmentation/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="0x01-概要"><a class="header-anchor" href="#0x01-概要">¶</a>0x01 概要</h1>
@@ -2957,30 +3182,10 @@ Android 获取方法：Android： 拨号<code>*#*#4636#*#*</code>进入手机信
 <p>提出了一个新的更简单的实例分割框架Condinst。不同于以往的方法，如Mask R-CNN，它使用固定权重的任务头，CondInst将掩码头设置在实例上，并动态生成掩码头的过滤器。这不仅降低了掩模头的参数和计算复杂度，而且消除了ROI操作，从而形成了一个更快、更简单的实例分割框架。</p>
 ]]></content>
       <categories>
-        <category>论文阅读</category>
         <category>CV</category>
       </categories>
       <tags>
         <tag>CV</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【论文阅读】Real World Adversarial attack ...</title>
-    <url>/2021/02/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Real-World-Adversarial-attack/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors"><a class="header-anchor" href="#making-an-invisibility-cloak-real-world-adversarial-attacks-on-object-detectors">¶</a>Making an Invisibility Cloak: Real World Adversarial Attacks on Object Detectors</h1>
-<p><code>propose a new loss function to produce patch;Print the patch on the cloth. People who wear this cloth can not be detected by object detectors in the real world</code></p>
-<p>Paper url: <a href="https://arxiv.org/abs/1810.05206">https://arxiv.org/abs/1810.05206</a></p>
-<span id="more"></span>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220004Page3.png" alt="Page3"></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220013Page4.png" alt="Page4"></p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210204220021Page5.png" alt="Page5"></p>
-]]></content>
-      <categories>
-        <category>论文阅读</category>
-        <category>神经网络对抗攻击</category>
-      </categories>
-      <tags>
-        <tag>神经对抗攻击</tag>
       </tags>
   </entry>
   <entry>
@@ -3072,7 +3277,58 @@ M1001 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <p><img src="/Users/keter/Documents/image/image-20210723232359219.png" alt="image-20210723232359219"></p>
 ]]></content>
       <categories>
-        <category>论文阅读</category>
+        <category>神经网络对抗攻击</category>
+      </categories>
+      <tags>
+        <tag>神经对抗攻击</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【论文阅读】UAA-GAN</title>
+    <url>/2021/07/27/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91UAA-GAN/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote>
+<p>Unsupervised Adversarial Attacks on Deep Feature-based Retrieval with GAN</p>
+</blockquote>
+<p>这是一篇用GAN攻击神经网络的一篇文档，文中提出的UAA-GAN可以用于攻击图像检索网络如ReID等。</p>
+<h1 id="介绍"><a class="header-anchor" href="#介绍">¶</a>介绍</h1>
+<p>深层神经网络(Deep neural networks，dnn)是一种功能强大的特征表示学习工具，能够实现基于内容的图像检索(content-based image retrieval，CBIR)。近年来，深度特征正在迅速取代传统的图像特征，这些特征依赖于手工制作的关键点检测器和描述符。基于 dnn 的模型通过聚合预先训练的深层神经网络顶层的激活，生成一个图像的深层特征描述符，然后根据图像特征向量的欧几里得度量或余弦距离来确定图像之间的相似度(或距离)。据观察，这种方法比那些低层次的基于关键点的特征能够保存更多抽象和全局的语义信息。由于 DNN 具有良好的表示能力，许多研究者致力于通过学习鉴别特征表示来提高检索的准确性。然而，DNN 特征在检索过程中的鲁棒性和稳定性却被忽视了。</p>
+<p>众所周知，基于 DNN 的分类系统很容易受到Adversarial image的影响: 通过对输入图像添加一些精心制作的微小扰动，目标 DNN 经常被误导，并以高置信度预测图像到错误的类别。对抗性的例子首先在文献[1]中介绍，扰动是通过调整输入以获得最大化的分类错误而产生的。很多注意力被吸引到对抗性攻击和防御之间的竞争。</p>
+<p>基于深度特征的基于内容的图像检索(CBIR)系统及其衍生应用——人脸识别(ReID)和人脸搜索(face search)也容易受到对抗性攻击。也就是说，有可能篡改图像，使其在视觉上与原始形式几乎相同，但几乎不可能在图像检索系统中进行搜索。由于两个主要原因，攻击图像检索系统比攻击分类模型更具挑战性。</p>
+<p><img src="/Users/keter/Documents/image/image-20210727140932321.png" alt="image-20210727140932321"></p>
+<h1 id="网络结构设计"><a class="header-anchor" href="#网络结构设计">¶</a>网络结构设计</h1>
+<p>其实本篇论文对于GAN的网络并没有太大的创新，<code>主要是改进点在于增加了生成器的损失项</code>。生成器的骨干部分使用的是CGAN。</p>
+<p>下图是他的网络结构图：</p>
+<p><img src="/Users/keter/Documents/image/image-20210727141119457.png" alt="image-20210727141119457"></p>
+<p>该框架的设计目标是通过生成一个带有特定扰动的对抗性示例，来攻击构建在特定目标特征提取网络上的检索系统。</p>
+<h2 id="生成器损失函数"><a class="header-anchor" href="#生成器损失函数">¶</a>生成器损失函数</h2>
+<p>生成器的损失函数主要由三部分组成：</p>
+<p>第一部分用与衡量生成的图片与原有图片特征图上的不同，目的是让生成图片的特征图与原有图片的特征图差距越大越好。</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable rowspacing="0.24999999999999992em" columnalign="right left" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal">maximize</mi><mo>⁡</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mi>d</mi><mrow><mo fence="true">(</mo><msub><mi>f</mi><mi mathvariant="bold-italic">x</mi></msub><mo separator="true">,</mo><msub><mi>f</mi><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover></msub><mo fence="true">)</mo></mrow></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext> s.t. </mtext></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mi mathvariant="normal">∥</mi><mi>δ</mi><msub><mi mathvariant="normal">∥</mi><mi mathvariant="normal">∞</mi></msub><mo>≤</mo><mi>ϵ</mi><mo separator="true">,</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover><mo>∈</mo><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">]</mo></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+\operatorname{maximize} &amp; d\left(f_{\boldsymbol{x}}, f_{\tilde{\boldsymbol{x}}}\right) \\
+\text { s.t. } &amp;\|\delta\|_{\infty} \leq \epsilon, \\
+&amp; \tilde{\boldsymbol{x}} \in[0,1]
+\end{aligned}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:4.500000000000002em;vertical-align:-2.000000000000001em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.5000000000000004em;"><span style="top:-4.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mord mathrm">m</span><span class="mord mathrm">a</span><span class="mord mathrm">x</span><span class="mord mathrm">i</span><span class="mord mathrm">m</span><span class="mord mathrm">i</span><span class="mord mathrm">z</span><span class="mord mathrm">e</span></span></span></span><span style="top:-3.16em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord"> s.t. </span></span></span></span><span style="top:-1.6599999999999993em;"><span class="pstrut" style="height:3em;"></span><span class="mord"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.000000000000001em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.5000000000000004em;"><span style="top:-4.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.161108em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3269099999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span><span style="top:-3.0634400000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord mtight">~</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span><span style="top:-3.16em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord">∥</span><span class="mord mathdefault" style="margin-right:0.03785em;">δ</span><span class="mord"><span class="mord">∥</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∞</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathdefault">ϵ</span><span class="mpunct">,</span></span></span><span style="top:-1.6599999999999993em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span></span></span><span style="top:-3.36344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">~</span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.000000000000001em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="script">L</mi><mrow><mi>G</mi><mi>A</mi><msub><mi>N</mi><mo lspace="0em" rspace="0em">−</mo></msub><mi>G</mi></mrow></msub><mo>=</mo><msub><mi mathvariant="double-struck">E</mi><mrow><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover><mo>∼</mo><msub><mi>p</mi><mrow><mo stretchy="false">(</mo><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover><mo>∣</mo><mi mathvariant="bold-italic">x</mi><mo stretchy="false">)</mo></mrow></msub></mrow></msub><mrow><mo fence="true">[</mo><mo stretchy="false">(</mo><mi>D</mi><mo stretchy="false">(</mo><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover><mo stretchy="false">)</mo><mo>−</mo><mn>1</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo fence="true">]</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal{L}_{G A N_{-} G}=\mathbb{E}_{\tilde{\boldsymbol{x}} \sim p_{(\tilde{\boldsymbol{x}} \mid \boldsymbol{x})}}\left[(D(\tilde{\boldsymbol{x}})-1)^{2}\right]
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.975095em;vertical-align:-0.291765em;"></span><span class="mord"><span class="mord"><span class="mord mathcal">L</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">G</span><span class="mord mathdefault mtight">A</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2736642857142857em;"><span style="top:-2.357em;margin-left:-0.10903em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">−</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.20252142857142857em;"><span></span></span></span></span></span></span><span class="mord mathdefault mtight">G</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.291765em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.272748em;vertical-align:-0.40864em;"></span><span class="mord"><span class="mord"><span class="mord mathbb">E</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3269099999999999em;"><span style="top:-2.55em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span><span style="top:-3.0634400000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord mtight">~</span></span></span></span></span></span></span><span class="mrel mtight">∼</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3447999999999998em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5357142857142856em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-2.5em;"><span class="pstrut" style="height:2.5em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span><span style="top:-2.86344em;"><span class="pstrut" style="height:2.5em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord mtight">~</span></span></span></span></span></span></span><span class="mrel mtight">∣</span><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3694857142857143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.40864em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">[</span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mopen">(</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span></span></span><span style="top:-3.36344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">~</span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">]</span></span></span></span></span></span></span></p>
+<p>第二部分用与衡量原图与生成图像的差距，也就是生成的图像和攻击图像肉眼看起来有多大的不同。目的是让生成的攻击图像和原图像看起来几乎没有什么差距。</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="script">L</mi><mtext>recon </mtext></msub><mo>=</mo><mi mathvariant="normal">∥</mi><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover><mo>−</mo><mi mathvariant="bold-italic">x</mi><msub><mi mathvariant="normal">∥</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">\mathcal{L}_{\text {recon }}=\|\tilde{\boldsymbol{x}}-\boldsymbol{x}\|_{2}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathcal">L</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">recon </span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∥</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span></span></span><span style="top:-3.36344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">~</span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span><span class="mord"><span class="mord">∥</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p>第三项的loss使用了 triplet loss和online hard negative mining的设计思路。现在假设<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mi mathvariant="bold-italic">x</mi><mo separator="true">,</mo><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover><mo separator="true">,</mo><msup><mi mathvariant="bold-italic">x</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;\boldsymbol{x}, \tilde{\boldsymbol{x}}, \boldsymbol{x}^{\prime}&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span></span></span><span style="top:-3.36344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">~</span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span>是一个相互制衡的三角形，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">x</mi></mrow><annotation encoding="application/x-tex">\boldsymbol{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.44444em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span></span></span></span>是原始的图片，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover></mrow><annotation encoding="application/x-tex">\tilde{\boldsymbol{x}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6812999999999999em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span></span></span><span style="top:-3.36344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">~</span></span></span></span></span></span></span></span></span></span>是由生成器生成的图片，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="bold-italic">x</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">\boldsymbol{x}^{\prime}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>是困难样本。现在的目标是使<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">x</mi></mrow><annotation encoding="application/x-tex">\boldsymbol{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.44444em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span></span></span></span>和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover></mrow><annotation encoding="application/x-tex">\tilde{\boldsymbol{x}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6812999999999999em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span></span></span><span style="top:-3.36344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">~</span></span></span></span></span></span></span></span></span></span>之间的距离大于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold-italic">x</mi></mrow><annotation encoding="application/x-tex">\boldsymbol{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.44444em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="bold-italic">x</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">\boldsymbol{x}&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>​​之间的距离。可以用如下公式表示：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mrow><mo fence="true">(</mo><msub><mi>f</mi><mi mathvariant="bold-italic">x</mi></msub><mo separator="true">,</mo><msub><mi>f</mi><msup><mi mathvariant="bold-italic">x</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></msub><mo fence="true">)</mo></mrow><mo>+</mo><mi>m</mi><mo>+</mo><mo>≤</mo><mi>d</mi><mrow><mo fence="true">(</mo><msub><mi>f</mi><mi mathvariant="bold-italic">x</mi></msub><mo separator="true">,</mo><msub><mi>f</mi><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover></msub><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">d\left(f_{\boldsymbol{x}}, f_{\boldsymbol{x}^{\prime}}\right)+m+\leq d\left(f_{\boldsymbol{x}}, f_{\tilde{\boldsymbol{x}}}\right)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.161108em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32797999999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">m</span><span class="mord">+</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.161108em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3269099999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span><span style="top:-3.0634400000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord mtight">~</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></span></p>
+<p>所以第三项损失就可以写成：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="script">L</mi><mtext>metric </mtext></msub><mo>=</mo><mi>max</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mi>d</mi><mrow><mo fence="true">(</mo><msub><mi>f</mi><mi mathvariant="bold-italic">x</mi></msub><mo separator="true">,</mo><msub><mi>f</mi><msup><mi mathvariant="bold-italic">x</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></msub><mo fence="true">)</mo></mrow><mo>+</mo><mi>m</mi><mo>−</mo><mi>d</mi><mrow><mo fence="true">(</mo><msub><mi>f</mi><mi mathvariant="bold-italic">x</mi></msub><mo separator="true">,</mo><msub><mi>f</mi><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover></msub><mo fence="true">)</mo></mrow><mo separator="true">,</mo><mn>0</mn><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal{L}_{\text {metric }}=\max \left(d\left(f_{\boldsymbol{x}}, f_{\boldsymbol{x}^{\prime}}\right)+m-d\left(f_{\boldsymbol{x}}, f_{\tilde{\boldsymbol{x}}}\right), 0\right)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathcal">L</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31750199999999995em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">metric </span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">max</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.161108em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32797999999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828285714285715em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.161108em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3269099999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span><span style="top:-3.0634400000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord mtight">~</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></span></p>
+<p>生成器部分的完整损失就是：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="script">L</mi><mi>G</mi></msub><mo>=</mo><msub><mi mathvariant="script">L</mi><mrow><mi>G</mi><mi>A</mi><msub><mi>N</mi><mo lspace="0em" rspace="0em">−</mo></msub><mi>G</mi></mrow></msub><mo>+</mo><msub><mi>λ</mi><mi>r</mi></msub><msub><mi mathvariant="script">L</mi><mtext>recon </mtext></msub><mo>+</mo><msub><mi>λ</mi><mi>m</mi></msub><msub><mi mathvariant="script">L</mi><mtext>metric </mtext></msub></mrow><annotation encoding="application/x-tex">\mathcal{L}_{G}=\mathcal{L}_{G A N_{-} G}+\lambda_{r} \mathcal{L}_{\text {recon }}+\lambda_{m} \mathcal{L}_{\text {metric }}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathcal">L</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">G</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.975095em;vertical-align:-0.291765em;"></span><span class="mord"><span class="mord"><span class="mord mathcal">L</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">G</span><span class="mord mathdefault mtight">A</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2736642857142857em;"><span style="top:-2.357em;margin-left:-0.10903em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">−</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.20252142857142857em;"><span></span></span></span></span></span></span><span class="mord mathdefault mtight">G</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.291765em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord"><span class="mord mathcal">L</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">recon </span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord"><span class="mord mathcal">L</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31750199999999995em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">metric </span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<h2 id="鉴别器损失函数"><a class="header-anchor" href="#鉴别器损失函数">¶</a>鉴别器损失函数</h2>
+<p>鉴别器损失函数就非常普通了，就是可以鉴别出来哪些图片是真的，哪些图片是假的即可。</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="script">L</mi><mrow><mi>G</mi><mi>A</mi><msub><mi>N</mi><mo lspace="0em" rspace="0em">−</mo></msub><mi>D</mi></mrow></msub><mo>=</mo><msub><mi mathvariant="double-struck">E</mi><mrow><mi mathvariant="bold-italic">x</mi><mo>∼</mo><msub><mi>p</mi><mrow><mi mathvariant="normal">data</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi mathvariant="bold-italic">x</mi><mo stretchy="false">)</mo></mrow></msub></mrow></msub><mrow><mo fence="true">[</mo><mo stretchy="false">(</mo><mi>D</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>−</mo><mn>1</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo fence="true">]</mo></mrow><mo>+</mo><msub><mi mathvariant="double-struck">E</mi><mrow><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover><mo>∼</mo><msub><mi>p</mi><mrow><mo stretchy="false">(</mo><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover><mo>∣</mo><mi mathvariant="bold-italic">x</mi><mo stretchy="false">)</mo></mrow></msub></mrow></msub><mrow><mo fence="true">[</mo><mo stretchy="false">(</mo><mi>D</mi><mo stretchy="false">(</mo><mover accent="true"><mi mathvariant="bold-italic">x</mi><mo>~</mo></mover><mo stretchy="false">)</mo><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo fence="true">]</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal{L}_{G A N_{-} D}=\mathbb{E}_{\boldsymbol{x} \sim p_{\operatorname{data}(\boldsymbol{x})}}\left[(D(x)-1)^{2}\right]+\mathbb{E}_{\tilde{\boldsymbol{x}} \sim p_{(\tilde{\boldsymbol{x}} \mid \boldsymbol{x})}}\left[(D(\tilde{\boldsymbol{x}}))^{2}\right]
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.975095em;vertical-align:-0.291765em;"></span><span class="mord"><span class="mord"><span class="mord mathcal">L</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">G</span><span class="mord mathdefault mtight">A</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2736642857142857em;"><span style="top:-2.357em;margin-left:-0.10903em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">−</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.20252142857142857em;"><span></span></span></span></span></span></span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">D</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.291765em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.272748em;vertical-align:-0.40864em;"></span><span class="mord"><span class="mord"><span class="mord mathbb">E</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16110799999999992em;"><span style="top:-2.55em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span><span class="mrel mtight">∼</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3447999999999998em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5357142857142856em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mop mtight"><span class="mord mathrm mtight">d</span><span class="mord mathrm mtight">a</span><span class="mord mathrm mtight">t</span><span class="mord mathrm mtight">a</span></span><span class="mopen mtight">(</span><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3694857142857143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.40864em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">[</span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">]</span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.272748em;vertical-align:-0.40864em;"></span><span class="mord"><span class="mord"><span class="mord mathbb">E</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3269099999999999em;"><span style="top:-2.55em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span><span style="top:-3.0634400000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord mtight">~</span></span></span></span></span></span></span><span class="mrel mtight">∼</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3447999999999998em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5357142857142856em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-2.5em;"><span class="pstrut" style="height:2.5em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span></span></span><span style="top:-2.86344em;"><span class="pstrut" style="height:2.5em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord mtight">~</span></span></span></span></span></span></span><span class="mrel mtight">∣</span><span class="mord mtight"><span class="mord mtight"><span class="mord boldsymbol mtight">x</span></span></span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3694857142857143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.40864em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">[</span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mopen">(</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6812999999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">x</span></span></span></span></span><span style="top:-3.36344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">~</span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">]</span></span></span></span></span></span></span></p>
+]]></content>
+      <categories>
         <category>神经网络对抗攻击</category>
       </categories>
       <tags>
@@ -3138,7 +3394,6 @@ M1001 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <p>每当另一个检测器是相同的主干时，对抗性示例很可能是有效的。公式10与DAG (公式8)，都需要对RPN进行操纵。因此，它无法直接攻击一阶段算法。</p>
 ]]></content>
       <categories>
-        <category>论文阅读</category>
         <category>神经网络对抗攻击</category>
       </categories>
       <tags>
@@ -3202,7 +3457,6 @@ M1001 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <p><img src="https://img-blog.csdnimg.cn/20201029204259321.png" alt="在这里插入图片描述"></p>
 ]]></content>
       <categories>
-        <category>论文阅读</category>
         <category>CV</category>
       </categories>
       <tags>
@@ -4994,7 +5248,6 @@ TCP 的确认是对接收到的数据的最高序号表示确认。接收端返�
 <p>1</p>
 ]]></content>
       <categories>
-        <category>论文阅读</category>
         <category>神经网络对抗攻击</category>
       </categories>
       <tags>
