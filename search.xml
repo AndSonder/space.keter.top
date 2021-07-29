@@ -1,6 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SQL Learning</title>
+    <url>/2021/01/12/SQL-Learning/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
+<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
+<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
+<p>Get all the custmers who’s patterns start with b/B</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>get all the custmers who’s last name start with brush</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>don’t care about the first character but the second character is y</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>% :  any number of characters</li>
+<li>_  :  single character</li>
+</ul>
+<p>EXERCISE</p>
+<ol>
+<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Phone numbers end with 9</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
+<p>REGEXP: regular expression</p>
+<p>REGEXP is similar with LIKE</p>
+<p>Get all the customers who’s last name start with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who’s last name end with field</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words field,mac or rose in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>Get all the customers who have words ge,me or ie in their last name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>^ beginning</li>
+<li>$ end</li>
+<li>| logical or</li>
+<li>[abcd]</li>
+<li>[a-f]</li>
+</ul>
+<p>EXERCISE</p>
+<p>GET the customers whose</p>
+<ol>
+<li>first names are ELKA or AMBUR</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>last names end with EY or ON</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Last names start with MY or contains SE</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>last name contain B followed by R or U</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
+<p>search who does not have a phone</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<p>EXERCISE</p>
+<p>get the orders that are not shipped</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
+<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
+<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
+<p>Search customers order by first_name</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
+<p>or you want to reverse the sort order</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<p>sort by multiple columns, for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
+<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
+<p>get the first 3 customers</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
+<p>Get customers form 6-9</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>6 is an offset, and 3 means the step</p>
+<p>EXERCISE</p>
+<ol>
+<li>Get the top three loyal customers</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
+<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
+<p>you can use JOIN to catch the relation between to tables;</p>
+<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
+<p>we can use alias to simplify the query.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
+<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
+<p>how to combine columns from tables in multiple databases ?</p>
+<p>Using database combines with sql_inventory database.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
+<p>the query will be different depending on the database</p>
+<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
+<p>In sql we can join tables with itself.</p>
+<p>In database sql_hr we have a table named employees.</p>
+<p>Now we need select each employee and their manager.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
+<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
+<p><strong>Exercise</strong></p>
+<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
+<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
+<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
+<p>we have mutiple conditions to join these two tables</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
+<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
+<p>In Mysql we can use simple query to instead Join condition.</p>
+<p>for example</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
+<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【English】六级备考资料</title>
     <url>/2021/05/04/%E3%80%90English%E3%80%91%E5%85%AD%E7%BA%A7%E5%A4%87%E8%80%83%E8%B5%84%E6%96%99/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>coronaPolvo 在这里许个愿望，希望2021年6月份的六级考试可以过</p>
@@ -315,134 +443,6 @@ These funds are used to improve educational facilities, purchase books and more 
       </categories>
       <tags>
         <tag>English</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SQL Learning</title>
-    <url>/2021/01/12/SQL-Learning/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="mysql-tutorial-for-beginners"><a class="header-anchor" href="#mysql-tutorial-for-beginners">¶</a>Mysql tutorial for beginners</h1>
-<h2 id="creating-the-databases"><a class="header-anchor" href="#creating-the-databases">¶</a>Creating the Databases</h2>
-<h2 id="the-like-operator"><a class="header-anchor" href="#the-like-operator">¶</a>The LIKE Operator</h2>
-<p>Get all the custmers who’s patterns start with b/B</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>get all the custmers who’s last name start with brush</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;brush%&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>don’t care about the first character but the second character is y</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">last</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_y&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>% :  any number of characters</li>
-<li>_  :  single character</li>
-</ul>
-<p>EXERCISE</p>
-<ol>
-<li>Get the customers whose addresses contain TRAIL or AVENUE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%trail%&#x27;</span> <span class="keyword">OR</span> </span><br><span class="line">      addresses <span class="keyword">LIKE</span> <span class="string">&#x27;%avenue%&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>Phone numbers end with 9</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">LIKE</span> <span class="string">&#x27;%9&#x27;</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="the-regexp-operator"><a class="header-anchor" href="#the-regexp-operator">¶</a>The REGEXP Operator</h2>
-<p>REGEXP: regular expression</p>
-<p>REGEXP is similar with LIKE</p>
-<p>Get all the customers who’s last name start with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^field&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who’s last name end with field</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SLECT <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field$&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words field,mac or rose in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;field|mac|rose&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>Get all the customers who have words ge,me or ie in their last name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;[gim]e&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>^ beginning</li>
-<li>$ end</li>
-<li>| logical or</li>
-<li>[abcd]</li>
-<li>[a-f]</li>
-</ul>
-<p>EXERCISE</p>
-<p>GET the customers whose</p>
-<ol>
-<li>first names are ELKA or AMBUR</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> custmoers</span><br><span class="line"><span class="keyword">WHERE</span> first_name REGEXP <span class="string">&#x27;elka|ambur&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>last names end with EY or ON</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;ey$|on$&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>Last names start with MY or contains SE</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;^my|se&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>last name contain B followed by R or U</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> last_name REGEXP <span class="string">&#x27;b[ru]&#x27;</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-is-null-operator"><a class="header-anchor" href="#the-is-null-operator">¶</a>The IS NULL Operator</h2>
-<p>search who does not have a phone</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">WHERE</span> phone <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<p>EXERCISE</p>
-<p>get the orders that are not shipped</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SEARCH</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">WHERE</span> shipped_date <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br></pre></td></tr></table></figure>
-<h2 id="the-order-by-clause"><a class="header-anchor" href="#the-order-by-clause">¶</a>The ORDER BY Clause</h2>
-<p>In this tutor I’m going to show you how to sort data in your sequel queries</p>
-<p>Search customers order by first_name</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name</span><br></pre></td></tr></table></figure>
-<p>or you want to reverse the sort order</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> first_name <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
-<p>sort by multiple columns, for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> state,first_name;</span><br></pre></td></tr></table></figure>
-<h2 id="the-limit-caluse"><a class="header-anchor" href="#the-limit-caluse">¶</a>The LIMIT Caluse</h2>
-<p>get the first 3 customers</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
-<p>Get customers form 6-9</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line">LIMIT <span class="number">6</span>,<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<p>6 is an offset, and 3 means the step</p>
-<p>EXERCISE</p>
-<ol>
-<li>Get the top three loyal customers</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> points <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="the-inner-loins"><a class="header-anchor" href="#the-inner-loins">¶</a>The Inner loins</h2>
-<p>JOIN is equal with INNER JOIN , we don’t have to type it.</p>
-<p>you can use JOIN to catch the relation between to tables;</p>
-<p>For example, you want to search orders which have the same customer_id in table CUSTOMERS from the table ORDERS.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">JOIN</span> customers</span><br><span class="line">    <span class="keyword">ON</span> orders.customer_id <span class="operator">=</span> customers.customer_id</span><br></pre></td></tr></table></figure>
-<p>we can use alias to simplify the query.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">    <span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<p>if we use o as the orders’s alias , we can’t write orders to instead o in the next.</p>
-<h3 id="joining-across-databases"><a class="header-anchor" href="#joining-across-databases">¶</a>Joining Across Databases</h3>
-<p>how to combine columns from tables in multiple databases ?</p>
-<p>Using database combines with sql_inventory database.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> sql_inventory.products p</span><br><span class="line">		 <span class="keyword">ON</span> oi.product_id <span class="operator">=</span> p.product_id;</span><br></pre></td></tr></table></figure>
-<p>the query will be different depending on the database</p>
-<h3 id="self-joins"><a class="header-anchor" href="#self-joins">¶</a>Self Joins</h3>
-<p>In sql we can join tables with itself.</p>
-<p>In database sql_hr we have a table named employees.</p>
-<p>Now we need select each employee and their manager.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">USE sql_hr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> employees m</span><br><span class="line">     <span class="keyword">On</span> e.reports_to <span class="operator">=</span> m.employee_id</span><br></pre></td></tr></table></figure>
-<h3 id="joining-multiple-tables"><a class="header-anchor" href="#joining-multiple-tables">¶</a>Joining Multiple Tables</h3>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		o.order_id,</span><br><span class="line">		o.order_data,</span><br><span class="line">		c.first_name,</span><br><span class="line">		c.last_name,</span><br><span class="line">		os.name <span class="keyword">AS</span> status</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">order</span> o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customers_id <span class="operator">=</span> c.customer_id</span><br><span class="line"><span class="keyword">JOIN</span> order_statuses os</span><br><span class="line">		<span class="keyword">ON</span> o.status <span class="operator">=</span> os.order_status_id</span><br></pre></td></tr></table></figure>
-<p><strong>Exercise</strong></p>
-<p>In database sql_invoicing we have this table, <strong>payments</strong> and these are the payments that each client has made towards either invoice. We  also have a table named <strong>payment_methods</strong>.</p>
-<p>Write a query that join the  payments with the <strong>payment methods</strong> tables as well as the clients table.Produce a report that shows the payments, with more details, such as the name of the client and the payment method.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">		p.data,</span><br><span class="line">		p.invoice_id,</span><br><span class="line">		p.amount,</span><br><span class="line">		c.name,</span><br><span class="line">		pm.name,</span><br><span class="line"><span class="keyword">FROM</span> payments p</span><br><span class="line"><span class="keyword">JOIN</span> clients c</span><br><span class="line">		<span class="keyword">ON</span> p.client_id <span class="operator">=</span> c.client_id</span><br><span class="line"><span class="keyword">JOIN</span> payment_methods pm</span><br><span class="line">		<span class="keyword">ON</span> p.payment_method <span class="operator">=</span> pm.payment_method_id</span><br></pre></td></tr></table></figure>
-<h3 id="compound-join-conditions"><a class="header-anchor" href="#compound-join-conditions">¶</a>Compound Join Conditions</h3>
-<p>we have mutiple conditions to join these two tables</p>
-<p>e.g.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> order_items oi</span><br><span class="line"><span class="keyword">JOIN</span> oder_item_notes oin</span><br><span class="line">		<span class="keyword">ON</span> oi.order_id <span class="operator">=</span> oin.order_id</span><br><span class="line">		<span class="keyword">AND</span> oi.product_id <span class="operator">=</span> oin.product_id;</span><br></pre></td></tr></table></figure>
-<h3 id="implicit-join-syntax"><a class="header-anchor" href="#implicit-join-syntax">¶</a>Implicit Join Syntax</h3>
-<p>In Mysql we can use simple query to instead Join condition.</p>
-<p>for example</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o</span><br><span class="line"><span class="keyword">JOIN</span> customers c</span><br><span class="line">		<span class="keyword">ON</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br><span class="line">		</span><br><span class="line"><span class="comment">-- Implpicit Join Syntax</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> orders o,customers c</span><br><span class="line"><span class="keyword">WHERE</span> o.customer_id <span class="operator">=</span> c.customer_id</span><br></pre></td></tr></table></figure>
-<h2 id="outer-join"><a class="header-anchor" href="#outer-join">¶</a>Outer Join</h2>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -1251,90 +1251,6 @@ x \equiv b2 \ (mod \ 29) \\
       </tags>
   </entry>
   <entry>
-    <title>【基础知识】Neural Network Embeddings Explained</title>
-    <url>/2021/07/18/%E3%80%90%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E3%80%91Neural-Network-Embeddings-Explained/</url>
-    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>原文链接：<a href="https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526">https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526</a></p>
-<blockquote>
-<p>Applications of neural networks have expanded significantly in recent years from image segmentation to natural language processing to time-series forecasting. One notably successful use of deep learning is embedding, a method used to represent discrete variables as continuous vectors. This technique has found practical applications with word embeddings for <a href="https://arxiv.org/abs/1705.03127">machine translation</a> and <a href="https://arxiv.org/abs/1604.06737">entity embeddings for categorical variables</a>.</p>
-</blockquote>
-<p>近年来，神经网络的应用从图像分割到自然语言处理再到时间序列预测都有了很大的发展。深度学习的一个显著成功应用是<code>Embedding</code>(嵌入)，一种将离散变量表示为连续向量的方法。该技术已在机器翻译的单词嵌入和分类变量的实体嵌入中得到了实际应用。</p>
-<p>在本文中，我将解释什么是神经网络Embedding，为什么我们要使用它们，以及如何学习它们。我们将结合我正在研究的一个实际问题来讨论这些概念：将维基百科上的所有书籍表示为向量，以创建一个图书推荐系统。</p>
-<h1 id="embeddings"><a class="header-anchor" href="#embeddings">¶</a>Embeddings</h1>
-<p>Embedding是一个离散范畴变量到连续数向量的映射。在神经网络的上下文中，Embedding是低维的，学习的离散变量的连续向量表示。神经网络Embedding是有用的，因为它可以降低分类变量的维数，并在变换空间中有意义地表示类别。</p>
-<p>神经网络Embedding有3个主要目的：</p>
-<ol>
-<li>在嵌入空间中寻找最近邻。这些可用于根据用户兴趣或集群类别提出建议。</li>
-<li>作为有监督任务的机器学习模型的输入。</li>
-<li>用于概念和类别之间关系的可视化。</li>
-</ol>
-<p>这就意味着在图书项目中，使用神经网络Embedding，我们可以在维基百科上获取所有37000篇图书文章，并用一个向量中的50个数字来表示每一篇文章。此外，因为Embedding是学习的，所以在学习问题的上下文中更相似的书籍在Embedding空间中彼此更接近。</p>
-<p>神经网络Embedding克服了表示分类变量的常用方法的两个局限性：one-hot encoding.</p>
-<h2 id="独热编码的局限性"><a class="header-anchor" href="#独热编码的局限性">¶</a>独热编码的局限性</h2>
-<p>一个热编码分类变量的操作实际上是一个简单的Embedding，每个分类映射到一个不同的向量。这个过程采用离散的实体，并将每个观测值映射到一个0的向量和一个1来表示特定的类别。</p>
-<p>独热编码技术主要有如下有两个缺点：</p>
-<ol>
-<li>
-<p>对于高纬度变量-那些有许多独特的类别-转换向量的维数变得难以管理。</p>
-</li>
-<li>
-<p>映射完全没有信息：“相似”的类别在嵌入空间中没有放得更近。</p>
-</li>
-</ol>
-<p>第一个问题很好理解：对于每一个额外的类别，我们必须在一个热编码向量中添加另一个数字来表示这个类别。如果我们在维基百科上有37000本书，那么表示每本书就需要37000维向量，这使得在这种表示上训练任何机器学习模型都是不可行的。</p>
-<p>第二个问题同样会使得单热编码具有局限性：一个热编码不会在向量空间中将相似的实体放得更近。如果我们使用余弦距离来度量向量之间的相似性，那么在一次热编码之后，实体之间的每一次比较的相似性都是0。</p>
-<p>这意味着像战争与和平和安娜卡列尼娜（这两本书都是托尔斯泰的经典著作）这样的实体，如果我们使用一个热编码的话，它们之间的距离并不比《战争与和平》与《银河系漫游指南》更近。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># One Hot Encoding Categoricals</span></span><br><span class="line">books = [<span class="string">&quot;War and Peace&quot;</span>, <span class="string">&quot;Anna Karenina&quot;</span>, </span><br><span class="line">          <span class="string">&quot;The Hitchhiker&#x27;s Guide to the Galaxy&quot;</span>]</span><br><span class="line">books_encoded = [[<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">                 [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>],</span><br><span class="line">                 [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]]</span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Second = <span class="number">0</span></span><br><span class="line">Similarity (dot product) between Second <span class="keyword">and</span> Third = <span class="number">0</span></span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Third = <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>考虑到这两个问题，表示分类变量的理想解决方案所需的数量将少于唯一类别的数量，并且将使相似类别彼此更接近。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Idealized Representation of Embedding</span></span><br><span class="line">books = [<span class="string">&quot;War and Peace&quot;</span>, <span class="string">&quot;Anna Karenina&quot;</span>, </span><br><span class="line">          <span class="string">&quot;The Hitchhiker&#x27;s Guide to the Galaxy&quot;</span>]</span><br><span class="line">books_encoded_ideal = [[<span class="number">0.53</span>,  <span class="number">0.85</span>],</span><br><span class="line">                       [<span class="number">0.60</span>,  <span class="number">0.80</span>],</span><br><span class="line">                       [-<span class="number">0.78</span>, -<span class="number">0.62</span>]]</span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Second = <span class="number">0.99</span></span><br><span class="line">Similarity (dot product) between Second <span class="keyword">and</span> Third = -<span class="number">0.94</span></span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Third = -<span class="number">0.97</span></span><br></pre></td></tr></table></figure>
-<p>构建更好的分类实体表示，我们可以使用Embedding神经网络和监督任务来学习Embedding。</p>
-<h2 id="学习embedding"><a class="header-anchor" href="#学习embedding">¶</a>学习Embedding</h2>
-<p>独热编码的主要问题是它的转换不依赖于任何监督。通过在有监督的任务上使用神经网络来学习Embedding，我们可以极大地改进Embedding。<a href="https://stats.stackexchange.com/questions/182775/what-is-an-embedding-layer-in-a-neural-network">Embedding形成了网络的参数</a>-权重-并对其进行了调整，以使任务的损失最小化。生成的Embedding向量是类别的表示，其中类似的类别（相对于任务）彼此更接近。</p>
-<p>例如，如果我们在一组电影评论中使用了50000个单词的词汇量，我们就可以使用一个Embedding神经网络来学习每个单词的100维Embedding，这个神经网络训练用来预测评论的感伤性(有关此应用程序的详细信息，请参阅此<a href="https://colab.research.google.com/notebooks/mlcc/intro_to_sparse_data_and_embeddings.ipynb?utm_source=mlcc&amp;utm_campaign=colab-external&amp;utm_medium=referral&amp;utm_content=embeddings-colab&amp;hl=en">Google Colab</a>笔记本）。词汇表中与正面评论相关的词语，如“辉煌”或“优秀”，将在Embedding空间中更接近，因为网络已经了解到这两者都与正面评论相关。</p>
-<img src="https://gitee.com/coronapolvo/images/raw/master/20210718103755image-20210718103717614.png" alt="image-20210718103717614" style="zoom:53%;" />
-<p>在上面给出的图书示例中，我们的监督任务可以是“识别一本书是否是托尔斯泰写的”，由此产生的Embedding将使托尔斯泰写的书彼此更接近。弄清楚如何创建有监督的任务来产生相关的表示是制作Embedding最困难的部分。</p>
-<h2 id="改进"><a class="header-anchor" href="#改进">¶</a>改进</h2>
-<p>在Wikipedia图书项目（这里是<a href="https://github.com/WillKoehrsen/wikipedia-data-science/blob/master/notebooks/Book%20Recommendation%20System.ipynb">complete notebook</a>）中，监督学习任务被设置为预测一本书的文章中是否出现指向Wikipedia页面的给定链接。我们提供成对的（书名，链接）训练示例，其中混合了正-真-负-假-对。这种设置基于这样的假设：链接到类似维基百科页面的书籍彼此相似。由此产生的嵌入应该把类似的书放在向量空间中更近的地方。</p>
-<p>我使用的网络有两个平行的嵌入层，它们将book和wikilink映射成50维向量，还有一个点积层，它将Embedding的内容组合成一个数字进行预测。Embedding是指在训练过程中调整网络的参数或权值，以使被监督任务的损失最小化。</p>
-<p>在Keras代码中，如下所示（如果您不完全理解代码，请不要担心，只需跳到图片）：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"> <span class="comment"># Both inputs are 1-dimensional</span></span><br><span class="line">book = Input(name = <span class="string">&#x27;book&#x27;</span>, shape = [<span class="number">1</span>])</span><br><span class="line">link = Input(name = <span class="string">&#x27;link&#x27;</span>, shape = [<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Embedding the book (shape will be (None, 1, 50))</span></span><br><span class="line">book_embedding = Embedding(name = <span class="string">&#x27;book_embedding&#x27;</span>,</span><br><span class="line">                           input_dim = <span class="built_in">len</span>(book_index),</span><br><span class="line">                           output_dim = embedding_size)(book)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Embedding the link (shape will be (None, 1, 50))</span></span><br><span class="line">link_embedding = Embedding(name = <span class="string">&#x27;link_embedding&#x27;</span>,</span><br><span class="line">                           input_dim = <span class="built_in">len</span>(link_index),</span><br><span class="line">                           output_dim = embedding_size)(link)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Merge the layers with a dot product along the second axis (shape will be (None, 1, 1))</span></span><br><span class="line">merged = Dot(name = <span class="string">&#x27;dot_product&#x27;</span>, normalize = <span class="literal">True</span>, axes = <span class="number">2</span>)([book_embedding, link_embedding])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Reshape to be a single number (shape will be (None, 1))</span></span><br><span class="line">merged = Reshape(target_shape = [<span class="number">1</span>])(merged)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Output neuron</span></span><br><span class="line">out = Dense(<span class="number">1</span>, activation = <span class="string">&#x27;sigmoid&#x27;</span>)(merged)</span><br><span class="line">model = Model(inputs = [book, link], outputs = out)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Minimize binary cross entropy</span></span><br><span class="line">model.<span class="built_in">compile</span>(optimizer = <span class="string">&#x27;Adam&#x27;</span>, loss = <span class="string">&#x27;binary_crossentropy&#x27;</span>, metrics = [<span class="string">&#x27;accuracy&#x27;</span>])</span><br></pre></td></tr></table></figure>
-<p>尽管在有监督机器学习任务中，目标通常是训练模型对新数据进行预测，但在这种Embedding模型中，预测只是达到目的的一种手段。我们需要的是嵌入权重，将书籍和链接表示为连续向量。</p>
-<p>Embedding本身并不那么有趣：它们只是数字的向量：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718104225image-20210718104223694.png" alt="image-20210718104223694"></p>
-<p>但是，Embedding可以用于前面列出的3个目的，对于这个项目，我们主要感兴趣的是推荐基于最近邻的书籍。为了计算相似度，我们取一本查询书，找出它的向量和其他所有书的向量之间的点积(如果我们的Embedding是标准化的，这个点积就是向量之间的余弦距离，范围从-1，最不相似，到+1，最相似。我们也可以用欧几里德距离来衡量相似性）。</p>
-<p>这是我构建的图书嵌入模型的输出：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Books closest to War and Peace.</span><br><span class="line">Book: War and Peace              Similarity: 1.0</span><br><span class="line">Book: Anna Karenina              Similarity: 0.79</span><br><span class="line">Book: The Master and Margarita   Similarity: 0.77</span><br><span class="line">Book: Doctor Zhivago (novel)     Similarity: 0.76</span><br><span class="line">Book: Dead Souls                 Similarity: 0.75</span><br></pre></td></tr></table></figure>
-<p>（向量与自身之间的余弦相似性必须为1.0）。经过一些降维（见下文），我们可以制作如下图：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718104748image-20210718104742855.png" alt="image-20210718104742855"></p>
-<p>我们可以清楚地看到学习Embedding的价值！我们现在在维基百科上的每一本书都有50个数字表示，类似的书彼此之间更接近。</p>
-<h1 id="embedding-可视化"><a class="header-anchor" href="#embedding-可视化">¶</a>Embedding 可视化</h1>
-<p>关于Embedding最酷的部分之一是，它们可以用来可视化概念，例如与其他概念相关的新奇或非虚构的概念。这就需要进一步的降维技术来将维数降到2或3。最流行的降维技术本身就是一种Embedding方法：t分布随机邻域嵌入（TSNE）。</p>
-<p>我们可以将维基百科上所有书籍的原始37000维，使用神经网络Embedding将它们映射到50维，然后使用TSNE将它们映射到2维。结果如下：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718104940image-20210718104938054.png" alt="image-20210718104938054"></p>
-<p>（TSNE是一种流形学习技术，它试图将高维数据映射到低维流形，创建一个嵌入，试图保持数据中的局部结构。它几乎只用于可视化，因为输出是随机的，不支持转换新数据。一个新兴的替代方案是统一流形近似和投影，UMAP，它速度更快，并且支持将新数据转换到嵌入空间。</p>
-<p>这本身并不是很有用，但一旦我们开始根据不同的书籍特点给它上色，它就会很有见地。</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718105148image-20210718105146989.png" alt="image-20210718105146989"></p>
-<p>我们可以清楚地看到属于同一类型的书的分组。这并不完美，但令人印象深刻的是，我们可以用2个数字来表示维基百科上的所有书籍，这些数字仍然捕捉到了不同流派之间的差异。</p>
-<p>书中的例子展示了神经网络Embedding的价值：我们可以将分类对象用低维的，并且在嵌入空间中把相似的实体放得更近的向量表示。</p>
-<h2 id="bonus-交互式可视化"><a class="header-anchor" href="#bonus-交互式可视化">¶</a>Bonus:交互式可视化</h2>
-<p>静态图的问题是，我们不能真正地研究数据和研究变量之间的分组或关系。为了解决这个问题，TensorFlow开发了projector，这是一个在线应用程序，可以让我们可视化并与嵌入进行交互。目前的结果如下：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718105627image-20210718105626141.png" alt="image-20210718105626141"></p>
-<h1 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h1>
-<p>神经网络Embedding是学习离散数据作为连续向量的低维表示。这些Embedding克服了传统编码方法的局限性，可以用于查找最近邻、输入到另一个模型和可视化等目的。</p>
-<p>虽然许多深度学习概念在学术术语中被讨论，但神经网络Embedding既直观又相对简单。我坚信，任何人都可以学习深度学习，并利用Keras等图书馆构建深度学习解决方案。嵌入是处理离散变量的有效工具，也是深度学习的一个有用应用。</p>
-<h1 id="参考文献"><a class="header-anchor" href="#参考文献">¶</a>参考文献</h1>
-<p><a href="https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture">Google-Produced tutorial on embeddings</a></p>
-<p><a href="https://www.tensorflow.org/guide/embedding">TensorFlow Guide to Embeddings</a></p>
-<p>[Book Recommendation System Using Embeddings](<a href="https://github.com/WillKoehrsen/wikipedia-data-science/blob/master/notebooks/Book">https://github.com/WillKoehrsen/wikipedia-data-science/blob/master/notebooks/Book</a> Recommendation System.ipynb)</p>
-<p><a href="https://machinelearningmastery.com/use-word-embedding-layers-deep-learning-keras/">Tutorial on Word Embeddings in Keras</a></p>
-]]></content>
-      <categories>
-        <category>深度学习基础知识</category>
-      </categories>
-      <tags>
-        <tag>deep learning</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【前后端教程】打比赛必备的前后端知识</title>
     <url>/2021/06/30/%E3%80%90%E5%89%8D%E5%90%8E%E7%AB%AF%E6%95%99%E7%A8%8B%E3%80%91%E6%89%93%E6%AF%94%E8%B5%9B%E5%BF%85%E5%A4%87%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E7%9F%A5%E8%AF%86/</url>
     <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="基础网络通信知识"><a class="header-anchor" href="#基础网络通信知识">¶</a>基础网络通信知识</h1>
@@ -1353,7 +1269,8 @@ x \equiv b2 \ (mod \ 29) \\
 <img src="https://gitee.com/coronapolvo/images/raw/master/20210706113138image-20210706113116819.png" alt="image-20210706113116819" style="zoom:50%;" />
 <p>这种就是协议加ip地址的方式。刚才一直说IP地址，可能有的同学还是不是那么的了解IP地址。下面我们就介绍一下什么是IP地址。</p>
 <h3 id="什么是ip地址？"><a class="header-anchor" href="#什么是ip地址？">¶</a>什么是IP地址？</h3>
-<p>简单的来说IP地址是主机在网络之间用于表明自己身份的东西。他们就像是快递的收件地址一样，数据包根据IP地址来送“快递”。</p>
+<p>推荐学习网址：<a href="https://blog.csdn.net/python_LC_nohtyp/article/details/108919428?spm=1001.2014.3001.5501">https://blog.csdn.net/python_LC_nohtyp/article/details/108919428?spm=1001.2014.3001.5501</a></p>
+<p>简单的来说IP地址是主机在网络之间用于表明自己身份的东西。他们就像是快递的收件地址一样，数据包根据IP地址来送“快递”。当然了数据包送达的过程肯定没有那么简单，这里只是为了帮助你更好的了解IP地址。</p>
 <h4 id="ip地址的基本结构"><a class="header-anchor" href="#ip地址的基本结构">¶</a>IP地址的基本结构</h4>
 <p>IP地址一般是由4个0-255的数组成的，比如127.0.0.1这就是一个IP地址。你可以在命令行上查看自己电脑的IP地址：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Windows: ipconfig</span><br><span class="line">Linux: ifconfig</span><br><span class="line">MacOS: ifconfig | grep &quot;inet&quot; </span><br></pre></td></tr></table></figure>
@@ -1395,7 +1312,7 @@ x \equiv b2 \ (mod \ 29) \\
 <ol>
 <li>
 <p>网站的基本组成部分是什么？每个部分负责什么功能？</p>
-<p>简单的来说，网站又前端和后端组成。前端负责将后端的数据呈现给用户和将用户的操作行为提交给后端。后端负责处理前端返回的数据。</p>
+<p>简单的来说，网站由前端和后端组成。前端负责将后端的数据呈现给用户和将用户的操作行为提交给后端。后端负责处理前端返回的数据。</p>
 </li>
 <li>
 <p>为什么要区分公网IP和私网IP</p>
@@ -1719,7 +1636,7 @@ x \equiv b2 \ (mod \ 29) \\
 <p>接下来我们在Flask中设置访问根路由时返回该静态模版（只需要一句<code>render_template('index.html')</code>）</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> flask</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> render_template</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义总路由</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>():</span></span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&#x27;index.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run(host=<span class="string">&#x27;0.0.0.0&#x27;</span>, port=<span class="number">5000</span>)</span><br></pre></td></tr></table></figure>
 <p>接下来重新运行一遍后端代码，之后打开:<code>http://127.0.0.1:5000</code>，你就可以看到：</p>
-<p><img src="/Users/keter/Documents/image/image-20210727232124751.png" alt="image-20210727232124751"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210729114313image-20210727232124751.png" alt="image-20210727232124751"></p>
 <h2 id="前后端相互通信"><a class="header-anchor" href="#前后端相互通信">¶</a>前后端相互通信</h2>
 <h3 id="接收get类型的数据"><a class="header-anchor" href="#接收get类型的数据">¶</a>接收GET类型的数据</h3>
 <p>GET传参的方式：<code>http://127.0.0.1:5000/hello?a=1&amp;b=2</code></p>
@@ -1766,6 +1683,90 @@ x \equiv b2 \ (mod \ 29) \\
 ]]></content>
       <tags>
         <tag>前后端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【基础知识】Neural Network Embeddings Explained</title>
+    <url>/2021/07/18/%E3%80%90%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E3%80%91Neural-Network-Embeddings-Explained/</url>
+    <content><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>原文链接：<a href="https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526">https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526</a></p>
+<blockquote>
+<p>Applications of neural networks have expanded significantly in recent years from image segmentation to natural language processing to time-series forecasting. One notably successful use of deep learning is embedding, a method used to represent discrete variables as continuous vectors. This technique has found practical applications with word embeddings for <a href="https://arxiv.org/abs/1705.03127">machine translation</a> and <a href="https://arxiv.org/abs/1604.06737">entity embeddings for categorical variables</a>.</p>
+</blockquote>
+<p>近年来，神经网络的应用从图像分割到自然语言处理再到时间序列预测都有了很大的发展。深度学习的一个显著成功应用是<code>Embedding</code>(嵌入)，一种将离散变量表示为连续向量的方法。该技术已在机器翻译的单词嵌入和分类变量的实体嵌入中得到了实际应用。</p>
+<p>在本文中，我将解释什么是神经网络Embedding，为什么我们要使用它们，以及如何学习它们。我们将结合我正在研究的一个实际问题来讨论这些概念：将维基百科上的所有书籍表示为向量，以创建一个图书推荐系统。</p>
+<h1 id="embeddings"><a class="header-anchor" href="#embeddings">¶</a>Embeddings</h1>
+<p>Embedding是一个离散范畴变量到连续数向量的映射。在神经网络的上下文中，Embedding是低维的，学习的离散变量的连续向量表示。神经网络Embedding是有用的，因为它可以降低分类变量的维数，并在变换空间中有意义地表示类别。</p>
+<p>神经网络Embedding有3个主要目的：</p>
+<ol>
+<li>在嵌入空间中寻找最近邻。这些可用于根据用户兴趣或集群类别提出建议。</li>
+<li>作为有监督任务的机器学习模型的输入。</li>
+<li>用于概念和类别之间关系的可视化。</li>
+</ol>
+<p>这就意味着在图书项目中，使用神经网络Embedding，我们可以在维基百科上获取所有37000篇图书文章，并用一个向量中的50个数字来表示每一篇文章。此外，因为Embedding是学习的，所以在学习问题的上下文中更相似的书籍在Embedding空间中彼此更接近。</p>
+<p>神经网络Embedding克服了表示分类变量的常用方法的两个局限性：one-hot encoding.</p>
+<h2 id="独热编码的局限性"><a class="header-anchor" href="#独热编码的局限性">¶</a>独热编码的局限性</h2>
+<p>一个热编码分类变量的操作实际上是一个简单的Embedding，每个分类映射到一个不同的向量。这个过程采用离散的实体，并将每个观测值映射到一个0的向量和一个1来表示特定的类别。</p>
+<p>独热编码技术主要有如下有两个缺点：</p>
+<ol>
+<li>
+<p>对于高纬度变量-那些有许多独特的类别-转换向量的维数变得难以管理。</p>
+</li>
+<li>
+<p>映射完全没有信息：“相似”的类别在嵌入空间中没有放得更近。</p>
+</li>
+</ol>
+<p>第一个问题很好理解：对于每一个额外的类别，我们必须在一个热编码向量中添加另一个数字来表示这个类别。如果我们在维基百科上有37000本书，那么表示每本书就需要37000维向量，这使得在这种表示上训练任何机器学习模型都是不可行的。</p>
+<p>第二个问题同样会使得单热编码具有局限性：一个热编码不会在向量空间中将相似的实体放得更近。如果我们使用余弦距离来度量向量之间的相似性，那么在一次热编码之后，实体之间的每一次比较的相似性都是0。</p>
+<p>这意味着像战争与和平和安娜卡列尼娜（这两本书都是托尔斯泰的经典著作）这样的实体，如果我们使用一个热编码的话，它们之间的距离并不比《战争与和平》与《银河系漫游指南》更近。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># One Hot Encoding Categoricals</span></span><br><span class="line">books = [<span class="string">&quot;War and Peace&quot;</span>, <span class="string">&quot;Anna Karenina&quot;</span>, </span><br><span class="line">          <span class="string">&quot;The Hitchhiker&#x27;s Guide to the Galaxy&quot;</span>]</span><br><span class="line">books_encoded = [[<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">                 [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>],</span><br><span class="line">                 [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]]</span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Second = <span class="number">0</span></span><br><span class="line">Similarity (dot product) between Second <span class="keyword">and</span> Third = <span class="number">0</span></span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Third = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>考虑到这两个问题，表示分类变量的理想解决方案所需的数量将少于唯一类别的数量，并且将使相似类别彼此更接近。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Idealized Representation of Embedding</span></span><br><span class="line">books = [<span class="string">&quot;War and Peace&quot;</span>, <span class="string">&quot;Anna Karenina&quot;</span>, </span><br><span class="line">          <span class="string">&quot;The Hitchhiker&#x27;s Guide to the Galaxy&quot;</span>]</span><br><span class="line">books_encoded_ideal = [[<span class="number">0.53</span>,  <span class="number">0.85</span>],</span><br><span class="line">                       [<span class="number">0.60</span>,  <span class="number">0.80</span>],</span><br><span class="line">                       [-<span class="number">0.78</span>, -<span class="number">0.62</span>]]</span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Second = <span class="number">0.99</span></span><br><span class="line">Similarity (dot product) between Second <span class="keyword">and</span> Third = -<span class="number">0.94</span></span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Third = -<span class="number">0.97</span></span><br></pre></td></tr></table></figure>
+<p>构建更好的分类实体表示，我们可以使用Embedding神经网络和监督任务来学习Embedding。</p>
+<h2 id="学习embedding"><a class="header-anchor" href="#学习embedding">¶</a>学习Embedding</h2>
+<p>独热编码的主要问题是它的转换不依赖于任何监督。通过在有监督的任务上使用神经网络来学习Embedding，我们可以极大地改进Embedding。<a href="https://stats.stackexchange.com/questions/182775/what-is-an-embedding-layer-in-a-neural-network">Embedding形成了网络的参数</a>-权重-并对其进行了调整，以使任务的损失最小化。生成的Embedding向量是类别的表示，其中类似的类别（相对于任务）彼此更接近。</p>
+<p>例如，如果我们在一组电影评论中使用了50000个单词的词汇量，我们就可以使用一个Embedding神经网络来学习每个单词的100维Embedding，这个神经网络训练用来预测评论的感伤性(有关此应用程序的详细信息，请参阅此<a href="https://colab.research.google.com/notebooks/mlcc/intro_to_sparse_data_and_embeddings.ipynb?utm_source=mlcc&amp;utm_campaign=colab-external&amp;utm_medium=referral&amp;utm_content=embeddings-colab&amp;hl=en">Google Colab</a>笔记本）。词汇表中与正面评论相关的词语，如“辉煌”或“优秀”，将在Embedding空间中更接近，因为网络已经了解到这两者都与正面评论相关。</p>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210718103755image-20210718103717614.png" alt="image-20210718103717614" style="zoom:53%;" />
+<p>在上面给出的图书示例中，我们的监督任务可以是“识别一本书是否是托尔斯泰写的”，由此产生的Embedding将使托尔斯泰写的书彼此更接近。弄清楚如何创建有监督的任务来产生相关的表示是制作Embedding最困难的部分。</p>
+<h2 id="改进"><a class="header-anchor" href="#改进">¶</a>改进</h2>
+<p>在Wikipedia图书项目（这里是<a href="https://github.com/WillKoehrsen/wikipedia-data-science/blob/master/notebooks/Book%20Recommendation%20System.ipynb">complete notebook</a>）中，监督学习任务被设置为预测一本书的文章中是否出现指向Wikipedia页面的给定链接。我们提供成对的（书名，链接）训练示例，其中混合了正-真-负-假-对。这种设置基于这样的假设：链接到类似维基百科页面的书籍彼此相似。由此产生的嵌入应该把类似的书放在向量空间中更近的地方。</p>
+<p>我使用的网络有两个平行的嵌入层，它们将book和wikilink映射成50维向量，还有一个点积层，它将Embedding的内容组合成一个数字进行预测。Embedding是指在训练过程中调整网络的参数或权值，以使被监督任务的损失最小化。</p>
+<p>在Keras代码中，如下所示（如果您不完全理解代码，请不要担心，只需跳到图片）：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"> <span class="comment"># Both inputs are 1-dimensional</span></span><br><span class="line">book = Input(name = <span class="string">&#x27;book&#x27;</span>, shape = [<span class="number">1</span>])</span><br><span class="line">link = Input(name = <span class="string">&#x27;link&#x27;</span>, shape = [<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Embedding the book (shape will be (None, 1, 50))</span></span><br><span class="line">book_embedding = Embedding(name = <span class="string">&#x27;book_embedding&#x27;</span>,</span><br><span class="line">                           input_dim = <span class="built_in">len</span>(book_index),</span><br><span class="line">                           output_dim = embedding_size)(book)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Embedding the link (shape will be (None, 1, 50))</span></span><br><span class="line">link_embedding = Embedding(name = <span class="string">&#x27;link_embedding&#x27;</span>,</span><br><span class="line">                           input_dim = <span class="built_in">len</span>(link_index),</span><br><span class="line">                           output_dim = embedding_size)(link)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Merge the layers with a dot product along the second axis (shape will be (None, 1, 1))</span></span><br><span class="line">merged = Dot(name = <span class="string">&#x27;dot_product&#x27;</span>, normalize = <span class="literal">True</span>, axes = <span class="number">2</span>)([book_embedding, link_embedding])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Reshape to be a single number (shape will be (None, 1))</span></span><br><span class="line">merged = Reshape(target_shape = [<span class="number">1</span>])(merged)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Output neuron</span></span><br><span class="line">out = Dense(<span class="number">1</span>, activation = <span class="string">&#x27;sigmoid&#x27;</span>)(merged)</span><br><span class="line">model = Model(inputs = [book, link], outputs = out)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Minimize binary cross entropy</span></span><br><span class="line">model.<span class="built_in">compile</span>(optimizer = <span class="string">&#x27;Adam&#x27;</span>, loss = <span class="string">&#x27;binary_crossentropy&#x27;</span>, metrics = [<span class="string">&#x27;accuracy&#x27;</span>])</span><br></pre></td></tr></table></figure>
+<p>尽管在有监督机器学习任务中，目标通常是训练模型对新数据进行预测，但在这种Embedding模型中，预测只是达到目的的一种手段。我们需要的是嵌入权重，将书籍和链接表示为连续向量。</p>
+<p>Embedding本身并不那么有趣：它们只是数字的向量：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718104225image-20210718104223694.png" alt="image-20210718104223694"></p>
+<p>但是，Embedding可以用于前面列出的3个目的，对于这个项目，我们主要感兴趣的是推荐基于最近邻的书籍。为了计算相似度，我们取一本查询书，找出它的向量和其他所有书的向量之间的点积(如果我们的Embedding是标准化的，这个点积就是向量之间的余弦距离，范围从-1，最不相似，到+1，最相似。我们也可以用欧几里德距离来衡量相似性）。</p>
+<p>这是我构建的图书嵌入模型的输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Books closest to War and Peace.</span><br><span class="line">Book: War and Peace              Similarity: 1.0</span><br><span class="line">Book: Anna Karenina              Similarity: 0.79</span><br><span class="line">Book: The Master and Margarita   Similarity: 0.77</span><br><span class="line">Book: Doctor Zhivago (novel)     Similarity: 0.76</span><br><span class="line">Book: Dead Souls                 Similarity: 0.75</span><br></pre></td></tr></table></figure>
+<p>（向量与自身之间的余弦相似性必须为1.0）。经过一些降维（见下文），我们可以制作如下图：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718104748image-20210718104742855.png" alt="image-20210718104742855"></p>
+<p>我们可以清楚地看到学习Embedding的价值！我们现在在维基百科上的每一本书都有50个数字表示，类似的书彼此之间更接近。</p>
+<h1 id="embedding-可视化"><a class="header-anchor" href="#embedding-可视化">¶</a>Embedding 可视化</h1>
+<p>关于Embedding最酷的部分之一是，它们可以用来可视化概念，例如与其他概念相关的新奇或非虚构的概念。这就需要进一步的降维技术来将维数降到2或3。最流行的降维技术本身就是一种Embedding方法：t分布随机邻域嵌入（TSNE）。</p>
+<p>我们可以将维基百科上所有书籍的原始37000维，使用神经网络Embedding将它们映射到50维，然后使用TSNE将它们映射到2维。结果如下：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718104940image-20210718104938054.png" alt="image-20210718104938054"></p>
+<p>（TSNE是一种流形学习技术，它试图将高维数据映射到低维流形，创建一个嵌入，试图保持数据中的局部结构。它几乎只用于可视化，因为输出是随机的，不支持转换新数据。一个新兴的替代方案是统一流形近似和投影，UMAP，它速度更快，并且支持将新数据转换到嵌入空间。</p>
+<p>这本身并不是很有用，但一旦我们开始根据不同的书籍特点给它上色，它就会很有见地。</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718105148image-20210718105146989.png" alt="image-20210718105146989"></p>
+<p>我们可以清楚地看到属于同一类型的书的分组。这并不完美，但令人印象深刻的是，我们可以用2个数字来表示维基百科上的所有书籍，这些数字仍然捕捉到了不同流派之间的差异。</p>
+<p>书中的例子展示了神经网络Embedding的价值：我们可以将分类对象用低维的，并且在嵌入空间中把相似的实体放得更近的向量表示。</p>
+<h2 id="bonus-交互式可视化"><a class="header-anchor" href="#bonus-交互式可视化">¶</a>Bonus:交互式可视化</h2>
+<p>静态图的问题是，我们不能真正地研究数据和研究变量之间的分组或关系。为了解决这个问题，TensorFlow开发了projector，这是一个在线应用程序，可以让我们可视化并与嵌入进行交互。目前的结果如下：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718105627image-20210718105626141.png" alt="image-20210718105626141"></p>
+<h1 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h1>
+<p>神经网络Embedding是学习离散数据作为连续向量的低维表示。这些Embedding克服了传统编码方法的局限性，可以用于查找最近邻、输入到另一个模型和可视化等目的。</p>
+<p>虽然许多深度学习概念在学术术语中被讨论，但神经网络Embedding既直观又相对简单。我坚信，任何人都可以学习深度学习，并利用Keras等图书馆构建深度学习解决方案。嵌入是处理离散变量的有效工具，也是深度学习的一个有用应用。</p>
+<h1 id="参考文献"><a class="header-anchor" href="#参考文献">¶</a>参考文献</h1>
+<p><a href="https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture">Google-Produced tutorial on embeddings</a></p>
+<p><a href="https://www.tensorflow.org/guide/embedding">TensorFlow Guide to Embeddings</a></p>
+<p>[Book Recommendation System Using Embeddings](<a href="https://github.com/WillKoehrsen/wikipedia-data-science/blob/master/notebooks/Book">https://github.com/WillKoehrsen/wikipedia-data-science/blob/master/notebooks/Book</a> Recommendation System.ipynb)</p>
+<p><a href="https://machinelearningmastery.com/use-word-embedding-layers-deep-learning-keras/">Tutorial on Word Embeddings in Keras</a></p>
+]]></content>
+      <categories>
+        <category>深度学习基础知识</category>
+      </categories>
+      <tags>
+        <tag>deep learning</tag>
       </tags>
   </entry>
   <entry>
