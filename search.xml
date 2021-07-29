@@ -1449,7 +1449,7 @@ x \equiv b2 \ (mod \ 29) \\
 <p>HTML 中的脚本必须位于 &lt;script&gt; 与 &lt;/script&gt; 标签之间。</p>
 <p>脚本可被放置在 HTML 页面的 &lt;body&gt; 和&lt;head&gt; 部分中。</p>
 <h4 id="script-标签"><a class="header-anchor" href="#script-标签">¶</a>&lt;script&gt; 标签</h4>
-<p>如需在 HTML 页面中插入 JavaScript，请使用 <script> 标签。</p>
+<p>如需在 HTML 页面中插入 JavaScript，请使用 &lt;script&gt; 标签。</p>
 <p><code>&lt;script&gt; 和 &lt;/script&gt;</code> 会告诉 JavaScript 在何处开始和结束。</p>
 <p>比如：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">alert(<span class="string">&quot;我的第一个 JavaScript&quot;</span>);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
