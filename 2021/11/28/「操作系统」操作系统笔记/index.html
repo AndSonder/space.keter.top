@@ -1,18 +1,18 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>「操作系统」操作系统笔记 | coronaPolvo Blog</title><meta name="keywords" content="课程学习,操作系统"><meta name="author" content="coronaPolvo"><meta name="copyright" content="coronaPolvo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="¶第一章 ¶简答题 ¶三种基本的OS 分时操作系统: 同时性，独立性，及时性，交互性 实时操作系统：提供及时响应和高可靠性 批处理操作系统：批量集中处理、多道程序运行、作业脱机工作 ¶第二章处理器调度作业 ¶简答题 ¶处理器两种最基本的状态 用户态：只能运行用户程序，非特权指令 核心态：运行系统指令和全部程序 ¶什么是中断 ​		中断指在程序执行的过程遇到急需处理的事件中，暂时中止现行程序在CPU">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>「操作系统」操作系统笔记 | coronaPolvo Blog</title><meta name="keywords" content="课程学习,操作系统"><meta name="author" content="coronaPolvo"><meta name="copyright" content="coronaPolvo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="第一章  简答题  三种基本的OS 分时操作系统: 同时性，独立性，及时性，交互性 实时操作系统：提供及时响应和高可靠性 批处理操作系统：批量集中处理、多道程序运行、作业脱机工作  第二章处理器调度作业  简答题  处理器两种最基本的状态 用户态：只能运行用户程序，非特权指令 核心态：运行系统指令和全部程序  什么是中断 ​		中断指在程序执行的过程遇到急需处理的事件中，暂时中止现行程序在CPU">
 <meta property="og:type" content="article">
 <meta property="og:title" content="「操作系统」操作系统笔记">
 <meta property="og:url" content="http://blog.keter.top/2021/11/28/%E3%80%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="coronaPolvo Blog">
-<meta property="og:description" content="¶第一章 ¶简答题 ¶三种基本的OS 分时操作系统: 同时性，独立性，及时性，交互性 实时操作系统：提供及时响应和高可靠性 批处理操作系统：批量集中处理、多道程序运行、作业脱机工作 ¶第二章处理器调度作业 ¶简答题 ¶处理器两种最基本的状态 用户态：只能运行用户程序，非特权指令 核心态：运行系统指令和全部程序 ¶什么是中断 ​		中断指在程序执行的过程遇到急需处理的事件中，暂时中止现行程序在CPU">
+<meta property="og:description" content="第一章  简答题  三种基本的OS 分时操作系统: 同时性，独立性，及时性，交互性 实时操作系统：提供及时响应和高可靠性 批处理操作系统：批量集中处理、多道程序运行、作业脱机工作  第二章处理器调度作业  简答题  处理器两种最基本的状态 用户态：只能运行用户程序，非特权指令 核心态：运行系统指令和全部程序  什么是中断 ​		中断指在程序执行的过程遇到急需处理的事件中，暂时中止现行程序在CPU">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_16.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225034&Signature=i8cxjst0a5eWkxiwck4lz7k1Bmg%3D">
+<meta property="og:image" content="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_22.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225133&Signature=qEzNSKXfQcEJ9CLn5/5qEj%2BD2WY%3D">
 <meta property="article:published_time" content="2021-11-28T03:46:14.000Z">
 <meta property="article:modified_time" content="2021-12-01T10:05:34.000Z">
 <meta property="article:author" content="coronaPolvo">
 <meta property="article:tag" content="课程学习">
 <meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_16.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225034&Signature=i8cxjst0a5eWkxiwck4lz7k1Bmg%3D"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://blog.keter.top/2021/11/28/%E3%80%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>const GLOBAL_CONFIG = { 
+<meta name="twitter:image" content="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_22.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225133&Signature=qEzNSKXfQcEJ9CLn5/5qEj%2BD2WY%3D"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://blog.keter.top/2021/11/28/%E3%80%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
   root: '/',
   algolia: {"appId":"T2J8PXFM9J","apiKey":"e583ae17b10344887930c19a6ec47e2d","indexName":"blog_search","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
   localSearch: undefined,
@@ -40,20 +40,16 @@
   lightbox: 'fancybox',
   Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
   source: {
-    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
     justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
-    },
-    fancybox: {
-      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
     }
   },
   isPhotoFigcaption: false,
   islazyload: false,
-  isanchor: false
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '「操作系统」操作系统笔记',
   isPost: true,
   isHome: false,
   isHighlightShrink: false,
@@ -140,20 +136,27 @@
           document.documentElement.classList.remove('hide-aside')
         }
       }
-    })(window)</script><link rel="stylesheet" href="https://blog.keter.top/img/index.min.css"><meta name="generator" content="Hexo 5.4.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/touxiang.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">52</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html"><i class="fa-fw fas fa-link"></i><span> 算法笔记</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://ml.akasaki.space/"><i class="fa-fw fas fa-link"></i><span> DL笔记</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_16.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225034&amp;Signature=i8cxjst0a5eWkxiwck4lz7k1Bmg%3D')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">coronaPolvo Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html"><i class="fa-fw fas fa-link"></i><span> 算法笔记</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://ml.akasaki.space/"><i class="fa-fw fas fa-link"></i><span> DL笔记</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">「操作系统」操作系统笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-11-28T03:46:14.000Z" title="Created 2021-11-28 11:46:14">2021-11-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-12-01T10:05:34.000Z" title="Updated 2021-12-01 18:05:34">2021-12-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/">课程学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="「操作系统」操作系统笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="第一章"><a class="header-anchor" href="#第一章">¶</a>第一章</h1>
-<h2 id="简答题"><a class="header-anchor" href="#简答题">¶</a>简答题</h2>
-<h3 id="三种基本的OS"><a class="header-anchor" href="#三种基本的OS">¶</a>三种基本的OS</h3>
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://blog.keter.top/img/index.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/touxiang.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">52</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">24</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html"><i class="fa-fw fas fa-link"></i><span> 算法笔记</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://ml.akasaki.space/"><i class="fa-fw fas fa-link"></i><span> DL笔记</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_22.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225133&amp;Signature=qEzNSKXfQcEJ9CLn5/5qEj%2BD2WY%3D')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">coronaPolvo Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html"><i class="fa-fw fas fa-link"></i><span> 算法笔记</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://ml.akasaki.space/"><i class="fa-fw fas fa-link"></i><span> DL笔记</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">「操作系统」操作系统笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-11-28T03:46:14.000Z" title="Created 2021-11-28 11:46:14">2021-11-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-12-01T10:05:34.000Z" title="Updated 2021-12-01 18:05:34">2021-12-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/">课程学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="「操作系统」操作系统笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="第一章"><a class="markdownIt-Anchor" href="#第一章"></a> 第一章</h1>
+<h2 id="简答题"><a class="markdownIt-Anchor" href="#简答题"></a> 简答题</h2>
+<h3 id="三种基本的os"><a class="markdownIt-Anchor" href="#三种基本的os"></a> 三种基本的OS</h3>
 <p><code>分时操作系统:</code> 同时性，独立性，及时性，交互性</p>
 <p><code>实时操作系统：</code>提供及时响应和高可靠性</p>
 <p><code>批处理操作系统：</code>批量集中处理、多道程序运行、作业脱机工作</p>
-<h1 id="第二章处理器调度作业"><a class="header-anchor" href="#第二章处理器调度作业">¶</a>第二章处理器调度作业</h1>
-<h2 id="简答题-v2"><a class="header-anchor" href="#简答题-v2">¶</a>简答题</h2>
-<h3 id="处理器两种最基本的状态"><a class="header-anchor" href="#处理器两种最基本的状态">¶</a>处理器两种最基本的状态</h3>
+<h1 id="第二章处理器调度作业"><a class="markdownIt-Anchor" href="#第二章处理器调度作业"></a> 第二章处理器调度作业</h1>
+<h2 id="简答题-2"><a class="markdownIt-Anchor" href="#简答题-2"></a> 简答题</h2>
+<h3 id="处理器两种最基本的状态"><a class="markdownIt-Anchor" href="#处理器两种最基本的状态"></a> 处理器两种最基本的状态</h3>
 <p>用户态：只能运行用户程序，非特权指令</p>
 <p>核心态：运行系统指令和全部程序</p>
-<h3 id="什么是中断"><a class="header-anchor" href="#什么是中断">¶</a>什么是中断</h3>
+<h3 id="什么是中断"><a class="markdownIt-Anchor" href="#什么是中断"></a> 什么是中断</h3>
 <p>​		中断指在程序执行的过程遇到急需处理的事件中，暂时中止现行程序在CPU上的运行，转而执行相应的事件处理程序，待处理完成后再返回断电或调度其他程序执行的过程。</p>
-<h3 id="进程的状态转换"><a class="header-anchor" href="#进程的状态转换">¶</a>进程的状态转换</h3>
+<h3 id="进程的状态转换"><a class="markdownIt-Anchor" href="#进程的状态转换"></a> 进程的状态转换</h3>
 <p>我们需要掌握的进程状态有：</p>
 <ol>
 <li>创建态</li>
@@ -163,11 +166,11 @@
 <li>终止态</li>
 </ol>
 <p>需要掌握状态的转化关系：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113526image-20211117215852049.png" alt="image-20211117215852049"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113526image-20211117215852049.png" alt="image-20211117215852049" /></p>
 <p>例题：请填空</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113618image-20211117221735601.png" alt="image-20211117221735601"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113618image-20211117221735601.png" alt="image-20211117221735601" /></p>
 <p>解：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113624image-20211117221847310.png" alt="image-20211117221847310"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113624image-20211117221847310.png" alt="image-20211117221847310" /></p>
 <p>例题：在一单处理器系统中若 有5个用户进程在非管态的某一时刻处于运行状态的用户进程最多有填空1个,最 少有[填空2]个处于就绪状 态的用户进程最多有[填空3 个处于等待状态的用户进程 最多有[填空4]个在想从科协退休之后去哪里坐</p>
 <p>答案：1;0;4;5</p>
 <blockquote>
@@ -178,9 +181,9 @@
 <p>当时间片到的时候或者被处理机抢占时运行态转化为等待态</p>
 <p>当进程用“系统调用”的方式申请资源或者请求等待某个事件发生的时候运行态转为等待态</p>
 <p>当申请的资源被分配或者等待的事件发生时进程从等待态转换为就绪态</p>
-<h3 id="进程控制块（PCB）的作用"><a class="header-anchor" href="#进程控制块（PCB）的作用">¶</a>进程控制块（PCB）的作用</h3>
+<h3 id="进程控制块pcb的作用"><a class="markdownIt-Anchor" href="#进程控制块pcb的作用"></a> 进程控制块（PCB）的作用</h3>
 <p>​		PCB是进程的唯一表示，它使得一个在多道程序环境下不能独立运行的程序，成为一个能独立运行的基本单位。OS是根据PCB来对并发执行的进程进行控制和管理的。</p>
-<h3 id="进程调度算法的比较"><a class="header-anchor" href="#进程调度算法的比较">¶</a>进程调度算法的比较</h3>
+<h3 id="进程调度算法的比较"><a class="markdownIt-Anchor" href="#进程调度算法的比较"></a> 进程调度算法的比较</h3>
 <p>先来先服务算法（FCFS）：</p>
 <ol>
 <li>比较有利于长作业，不利于短作业</li>
@@ -198,80 +201,79 @@
 <p>HRRF既考虑作业的等待时间也考虑作业的运行时间，既能够照顾短作业又不会使长作业的等待时间过长，改善了调度性能</p>
 <p>时间片轮转算法：</p>
 <p>轮转策略可以防止哪些很少使用外围设备的进程过长的占用处理器，让外围设备的那些进程没有机会去启动外围设备。</p>
-<h2 id="计算题"><a class="header-anchor" href="#计算题">¶</a>计算题</h2>
-<h3 id="进程调度算法"><a class="header-anchor" href="#进程调度算法">¶</a>进程调度算法</h3>
+<h2 id="计算题"><a class="markdownIt-Anchor" href="#计算题"></a> 计算题</h2>
+<h3 id="进程调度算法"><a class="markdownIt-Anchor" href="#进程调度算法"></a> 进程调度算法</h3>
 <p>非交互系统的策略</p>
 <ol>
 <li>先到先得算法（FCFS First Come First Server）</li>
 <li>短作业优先算法（SPF Shortest Process First）</li>
 <li>高响应比优先算法（HRRN）</li>
 </ol>
-<p>$$<br>
-响应比 = \frac{等待时间+作业处理时间}{作业处理时间}<br>
-$$</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">响</mi><mi mathvariant="normal">应</mi><mi mathvariant="normal">比</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">等</mi><mi mathvariant="normal">待</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi><mo>+</mo><mi mathvariant="normal">作</mi><mi mathvariant="normal">业</mi><mi mathvariant="normal">处</mi><mi mathvariant="normal">理</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi></mrow><mrow><mi mathvariant="normal">作</mi><mi mathvariant="normal">业</mi><mi mathvariant="normal">处</mi><mi mathvariant="normal">理</mi><mi mathvariant="normal">时</mi><mi mathvariant="normal">间</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">响应比 = \frac{等待时间+作业处理时间}{作业处理时间}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mord cjk_fallback">响</span><span class="mord cjk_fallback">应</span><span class="mord cjk_fallback">比</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.9463300000000001em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.2603300000000002em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord cjk_fallback">作</span><span class="mord cjk_fallback">业</span><span class="mord cjk_fallback">处</span><span class="mord cjk_fallback">理</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord cjk_fallback">等</span><span class="mord cjk_fallback">待</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord cjk_fallback">作</span><span class="mord cjk_fallback">业</span><span class="mord cjk_fallback">处</span><span class="mord cjk_fallback">理</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">间</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
 <p>交互系统的策略</p>
 <ol>
 <li>时间片轮转算法</li>
 <li>优先级调度算法</li>
 </ol>
 <blockquote>
-<p>例题：在某个计算机系统中有一台输入机和一台打印机,现有两道程序投<br>
-入运行,且程序A先开始运行,程序B后开始运行。程序A的运行轨迹为:计算50ms、打印100Ms,再计算 50Ms,打印100Ms,结束。程序B的运行轨迹为:计算50Ms、输入 80ms,再计算100Ms,结束。试说明<br>
-(1)两道程序运行时,cpu是否存 在空闲等待? 若是,求出等待的时间长短(单位ms)。<br>
+<p>例题：在某个计算机系统中有一台输入机和一台打印机,现有两道程序投<br />
+入运行,且程序A先开始运行,程序B后开始运行。程序A的运行轨迹为:计算50ms、打印100Ms,再计算 50Ms,打印100Ms,结束。程序B的运行轨迹为:计算50Ms、输入 80ms,再计算100Ms,结束。试说明<br />
+(1)两道程序运行时,cpu是否存 在空闲等待? 若是,求出等待的时间长短(单位ms)。<br />
 (2)程序A、B哪个有等待cpu的情况? 若有,求出等待的时间长短。</p>
 </blockquote>
 <p>解：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211117220759842.png" alt="image-20211117220759842"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211117220759842.png" alt="image-20211117220759842" /></p>
 <p>17有三个作业A、B、C,它们分别单独运行时的CPU和I/O占用时间如下图所示:</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120085930582.png" alt="image-20211120085930582"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120085930582.png" alt="image-20211120085930582" /></p>
 <blockquote>
-<p>现在请考虑三个作业同时开始执行。系统中的资源有一个CPU和两台输入/输出设备(I/O1和I/O2)同时运行。三个作业的优先级为A最高,B次之,C最低,旦低优先级的进程开始占用CPU,则高优先级进程也要等待 其结束方可占用CPU。请问<br>
+<p>现在请考虑三个作业同时开始执行。系统中的资源有一个CPU和两台输入/输出设备(I/O1和I/O2)同时运行。三个作业的优先级为A最高,B次之,C最低,旦低优先级的进程开始占用CPU,则高优先级进程也要等待 其结束方可占用CPU。请问<br />
 最早结束的作业是[填空1 最后结束的作业是[填空2]? 计算这段时间CPU的利用率。(三个作业全部结束为止,精确 到两位小数)[填空3]?</p>
 </blockquote>
 <p>答：B;A;85.70;</p>
 <blockquote>
-<p>例题：在单CPU和两台IO(I,I2)设备的多道程序设计环境下,同时投入三个作业运行。它们的执行轨迹如下:<br>
-Jobl: 12(30ms), CPU(10ms) 1(30ms)、CPU(1Oms);<br>
-Job2: Il(20ms)、CPU(20ms)、2(40ms);<br>
-Job3: CPU(30ms), II(20ms)<br>
-如果CPU、I1和I2都能并行工作,优先级从高到低为Job1、Job2和Job3, 优先级高的作业可以抢占优先级低的作业的CPU。试求:<br>
-(1) 每个作业从投入到完成分 别 所需的时间。Job1是多少? Job2是多少? 空21Job3是多少? 填空3](单位ms)<br>
+<p>例题：在单CPU和两台IO(I,I2)设备的多道程序设计环境下,同时投入三个作业运行。它们的执行轨迹如下:<br />
+Jobl: 12(30ms), CPU(10ms) 1(30ms)、CPU(1Oms);<br />
+Job2: Il(20ms)、CPU(20ms)、2(40ms);<br />
+Job3: CPU(30ms), II(20ms)<br />
+如果CPU、I1和I2都能并行工作,优先级从高到低为Job1、Job2和Job3, 优先级高的作业可以抢占优先级低的作业的CPU。试求:<br />
+(1) 每个作业从投入到完成分 别 所需的时间。Job1是多少? Job2是多少? 空21Job3是多少? 填空3](单位ms)<br />
 (2) 设备利用率。Il是多少?I2是多少? (精确到小数后一位)</p>
 </blockquote>
 <p>解：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211117220732152.png" alt="image-20211117220732152"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211117220732152.png" alt="image-20211117220732152" /></p>
 <blockquote>
 <p>例题：有5个进程P1,P2,P3,P4,P5依次且同时到达就绪队列,它们的优先数和需要的处理器时间 如下表所示。(数字越大,优先 级越高)</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211123222521428.png" alt="image-20211123222521428"></p>
-<p>忽略进程调度等所花费的时间,请 回答下列问题<br>
-(1)写出分别采用“<strong>先来先服务</strong>” 和“<strong>非抢占式的优先数</strong>”调度算法 时选中进程执行的次序。(按调度次序填写进程,如P1P223P4P5,中间无需间<br>
-隔)先来先服务:[填空1]; 非抢占式的优先数:「填空2]<br>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211123222521428.png" alt="image-20211123222521428" /></p>
+<p>忽略进程调度等所花费的时间,请 回答下列问题<br />
+(1)写出分别采用“<strong>先来先服务</strong>” 和“<strong>非抢占式的优先数</strong>”调度算法 时选中进程执行的次序。(按调度次序填写进程,如P1P223P4P5,中间无需间<br />
+隔)先来先服务:[填空1]; 非抢占式的优先数:「填空2]<br />
 (2)分别计算出在两种算法下各进程在就绪队列中的平均等待时间 先来先服务:「填空3]; 非抢占式的优先数:「填空4]</p>
 </blockquote>
 <p>答：P1P2P3P4P5；P4P1P3P5P2；9.6；8.6</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211117221304855.png" alt="image-20211117221304855"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211117221304855.png" alt="image-20211117221304855" /></p>
 <blockquote>
 <p>例题：有一个具有两道作业的批处理系统, 作业调度采用<strong>短作业优先</strong>的调度算法,进程 调度采用以优先数为基础的抢占式调度算法 如下表所示的作业序列,作业优先数即为进程优先数,优先数越小优先级越小。 1)请完成下表的1-22的填空(周转时间取整数, 带权周转时间精确到小数点后1位)。</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/2021120115344320211128113659image-20211117220935734-20211130210033858.png" alt="image-20211117220935734"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/2021120115344320211128113659image-20211117220935734-20211130210033858.png" alt="image-20211117220935734" /></p>
 </blockquote>
 <p>答：从进程提交到进程完成的<strong>时间</strong>间隔为<strong>周转时间</strong>.</p>
 <p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211117220950317.png" alt="image-20211117220950317" style="zoom:40%;" /></p>
 <blockquote>
-<p>例题：假设某多道程序设计系统中有供用户使用的内存100K.打印机1台。系统采用可变分区方式管理内存对打印机采用静态分配并假设输入输出操作的时间忽略不计;采用最短剩余时间优先的进程调度算法,进程剩余执行时间相同时采用先来先服务算法;进 程调度时机选择在执行进程结束时或有新进程到达时。现有一进程序列如下假设系统优先分配内存的低地址区域,且不许移动己在主存中的进程,请:<br>
-(1)给出进程调度算法选中进程的次序[填空1]。(按调度次序填写进程号,中 间无需间隔符,如12345)<br>
+<p>例题：假设某多道程序设计系统中有供用户使用的内存100K.打印机1台。系统采用可变分区方式管理内存对打印机采用静态分配并假设输入输出操作的时间忽略不计;采用最短剩余时间优先的进程调度算法,进程剩余执行时间相同时采用先来先服务算法;进 程调度时机选择在执行进程结束时或有新进程到达时。现有一进程序列如下假设系统优先分配内存的低地址区域,且不许移动己在主存中的进程,请:<br />
+(1)给出进程调度算法选中进程的次序[填空1]。(按调度次序填写进程号,中 间无需间隔符,如12345)<br />
 (2)全部进程执行结束所用的时间是多少?</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211117221213410.png" alt="image-20211117221213410"></p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211117221213410.png" alt="image-20211117221213410" /></p>
 </blockquote>
 <p>答案：12435，47</p>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211117221243351.png" alt="image-20211117221243351" style="zoom:50%;" />
-<h1 id="第三章-内存"><a class="header-anchor" href="#第三章-内存">¶</a>第三章 内存</h1>
-<h2 id="简答题-v3"><a class="header-anchor" href="#简答题-v3">¶</a>简答题</h2>
+<h1 id="第三章-内存"><a class="markdownIt-Anchor" href="#第三章-内存"></a> 第三章 内存</h1>
+<h2 id="简答题-3"><a class="markdownIt-Anchor" href="#简答题-3"></a> 简答题</h2>
 <blockquote>
 <p>OPT算法为什么无法实现？</p>
 </blockquote>
 <p>答： 因为我们无法预测一个程序的未来如何运行</p>
-<h2 id="计算题-v2"><a class="header-anchor" href="#计算题-v2">¶</a>计算题</h2>
-<h3 id="内存地址分配算法"><a class="header-anchor" href="#内存地址分配算法">¶</a>内存地址分配算法</h3>
+<h2 id="计算题-2"><a class="markdownIt-Anchor" href="#计算题-2"></a> 计算题</h2>
+<h3 id="内存地址分配算法"><a class="markdownIt-Anchor" href="#内存地址分配算法"></a> 内存地址分配算法</h3>
 <ol>
 <li>最先适应算法</li>
 </ol>
@@ -297,13 +299,13 @@ Job3: CPU(30ms), II(20ms)<br>
 </ol>
 <p>​	该算法与BF算法相反，BF是用<strong>最小</strong>的空闲区域来存储东西，而WF是用<strong>最大</strong>的空闲区域来存储。</p>
 <blockquote>
-<p>例题：给定主存空闲分区,按地址从小到大为:100KB、500KB、<br>
-200KB、30KB和600KB,编号分另为1-5。现有用户进程依次分别为<br>
-212KB、417KB、112KB和426KB:<br>
+<p>例题：给定主存空闲分区,按地址从小到大为:100KB、500KB、<br />
+200KB、30KB和600KB,编号分另为1-5。现有用户进程依次分别为<br />
+212KB、417KB、112KB和426KB:<br />
 (1)分别采用最先适应、最优适应 、最坏适应算法和下次适应算法将它们装入到主存的那个分区?</p>
 </blockquote>
 <p>答：</p>
-<h3 id="页面置换算法"><a class="header-anchor" href="#页面置换算法">¶</a>页面置换算法</h3>
+<h3 id="页面置换算法"><a class="markdownIt-Anchor" href="#页面置换算法"></a> 页面置换算法</h3>
 <p>页面置换算法：</p>
 <ol>
 <li>
@@ -321,24 +323,24 @@ Job3: CPU(30ms), II(20ms)<br>
 </li>
 </ol>
 <blockquote>
-<p>例题：一个请求页式存储管理系统使用FIFO、OPT和LRU页面置换<br>
+<p>例题：一个请求页式存储管理系统使用FIFO、OPT和LRU页面置换<br />
 算法,如果一个作业的页面走向为：</p>
 <p>（1）2、3、2、1、5、2、4、5、3、2、5、2</p>
 <p>当分配给该作业的物理块数分别为M=3和M=4时,试计算访问过程中发生的缺页中断次数F。</p>
 </blockquote>
 <p>答案：9;6;7;6;5;6</p>
 <blockquote>
-<p>例题：在一个请求分页式系统中 假如一个作业共有5个页面, 其页面调度次序为:1,4,3, 1,2,5,1,4,2,1,4,5。 若分配给改作业的主存块数为<br>
+<p>例题：在一个请求分页式系统中 假如一个作业共有5个页面, 其页面调度次序为:1,4,3, 1,2,5,1,4,2,1,4,5。 若分配给改作业的主存块数为<br />
 3,分别采用 FIFO、LRU、Clock页面置换算法,试计算 访问过程中所发生的缺页中断 次数和缺页中断率。(保留小数点后1位)</p>
 </blockquote>
 <p>答：9；75.0；8；66.7；8；75.0</p>
 <blockquote>
-<p>例题：一个程序要将100×100数 组置初值0。现假设分配给该 程序的主存块数有三块,程序 固定占用一块,页面的大小为 每页100个字,数组中每一行 元素存放在一页中。开始时, 第一页数据已经调入主存。若<br>
+<p>例题：一个程序要将100×100数 组置初值0。现假设分配给该 程序的主存块数有三块,程序 固定占用一块,页面的大小为 每页100个字,数组中每一行 元素存放在一页中。开始时, 第一页数据已经调入主存。若<br />
 采用 FIFO算法,则下列两种对数组的初始化程序段引起缺页 中断次数各是多少?</p>
 <p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120094045269.png" alt="image-20211120094045269" style="zoom:30%;" /></p>
 </blockquote>
 <p>答案：9999；99</p>
-<h3 id="根据页表结构进行计算"><a class="header-anchor" href="#根据页表结构进行计算">¶</a>根据页表结构进行计算</h3>
+<h3 id="根据页表结构进行计算"><a class="markdownIt-Anchor" href="#根据页表结构进行计算"></a> 根据页表结构进行计算</h3>
 <p>​	熟悉一级二级页表的结构掌握如下计算知识点：</p>
 <ol>
 <li>逻辑地址与物理地址的转换</li>
@@ -353,39 +355,39 @@ Job3: CPU(30ms), II(20ms)<br>
 </ol>
 <blockquote>
 <p>例题：某计算机主存按字节编址,逻辑地址和物理地址都是32位, 页表项大小为4字节。请回答下列问题。若使用一级页表的分页存储管理方式,逻辑地址结构为：</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120094829711.png" alt="image-20211120094829711"></p>
-<p>(1)页的大小是多少KB?<br>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120094829711.png" alt="image-20211120094829711" /></p>
+<p>(1)页的大小是多少KB?<br />
 (2)页表最大占用多少MB?</p>
 </blockquote>
 <p>答案：4；4</p>
-<p>解析：页内偏移量为12位说明页的大小为：$2^{12}$B = 4KB</p>
-<p>一共有20位的页号，也就说最多有$2^{20}$个页表项</p>
-<p>页表最多占用：$2^{20}$ * 4B = 4MB</p>
+<p>解析：页内偏移量为12位说明页的大小为：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">2^{12}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>B = 4KB</p>
+<p>一共有20位的页号，也就说最多有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>20</mn></msup></mrow><annotation encoding="application/x-tex">2^{20}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span></span>个页表项</p>
+<p>页表最多占用：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>20</mn></msup></mrow><annotation encoding="application/x-tex">2^{20}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span></span> * 4B = 4MB</p>
 <blockquote>
 <p>例题：某系统采用二级页表的分页存 储管理方式,系统按字节编址 虚拟地址格式为: 页目录号(10位)|页表索引(10位) 页内位移(12位)</p>
 <p>请问:</p>
-<p>1.页框的大小为多少KB？进程的虚拟地址空间大小为多少K个页面?<br>
-2.若页目录表项和页表项均占4B,则一个进程的页目录表和页表共占多少页?<br>
+<p>1.页框的大小为多少KB？进程的虚拟地址空间大小为多少K个页面?<br />
+2.若页目录表项和页表项均占4B,则一个进程的页目录表和页表共占多少页?<br />
 3.若某指令周期内访问的虚地址是01000000H和01112048H,则进行地址转换时共访问了多少个二级页表？</p>
 </blockquote>
 <p>答案：4;1024;1025;1</p>
 <p>解析：</p>
-<p>（1）页框的大小为：$2^{12}$B = 4KB,  虚拟地址有$2^{10} * 2^{10}$  = 1024K个页面</p>
-<p>（2）页目录表大小为$2^{10} * 4$ = 4KB ，页表大小为$2^{10} * 2^{10} * 4B$ = 1024KB 一种占1025页（一页4KB）</p>
+<p>（1）页框的大小为：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">2^{12}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>B = 4KB,  虚拟地址有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>10</mn></msup><mo>∗</mo><msup><mn>2</mn><mn>10</mn></msup></mrow><annotation encoding="application/x-tex">2^{10} * 2^{10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span></span>  = 1024K个页面</p>
+<p>（2）页目录表大小为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>10</mn></msup><mo>∗</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">2^{10} * 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span> = 4KB ，页表大小为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>10</mn></msup><mo>∗</mo><msup><mn>2</mn><mn>10</mn></msup><mo>∗</mo><mn>4</mn><mi>B</mi></mrow><annotation encoding="application/x-tex">2^{10} * 2^{10} * 4B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span></span></span></span> = 1024KB 一种占1025页（一页4KB）</p>
 <p>（3）二级页表是前10位，两个地址的前10位都是0000000100 ，一共只访问了1个二级页表</p>
 <blockquote>
 <p>例题：假定某采用分页式存储管理的系统中,主存容量为1MB,被分成256块,块号为0,1,2,…255。某作业的地址空间占4页,其页号为0,1,2,3,被分配到主存的第2,4,1,5块中。请问:</p>
-<p>(1)主存地址应该用多少位来表示?<br>
-(2)作业每一页的长度为多少? 逻辑地址中的页内地址(单元号)应该用多少位来表示?<br>
+<p>(1)主存地址应该用多少位来表示?<br />
+(2)作业每一页的长度为多少? 逻辑地址中的页内地址(单元号)应该用多少位来表示?<br />
 (3)把作业中每一页分到的主存块中的起始地址填入下表。</p>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120102205286.png" alt="image-20211120102205286" style="zoom:33%;" />
 </blockquote>
 <p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120102224070.png" alt="image-20211120102224070" style="zoom:37%;" /></p>
-<h3 id="页表地址转换"><a class="header-anchor" href="#页表地址转换">¶</a>页表地址转换</h3>
+<h3 id="页表地址转换"><a class="markdownIt-Anchor" href="#页表地址转换"></a> 页表地址转换</h3>
 <blockquote>
 <p>例题：在页式存储管理系統中,页面大小为2048个字节,将一个由4个页面(页号为0-3组成的程序装入内存中,该 进程的页表如下表所示：</p>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120101906078.png" alt="image-20211120101906078" style="zoom:33%;" />
-<p>对于下面的逻辑地址,请按西表过算出对应的(物理地)给逻辑地转换的过程：<br>
+<p>对于下面的逻辑地址,请按西表过算出对应的(物理地)给逻辑地转换的过程：<br />
 (1)4000(十进制) (2)2019H(十六进制)</p>
 </blockquote>
 <p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120102000464.png" alt="image-20211120102000464" style="zoom:37%;" /></p>
@@ -393,7 +395,7 @@ Job3: CPU(30ms), II(20ms)<br>
 <p>例题：在页式虚拟存储管理系统中，用户编程空间为32个页，页面大小为1KB，内存空间为16KB。如果应用程序有10页长，且已知页号为0-3的页已依次分得页框号为4、7、8、10的页框，尝试把逻辑地址0AC5H和1AC5H转化为对应的物理地址。</p>
 </blockquote>
 <p>.<img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120103150377.png" alt="image-20211120103150377" style="zoom:27%;" /></p>
-<h3 id="快表时间消耗"><a class="header-anchor" href="#快表时间消耗">¶</a>快表时间消耗</h3>
+<h3 id="快表时间消耗"><a class="markdownIt-Anchor" href="#快表时间消耗"></a> 快表时间消耗</h3>
 <blockquote>
 <p>例题：某一级页式存储管理系统，假设其页面全部存储在内存当中。</p>
 <ol>
@@ -405,16 +407,16 @@ Job3: CPU(30ms), II(20ms)<br>
 <p>解析：</p>
 <p>（1）访问页表需要访问一个内存，访问页表中的地址需要再需要再访问一次内存，一共访问两次内存</p>
 <p>（2）如果快表命中则需要20ns+120ns=140ns，如果不命中则需要240ns+20ns=260ns。则访问一个数据的平均时间需要（260+140）/  2 = 200ns</p>
-<h2 id="段式存储"><a class="header-anchor" href="#段式存储">¶</a>段式存储</h2>
+<h2 id="段式存储"><a class="markdownIt-Anchor" href="#段式存储"></a> 段式存储</h2>
 <blockquote>
 <p>例题：给定段表如下图,给定地 址为段号和位移数,试求出对应的主存物理地址,(如越界则填越界中断)。</p>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211120093251621.png" alt="image-20211120093251621" style="zoom:33%;" />
 </blockquote>
 <p>答案：649；1727；2301；越界中断；1994</p>
 <p>解析：如果段长 &gt; 位移数则可以用段首地址加上位移数即可</p>
-<h1 id="第四章-设备管理"><a class="header-anchor" href="#第四章-设备管理">¶</a>第四章 设备管理</h1>
-<h2 id="计算题-v3"><a class="header-anchor" href="#计算题-v3">¶</a>计算题</h2>
-<h3 id="硬盘调度算法"><a class="header-anchor" href="#硬盘调度算法">¶</a>硬盘调度算法</h3>
+<h1 id="第四章-设备管理"><a class="markdownIt-Anchor" href="#第四章-设备管理"></a> 第四章 设备管理</h1>
+<h2 id="计算题-3"><a class="markdownIt-Anchor" href="#计算题-3"></a> 计算题</h2>
+<h3 id="硬盘调度算法"><a class="markdownIt-Anchor" href="#硬盘调度算法"></a> 硬盘调度算法</h3>
 <ol>
 <li>
 <p>先来先服务算法（FIFO）</p>
@@ -462,9 +464,9 @@ Job3: CPU(30ms), II(20ms)<br>
 </blockquote>
 <p>答案：245；53</p>
 <p>解析：对于第一道题需要注意在2ms的处理时间中磁道还是在继续行走的，并不是停下来的。对于第二题每次都寻找与当前磁头最近的即可。</p>
-<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211128093956611.png" alt="image-20211128093956611"></p>
-<h1 id="第五章-文件管理"><a class="header-anchor" href="#第五章-文件管理">¶</a>第五章 文件管理</h1>
-<h2 id="简答题-v4"><a class="header-anchor" href="#简答题-v4">¶</a>简答题</h2>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211128093956611.png" alt="image-20211128093956611" /></p>
+<h1 id="第五章-文件管理"><a class="markdownIt-Anchor" href="#第五章-文件管理"></a> 第五章 文件管理</h1>
+<h2 id="简答题-4"><a class="markdownIt-Anchor" href="#简答题-4"></a> 简答题</h2>
 <blockquote>
 <p>文件目录结构有几种，各有什么优点？</p>
 </blockquote>
@@ -480,9 +482,9 @@ Job3: CPU(30ms), II(20ms)<br>
 <p>(1) 较好地反应现实世界中具有层次关系答数据集合，确切地反应系统内部文件的分支结构</p>
 <p>(2) 不同文件可以重名（只要不位于同一末端子目录中即可）</p>
 <p>(3) 易于规定不同层次或子目录中文件的不同存取权限。</p>
-<h2 id="计算题-v4"><a class="header-anchor" href="#计算题-v4">¶</a>计算题</h2>
+<h2 id="计算题-4"><a class="markdownIt-Anchor" href="#计算题-4"></a> 计算题</h2>
 <blockquote>
-<p><code>例题： </code>设有一个包含1000个记录的索引文件,每个记录正好占用一个物理块, 而一个物理块 可以存放10个索引表目。建立索引时,一个物理块应有一个索引表目(即:无直接地址项)。 该文件至少应该建立(填空1) 级索引?  索引应占(填空2)个物理块? 该文件总共占用多少([填空3]) 物理块 ?</p>
+<p><code>例题：</code>设有一个包含1000个记录的索引文件,每个记录正好占用一个物理块, 而一个物理块 可以存放10个索引表目。建立索引时,一个物理块应有一个索引表目(即:无直接地址项)。 该文件至少应该建立(填空1) 级索引?  索引应占(填空2)个物理块? 该文件总共占用多少([填空3]) 物理块 ?</p>
 </blockquote>
 <p>答案：3；111；1111</p>
 <img src="https://gitee.com/coronapolvo/images/raw/master/20211128113659image-20211127105107594.png" alt="image-20211127105107594" style="zoom:30%;" />
@@ -508,10 +510,10 @@ Job3: CPU(30ms), II(20ms)<br>
 <p>一个图像5600B占两个簇，对于512M个簇来说最多可以存放512M/2 = 256M个簇，但是文件系统中只有64M个文件索引文件，所以最多只能存储64M这样的图像文件。</p>
 <p>问题三：直接地址项能够存储32KB，由于F1的大小只有6KB所以文件可以直接从直接地址中读出，F2的大小32KB需要从一级索引去读取。故两个文件的读取时间不一样。</p>
 <blockquote>
-<p><code>例题</code>如果一个索引节点为128B, 指针长4B, 状态信息占用68B, 而每块大小为8KB问在索引节点中有多大空间给指针?使用直接、一次间接、二次间接和三次间接指针分别可表示多大的文件?<br>
-(1) 直接指针表示多少B？<br>
-(2) 一次间接指针表示多少MB？<br>
-(3) 二次间接指针表示多少GB?<br>
+<p><code>例题</code>如果一个索引节点为128B, 指针长4B, 状态信息占用68B, 而每块大小为8KB问在索引节点中有多大空间给指针?使用直接、一次间接、二次间接和三次间接指针分别可表示多大的文件?<br />
+(1) 直接指针表示多少B？<br />
+(2) 一次间接指针表示多少MB？<br />
+(3) 二次间接指针表示多少GB?<br />
 (4) 三次间接指针表示多少TB?</p>
 </blockquote>
 <p>答案：98304;16;8;16</p>
@@ -520,8 +522,8 @@ Job3: CPU(30ms), II(20ms)<br>
 <p>二次间接指针可以存储：2048 * 2048 * 8KB = 2048 * 16MB = 32GB</p>
 <p>三次间接指针可以存储：2048 * 32GB = 64TB</p>
 <blockquote>
-<p><code>例题：</code>某文件系统中, 每块大小为2KB, 每块地址用4B表示, 地址结构采用UINX系统方案,即:10个直接地址(addr[0]~addr[9]) 一级索引(addr[10])、二级索引 (addr[11]和三级索引(addr[12]) 地址各一个。试转换下列文件的字节偏移量为物理地址 (计算它们对应于索引节点的第几号地址项, 块内偏移量是多少?)<br>
-(1)  12345位于Addr[填空1]中, 偏移量为[填空2]<br>
+<p><code>例题：</code>某文件系统中, 每块大小为2KB, 每块地址用4B表示, 地址结构采用UINX系统方案,即:10个直接地址(addr[0]~addr[9]) 一级索引(addr[10])、二级索引 (addr[11]和三级索引(addr[12]) 地址各一个。试转换下列文件的字节偏移量为物理地址 (计算它们对应于索引节点的第几号地址项, 块内偏移量是多少?)<br />
+(1)  12345位于Addr[填空1]中, 偏移量为[填空2]<br />
 (2)  450000位于Addr[填空3]中, 偏移量为[填空4]</p>
 </blockquote>
 <p>答案：6; 57; 10; 1488</p>
@@ -565,20 +567,20 @@ Job3: CPU(30ms), II(20ms)<br>
 <p>二次间接地址需要(16K + 10 -1K - 10) / 1024 = 15个索引盘块</p>
 <p>一共需要15+1+1 = 17个索引盘块</p>
 <p>61MB也同理进行计算可以得到需要17个索引盘块</p>
-<h1 id="第六章-并发程序设计"><a class="header-anchor" href="#第六章-并发程序设计">¶</a>第六章 并发程序设计</h1>
-<h2 id="简答题-v5"><a class="header-anchor" href="#简答题-v5">¶</a>简答题</h2>
-<h2 id="计算题-v5"><a class="header-anchor" href="#计算题-v5">¶</a>计算题</h2>
-<h3 id="进程资源分配"><a class="header-anchor" href="#进程资源分配">¶</a>进程资源分配</h3>
-<h3 id="进程编程"><a class="header-anchor" href="#进程编程">¶</a>进程编程</h3>
-<h4 id="生产者消费者进程"><a class="header-anchor" href="#生产者消费者进程">¶</a>生产者消费者进程</h4>
+<h1 id="第六章-并发程序设计"><a class="markdownIt-Anchor" href="#第六章-并发程序设计"></a> 第六章 并发程序设计</h1>
+<h2 id="简答题-5"><a class="markdownIt-Anchor" href="#简答题-5"></a> 简答题</h2>
+<h2 id="计算题-5"><a class="markdownIt-Anchor" href="#计算题-5"></a> 计算题</h2>
+<h3 id="进程资源分配"><a class="markdownIt-Anchor" href="#进程资源分配"></a> 进程资源分配</h3>
+<h3 id="进程编程"><a class="markdownIt-Anchor" href="#进程编程"></a> 进程编程</h3>
+<h4 id="生产者消费者进程"><a class="markdownIt-Anchor" href="#生产者消费者进程"></a> 生产者消费者进程</h4>
 <p>系统中有一组生产者进程和一组消费者进程,生产者进程每次生产一个产品放入缓冲区,消费者 进程每次从缓冲区中取出一个产品并使用。(注:这里的“产品”理解为某种数据) 生产者、消费者共享一个初始为空、大小为n的缓冲区。</p>
 <p>只有缓冲区没满时,生产者才能把产品放入缓冲区,否则必须等待。</p>
 <p>只有缓冲区不空时,消费者才能从中取出产品,否则必须等待。 缓冲区是临界资源,各进程必须互斥地访问。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-<div class="note info simple"><p>PV操作题目分析步骤:<br>
-1.关系分析。找出题目中描述的各个进程,分析它们之间的同步、互斥关系。<br>
-2.整理思路。根据各进程的操作流程确定P、V操作的大致顺序。<br>
+<div class="note info simple"><p>PV操作题目分析步骤:<br />
+1.关系分析。找出题目中描述的各个进程,分析它们之间的同步、互斥关系。<br />
+2.整理思路。根据各进程的操作流程确定P、V操作的大致顺序。<br />
 3.设置信号量。设置需要的信号量,并根据题目条件确定信号量初值。(互斥信号量初值一般为 1,同步信号量的初始值要看对应资源的初始值是多少)</p>
 </div>
-<h3 id="死锁"><a class="header-anchor" href="#死锁">¶</a>死锁</h3>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">coronaPolvo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://blog.keter.top/2021/11/28/%E3%80%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/">http://blog.keter.top/2021/11/28/%E3%80%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/">课程学习</a><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div><div class="post_share"><div class="social-share" data-image="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_16.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225034&amp;Signature=i8cxjst0a5eWkxiwck4lz7k1Bmg%3D" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> Donate</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/11/28/%E3%80%8C%E5%85%AD%E7%BA%A7%E3%80%8D%E5%85%AD%E7%BA%A7%E7%BF%BB%E8%AF%91%E7%AC%94%E8%AE%B0/"><img class="prev-cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_9.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225244&amp;Signature=da9NF%2BM69YH/hfkdekPpQrnoK8A%3D" onerror="onerror=null;src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">「六级」六级翻译笔记</div></div></a></div><div class="next-post pull-right"><a href="/2021/11/25/%E3%80%8C%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E3%80%8D%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"><img class="next-cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_16.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225034&amp;Signature=i8cxjst0a5eWkxiwck4lz7k1Bmg%3D" onerror="onerror=null;src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">「逆向工程」课程笔记</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2021/03/02/SQL-Learning/" title="【课程学习】SQL-Learning"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_12.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651224970&Signature=1frn6ZuJGoANp1xg/KwAUPlFmp0%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-02</div><div class="title">【课程学习】SQL-Learning</div></div></a></div><div><a href="/2021/11/29/「数字图像处理」数字图像处理复习例题/" title="「数字图像处理」数字图像处理复习例题"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_13.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651224985&Signature=KPn16XN5i%2Bk%2BYB3Len48UAGXdNc%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-29</div><div class="title">「数字图像处理」数字图像处理复习例题</div></div></a></div><div><a href="/2021/06/30/【信息安全数学基础】-群/" title="「信息安全数学基础」-群"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_32.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651231249&Signature=ANy5RYlAMX1xHYux4UCGHk4YSjQ%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-30</div><div class="title">「信息安全数学基础」-群</div></div></a></div><div><a href="/2021/06/30/【信息安全数学基础】同余式/" title="「信息安全数学基础」同余式"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_9.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225244&Signature=da9NF%2BM69YH/hfkdekPpQrnoK8A%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-30</div><div class="title">「信息安全数学基础」同余式</div></div></a></div><div><a href="/2021/06/30/【信息安全数学基础】二次同余式与平方剩余/" title="「信息安全数学基础」二次同余式与平方剩余"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_18.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225058&Signature=d9A/PPNoUuW89%2BDZoWW34ubmnLw%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-30</div><div class="title">「信息安全数学基础」二次同余式与平方剩余</div></div></a></div><div><a href="/2021/06/30/【信息安全数学导论】整除/" title="「信息安全数学导论」整除"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_19.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225073&Signature=mYgYhwQtDSqeQVKpz94f3QUlzhs%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-30</div><div class="title">「信息安全数学导论」整除</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0"><span class="toc-number">1.</span> <span class="toc-text">第一章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">简答题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%9A%84OS"><span class="toc-number">1.1.1.</span> <span class="toc-text">三种基本的OS</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E8%B0%83%E5%BA%A6%E4%BD%9C%E4%B8%9A"><span class="toc-number">2.</span> <span class="toc-text">第二章处理器调度作业</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98-v2"><span class="toc-number">2.1.</span> <span class="toc-text">简答题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E5%99%A8%E4%B8%A4%E7%A7%8D%E6%9C%80%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">2.1.1.</span> <span class="toc-text">处理器两种最基本的状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%AD%E6%96%AD"><span class="toc-number">2.1.2.</span> <span class="toc-text">什么是中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="toc-number">2.1.3.</span> <span class="toc-text">进程的状态转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97%EF%BC%88PCB%EF%BC%89%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">2.1.4.</span> <span class="toc-text">进程控制块（PCB）的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">2.1.5.</span> <span class="toc-text">进程调度算法的比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">计算题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.1.</span> <span class="toc-text">进程调度算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E5%86%85%E5%AD%98"><span class="toc-number">3.</span> <span class="toc-text">第三章 内存</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98-v3"><span class="toc-number">3.1.</span> <span class="toc-text">简答题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98-v2"><span class="toc-number">3.2.</span> <span class="toc-text">计算题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E5%88%86%E9%85%8D%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.1.</span> <span class="toc-text">内存地址分配算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.2.</span> <span class="toc-text">页面置换算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E9%A1%B5%E8%A1%A8%E7%BB%93%E6%9E%84%E8%BF%9B%E8%A1%8C%E8%AE%A1%E7%AE%97"><span class="toc-number">3.2.3.</span> <span class="toc-text">根据页表结构进行计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E8%A1%A8%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2"><span class="toc-number">3.2.4.</span> <span class="toc-text">页表地址转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E8%A1%A8%E6%97%B6%E9%97%B4%E6%B6%88%E8%80%97"><span class="toc-number">3.2.5.</span> <span class="toc-text">快表时间消耗</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%82%A8"><span class="toc-number">3.3.</span> <span class="toc-text">段式存储</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">第四章 设备管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98-v3"><span class="toc-number">4.1.</span> <span class="toc-text">计算题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E7%9B%98%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">4.1.1.</span> <span class="toc-text">硬盘调度算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">第五章 文件管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98-v4"><span class="toc-number">5.1.</span> <span class="toc-text">简答题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98-v4"><span class="toc-number">5.2.</span> <span class="toc-text">计算题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%B9%B6%E5%8F%91%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1"><span class="toc-number">6.</span> <span class="toc-text">第六章 并发程序设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98-v5"><span class="toc-number">6.1.</span> <span class="toc-text">简答题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98-v5"><span class="toc-number">6.2.</span> <span class="toc-text">计算题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D"><span class="toc-number">6.2.1.</span> <span class="toc-text">进程资源分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B"><span class="toc-number">6.2.2.</span> <span class="toc-text">进程编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E8%BF%9B%E7%A8%8B"><span class="toc-number">6.2.2.1.</span> <span class="toc-text">生产者消费者进程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">6.2.3.</span> <span class="toc-text">死锁</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By coronaPolvo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body></html>
+<h3 id="死锁"><a class="markdownIt-Anchor" href="#死锁"></a> 死锁</h3>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">coronaPolvo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://blog.keter.top/2021/11/28/%E3%80%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/">http://blog.keter.top/2021/11/28/%E3%80%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/">课程学习</a><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div><div class="post_share"><div class="social-share" data-image="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_22.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225133&amp;Signature=qEzNSKXfQcEJ9CLn5/5qEj%2BD2WY%3D" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> Donate</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/11/28/%E3%80%8C%E5%85%AD%E7%BA%A7%E3%80%8D%E5%85%AD%E7%BA%A7%E7%BF%BB%E8%AF%91%E7%AC%94%E8%AE%B0/"><img class="prev-cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_14.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1620207401&amp;Signature=xX/lhJs4RdQorbNWHb49uCaynlc%3D" onerror="onerror=null;src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">「六级」六级翻译笔记</div></div></a></div><div class="next-post pull-right"><a href="/2021/11/25/%E3%80%8C%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E3%80%8D%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"><img class="next-cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_10.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651224900&amp;Signature=VfLW/4ZFo/KMY6VlMV/ClT8l9dU%3D" onerror="onerror=null;src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">「逆向工程」课程笔记</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2021/03/02/SQL-Learning/" title="【课程学习】SQL-Learning"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_17.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225048&Signature=ui15GwNMIiFN1MJOWigMlITga3E%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-02</div><div class="title">【课程学习】SQL-Learning</div></div></a></div><div><a href="/2021/11/29/%E3%80%8C%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%8D%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%A4%8D%E4%B9%A0%E4%BE%8B%E9%A2%98/" title="「数字图像处理」数字图像处理复习例题"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_15.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225021&Signature=AY2wmIwMiP2/5T8%2BcMFdnLnWvLk%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-29</div><div class="title">「数字图像处理」数字图像处理复习例题</div></div></a></div><div><a href="/2021/06/30/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E3%80%91-%E7%BE%A4/" title="「信息安全数学基础」-群"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_15.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225021&Signature=AY2wmIwMiP2/5T8%2BcMFdnLnWvLk%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-30</div><div class="title">「信息安全数学基础」-群</div></div></a></div><div><a href="/2021/06/30/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E3%80%91%E4%BA%8C%E6%AC%A1%E5%90%8C%E4%BD%99%E5%BC%8F%E4%B8%8E%E5%B9%B3%E6%96%B9%E5%89%A9%E4%BD%99/" title="「信息安全数学基础」二次同余式与平方剩余"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_33.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651231258&Signature=rx4VmI8vHSpxA4VlwzzybHs60FY%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-30</div><div class="title">「信息安全数学基础」二次同余式与平方剩余</div></div></a></div><div><a href="/2021/06/30/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E3%80%91%E5%90%8C%E4%BD%99%E5%BC%8F/" title="「信息安全数学基础」同余式"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_30.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225233&Signature=M5iovg9YxjxgOq7gG7IXw/tAuKg%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-30</div><div class="title">「信息安全数学基础」同余式</div></div></a></div><div><a href="/2021/06/30/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%AF%BC%E8%AE%BA%E3%80%91%E5%90%8C%E4%BD%99/" title="「信息安全数学导论」同余"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_36.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651231295&Signature=PNhwWjn6uuWR1WahqtW6hhUkAKY%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-30</div><div class="title">「信息安全数学导论」同余</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0"><span class="toc-number">1.</span> <span class="toc-text"> 第一章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text"> 简答题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%9A%84os"><span class="toc-number">1.1.1.</span> <span class="toc-text"> 三种基本的OS</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E8%B0%83%E5%BA%A6%E4%BD%9C%E4%B8%9A"><span class="toc-number">2.</span> <span class="toc-text"> 第二章处理器调度作业</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98-2"><span class="toc-number">2.1.</span> <span class="toc-text"> 简答题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E5%99%A8%E4%B8%A4%E7%A7%8D%E6%9C%80%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">2.1.1.</span> <span class="toc-text"> 处理器两种最基本的状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%AD%E6%96%AD"><span class="toc-number">2.1.2.</span> <span class="toc-text"> 什么是中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="toc-number">2.1.3.</span> <span class="toc-text"> 进程的状态转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97pcb%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">2.1.4.</span> <span class="toc-text"> 进程控制块（PCB）的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">2.1.5.</span> <span class="toc-text"> 进程调度算法的比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text"> 计算题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.1.</span> <span class="toc-text"> 进程调度算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E5%86%85%E5%AD%98"><span class="toc-number">3.</span> <span class="toc-text"> 第三章 内存</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98-3"><span class="toc-number">3.1.</span> <span class="toc-text"> 简答题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98-2"><span class="toc-number">3.2.</span> <span class="toc-text"> 计算题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E5%88%86%E9%85%8D%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 内存地址分配算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-number">3.2.2.</span> <span class="toc-text"> 页面置换算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E9%A1%B5%E8%A1%A8%E7%BB%93%E6%9E%84%E8%BF%9B%E8%A1%8C%E8%AE%A1%E7%AE%97"><span class="toc-number">3.2.3.</span> <span class="toc-text"> 根据页表结构进行计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E8%A1%A8%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2"><span class="toc-number">3.2.4.</span> <span class="toc-text"> 页表地址转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E8%A1%A8%E6%97%B6%E9%97%B4%E6%B6%88%E8%80%97"><span class="toc-number">3.2.5.</span> <span class="toc-text"> 快表时间消耗</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%82%A8"><span class="toc-number">3.3.</span> <span class="toc-text"> 段式存储</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text"> 第四章 设备管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98-3"><span class="toc-number">4.1.</span> <span class="toc-text"> 计算题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E7%9B%98%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">4.1.1.</span> <span class="toc-text"> 硬盘调度算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text"> 第五章 文件管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98-4"><span class="toc-number">5.1.</span> <span class="toc-text"> 简答题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98-4"><span class="toc-number">5.2.</span> <span class="toc-text"> 计算题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%B9%B6%E5%8F%91%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1"><span class="toc-number">6.</span> <span class="toc-text"> 第六章 并发程序设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98-5"><span class="toc-number">6.1.</span> <span class="toc-text"> 简答题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98-5"><span class="toc-number">6.2.</span> <span class="toc-text"> 计算题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D"><span class="toc-number">6.2.1.</span> <span class="toc-text"> 进程资源分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B"><span class="toc-number">6.2.2.</span> <span class="toc-text"> 进程编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E8%BF%9B%E7%A8%8B"><span class="toc-number">6.2.2.1.</span> <span class="toc-text"> 生产者消费者进程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">6.2.3.</span> <span class="toc-text"> 死锁</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By coronaPolvo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Algolia</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
