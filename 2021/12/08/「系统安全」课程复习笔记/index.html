@@ -1,0 +1,245 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>「系统安全」课程复习笔记 | coronaPolvo Blog</title><meta name="keywords" content="课程学习,系统安全"><meta name="author" content="coronaPolvo"><meta name="copyright" content="coronaPolvo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="第一章知识点总结  什么是计算机病毒？  答：凡是能够引起计算机故障，破坏计算机数据的程序都可称为计算机病毒。  计算机病毒具有哪些特征？  答：  传染性 潜伏性与隐蔽性 寄生性 非授权性 可触发性 破坏性   请描述计算机网络的状态  答： （1）潜伏：病毒程序处于休眠状态，用户感觉不到病毒程序的存在。不过，有些病毒程序也可能没有潜伏期。 （2）传染：病毒程序感染其他程序。一般感染需要一定的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「系统安全」课程复习笔记">
+<meta property="og:url" content="http://blog.keter.top/2021/12/08/%E3%80%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E3%80%8D%E8%AF%BE%E7%A8%8B%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="coronaPolvo Blog">
+<meta property="og:description" content="第一章知识点总结  什么是计算机病毒？  答：凡是能够引起计算机故障，破坏计算机数据的程序都可称为计算机病毒。  计算机病毒具有哪些特征？  答：  传染性 潜伏性与隐蔽性 寄生性 非授权性 可触发性 破坏性   请描述计算机网络的状态  答： （1）潜伏：病毒程序处于休眠状态，用户感觉不到病毒程序的存在。不过，有些病毒程序也可能没有潜伏期。 （2）传染：病毒程序感染其他程序。一般感染需要一定的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_13.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651224985&Signature=KPn16XN5i%2Bk%2BYB3Len48UAGXdNc%3D">
+<meta property="article:published_time" content="2021-12-08T00:29:08.000Z">
+<meta property="article:modified_time" content="2021-12-08T01:39:06.241Z">
+<meta property="article:author" content="coronaPolvo">
+<meta property="article:tag" content="课程学习">
+<meta property="article:tag" content="系统安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_13.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651224985&Signature=KPn16XN5i%2Bk%2BYB3Len48UAGXdNc%3D"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://blog.keter.top/2021/12/08/%E3%80%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E3%80%8D%E8%AF%BE%E7%A8%8B%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"T2J8PXFM9J","apiKey":"e583ae17b10344887930c19a6ec47e2d","indexName":"blog_search","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '「系统安全」课程复习笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-08 09:39:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/touxiang.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">26</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html"><i class="fa-fw fas fa-link"></i><span> 算法笔记</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://ml.akasaki.space/"><i class="fa-fw fas fa-link"></i><span> DL笔记</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_13.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651224985&amp;Signature=KPn16XN5i%2Bk%2BYB3Len48UAGXdNc%3D')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">coronaPolvo Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html"><i class="fa-fw fas fa-link"></i><span> 算法笔记</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://ml.akasaki.space/"><i class="fa-fw fas fa-link"></i><span> DL笔记</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">「系统安全」课程复习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-12-08T00:29:08.000Z" title="Created 2021-12-08 08:29:08">2021-12-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-12-08T01:39:06.241Z" title="Updated 2021-12-08 09:39:06">2021-12-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/">课程学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">系统安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="「系统安全」课程复习笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="第一章知识点总结"><a class="markdownIt-Anchor" href="#第一章知识点总结"></a> 第一章知识点总结</h1>
+<blockquote>
+<p>什么是计算机病毒？</p>
+</blockquote>
+<p>答：凡是能够引起计算机故障，破坏计算机数据的程序都可称为计算机病毒。</p>
+<blockquote>
+<p>计算机病毒具有哪些特征？</p>
+</blockquote>
+<p>答：</p>
+<ol>
+<li>传染性</li>
+<li>潜伏性与隐蔽性</li>
+<li>寄生性</li>
+<li><strong>非授权性</strong></li>
+<li>可触发性</li>
+<li>破坏性</li>
+</ol>
+<blockquote>
+<p>请描述计算机网络的状态</p>
+</blockquote>
+<p>答：</p>
+<p>（1）潜伏：病毒程序处于休眠状态，用户感觉不到病毒程序的存在。不过，有些病毒程序也可能没有潜伏期。<br />
+（2）传染：病毒程序感染其他程序。一般感染需要一定的条件。<br />
+（3）触发：病毒程序被某个条件激活，系统开始为其分配资源。<br />
+（4）发作：病毒程序从本质上看，病毒程序开始运行，对系统形成一些破坏</p>
+<blockquote>
+<p>请描述引导型病毒的感染过程</p>
+</blockquote>
+<p>答：引导型病毒的感染分为两大步骤分别是：装入内存+攻击</p>
+<p>装入过程<br />
+1 系统开机后，进入系统检测，检测正常后，从0面0道1扇区，即逻辑0扇区读取信息到内存的0000~7C00处：<br />
+2 系统开始运行病毒引导部分，将病毒的其他部分读入到内存的某一安全区<br />
+3 病毒修改INT 13H中断服务处理程序的入口地址，使之指向病毒控制模块并执行。<br />
+4 病毒程序全部读入后，接着读入正常boot内容到内存0000:7C00H处，进行正常的启动过程。<br />
+5 病毒程序伺机等待随时感染新的系统盘或非系统盘。</p>
+<p>攻击过程<br />
+1 将目标盘的引导扇区读入内存，判断它是否感染了病毒。<br />
+2 满足感染条件时，将病毒的全部或一部分写入boot区，把正常的磁盘引导区程序写入磁盘特定位置。<br />
+3 返回正常的INT 13H中断服务处理程序，完成对目标盘的传染过程。</p>
+<blockquote>
+<p>请描述蠕虫，蠕虫有哪些特点？</p>
+</blockquote>
+<p>答：可以独立运行，并能把自身的一个包含所有功能的版本传播到另外的计算机上的程序</p>
+<p>蠕虫的特性如下：</p>
+<p>（1）存在的独立性（蠕虫是独立存在的程序个体）<br />
+（2）攻击的对象是计算机（计算机病毒的攻击对象是文件系统）<br />
+（3）攻击的主动性（蠕虫通过各种途径传播到其他计算机系统）<br />
+（4）传染的反复性<br />
+（5）行踪的隐蔽性 （蠕虫伪装成有用软件）<br />
+（6）破坏的严重性（蠕虫导致巨大经济损失）</p>
+<blockquote>
+<p>请描述蠕虫传播的过程</p>
+</blockquote>
+<p>答：随机选取某一段IP地址，然后对这一地址段上的主机进行扫描；如果找到存在的主机则判断主机是否存在漏洞，如果存在漏洞则进行攻击、感染和现场处理。被感染的主机重复这个过程。</p>
+<blockquote>
+<p>请描述蠕虫的结构</p>
+</blockquote>
+<p>答：蠕虫主要由扫描模块、隐藏模块与目的模块组成；</p>
+<p>扫描模块：随机选取一段IP地址，对这一段IP地址上的主机进行扫描</p>
+<p>隐藏模块：侵入主机后隐藏蠕虫程序，防止用户发现</p>
+<p>目的模块：实现对计算机的控制、监视和破坏</p>
+<blockquote>
+<p>什么特洛伊木马，它有什么特点？</p>
+</blockquote>
+<p>答：特洛伊木马程序是一种恶意程序，它能提供一些有用的或者令人感兴趣的功能，但是还具有用户不知道的其他功能。</p>
+<p>​	它具有如下性质：</p>
+<p>（1）目的性和功能特殊性<br />
+（2）非授权性与受控性（不需用户授权，由攻击者控制）<br />
+（3）非自繁殖性、非自传播性和植入性<br />
+（4）欺骗性</p>
+<blockquote>
+<p>什么是陷门，请描述它的特点？</p>
+</blockquote>
+<p>答：陷门（trap doors）也称“后门”， 是一种利用系统脆弱性进行重复攻击的技术，通常是一段非法的操作系统程序，通过它可以在一个程序模块中留下未被登记的秘密入口，使用户可以不按正常的访问步骤获得访问权。</p>
+<p>陷门的特点如下：</p>
+<p>（1）陷门通常寄生于某些程序（有宿主），但无自我复制功能。<br />
+（2）它们可以在系统管理员采取了增强系统安全措施（如改变所有密码）的情况下，照样进入系统。<br />
+（3）它们可以使攻击者以最短的时间再次进入系统，而不是重新挖掘漏洞。<br />
+（4）许多陷门可以饶过注册直接进入系统或者帮助攻击者隐藏其在系统中一举一动。<br />
+（5）陷门可以把再次入侵被发现的可能性降至最低。</p>
+<blockquote>
+<p>请描述黑客攻击的一般过程</p>
+</blockquote>
+<p>答：黑客攻击可以分为三个阶段：1. 攻击的准备阶段 2. 攻击的实施阶段 3. 攻击的善后工作</p>
+<p>在攻击的准备阶段中需要确定攻击目的、踩点、查点、扫描和模拟攻击</p>
+<p>在攻击的实施阶段中需要获得权限，然后进行权限提升最后进行攻击的实施；</p>
+<p>在攻击结束后需要进行攻击的善后工作：修改日志、设置后门和进行进一步的隐匿</p>
+<h1 id="第二章知识点总结"><a class="markdownIt-Anchor" href="#第二章知识点总结"></a> 第二章知识点总结</h1>
+<h1 id="第三章知识点总结"><a class="markdownIt-Anchor" href="#第三章知识点总结"></a> 第三章知识点总结</h1>
+<h1 id="第四章知识点总结"><a class="markdownIt-Anchor" href="#第四章知识点总结"></a> 第四章知识点总结</h1>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">coronaPolvo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://blog.keter.top/2021/12/08/%E3%80%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E3%80%8D%E8%AF%BE%E7%A8%8B%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/">http://blog.keter.top/2021/12/08/%E3%80%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E3%80%8D%E8%AF%BE%E7%A8%8B%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/">课程学习</a><a class="post-meta__tags" href="/tags/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">系统安全</a></div><div class="post_share"><div class="social-share" data-image="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_13.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651224985&amp;Signature=KPn16XN5i%2Bk%2BYB3Len48UAGXdNc%3D" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> Donate</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/11/29/%E3%80%8C%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%8D%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%A4%8D%E4%B9%A0%E4%BE%8B%E9%A2%98/"><img class="next-cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_36.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651231295&amp;Signature=PNhwWjn6uuWR1WahqtW6hhUkAKY%3D" onerror="onerror=null;src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">「数字图像处理」数字图像处理复习例题</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2021/03/02/SQL-Learning/" title="【课程学习】SQL-Learning"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_21.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225118&Signature=SoH30dXgxrfVxuI66F0aAzAYE1M%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-02</div><div class="title">【课程学习】SQL-Learning</div></div></a></div><div><a href="/2021/11/29/%E3%80%8C%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%8D%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%A4%8D%E4%B9%A0%E4%BE%8B%E9%A2%98/" title="「数字图像处理」数字图像处理复习例题"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_36.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651231295&Signature=PNhwWjn6uuWR1WahqtW6hhUkAKY%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-29</div><div class="title">「数字图像处理」数字图像处理复习例题</div></div></a></div><div><a href="/2021/11/28/%E3%80%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" title="「操作系统」操作系统笔记"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_35.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651231268&Signature=N2nqbuc8XyvM7s1ABsNATCJ95Fg%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-28</div><div class="title">「操作系统」操作系统笔记</div></div></a></div><div><a href="/2021/11/25/%E3%80%8C%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E3%80%8D%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="「逆向工程」课程笔记"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_28.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225209&Signature=CssvgDbo0wdUcEiQQX4d/i4T0U4%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-25</div><div class="title">「逆向工程」课程笔记</div></div></a></div><div><a href="/2021/06/30/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E3%80%91-%E7%BE%A4/" title="「信息安全数学基础」-群"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_23.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225145&Signature=ixg376/Z7t3%2BMsBSz8bIeXZ8PNQ%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-30</div><div class="title">「信息安全数学基础」-群</div></div></a></div><div><a href="/2021/06/30/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E3%80%91%E4%BA%8C%E6%AC%A1%E5%90%8C%E4%BD%99%E5%BC%8F%E4%B8%8E%E5%B9%B3%E6%96%B9%E5%89%A9%E4%BD%99/" title="「信息安全数学基础」二次同余式与平方剩余"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_20.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225099&Signature=xb2AbnksnIQakj0brMG58faO6Og%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-30</div><div class="title">「信息安全数学基础」二次同余式与平方剩余</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/touxiang.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">coronaPolvo</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">26</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">16</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/coronaPolvo"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/coronaPolvo" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:me@keter.top" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text"> 第一章知识点总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text"> 第二章知识点总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text"> 第三章知识点总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text"> 第四章知识点总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/12/08/%E3%80%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E3%80%8D%E8%AF%BE%E7%A8%8B%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="「系统安全」课程复习笔记"><img src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_13.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651224985&amp;Signature=KPn16XN5i%2Bk%2BYB3Len48UAGXdNc%3D" onerror="this.onerror=null;this.src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="「系统安全」课程复习笔记"/></a><div class="content"><a class="title" href="/2021/12/08/%E3%80%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E3%80%8D%E8%AF%BE%E7%A8%8B%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="「系统安全」课程复习笔记">「系统安全」课程复习笔记</a><time datetime="2021-12-08T00:29:08.000Z" title="Created 2021-12-08 08:29:08">2021-12-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/29/%E3%80%8C%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%8D%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%A4%8D%E4%B9%A0%E4%BE%8B%E9%A2%98/" title="「数字图像处理」数字图像处理复习例题"><img src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_36.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651231295&amp;Signature=PNhwWjn6uuWR1WahqtW6hhUkAKY%3D" onerror="this.onerror=null;this.src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="「数字图像处理」数字图像处理复习例题"/></a><div class="content"><a class="title" href="/2021/11/29/%E3%80%8C%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E3%80%8D%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%A4%8D%E4%B9%A0%E4%BE%8B%E9%A2%98/" title="「数字图像处理」数字图像处理复习例题">「数字图像处理」数字图像处理复习例题</a><time datetime="2021-11-29T09:31:17.000Z" title="Created 2021-11-29 17:31:17">2021-11-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/28/%E3%80%8C%E5%85%AD%E7%BA%A7%E3%80%8D%E5%85%AD%E7%BA%A7%E7%BF%BB%E8%AF%91%E7%AC%94%E8%AE%B0/" title="「六级」六级翻译笔记"><img src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_37.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651231307&amp;Signature=hLQtZ/kHU4%2B/kA9H%2BLZ5cCDocFw%3D" onerror="this.onerror=null;this.src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="「六级」六级翻译笔记"/></a><div class="content"><a class="title" href="/2021/11/28/%E3%80%8C%E5%85%AD%E7%BA%A7%E3%80%8D%E5%85%AD%E7%BA%A7%E7%BF%BB%E8%AF%91%E7%AC%94%E8%AE%B0/" title="「六级」六级翻译笔记">「六级」六级翻译笔记</a><time datetime="2021-11-28T09:38:40.000Z" title="Created 2021-11-28 17:38:40">2021-11-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/28/%E3%80%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" title="「操作系统」操作系统笔记"><img src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_35.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651231268&amp;Signature=N2nqbuc8XyvM7s1ABsNATCJ95Fg%3D" onerror="this.onerror=null;this.src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="「操作系统」操作系统笔记"/></a><div class="content"><a class="title" href="/2021/11/28/%E3%80%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8D%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" title="「操作系统」操作系统笔记">「操作系统」操作系统笔记</a><time datetime="2021-11-28T03:46:14.000Z" title="Created 2021-11-28 11:46:14">2021-11-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/25/%E3%80%8C%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E3%80%8D%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="「逆向工程」课程笔记"><img src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_28.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225209&amp;Signature=CssvgDbo0wdUcEiQQX4d/i4T0U4%3D" onerror="this.onerror=null;this.src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="「逆向工程」课程笔记"/></a><div class="content"><a class="title" href="/2021/11/25/%E3%80%8C%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E3%80%8D%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="「逆向工程」课程笔记">「逆向工程」课程笔记</a><time datetime="2021-11-25T02:28:47.000Z" title="Created 2021-11-25 10:28:47">2021-11-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By coronaPolvo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css"><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
