@@ -114,6 +114,11 @@ const config = {
                         position: "left"
                     },
                     {
+                      href: '/About',
+                      label: 'About',
+                      position: 'right',
+                  },
+                    {
                         href: 'https://github.com/coronaPolvo',
                         label: 'GitHub',
                         position: 'right',
@@ -123,7 +128,7 @@ const config = {
             footer: {
                 style: 'light',
                 copyright: `© ${new Date().getFullYear()} Sonder`,
-            },
+            }, 
             prism: {
                 theme: lightCodeTheme,
                 darkTheme: darkCodeTheme,
