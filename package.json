@@ -19,6 +19,7 @@
     "@docusaurus/preset-classic": "2.0.0-beta.15",
     "@easyops-cn/docusaurus-search-local": "^0.21.4",
     "@mdx-js/react": "^1.6.21",
+    "array-shuffle": "^3.0.0",
     "clsx": "^1.1.1",
     "hast-util-is-element": "1.1.0",
     "nodejieba": "^2.6.0",
