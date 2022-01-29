@@ -1,0 +1,41 @@
+{
+  "name": "hexo-generator-tag",
+  "version": "1.0.0",
+  "description": "Tag generator for Hexo.",
+  "main": "index",
+  "scripts": {
+    "eslint": "eslint .",
+    "test": "mocha test/index.js",
+    "test-cov": "nyc npm run test"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "files": [
+    "index.js",
+    "lib/"
+  ],
+  "repository": "hexojs/hexo-generator-tag",
+  "homepage": "http://hexo.io/",
+  "keywords": [
+    "hexo",
+    "generator",
+    "tag"
+  ],
+  "author": "Tommy Chen <tommy351@gmail.com> (http://zespia.tw)",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "hexo": "^3.1.1",
+    "mocha": "^6.0.2",
+    "eslint": "^6.0.1",
+    "eslint-config-hexo": "^3.0.0",
+    "nyc": "^14.1.1"
+  },
+  "dependencies": {
+    "hexo-pagination": "1.0.0"
+  },
+  "engines": {
+    "node": ">=8.6.0"
+  }
+}

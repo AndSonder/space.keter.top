@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>「基础知识」Neural-Network-Embeddings-Explained | coronaPolvo Blog</title><meta name="keywords" content="深度学习基础知识"><meta name="author" content="coronaPolvo"><meta name="copyright" content="coronaPolvo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="原文链接：https:&#x2F;&#x2F;towardsdatascience.com&#x2F;neural-network-embeddings-explained-4d028e6f0526  Applications of neural networks have expanded significantly in recent years from image segmentation to natural lan">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「基础知识」Neural-Network-Embeddings-Explained">
+<meta property="og:url" content="http://space.keter.top/2021/07/18/%E3%80%90%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E3%80%91Neural-Network-Embeddings-Explained/index.html">
+<meta property="og:site_name" content="coronaPolvo Blog">
+<meta property="og:description" content="原文链接：https:&#x2F;&#x2F;towardsdatascience.com&#x2F;neural-network-embeddings-explained-4d028e6f0526  Applications of neural networks have expanded significantly in recent years from image segmentation to natural lan">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_29.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225222&Signature=O3oEpcOaQaZNE63Bn753dW0JXjo%3D">
+<meta property="article:published_time" content="2021-07-18T06:01:02.000Z">
+<meta property="article:modified_time" content="2021-12-02T11:50:05.913Z">
+<meta property="article:author" content="coronaPolvo">
+<meta property="article:tag" content="深度学习基础知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_29.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225222&Signature=O3oEpcOaQaZNE63Bn753dW0JXjo%3D"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://space.keter.top/2021/07/18/%E3%80%90%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E3%80%91Neural-Network-Embeddings-Explained/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"T2J8PXFM9J","apiKey":"e583ae17b10344887930c19a6ec47e2d","indexName":"blog_search","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '「基础知识」Neural-Network-Embeddings-Explained',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-02 19:50:05'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/touxiang.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">64</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">27</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html"><i class="fa-fw fas fa-link"></i><span> 算法笔记</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://ml.akasaki.space/"><i class="fa-fw fas fa-link"></i><span> DL笔记</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_29.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225222&amp;Signature=O3oEpcOaQaZNE63Bn753dW0JXjo%3D')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">coronaPolvo Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://notebook.therainisme.com/algorithm/%5B99%5D%E7%AB%9E%E8%B5%9B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84C++%E9%BB%91%E9%AD%94%E6%B3%95.html"><i class="fa-fw fas fa-link"></i><span> 算法笔记</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://ml.akasaki.space/"><i class="fa-fw fas fa-link"></i><span> DL笔记</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">「基础知识」Neural-Network-Embeddings-Explained</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-07-18T06:01:02.000Z" title="Created 2021-07-18 14:01:02">2021-07-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-12-02T11:50:05.913Z" title="Updated 2021-12-02 19:50:05">2021-12-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">深度学习基础知识</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="「基础知识」Neural-Network-Embeddings-Explained"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>原文链接：<a target="_blank" rel="noopener" href="https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526">https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526</a></p>
+<blockquote>
+<p>Applications of neural networks have expanded significantly in recent years from image segmentation to natural language processing to time-series forecasting. One notably successful use of deep learning is embedding, a method used to represent discrete variables as continuous vectors. This technique has found practical applications with word embeddings for <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.03127">machine translation</a> and <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1604.06737">entity embeddings for categorical variables</a>.</p>
+</blockquote>
+<p>近年来，神经网络的应用从图像分割到自然语言处理再到时间序列预测都有了很大的发展。深度学习的一个显著成功应用是<code>Embedding</code>(嵌入)，一种将离散变量表示为连续向量的方法。该技术已在机器翻译的单词嵌入和分类变量的实体嵌入中得到了实际应用。</p>
+<p>在本文中，我将解释什么是神经网络Embedding，为什么我们要使用它们，以及如何学习它们。我们将结合我正在研究的一个实际问题来讨论这些概念：将维基百科上的所有书籍表示为向量，以创建一个图书推荐系统。</p>
+<h1 id="embeddings"><a class="markdownIt-Anchor" href="#embeddings"></a> Embeddings</h1>
+<p>Embedding是一个离散范畴变量到连续数向量的映射。在神经网络的上下文中，Embedding是低维的，学习的离散变量的连续向量表示。神经网络Embedding是有用的，因为它可以降低分类变量的维数，并在变换空间中有意义地表示类别。</p>
+<p>神经网络Embedding有3个主要目的：</p>
+<ol>
+<li>在嵌入空间中寻找最近邻。这些可用于根据用户兴趣或集群类别提出建议。</li>
+<li>作为有监督任务的机器学习模型的输入。</li>
+<li>用于概念和类别之间关系的可视化。</li>
+</ol>
+<p>这就意味着在图书项目中，使用神经网络Embedding，我们可以在维基百科上获取所有37000篇图书文章，并用一个向量中的50个数字来表示每一篇文章。此外，因为Embedding是学习的，所以在学习问题的上下文中更相似的书籍在Embedding空间中彼此更接近。</p>
+<p>神经网络Embedding克服了表示分类变量的常用方法的两个局限性：one-hot encoding.</p>
+<h2 id="独热编码的局限性"><a class="markdownIt-Anchor" href="#独热编码的局限性"></a> 独热编码的局限性</h2>
+<p>一个热编码分类变量的操作实际上是一个简单的Embedding，每个分类映射到一个不同的向量。这个过程采用离散的实体，并将每个观测值映射到一个0的向量和一个1来表示特定的类别。</p>
+<p>独热编码技术主要有如下有两个缺点：</p>
+<ol>
+<li>
+<p>对于高纬度变量-那些有许多独特的类别-转换向量的维数变得难以管理。</p>
+</li>
+<li>
+<p>映射完全没有信息：“相似”的类别在嵌入空间中没有放得更近。</p>
+</li>
+</ol>
+<p>第一个问题很好理解：对于每一个额外的类别，我们必须在一个热编码向量中添加另一个数字来表示这个类别。如果我们在维基百科上有37000本书，那么表示每本书就需要37000维向量，这使得在这种表示上训练任何机器学习模型都是不可行的。</p>
+<p>第二个问题同样会使得单热编码具有局限性：一个热编码不会在向量空间中将相似的实体放得更近。如果我们使用余弦距离来度量向量之间的相似性，那么在一次热编码之后，实体之间的每一次比较的相似性都是0。</p>
+<p>这意味着像战争与和平和安娜卡列尼娜（这两本书都是托尔斯泰的经典著作）这样的实体，如果我们使用一个热编码的话，它们之间的距离并不比《战争与和平》与《银河系漫游指南》更近。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># One Hot Encoding Categoricals</span></span><br><span class="line">books = [<span class="string">&quot;War and Peace&quot;</span>, <span class="string">&quot;Anna Karenina&quot;</span>, </span><br><span class="line">          <span class="string">&quot;The Hitchhiker&#x27;s Guide to the Galaxy&quot;</span>]</span><br><span class="line">books_encoded = [[<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">                 [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>],</span><br><span class="line">                 [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]]</span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Second = <span class="number">0</span></span><br><span class="line">Similarity (dot product) between Second <span class="keyword">and</span> Third = <span class="number">0</span></span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Third = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>考虑到这两个问题，表示分类变量的理想解决方案所需的数量将少于唯一类别的数量，并且将使相似类别彼此更接近。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Idealized Representation of Embedding</span></span><br><span class="line">books = [<span class="string">&quot;War and Peace&quot;</span>, <span class="string">&quot;Anna Karenina&quot;</span>, </span><br><span class="line">          <span class="string">&quot;The Hitchhiker&#x27;s Guide to the Galaxy&quot;</span>]</span><br><span class="line">books_encoded_ideal = [[<span class="number">0.53</span>,  <span class="number">0.85</span>],</span><br><span class="line">                       [<span class="number">0.60</span>,  <span class="number">0.80</span>],</span><br><span class="line">                       [-<span class="number">0.78</span>, -<span class="number">0.62</span>]]</span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Second = <span class="number">0.99</span></span><br><span class="line">Similarity (dot product) between Second <span class="keyword">and</span> Third = -<span class="number">0.94</span></span><br><span class="line">Similarity (dot product) between First <span class="keyword">and</span> Third = -<span class="number">0.97</span></span><br></pre></td></tr></table></figure>
+<p>构建更好的分类实体表示，我们可以使用Embedding神经网络和监督任务来学习Embedding。</p>
+<h2 id="学习embedding"><a class="markdownIt-Anchor" href="#学习embedding"></a> 学习Embedding</h2>
+<p>独热编码的主要问题是它的转换不依赖于任何监督。通过在有监督的任务上使用神经网络来学习Embedding，我们可以极大地改进Embedding。<a target="_blank" rel="noopener" href="https://stats.stackexchange.com/questions/182775/what-is-an-embedding-layer-in-a-neural-network">Embedding形成了网络的参数</a>-权重-并对其进行了调整，以使任务的损失最小化。生成的Embedding向量是类别的表示，其中类似的类别（相对于任务）彼此更接近。</p>
+<p>例如，如果我们在一组电影评论中使用了50000个单词的词汇量，我们就可以使用一个Embedding神经网络来学习每个单词的100维Embedding，这个神经网络训练用来预测评论的感伤性(有关此应用程序的详细信息，请参阅此<a target="_blank" rel="noopener" href="https://colab.research.google.com/notebooks/mlcc/intro_to_sparse_data_and_embeddings.ipynb?utm_source=mlcc&amp;utm_campaign=colab-external&amp;utm_medium=referral&amp;utm_content=embeddings-colab&amp;hl=en">Google Colab</a>笔记本）。词汇表中与正面评论相关的词语，如“辉煌”或“优秀”，将在Embedding空间中更接近，因为网络已经了解到这两者都与正面评论相关。</p>
+<img src="https://gitee.com/coronapolvo/images/raw/master/20210718103755image-20210718103717614.png" alt="image-20210718103717614" style="zoom:53%;" />
+<p>在上面给出的图书示例中，我们的监督任务可以是“识别一本书是否是托尔斯泰写的”，由此产生的Embedding将使托尔斯泰写的书彼此更接近。弄清楚如何创建有监督的任务来产生相关的表示是制作Embedding最困难的部分。</p>
+<h2 id="改进"><a class="markdownIt-Anchor" href="#改进"></a> 改进</h2>
+<p>在Wikipedia图书项目（这里是<a target="_blank" rel="noopener" href="https://github.com/WillKoehrsen/wikipedia-data-science/blob/master/notebooks/Book%20Recommendation%20System.ipynb">complete notebook</a>）中，监督学习任务被设置为预测一本书的文章中是否出现指向Wikipedia页面的给定链接。我们提供成对的（书名，链接）训练示例，其中混合了正-真-负-假-对。这种设置基于这样的假设：链接到类似维基百科页面的书籍彼此相似。由此产生的嵌入应该把类似的书放在向量空间中更近的地方。</p>
+<p>我使用的网络有两个平行的嵌入层，它们将book和wikilink映射成50维向量，还有一个点积层，它将Embedding的内容组合成一个数字进行预测。Embedding是指在训练过程中调整网络的参数或权值，以使被监督任务的损失最小化。</p>
+<p>在Keras代码中，如下所示（如果您不完全理解代码，请不要担心，只需跳到图片）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment"># Both inputs are 1-dimensional</span></span><br><span class="line">book = Input(name = <span class="string">&#x27;book&#x27;</span>, shape = [<span class="number">1</span>])</span><br><span class="line">link = Input(name = <span class="string">&#x27;link&#x27;</span>, shape = [<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Embedding the book (shape will be (None, 1, 50))</span></span><br><span class="line">book_embedding = Embedding(name = <span class="string">&#x27;book_embedding&#x27;</span>,</span><br><span class="line">                           input_dim = <span class="built_in">len</span>(book_index),</span><br><span class="line">                           output_dim = embedding_size)(book)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Embedding the link (shape will be (None, 1, 50))</span></span><br><span class="line">link_embedding = Embedding(name = <span class="string">&#x27;link_embedding&#x27;</span>,</span><br><span class="line">                           input_dim = <span class="built_in">len</span>(link_index),</span><br><span class="line">                           output_dim = embedding_size)(link)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Merge the layers with a dot product along the second axis (shape will be (None, 1, 1))</span></span><br><span class="line">merged = Dot(name = <span class="string">&#x27;dot_product&#x27;</span>, normalize = <span class="literal">True</span>, axes = <span class="number">2</span>)([book_embedding, link_embedding])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Reshape to be a single number (shape will be (None, 1))</span></span><br><span class="line">merged = Reshape(target_shape = [<span class="number">1</span>])(merged)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Output neuron</span></span><br><span class="line">out = Dense(<span class="number">1</span>, activation = <span class="string">&#x27;sigmoid&#x27;</span>)(merged)</span><br><span class="line">model = Model(inputs = [book, link], outputs = out)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Minimize binary cross entropy</span></span><br><span class="line">model.<span class="built_in">compile</span>(optimizer = <span class="string">&#x27;Adam&#x27;</span>, loss = <span class="string">&#x27;binary_crossentropy&#x27;</span>, metrics = [<span class="string">&#x27;accuracy&#x27;</span>])</span><br></pre></td></tr></table></figure>
+<p>尽管在有监督机器学习任务中，目标通常是训练模型对新数据进行预测，但在这种Embedding模型中，预测只是达到目的的一种手段。我们需要的是嵌入权重，将书籍和链接表示为连续向量。</p>
+<p>Embedding本身并不那么有趣：它们只是数字的向量：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718104225image-20210718104223694.png" alt="image-20210718104223694" /></p>
+<p>但是，Embedding可以用于前面列出的3个目的，对于这个项目，我们主要感兴趣的是推荐基于最近邻的书籍。为了计算相似度，我们取一本查询书，找出它的向量和其他所有书的向量之间的点积(如果我们的Embedding是标准化的，这个点积就是向量之间的余弦距离，范围从-1，最不相似，到+1，最相似。我们也可以用欧几里德距离来衡量相似性）。</p>
+<p>这是我构建的图书嵌入模型的输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Books closest to War and Peace.</span><br><span class="line">Book: War and Peace              Similarity: 1.0</span><br><span class="line">Book: Anna Karenina              Similarity: 0.79</span><br><span class="line">Book: The Master and Margarita   Similarity: 0.77</span><br><span class="line">Book: Doctor Zhivago (novel)     Similarity: 0.76</span><br><span class="line">Book: Dead Souls                 Similarity: 0.75</span><br></pre></td></tr></table></figure>
+<p>（向量与自身之间的余弦相似性必须为1.0）。经过一些降维（见下文），我们可以制作如下图：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718104748image-20210718104742855.png" alt="image-20210718104742855" /></p>
+<p>我们可以清楚地看到学习Embedding的价值！我们现在在维基百科上的每一本书都有50个数字表示，类似的书彼此之间更接近。</p>
+<h1 id="embedding-可视化"><a class="markdownIt-Anchor" href="#embedding-可视化"></a> Embedding 可视化</h1>
+<p>关于Embedding最酷的部分之一是，它们可以用来可视化概念，例如与其他概念相关的新奇或非虚构的概念。这就需要进一步的降维技术来将维数降到2或3。最流行的降维技术本身就是一种Embedding方法：t分布随机邻域嵌入（TSNE）。</p>
+<p>我们可以将维基百科上所有书籍的原始37000维，使用神经网络Embedding将它们映射到50维，然后使用TSNE将它们映射到2维。结果如下：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718104940image-20210718104938054.png" alt="image-20210718104938054" /></p>
+<p>（TSNE是一种流形学习技术，它试图将高维数据映射到低维流形，创建一个嵌入，试图保持数据中的局部结构。它几乎只用于可视化，因为输出是随机的，不支持转换新数据。一个新兴的替代方案是统一流形近似和投影，UMAP，它速度更快，并且支持将新数据转换到嵌入空间。</p>
+<p>这本身并不是很有用，但一旦我们开始根据不同的书籍特点给它上色，它就会很有见地。</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718105148image-20210718105146989.png" alt="image-20210718105146989" /></p>
+<p>我们可以清楚地看到属于同一类型的书的分组。这并不完美，但令人印象深刻的是，我们可以用2个数字来表示维基百科上的所有书籍，这些数字仍然捕捉到了不同流派之间的差异。</p>
+<p>书中的例子展示了神经网络Embedding的价值：我们可以将分类对象用低维的，并且在嵌入空间中把相似的实体放得更近的向量表示。</p>
+<h2 id="bonus交互式可视化"><a class="markdownIt-Anchor" href="#bonus交互式可视化"></a> Bonus:交互式可视化</h2>
+<p>静态图的问题是，我们不能真正地研究数据和研究变量之间的分组或关系。为了解决这个问题，TensorFlow开发了projector，这是一个在线应用程序，可以让我们可视化并与嵌入进行交互。目前的结果如下：</p>
+<p><img src="https://gitee.com/coronapolvo/images/raw/master/20210718105627image-20210718105626141.png" alt="image-20210718105626141" /></p>
+<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
+<p>神经网络Embedding是学习离散数据作为连续向量的低维表示。这些Embedding克服了传统编码方法的局限性，可以用于查找最近邻、输入到另一个模型和可视化等目的。</p>
+<p>虽然许多深度学习概念在学术术语中被讨论，但神经网络Embedding既直观又相对简单。我坚信，任何人都可以学习深度学习，并利用Keras等图书馆构建深度学习解决方案。嵌入是处理离散变量的有效工具，也是深度学习的一个有用应用。</p>
+<h1 id="参考文献"><a class="markdownIt-Anchor" href="#参考文献"></a> 参考文献</h1>
+<p><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture">Google-Produced tutorial on embeddings</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.tensorflow.org/guide/embedding">TensorFlow Guide to Embeddings</a></p>
+<p>[Book Recommendation System Using Embeddings](<a target="_blank" rel="noopener" href="https://github.com/WillKoehrsen/wikipedia-data-science/blob/master/notebooks/Book">https://github.com/WillKoehrsen/wikipedia-data-science/blob/master/notebooks/Book</a> Recommendation System.ipynb)</p>
+<p><a target="_blank" rel="noopener" href="https://machinelearningmastery.com/use-word-embedding-layers-deep-learning-keras/">Tutorial on Word Embeddings in Keras</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">coronaPolvo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://space.keter.top/2021/07/18/%E3%80%90%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E3%80%91Neural-Network-Embeddings-Explained/">http://space.keter.top/2021/07/18/%E3%80%90%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E3%80%91Neural-Network-Embeddings-Explained/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">深度学习基础知识</a></div><div class="post_share"><div class="social-share" data-image="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_29.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225222&amp;Signature=O3oEpcOaQaZNE63Bn753dW0JXjo%3D" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> Donate</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/07/20/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91Understanding-Object-Detection-Through-An-Adversarial-Lens/"><img class="prev-cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_20.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225099&amp;Signature=xb2AbnksnIQakj0brMG58faO6Og%3D" onerror="onerror=null;src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">「论文阅读」Understanding-Object-Detection-Through-An-Adversarial-Lens</div></div></a></div><div class="next-post pull-right"><a href="/2021/06/30/%E3%80%90%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E3%80%91-%E7%BE%A4/"><img class="next-cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_19.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225073&amp;Signature=mYgYhwQtDSqeQVKpz94f3QUlzhs%3D" onerror="onerror=null;src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">「信息安全数学基础」-群</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2022/01/14/%E3%80%8C%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E3%80%8D%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%9B%AE%E5%BD%95/" title="「深度学习基础」深度学习基础知识目录"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_25.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225165&Signature=x%2B9qu5fFW9e01avrd/Ao1hS/Jjg%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-14</div><div class="title">「深度学习基础」深度学习基础知识目录</div></div></a></div><div><a href="/2021/08/29/%E3%80%8C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E3%80%8D%E5%9B%BE%E5%83%8F%E7%BC%A9%E6%94%BE%E5%AF%B9%E4%BA%8E%E6%A8%A1%E5%9E%8B%E7%B2%BE%E5%BA%A6%E7%9A%84%E5%BD%B1%E5%93%8D/" title="「基础知识」图像缩放对于模型精度的影响"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_30.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225233&Signature=M5iovg9YxjxgOq7gG7IXw/tAuKg%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-29</div><div class="title">「基础知识」图像缩放对于模型精度的影响</div></div></a></div><div><a href="/2021/08/27/%E3%80%8CC3121N%E3%80%8D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="「C3121N」卷积神经网络"><img class="cover" src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_30.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&Expires=1651225233&Signature=M5iovg9YxjxgOq7gG7IXw/tAuKg%3D" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-27</div><div class="title">「C3121N」卷积神经网络</div></div></a></div><div><a href="/2021/08/20/%E3%80%8CYOLOv3%E3%80%8D%E4%BB%8E%E5%A4%B4%E5%AE%9E%E7%8E%B0YOLOv3%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%EF%BC%88%E4%BA%94%EF%BC%89%E6%9E%84%E5%BB%BA%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA%E7%AE%A1%E9%81%93/" title="「YOLOv3」从头实现YOLOv3目标检测（五）构建输入与输出管道"><img class="cover" src="https://gitee.com/coronapolvo/images/raw/master/20210818200139maxresdefault-2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-20</div><div class="title">「YOLOv3」从头实现YOLOv3目标检测（五）构建输入与输出管道</div></div></a></div><div><a href="/2021/08/19/%E3%80%8CYOLOv3%E3%80%8D%E4%BB%8E%E5%A4%B4%E5%AE%9E%E7%8E%B0YOLOv3%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%EF%BC%88%E5%9B%9B%EF%BC%89%E7%BD%AE%E4%BF%A1%E5%BA%A6%E9%98%88%E5%80%BC%E4%B8%8ENMS/" title="「YOLOv3」从头实现YOLOv3目标检测（四）置信度阈值与NMS"><img class="cover" src="https://gitee.com/coronapolvo/images/raw/master/20210818200139maxresdefault-2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-19</div><div class="title">「YOLOv3」从头实现YOLOv3目标检测（四）置信度阈值与NMS</div></div></a></div><div><a href="/2021/08/19/%E3%80%8CYOLOv3%E3%80%8D%E4%BB%8E%E5%A4%B4%E5%AE%9E%E7%8E%B0YOLOv3%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%EF%BC%88%E4%B8%89%EF%BC%89%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="「YOLOv3」从头实现YOLOv3目标检测（三）实现网络体系结构"><img class="cover" src="https://gitee.com/coronapolvo/images/raw/master/20210818200139maxresdefault-2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-19</div><div class="title">「YOLOv3」从头实现YOLOv3目标检测（三）实现网络体系结构</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/touxiang.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">coronaPolvo</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">64</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">27</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">16</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/coronaPolvo"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/coronaPolvo" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:me@keter.top" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#embeddings"><span class="toc-number">1.</span> <span class="toc-text"> Embeddings</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8B%AC%E7%83%AD%E7%BC%96%E7%A0%81%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text"> 独热编码的局限性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0embedding"><span class="toc-number">1.2.</span> <span class="toc-text"> 学习Embedding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B"><span class="toc-number">1.3.</span> <span class="toc-text"> 改进</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#embedding-%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text"> Embedding 可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#bonus%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text"> Bonus:交互式可视化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text"> 总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">4.</span> <span class="toc-text"> 参考文献</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/25/%E3%80%8C%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%8DBarrage-of-Random-Transforms-for-Adversarially-Robust-Defense/" title="「论文阅读」From a Fourier-Domain Perspective on Adversarial Examples to a Wiener Filter Defense for Semantic Segmentation"><img src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_12.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651224970&amp;Signature=1frn6ZuJGoANp1xg/KwAUPlFmp0%3D" onerror="this.onerror=null;this.src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="「论文阅读」From a Fourier-Domain Perspective on Adversarial Examples to a Wiener Filter Defense for Semantic Segmentation"/></a><div class="content"><a class="title" href="/2022/01/25/%E3%80%8C%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%8DBarrage-of-Random-Transforms-for-Adversarially-Robust-Defense/" title="「论文阅读」From a Fourier-Domain Perspective on Adversarial Examples to a Wiener Filter Defense for Semantic Segmentation">「论文阅读」From a Fourier-Domain Perspective on Adversarial Examples to a Wiener Filter Defense for Semantic Segmentation</a><time datetime="2022-01-24T17:06:50.000Z" title="Created 2022-01-25 01:06:50">2022-01-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/24/%E3%80%8C%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%8DLipschitz-Margin-Training/" title="「论文阅读」Lipschitz-Margin Training"><img src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_27.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225198&amp;Signature=WmUQUgMcM2J2DKktSgTeFa4XENU%3D" onerror="this.onerror=null;this.src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="「论文阅读」Lipschitz-Margin Training"/></a><div class="content"><a class="title" href="/2022/01/24/%E3%80%8C%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%8DLipschitz-Margin-Training/" title="「论文阅读」Lipschitz-Margin Training">「论文阅读」Lipschitz-Margin Training</a><time datetime="2022-01-24T11:28:03.000Z" title="Created 2022-01-24 19:28:03">2022-01-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/24/%E3%80%8C%E6%A8%A1%E5%9E%8B%E9%B2%81%E6%A3%92%E6%80%A7%E3%80%8D%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84Lipschitz%E7%BA%A6%E6%9D%9F/" title="「模型鲁棒性」深度学习中的Lipschitz约束"><img src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_18.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225058&amp;Signature=d9A/PPNoUuW89%2BDZoWW34ubmnLw%3D" onerror="this.onerror=null;this.src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="「模型鲁棒性」深度学习中的Lipschitz约束"/></a><div class="content"><a class="title" href="/2022/01/24/%E3%80%8C%E6%A8%A1%E5%9E%8B%E9%B2%81%E6%A3%92%E6%80%A7%E3%80%8D%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84Lipschitz%E7%BA%A6%E6%9D%9F/" title="「模型鲁棒性」深度学习中的Lipschitz约束">「模型鲁棒性」深度学习中的Lipschitz约束</a><time datetime="2022-01-24T08:13:41.000Z" title="Created 2022-01-24 16:13:41">2022-01-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/23/%E3%80%8C%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E8%AF%BE%E3%80%8D%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%9B%BE%E8%AE%BA/" title="「算法基础课」搜索与图论"><img src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_18.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1651225058&amp;Signature=d9A/PPNoUuW89%2BDZoWW34ubmnLw%3D" onerror="this.onerror=null;this.src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="「算法基础课」搜索与图论"/></a><div class="content"><a class="title" href="/2022/01/23/%E3%80%8C%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E8%AF%BE%E3%80%8D%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%9B%BE%E8%AE%BA/" title="「算法基础课」搜索与图论">「算法基础课」搜索与图论</a><time datetime="2022-01-23T08:04:07.000Z" title="Created 2022-01-23 16:04:07">2022-01-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/21/%E3%80%8C%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%8DOn-the-Effectiveness-of-Interval-Bound-Propagation-for-Training-Verifiably-Robust-Models/" title="「论文阅读」On the Effectiveness of Interval Bound Propagation for Training Verifiably Robust Models"><img src="https://corona-images2.obs.cn-north-4.myhuaweicloud.com:443/cover_14.png?AccessKeyId=2PJARSPLHRK0RPPSOJ6K&amp;Expires=1620207401&amp;Signature=xX/lhJs4RdQorbNWHb49uCaynlc%3D" onerror="this.onerror=null;this.src='https://gitee.com/coronapolvo/images/raw/master/404.jpg'" alt="「论文阅读」On the Effectiveness of Interval Bound Propagation for Training Verifiably Robust Models"/></a><div class="content"><a class="title" href="/2022/01/21/%E3%80%8C%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%8DOn-the-Effectiveness-of-Interval-Bound-Propagation-for-Training-Verifiably-Robust-Models/" title="「论文阅读」On the Effectiveness of Interval Bound Propagation for Training Verifiably Robust Models">「论文阅读」On the Effectiveness of Interval Bound Propagation for Training Verifiably Robust Models</a><time datetime="2022-01-21T13:39:38.000Z" title="Created 2022-01-21 21:39:38">2022-01-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By coronaPolvo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css"><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

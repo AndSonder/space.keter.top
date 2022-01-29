@@ -1,0 +1,88 @@
+{
+  "name": "hexo",
+  "version": "5.4.0",
+  "description": "A fast, simple & powerful blog framework, powered by Node.js.",
+  "main": "lib/hexo",
+  "bin": {
+    "hexo": "./bin/hexo"
+  },
+  "scripts": {
+    "eslint": "eslint .",
+    "test": "mocha test/index.js",
+    "test-cov": "nyc --reporter=lcovonly npm run test -- --no-parallel",
+    "lint-staged": "lint-staged"
+  },
+  "directories": {
+    "lib": "./lib",
+    "bin": "./bin"
+  },
+  "files": [
+    "lib/",
+    "bin/"
+  ],
+  "repository": "hexojs/hexo",
+  "homepage": "https://hexo.io/",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/hexo"
+  },
+  "keywords": [
+    "website",
+    "blog",
+    "cms",
+    "framework",
+    "hexo"
+  ],
+  "author": "Tommy Chen <tommy351@gmail.com> (https://zespia.tw)",
+  "maintainers": [
+    "Abner Chou <hi@abnerchou.me> (https://abnerchou.me)"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "abbrev": "^1.1.1",
+    "archy": "^1.0.0",
+    "bluebird": "^3.5.2",
+    "chalk": "^4.0.0",
+    "hexo-cli": "^4.0.0",
+    "hexo-front-matter": "^2.0.0",
+    "hexo-fs": "^3.1.0",
+    "hexo-i18n": "^1.0.0",
+    "hexo-log": "^2.0.0",
+    "hexo-util": "^2.4.0",
+    "js-yaml": "^4.0.0",
+    "micromatch": "^4.0.2",
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.21",
+    "nunjucks": "^3.2.1",
+    "pretty-hrtime": "^1.0.3",
+    "resolve": "^1.8.1",
+    "strip-ansi": "^6.0.0",
+    "text-table": "^0.2.0",
+    "tildify": "^2.0.0",
+    "titlecase": "^1.1.2",
+    "warehouse": "^4.0.0"
+  },
+  "devDependencies": {
+    "@easyops/git-exec-and-restage": "^1.0.4",
+    "0x": "^4.10.2",
+    "chai": "^4.2.0",
+    "cheerio": "0.22.0",
+    "decache": "^4.5.1",
+    "eslint": "^7.0.0",
+    "eslint-config-hexo": "^4.1.0",
+    "hexo-renderer-marked": "^3.0.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.0",
+    "mocha": "^8.0.1",
+    "nyc": "^15.0.0",
+    "sinon": "^9.0.2"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "name": "hexo-cli",
+  "version": "4.3.0",
+  "description": "Command line interface for Hexo",
+  "main": "lib/hexo",
+  "bin": {
+    "hexo": "./bin/hexo"
+  },
+  "files": [
+    "lib",
+    "completion",
+    "bin",
+    "assets"
+  ],
+  "scripts": {
+    "eslint": "eslint .",
+    "test": "mocha test/index.js",
+    "test-cov": "nyc --reporter=lcovonly npm test",
+    "prepare": "git submodule init && git submodule update && git submodule foreach git pull origin master"
+  },
+  "directories": {
+    "lib": "./lib",
+    "bin": "./bin"
+  },
+  "repository": "hexojs/hexo-cli",
+  "homepage": "https://hexo.io/",
+  "keywords": [
+    "website",
+    "blog",
+    "cms",
+    "framework",
+    "hexo",
+    "cli"
+  ],
+  "author": "Tommy Chen <tommy351@gmail.com> (http://zespia.tw)",
+  "maintainers": [
+    "Abner Chou <hi@abnerchou.me> (http://abnerchou.me)"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "abbrev": "^1.1.1",
+    "bluebird": "^3.5.5",
+    "chalk": "^4.0.0",
+    "command-exists": "^1.2.8",
+    "hexo-fs": "^3.0.1",
+    "hexo-log": "^2.0.0",
+    "hexo-util": "^2.0.0",
+    "minimist": "^1.2.5",
+    "resolve": "^1.11.0",
+    "tildify": "^2.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^7.0.0",
+    "eslint-config-hexo": "^4.0.0",
+    "hexo-renderer-marked": "^4.0.0",
+    "mocha": "^8.0.1",
+    "nyc": "^15.0.0",
+    "proxyquire": "^2.1.0",
+    "rewire": "^5.0.0",
+    "sinon": "^11.1.1"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  }
+}

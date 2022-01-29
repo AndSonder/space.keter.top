@@ -1,0 +1,43 @@
+{
+  "name": "hexo-generator-index",
+  "version": "2.0.0",
+  "description": "Index generator for Hexo.",
+  "main": "index",
+  "scripts": {
+    "eslint": "eslint .",
+    "test": "mocha test/index.js",
+    "test-cov": "nyc npm run test"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "files": [
+    "index.js",
+    "lib/"
+  ],
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "repository": "hexojs/hexo-generator-index",
+  "homepage": "http://hexo.io/",
+  "keywords": [
+    "hexo",
+    "generator",
+    "index",
+    "home"
+  ],
+  "author": "Tommy Chen <tommy351@gmail.com> (http://zespia.tw)",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^7.1.0",
+    "eslint-config-hexo": "^4.1.0",
+    "hexo": "^5.0.0",
+    "mocha": "^8.0.1",
+    "nyc": "^15.0.0"
+  },
+  "dependencies": {
+    "hexo-pagination": "1.0.0",
+    "timsort": "^0.3.0"
+  }
+}
