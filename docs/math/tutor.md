@@ -9,5 +9,3 @@ One of the wonderful parts of modern deep learning is the fact that much of it `
 But, we are not quite there yet.
 
 In practice, you will sometimes `need to understand how architectural choices influence gradient flow or the implicit assumptions you make by training with a certain loss function.` You might need to know what in the world entropy measures, and how it can help you `understand exactly what bits-per-character means in your model`. These all require deeper mathematical understanding. 
-
-
