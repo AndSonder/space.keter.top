@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "f565aa1d101892e1",
+        "id": "6097743c828de0f6",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "math/index.md.md",
+            "file": "math/tutor.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "math/index.md.md",
+                "file": "math/tutor.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "math/index.md.md"
+                "file": "math/tutor.md"
               }
             }
           },
@@ -121,9 +121,10 @@
     "direction": "horizontal",
     "width": 219
   },
-  "active": "f565aa1d101892e1",
+  "active": "6097743c828de0f6",
   "lastOpenFiles": [
-    "math/index.md.md",
+    "math/tutor.md",
+    "math/tutor.md.md",
     "deep_learning/目标检测/5-构建输入与输出管道.md",
     "deep_learning/目标检测/4-置信度阈值与NMS.md",
     "deep_learning/目标检测/3-实现网络体系结构.md",
@@ -131,7 +132,6 @@
     "deep_learning/目标检测/1-YOLO基础知识.md",
     "deep_learning/基础知识/10-空间金字塔池化网络SPP-Net.md",
     "deep_learning/基础知识/8-多任务损失函数设计策略.md",
-    "deep_learning/基础知识/7-图像缩放对于模型精度的影响.md",
-    "deep_learning/基础知识/6-对于正则化的理解.md"
+    "deep_learning/基础知识/7-图像缩放对于模型精度的影响.md"
   ]
 }
