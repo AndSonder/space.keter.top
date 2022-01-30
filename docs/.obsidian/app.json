@@ -1,3 +1,6 @@
 {
-  "legacyEditor": false
+  "attachmentFolderPath": "image",
+  "legacyEditor": false,
+  "useMarkdownLinks": false,
+  "promptDelete": false
 }

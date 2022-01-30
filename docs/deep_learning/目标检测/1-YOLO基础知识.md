@@ -1,6 +1,7 @@
 # YOLO基础知识
-
-本教程转载于：[https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/](https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/), 在原教程上加入了自己的理解，我的理解将用 `这样的格式写出`
+:::tip
+本文转载于：[https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/](https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/), 在原教程上加入了自己的理解，我的理解将用 `这样的格式写出`
+:::
 
 这是一个关于从头开始构建 YOLO v3检测器的教程，详细介绍了如何从配置文件创建网络体系结构、加载权重和设计输入/输出管道。
 

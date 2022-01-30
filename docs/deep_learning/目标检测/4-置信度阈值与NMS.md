@@ -1,6 +1,8 @@
 # YOLOv3置信度阈值与NMS
 
-本教程转载于：[https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/](https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/), 在原教程上加入了自己的理解，我的理解将用 `这样的格式写出`.  （ 原博客中有错误的地方在本文中也进行了修正 ）
+:::tip
+本文转载于：[https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/](https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/), 在原教程上加入了自己的理解，我的理解将用 `这样的格式写出`
+:::
 
 这是从头开始实现 YOLO v3检测器的教程的第4部分。在上一部分，我们实现了网络的前向传递。在这一部分中，我们通过一个目标置信度和一个非最大抑制度来筛选我们的检测结果。
 

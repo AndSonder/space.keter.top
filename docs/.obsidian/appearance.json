@@ -1,3 +1,5 @@
 {
-  "baseFontSize": 16
+  "baseFontSize": 16,
+  "theme": "moonstone",
+  "cssTheme": "Blue Topaz"
 }
