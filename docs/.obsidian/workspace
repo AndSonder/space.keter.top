@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "algorithm/3-搜索与图论.md",
+            "file": "algorithm/4-数论.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "algorithm/3-搜索与图论.md",
+                "file": "algorithm/4-数论.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "algorithm/3-搜索与图论.md"
+                "file": "algorithm/4-数论.md"
               }
             }
           },
@@ -123,6 +123,7 @@
   },
   "active": "0d92984c3ed9854b",
   "lastOpenFiles": [
+    "algorithm/4-数论.md",
     "algorithm/3-搜索与图论.md",
     "math/tutor.md",
     "math/tutor.md.md",
@@ -131,7 +132,6 @@
     "deep_learning/目标检测/3-实现网络体系结构.md",
     "deep_learning/目标检测/2-构建网络结构.md",
     "deep_learning/目标检测/1-YOLO基础知识.md",
-    "deep_learning/基础知识/10-空间金字塔池化网络SPP-Net.md",
-    "deep_learning/基础知识/8-多任务损失函数设计策略.md"
+    "deep_learning/基础知识/10-空间金字塔池化网络SPP-Net.md"
   ]
 }
