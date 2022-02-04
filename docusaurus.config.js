@@ -74,7 +74,8 @@ const config = {
         ({
             metadata: [
                 { name: 'keywords', content: 'notebook,Sonder,Algorithm,题解,算法,编程,学习笔记,深度学习,模型鲁棒性' },
-                { name: 'google-site-verification', content: 'lIhR5J6yRQNU2obnE35OxMfrUxOj7VjwjNbVE0gh7sk' }
+                { name: 'google-site-verification', content: 'rI6AJ6opyy43RCnFkrJtE5U-kufn37HuWdEVXmS43E' },
+                { name: 'baidu-site-verification', content: 'code-BWReuturyA' }
             ],
             navbar: {
                 title: 'Sonder的笔记本',
