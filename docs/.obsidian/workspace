@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "ab3b1be731bb333b",
+        "id": "630322625af57683",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "algorithm/5-DP.md",
+            "file": "algorithm/1-基础算法.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "algorithm/5-DP.md",
+                "file": "algorithm/1-基础算法.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "algorithm/5-DP.md"
+                "file": "algorithm/1-基础算法.md"
               }
             }
           },
@@ -121,17 +121,17 @@
     "direction": "horizontal",
     "width": 219
   },
-  "active": "ab3b1be731bb333b",
+  "active": "630322625af57683",
   "lastOpenFiles": [
+    "algorithm/1-基础算法.md",
     "algorithm/5-DP.md",
+    "algorithm/99-闫氏DP分析法.md",
     "algorithm/4-数论.md",
     "algorithm/5-线性代数.md",
     "others/论文写作技巧/2-starting-with-what-others-are-saying.md",
     "others/论文写作技巧/1-正经论文那点事.md",
     "algorithm/3-搜索与图论.md",
     "math/tutor.md",
-    "math/tutor.md.md",
-    "deep_learning/目标检测/5-构建输入与输出管道.md",
-    "deep_learning/目标检测/4-置信度阈值与NMS.md"
+    "math/tutor.md.md"
   ]
 }

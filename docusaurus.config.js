@@ -120,7 +120,7 @@ const config = {
                       position: 'right',
                   },
                     {
-                        href: 'https://github.com/coronaPolvo',
+                        href: 'https://github.com/coronaPolvo/Jupiter-king.github.io',
                         label: 'GitHub',
                         position: 'right',
                     },
