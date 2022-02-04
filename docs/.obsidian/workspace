@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "algorithm/4-数论.md",
+            "file": "algorithm/5-DP.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "algorithm/4-数论.md",
+                "file": "algorithm/5-DP.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "algorithm/4-数论.md"
+                "file": "algorithm/5-DP.md"
               }
             }
           },
@@ -123,6 +123,7 @@
   },
   "active": "ab3b1be731bb333b",
   "lastOpenFiles": [
+    "algorithm/5-DP.md",
     "algorithm/4-数论.md",
     "algorithm/5-线性代数.md",
     "others/论文写作技巧/2-starting-with-what-others-are-saying.md",
@@ -131,7 +132,6 @@
     "math/tutor.md",
     "math/tutor.md.md",
     "deep_learning/目标检测/5-构建输入与输出管道.md",
-    "deep_learning/目标检测/4-置信度阈值与NMS.md",
-    "deep_learning/目标检测/3-实现网络体系结构.md"
+    "deep_learning/目标检测/4-置信度阈值与NMS.md"
   ]
 }
