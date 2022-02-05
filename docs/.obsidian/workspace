@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "algorithm/1-基础算法.md",
+            "file": "algorithm/5-DP.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "algorithm/1-基础算法.md",
+                "file": "algorithm/5-DP.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "algorithm/1-基础算法.md"
+                "file": "algorithm/5-DP.md"
               }
             }
           },
@@ -123,10 +123,10 @@
   },
   "active": "630322625af57683",
   "lastOpenFiles": [
-    "algorithm/1-基础算法.md",
     "algorithm/5-DP.md",
-    "algorithm/99-闫氏DP分析法.md",
     "algorithm/4-数论.md",
+    "algorithm/1-基础算法.md",
+    "algorithm/99-闫氏DP分析法.md",
     "algorithm/5-线性代数.md",
     "others/论文写作技巧/2-starting-with-what-others-are-saying.md",
     "others/论文写作技巧/1-正经论文那点事.md",
