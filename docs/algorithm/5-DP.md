@@ -285,3 +285,85 @@ int main()
 }
 ```
 
+### 最长上升子序列
+:::tip
+从前往后挑出上升的子序列，可以隔着调选
+:::
+
+#### 问题分析
+状态表示：集合就是所有以i个数结尾的上升子序列，属性是集合里面每一个上升子序列长度的最大值。
+接下来考虑一下要如何进行进行状态计算，首先我们先想一下如何进行集合划分，对于第i个数，那么将会有i-1个情况。如下图所示：
+![](https://gitee.com/coronapolvo/images/raw/master/20220206141442.png)
+你的的上一个数值可能来自于0-i-1中的任何一个，那么就需要在0-i-1中去找到一个最大值。因此状态转移方程可以表示如下：
+$$
+f[i] = max(f[j]+1) \ j =0,1,...,j-1
+$$
+#### 代码
+```c++
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int n;
+int a[N],f[N];
+
+int main()
+{
+	cin >> n;
+	for(int i=1;i<=n;i++) cin >> a[i];
+	for(int i=1;i<=n;i++)
+	{
+		f[i] = 1; // 只有a[i]一个数
+		for(int j=1;j<i;j++)
+			if(a[j] < a[i])
+				f[i] = max(f[i],f[j] + 1);
+		
+	}
+	int res = 0;
+	for(int i =1;i<=n;i++) res = max(res,f[i]);
+	cout << res;
+	return 0;
+}
+```
+#### 优化
+
+### 最长公众子序列
+:::tip
+给你两个字符串，求出这两个字符串中最长的公共**子序列**（两个字符串中都有的序列）
+:::
+#### 问题分析
+首先来分析一下状态表示，首先这道题目需要使用一个二维的数组进行表示。这里集合表示的含义是：所有由第一个序列的前i个字母，和第二个序列的前j个字母的公共子序列。那么属性就是所有这些子序列的最大值。
+接下来考虑一下如何进行状态计算。
+首先如何对状态进行划分，这套题将集合划分为两个集合会更加的方便理解。
+![](https://gitee.com/coronapolvo/images/raw/master/20220206150524.png)
+对于`a[i] == b[j]`的情况，`f[i][j] = f[i-1][j-1] + 1`
+对于`a[i] != b[j]`的情况, `f[i][j] = max(f[i-1][j],f[i][j-1])` 对于第二种情况`f[i-1][j]` 表示不选a[i]选b[j]的情况，`f[i][j-1]` 表示选a[i]不选b[j]的情况。a[i]和b[i]都不选的情况囊括在了这两种情况当中，状态转移方程见代码。
+#### 代码
+```c++
+#include <iostream>
+
+using namespace std;
+
+const int N = 1010;
+
+char a[N],b[N];
+int f[N][N];
+int n,m;
+
+int main()
+{
+    cin >> n >> m;
+    scanf("%s%s",a+1,b+1);
+    for(int i=1;i<=n;i++)
+        for(int j=1;j<=m;j++)
+        {
+            if(a[i] == b[j]) f[i][j] = f[i-1][j-1]+1;
+            else f[i][j] = max(f[i-1][j],f[i][j-1]);
+        }
+    cout << f[n][m];
+}
+```
+
+ 
+
