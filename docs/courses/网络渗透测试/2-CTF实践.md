@@ -46,7 +46,7 @@ WEB应用在今天越来越广泛，也是CTF夺旗竞赛中的主要题型，�
 
 ### 1x03 访问网站
 因为网站开放了80端口，所以可以尝试登陆http端口
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205183407180.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205183407180.png)
 发现有一个搭建了一个个人模块网站，这个网站应该是一个比较经典的CMS了，记得我当初刚买服务器的时候@visualDust给我搭了这一个这个网站。
 
 ## 1x04 whatweb探寻
@@ -60,29 +60,29 @@ WPScan是Kali Linux默认自带的一款漏洞扫描工具，它采用Ruby编写
 ## 1x06 Dirb爆破
 使用dirb来爆破网站的根目录；
 `dirb -u http://10.34.80.3`
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205203124928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205203124928.png)
 找到一个 `http://10.34.80.3/ipdata/` 感觉这个很像流量信息，进去看一看吧
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205203544184.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205203544184.png)
 ## 1x07 wireshark数据分析
 在获取了网站数据流信息后，我们尝试使用wireshark进行一次分析；尝试搜索一下login，结果有惊奇的发现；
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205204031475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205204031475.png)
 成功找到了登陆界面:
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205204320279.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205204320279.png)
 我们随便提交一个，找到信息post去的地址：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205204422711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205204422711.png)
 确定了之后就去找发送到相应url下的post信息；
 
 尝试筛选http请求类型为post的请求，找到了这两个：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205204715278.png)
 可以看到账号密码就在这里，密码好像是做了一定的加密，当时这个不是问题；
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205204805507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205204805507.png)
 我们把burp打开，然后随便输入一个账号和密码，在burp里面给他改一下，然后再把请求放过去就可以了；
 下图是我们的请求；
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205210923584.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205210923584.png)
 很明显可以发现，log对应的是用户名，pwd对应的是密码；然后我们把他给改掉
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020120521112145.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020120521112145.png)
 成功进入网站后台!
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205211252488.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205211252488.png)
 ## 1x08 使用wordpress的插件漏洞进行提权
 这里可以使用三种方案进行实现：
 
@@ -90,21 +90,21 @@ WPScan是Kali Linux默认自带的一款漏洞扫描工具，它采用Ruby编写
 
 首先我们先需要给这个wordpress安装reflex gallery插件；
 去plugins界面搜索一下reflex，安装上去就好；
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205212109389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205212109389.png)
 当然了你也可以选择本地上传安装；
 安装成功之后记得把插件激活一下！
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205213047657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205213047657.png)
 接下来使用msf来控制漏洞：
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205214714430.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205214714430.png)
 出现meterpreter>说明可以控制了，我们可以在这里输入Linux命令来查看一些文件：
 
 回退到`/var/www/html`之后可以看到wp-config.php；
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205214857248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205214857248.png)
 查看一下里面的内容：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205215206975.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205215206975.png)
 可以在里面找到**数据库**的用户和密码：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205215438538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205215438538.png)
 
 ### 2x02 反弹Shell
 上传反弹shell。http://pentestmonkey.net/tools/web-shells/php-reverse-shell
@@ -114,20 +114,20 @@ WPScan是Kali Linux默认自带的一款漏洞扫描工具，它采用Ruby编写
 我们把代码稍微修改一下，ip改成10.34.80.3, 反弹端口设为4444；
 
 首先需要把这里的theme给修改为Twenty Sixteen，**记得点击Select，然后点击Leave！**
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205222009796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205222009796.png)
 然后将php文件复制粘贴过来==》记得upload！
 注意一下，因为我实在找不到404.PHP的url路径，所以我就改了search.php，效果就是搜索的时候触发
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205222315732.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205222315732.png)
 还有一件事! , 因为刚才修改了theme，这里需要把对应的主界面也改了；（不改好像也行）
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205225319137.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205225319137.png)
 
 接下来我们使用kali的nc监听刚才设置的4444端口。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205222458581.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205222458581.png)
 现在我们search一下就可以发现nc里面已经可以操作了！
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205225349205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205224229463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205225349205.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205224229463.png)
 经过路径的探寻后找到了wp_config.php 文件
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205224535747.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205224535747.png)
 ### 2x03 利用文件管理插件（File manager）漏洞
 这个没啥技术含量，安装了插件之后直接就可以查看了；这里就不写了
 
@@ -139,11 +139,11 @@ WPScan是Kali Linux默认自带的一款漏洞扫描工具，它采用Ruby编写
 这里我们进行一下修改配置文件，`sudo vim /etc/ssh/ssh_config`打开这个文件，然后在最下面添加：
 
 `# StrictHostKeyChecking ask`改成`StrictHostKeyChecking no`
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205232430170.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205232430170.png)
 然后输入：`ssh webdeveloper@10.34.80.3`
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205232601234.png)
 成功登录了进来!
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205232649772.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3B5dGhvbl9MQ19ub2h0eXA=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205232649772.png)
 尝试查看发现权限不足：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201205232827221.png)
 查看一下可以执行的sudo命令
