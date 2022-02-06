@@ -118,7 +118,7 @@ const config = {
                       href: '/About',
                       label: 'About',
                       position: 'right',
-                  },
+                    },
                     {
                         href: 'https://github.com/coronaPolvo/Jupiter-king.github.io',
                         label: 'GitHub',
