@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "others/爬虫/9-小米商店.md",
+            "file": "deep_learning/统计计算与机器学习/1-课程介绍.md",
             "mode": "source",
             "source": false
           }
@@ -41,9 +41,9 @@
               "type": "search",
               "state": {
                 "query": "",
-                "matchingCase": true,
+                "matchingCase": false,
                 "explainSearch": false,
-                "collapseAll": true,
+                "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
               }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "others/爬虫/9-小米商店.md",
+                "file": "deep_learning/统计计算与机器学习/1-课程介绍.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "others/爬虫/9-小米商店.md"
+                "file": "deep_learning/统计计算与机器学习/1-课程介绍.md"
               }
             }
           },
@@ -113,9 +113,17 @@
               "type": "dictionary-view",
               "state": {}
             }
+          },
+          {
+            "id": "32c27eacc4cdf46e",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -123,15 +131,15 @@
   },
   "active": "408de22d24f80958",
   "lastOpenFiles": [
-    "others/爬虫/9-小米商店.md",
-    "others/爬虫/10-cookie模拟登陆.md",
-    "others/爬虫/8-request.get()参数详解.md",
-    "others/爬虫/7-xpath解析.md",
-    "others/爬虫/6-爬取链家二手房信息.md",
-    "others/爬虫/5-爬虫猫眼电影100榜单并保存到csv.md",
-    "others/爬虫/4-百度贴吧.md",
-    "others/爬虫/3-URL地址编码.md",
-    "others/爬虫/1-打开网站获取信息.md",
-    "others/爬虫/2-重构UserAgent.md"
+    "deep_learning/统计计算与机器学习/1-课程介绍.md",
+    "math/3-蒙特卡洛采样.md",
+    "math/1-卡尔曼滤波.md",
+    "math/2-协方差矩阵.md",
+    "react/0-hooks.md",
+    "Day Planners/Day Planner-20220202.md",
+    "Excalidraw/Drawing 2022-02-10 19.49.24.excalidraw.md",
+    "Excalidraw/Drawing 2022-02-10 19.49.23.excalidraw.md",
+    "algorithm/1-基础算法.md",
+    "algorithm/100-竞赛中常用的c++黑魔法.md"
   ]
 }
