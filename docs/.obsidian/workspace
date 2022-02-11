@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "deep_learning/统计计算与机器学习/1-课程介绍.md",
+            "file": "deep_learning/基础知识/11-LSTM原理解析.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "deep_learning/统计计算与机器学习/1-课程介绍.md",
+                "file": "deep_learning/基础知识/11-LSTM原理解析.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "deep_learning/统计计算与机器学习/1-课程介绍.md"
+                "file": "deep_learning/基础知识/11-LSTM原理解析.md"
               }
             }
           },
@@ -131,6 +131,7 @@
   },
   "active": "408de22d24f80958",
   "lastOpenFiles": [
+    "deep_learning/基础知识/11-LSTM原理解析.md",
     "deep_learning/统计计算与机器学习/1-课程介绍.md",
     "math/3-蒙特卡洛采样.md",
     "math/1-卡尔曼滤波.md",
@@ -139,7 +140,6 @@
     "Day Planners/Day Planner-20220202.md",
     "Excalidraw/Drawing 2022-02-10 19.49.24.excalidraw.md",
     "Excalidraw/Drawing 2022-02-10 19.49.23.excalidraw.md",
-    "algorithm/1-基础算法.md",
-    "algorithm/100-竞赛中常用的c++黑魔法.md"
+    "algorithm/1-基础算法.md"
   ]
 }
