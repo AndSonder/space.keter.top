@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "408de22d24f80958",
+        "id": "3341b8550b4ce50b",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "deep_learning/基础知识/11-LSTM原理解析.md",
+            "file": "deep_learning/基础知识/12-全景分割算法.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "deep_learning/基础知识/11-LSTM原理解析.md",
+                "file": "deep_learning/基础知识/12-全景分割算法.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "deep_learning/基础知识/11-LSTM原理解析.md"
+                "file": "deep_learning/基础知识/12-全景分割算法.md"
               }
             }
           },
@@ -129,17 +129,17 @@
     "direction": "horizontal",
     "width": 219
   },
-  "active": "408de22d24f80958",
+  "active": "3341b8550b4ce50b",
   "lastOpenFiles": [
-    "deep_learning/基础知识/11-LSTM原理解析.md",
+    "deep_learning/基础知识/12-全景分割算法.md",
+    "algorithm/6-贪心算法.md",
+    "deep_learning/统计计算与机器学习/2-傅里叶分析.md",
     "deep_learning/统计计算与机器学习/1-课程介绍.md",
+    "deep_learning/基础知识/11-LSTM原理解析.md",
+    "Day Planners/Day Planner-20220211.md",
     "math/3-蒙特卡洛采样.md",
     "math/1-卡尔曼滤波.md",
     "math/2-协方差矩阵.md",
-    "react/0-hooks.md",
-    "Day Planners/Day Planner-20220202.md",
-    "Excalidraw/Drawing 2022-02-10 19.49.24.excalidraw.md",
-    "Excalidraw/Drawing 2022-02-10 19.49.23.excalidraw.md",
-    "algorithm/1-基础算法.md"
+    "react/0-hooks.md"
   ]
 }
