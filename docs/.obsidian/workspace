@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "algorithm/7-字符串专题.md",
+            "file": "math/5-概率论基础知识.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "algorithm/7-字符串专题.md",
+                "file": "math/5-概率论基础知识.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "algorithm/7-字符串专题.md"
+                "file": "math/5-概率论基础知识.md"
               }
             }
           },
@@ -131,15 +131,15 @@
   },
   "active": "3341b8550b4ce50b",
   "lastOpenFiles": [
+    "math/5-概率论基础知识.md",
+    "algorithm/3-搜索与图论.md",
+    "math/4-矩阵基础知识.md",
+    "deep_learning/图像分割/1-FCN.md",
     "algorithm/7-字符串专题.md",
     "algorithm/100-竞赛中常用的c++黑魔法.md",
     "algorithm/2-数据结构.md",
-    "algorithm/3-搜索与图论.md",
     "algorithm/6-贪心算法.md",
     "algorithm/99-闫氏DP分析法.md",
-    "deep_learning/图像分割/1-FCN.md",
-    "math/4-矩阵基础知识.md",
-    "deep_learning/模型鲁棒性/2-深度学习中的Lipschitz约束.md",
-    "deep_learning/模型鲁棒性/3-Lipschitz-Margin-Training.md"
+    "deep_learning/模型鲁棒性/2-深度学习中的Lipschitz约束.md"
   ]
 }
