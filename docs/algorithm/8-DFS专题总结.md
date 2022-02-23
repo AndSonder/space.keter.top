@@ -81,7 +81,7 @@ public:
 :::tip
 给定一个候选人编号的集合 `candidates` 和一个目标数 `target` ，找出 `candidates` 中所有可以使数字和为 `target` 的组合。
 
-思路：关键在于递归的开始点如何计算
+思路：关键在于递归的开始点
 :::
 
 ```c++
@@ -116,6 +116,46 @@ public:
 		}
 		for(int i = 0;c[u] * i <= target and i <= cnt;i++)
 			path.pop_back(); // 状态复原
+    }
+};
+```
+
+### 子集
+:::tip
+给你一个整数数组 `nums` ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。
+
+思路：和无重复的组合总数思路很像, 每次递归都可以选取该为也可以不选取该位
+:::
+
+```c++
+class Solution {
+public:
+    vector<vector<int>> ans;
+    vector<int> path;
+    unordered_map<string,int> map; // 防止重复存储
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        string s = "";
+        dfs(nums,0,s);
+        return ans;
+    }
+
+    void dfs(vector<int> & nums,int u,string tag)
+    {
+        if(u >= nums.size()) 
+        {
+            if(!map[tag])
+                ans.push_back(path);
+            map[tag] = 1;
+            return;
+        }
+		// 不选取该位
+        dfs(nums,u+1,tag);
+		// 选取该位
+        path.push_back(nums[u]);
+        tag += to_string(nums[u]); // 状态修改
+        dfs(nums,u+1,tag);
+        path.pop_back(); // 状态恢复
+        for(int i = 0;i < to_string(nums[u]).size();i++) tag.pop_back(); // 清空
     }
 };
 ```
