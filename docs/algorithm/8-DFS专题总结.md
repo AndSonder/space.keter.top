@@ -29,7 +29,7 @@ void dfs(vector<int> nums, int u,int start)
 			st[i] = true;
 			path[i] = nums[i];
 			if(u + 1 < nums.size() and nums[u+1] != nums[u])
-				dfs(nums,u+1,0); // 虽然是从0开始排列的当时st[i]可以帮助不重复排列
+				dfs(nums,u+1,0); // 虽然是从0开始排列的但是st[i]可以帮助不重复排列
 			else
 				dfs(nums,u+1,i+1);
 			st[i] = false; // 状态复原
@@ -159,5 +159,6 @@ public:
     }
 };
 ```
+
 
 
