@@ -5,33 +5,31 @@
 
 1) 将一幅图像分成SxS个网格(grid cell), 如果某个object的中心落在这个网格 中，则这个网格就负责预测这个object
 
-![](https://gitee.com/coronapolvo/images/raw/master/20220309220454.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220309220454.png)
 
 2) 每个网格要预测B个bounding box, 每个bounding box 除了要预测位置之外，还要附带预测一个confidence值，每个网格还要预测C个类别的分数。 confidence表示该位置有物体的概率
 
-![](https://gitee.com/coronapolvo/images/raw/master/20220309220632.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220309220632.png)
 
 3) 网络后处理，使用nms对多余的box去除；
 
-![](https://gitee.com/coronapolvo/images/raw/master/20220309224307.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220309224307.png)
 
 
 ### YOLOV1网络结构
 
-
-
-![](https://gitee.com/coronapolvo/images/raw/master/20220309225308.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220309225308.png)
 
 
 YOLOv1的网络结构可以说是比较简单了，网络结构主要由卷积、池化和全连接三部分组成。最终的输出结构为7x7x30。其中7x7表示一个图片会被划分为7x7的网格，下图更加详细的说明了30的组成部分：
 
-![](https://gitee.com/coronapolvo/images/raw/master/20220309230236.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220309230236.png)
 
 30分别由两个预测框信息，两个置信度信息和20个类别置信度组成（Pascal VOC数据集）
 
 ### 损失函数
 
-![](https://gitee.com/coronapolvo/images/raw/master/20220309230500.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220309230500.png)
 
 YOLOv1的损失函数主要采用了平方距离的方式。需要注意的是对于w和h的误差，yolov1采用了根号差平方的形式。
 
@@ -50,11 +48,11 @@ YOLOv1有哪些创新点？
 
 因为如果不开根号对于大物体和小物体相同的w和h就会产生相同的误差，如下图所示：
 
-![](https://gitee.com/coronapolvo/images/raw/master/20220309231426.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220309231426.png)
 
 很明显上图的大目标的预测结果要比小目标的预测结果好，但是却具有相同的w。开根号能够使用具有相同w的大物体产生更小的误差，具有相同w的小物体产生更大的误差。
 
-![](https://gitee.com/coronapolvo/images/raw/master/20220309231822.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220309231822.png)
 
 
 
@@ -154,11 +152,11 @@ YOLOv2在预测box相对于cell顶点坐标的偏移的时，使用了sigmoid函
 
 Darknet-19的结构
 
-![](https://gitee.com/coronapolvo/images/raw/master/20220312172142.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220312172142.png)
 
 ### 网络结构
 
-![](https://gitee.com/coronapolvo/images/raw/master/20220312172617.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220312172617.png)
 
 ## YOLOv3
 YOLOv3总结了自己在YOLOv2的基础上做的一些尝试性改进，有的尝试取得了成功，而有的尝试 并没有提升模型性能。其中有两个值得一提的亮点，一个是`使用残差模型`，进一步加深了网络结
@@ -188,7 +186,7 @@ YOLOv3总结了自己在YOLOv2的基础上做的一些尝试性改进，有的�
 在论文中论文中只选择了最好的预测框用于计算loss，但是实际上这样会导致正负样本不均衡的情况。在u版的代码中作者将所有iou大于阈值的boxes都作为正样本，这样可以一定程度上解决正负样本不均衡的问题。
 
 ### 网络结构图
-![](https://gitee.com/coronapolvo/images/raw/master/20220317222055.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220317222055.png)
 
 在上图中我们能够很清晰的看到三个预测层分别来自的什么地方，以及Concatenate层与哪个层进行拼接。**注意Convolutional是指Conv2d+BN+LeakyReLU，而生成预测结果的最后三层都只是Conv2d。**
 

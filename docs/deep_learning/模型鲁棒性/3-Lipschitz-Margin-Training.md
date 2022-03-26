@@ -51,7 +51,7 @@ $$
 ## 实验结果
 
 ### more tighter
-![](https://gitee.com/coronapolvo/images/raw/master/20220124193939.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220124193939.png)
 左图：在原始模型中第二个卷积层的Lipschitz bound，中间：在用LMT训练后的模型中第二个卷积层的Lipschitz bound，右图：不同pooling 层的Lipschitz bound。比较前两个子图，可以发现，经过LMT训练的模型每个component都有改进，这导致整个网络的Lipschitz常数的上界存在显着差异（具有更紧的bound）。
 
 ### * analysis of tightness
@@ -59,7 +59,7 @@ $$
 \underbrace{\frac{\text { Margin }}{L}}_{\text {(A) }} \leq \frac{\text { Margin }}{\text { (i) }} \underbrace{L_{\text {global }}}_{\text {(B) }} \leq \underbrace{\frac{\text { Margin }}{L_{\text {local }}}}_{\text {(C) }} \leq \underbrace{\text { Smallest Adversarial Perturbation }}_{\text {(D) }}
 $$
 令L为通过该论文计算的Lipschitz常数的上界。$L_{local}$，$L_{global}$为局部和全局Lipschitz常数。则根据Lipschitz约束条件，可以很容易得到上式。
-![](https://gitee.com/coronapolvo/images/raw/master/20220124194300.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220124194300.png)
 该图显示了结果。对于没有正则化的模型，(i)-(iii)中的估计错误率分别为39.9、1.13和1.82。这表明，即使我们可以用可能相当大的计算成本为每个数据点精确计算局部Lipschitz常数，不等式（iii）也会比DeepFool发现的对抗性扰动的大小松散1.8倍以上。
 
 ### Enlarge guarded area
@@ -70,7 +70,7 @@ $$
 作者还进行了其他实验，以提供对该网络的进一步认证。首先，将卷积替换为内核大小1，将步幅2替换为大小为2的平均池，并将卷积替换为内核大小1。然后，使用c=0.1c=0.1的LMT。结果，尽管准确性下降到86％，但可证明的鲁棒区域的中值大于0.08。这对应于在通常的图像比例（0–255）中将400个输入元素更改为±1不会导致训练网络的误差超过50％。这些认证的效果是非常显著的，据所知，这是为此大型网络提供的最佳认证。
 
 ### 抵御攻击性能
-![](https://gitee.com/coronapolvo/images/raw/master/20220124194625.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220124194625.png)
 
 ## 结论
 为了以有效的计算过程确保广泛网络的扰动不变性，作者实现了以下目标。

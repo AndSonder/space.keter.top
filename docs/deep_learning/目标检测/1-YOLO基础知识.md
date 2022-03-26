@@ -33,7 +33,7 @@ YOLOv3 仅使用卷积层，使其成为一个完全卷积网络(FCN)。它有75
 
 让我们考虑下面的一个例子，其中输入的图像是416 x 416，网络的stride是32。如前所述，feature map的尺寸将会变为13 x 13。接着我们将输入图像分成13 × 13个单元。
 
-![yolo-5](https://gitee.com/coronapolvo/images/raw/master/20210818171434yolo-5.png)
+![yolo-5](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210818171434yolo-5.png)
 
 在图像中，黄色的框是ground truth box（标注框），其中标注框的中心点所在的网格被标记为了红色。`该网格预测出来的box将会被作为预测候补`
 
@@ -68,7 +68,7 @@ $b_x$，$b_y$，$b_w$，$b_h$ 是我们预测的 x，y 中心坐标，宽度和�
 
 请注意，我们正在通过一个sigmoid函数来得到我们的中心坐标的预测值。这将强制输出的值在0到1之间。为什么会这样呢？
 
-通常，YOLO 不会预测边界框的中心的绝对坐标，它预测的偏移量是（这两句话不知道怎么翻译了...）: ![image-20210818173515545](https://gitee.com/coronapolvo/images/raw/master/20210818173516image-20210818173515545.png)
+通常，YOLO 不会预测边界框的中心的绝对坐标，它预测的偏移量是（这两句话不知道怎么翻译了...）: ![image-20210818173515545](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210818173516image-20210818173515545.png)
 
 例如，现在我们要预测一个狗狗。如果中心的预测值是(0.4,0.7) ，那么这意味着中心的坐标为(6.4,6.7) 。(因为红色网格的左上方坐标是(6,6))。
 
@@ -80,7 +80,7 @@ $b_x$，$b_y$，$b_w$，$b_h$ 是我们预测的 x，y 中心坐标，宽度和�
 
 边界框尺寸的预测尺寸是通过将anchor乘以一个对数转换空间来得到的。
 
-![img](https://gitee.com/coronapolvo/images/raw/master/20210818174103yolo-regression-1.png)
+![img](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210818174103yolo-regression-1.png)
 
 产生的预测，$b_w$ 和 $b_h$，是根据图像的高度和宽度进行了归一化之后的结果。(训练标签也是这样的)。因此，如果包含狗的盒子的预测 bx 和 by 为(0.3,0.8) ，那么13x13特征映射的实际宽度和高度为(13x0.3,13x0.8)。
 
@@ -108,7 +108,7 @@ YOLOv3可以在3个不同的尺度（scale）上进行预测。所述检测层�
 
 在每个scale，每个单元格都会预测3个边界盒使用3个锚，使总数锚使用9。(不同scale的锚是不同的)
 
-![img](https://gitee.com/coronapolvo/images/raw/master/20210818175500yolo_Scales-1.png)
+![img](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210818175500yolo_Scales-1.png)
 
 在作者的报告说，这有助于 YOLOv3更好地检测小对象，这是早期版本 YOLO 经常抱怨的问题。上采样可以帮助网络学习细粒度的特征，这些特征将有助于检测小物体。
 
@@ -124,7 +124,7 @@ YOLOv3可以在3个不同的尺度（scale）上进行预测。所述检测层�
 
 NMS 的目的是解决同一图像的多重检测问题。例如，红色网格单元格的所有3个边框都可能检测到一个框，或者相邻的单元格可能检测到同一个对象。
 
-![img](https://gitee.com/coronapolvo/images/raw/master/20210818175821NMS-1.png)
+![img](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210818175821NMS-1.png)
 
 ---
 
