@@ -8,7 +8,7 @@
 
 ### 连接：
 
-<img src="https://gitee.com/coronapolvo/images/raw/master/20210411154757image-20210411154521617.png" alt="image-20210411154521617" style={{zoom: "50%"}} />
+<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210411154757image-20210411154521617.png" alt="image-20210411154521617" style={{zoom: "50%"}} />
 
 #### 笛卡尔积：
 
@@ -64,13 +64,13 @@ sql> select * from S,R;
 
 $\theta$ 为“＝” 的连接运算称为等值连接。它是从关系R与S的笛卡尔积中选取A、B属性值相等的那些元组。即等值连接为：
 
-<img src="https://gitee.com/coronapolvo/images/raw/master/20210412142812image-20210411160451967.png" alt="image-20210411160451967" style={{zoom: "50%"}} />
+<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210412142812image-20210411160451967.png" alt="image-20210411160451967" style={{zoom: "50%"}} />
 
 #### 自然连接
 
 自然连接（Natural join）是一种特殊的等值连接，它要求两个关系中进行比较的分量必须是相同的属性组，并且要在结果中把重复的属性去掉。即若R和S具有相同的属性组B，则自然连接可记作：
 
-<img src="https://gitee.com/coronapolvo/images/raw/master/20210411160114image-20210411160105845.png" alt="image-20210411160105845" style={{zoom: "50%"}} />
+<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210411160114image-20210411160105845.png" alt="image-20210411160105845" style={{zoom: "50%"}} />
 
 #### 外连接
 
@@ -492,7 +492,7 @@ ALTER TABLE Student
 
 就是将所有的可以推导出来的函数依赖关系全部给加进去，需要注意的就是**有一个和空集的关系**
 
-![image-20210429141428712](https://gitee.com/coronapolvo/images/raw/master/20210429141430image-20210429141428712.png)
+![image-20210429141428712](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210429141430image-20210429141428712.png)
 
 剩下的就是对各个元素闭包的排列组合；比如上面的例题中 (A)$_+$ = ABC, 所以他就对应了如图的ABC的所有排列组合情况再加一个对空集对关系。
 
@@ -502,7 +502,7 @@ ALTER TABLE Student
 
 这样一个集合，他可以推出所有的属性，但是他的任意一个真子集无法退出所有的属性。
 
-.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423171253image-20210423171236681.png" alt="image-20210423171236681" style={{zoom: "50%"}} />
+.<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210423171253image-20210423171236681.png" alt="image-20210423171236681" style={{zoom: "50%"}} />
 
 #### 如何求候选码？
 
@@ -513,7 +513,7 @@ ALTER TABLE Student
 
 在确定了可能出现的元素之后就可以使用闭包运算进行测试：如果组合可以推出所有的属性话就说明是候选码。
 
-,<img src="https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423173637055.png" alt="image-20210423173637055" style={{zoom: "50%"}} />
+,<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210423174540image-20210423173637055.png" alt="image-20210423173637055" style={{zoom: "50%"}} />
 
 `如果三个一组推不出来的话，就再加变成4个一组`
 
@@ -624,18 +624,18 @@ ALTER TABLE Student
 
 >  引入：要解决以上问题，其实很简单就是学生姓名和课程名字应该说唯一的，那么只要增加一个复合主键即可。
 
-![image-20210414103302534](https://gitee.com/coronapolvo/images/raw/master/20210414103304image-20210414103302534.png)
+![image-20210414103302534](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210414103304image-20210414103302534.png)
 
 定义： 第二范式（2NF），在数据表的设计过程中如果有复合主键（多字段主键），且表中有字段且并不是由整个主键来确定，而是依赖主键中的某个字段（主键的部分）：存在字段依赖主键的部分的问题，称之为部分依赖：第二范式就是要**解决表设计中非主属性对主属性的部分依赖。**
 
 1. 以上表中性别有学生决定，而不受到课程影响；同时教室由课程决定，而不受到学生影响。此时形成了字段部分依赖部分主键的情况，因此会存在部分依赖问题，也就不满足第二范式。
 2. 解决方案：就是让字段不会存储依赖部分主键的问题，因此需要做的就是增加一个逻辑主键字段：性别依赖学生但学生不是主键，教室依赖课程也不是主键。
 
-![image-20210414104639594](https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414104639594.png)
+![image-20210414104639594](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210414112817image-20210414104639594.png)
 
 3. 以上虽然解决了依赖问题，但是学生和课程又不具有唯一性了，所以应该增加符合唯一键：unique(学生，课程)
 
-![image-20210414104813163](https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414104813163.png)
+![image-20210414104813163](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210414112817image-20210414104813163.png)
 
 总结：
 
@@ -655,16 +655,16 @@ ALTER TABLE Student
 
 学生表：
 
-![image-20210414111729166](https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414111729166.png)
+![image-20210414111729166](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210414112817image-20210414111729166.png)
 
 课程表：
 
-![image-20210414112230099](https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414112230099.png)
+![image-20210414112230099](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210414112817image-20210414112230099.png)
 
 2. 此时，虽然性别依然依赖姓名而不是Stu_id, 教室依赖课程而不是Class_id, 那是因为Stu_id和Class_id代表逻辑主键，而不是实际的业务主键，学生表的实际主键应该是姓名，课程表的实际主键应该是课程
 3. 新学生选修课成绩表的设计，应该就是去的对应学生表和课程表的ID
 
-![image-20210414112526031](https://gitee.com/coronapolvo/images/raw/master/20210414112817image-20210414112526031.png)
+![image-20210414112526031](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210414112817image-20210414112526031.png)
 
  
 
@@ -715,7 +715,7 @@ $(D^+)=D$, B不在里面所以B没有冗余
 
 R1 = BED, R2 = CDG, R3 = ABG
 
-.<img src="https://gitee.com/coronapolvo/images/raw/master/20210424215608image-20210424214705698.png" alt="image-20210424214705698" style={{zoom: "67%"}} />
+.<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210424215608image-20210424214705698.png" alt="image-20210424214705698" style={{zoom: "67%"}} />
 
 因为AG已经在R3中了所以得到的分解是无损分解
 
@@ -733,17 +733,17 @@ R1 = BED, R2 = CDG, R3 = ABG
 
 设U为属性集总体，F是U上的一组函数依赖，于是又关系模式R<U,F>，对于R<U,F>来说有以下的推理规则
 
-![image-20210423174437414](https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174437414.png)
+![image-20210423174437414](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210423174540image-20210423174437414.png)
 
 由上面的三个公理我们可以得到：
 
-![image-20210423174513774](https://gitee.com/coronapolvo/images/raw/master/20210423174540image-20210423174513774.png)
+![image-20210423174513774](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210423174540image-20210423174513774.png)
 
 ## 最小函数依赖集
 
 F中的每一个依赖，都不可以被其他的依赖推出，且右边一定是单元素
 
-![image-20210423174818397](https://gitee.com/coronapolvo/images/raw/master/20210423174824image-20210423174818397.png)
+![image-20210423174818397](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210423174824image-20210423174818397.png)
 
 **如何求最小依赖集？**
 
@@ -751,7 +751,7 @@ Step1： 把右边的元素拆分成单个的
 
 Step2： 对所有的依赖意义排查，找出多余的
 
-.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423175213image-20210423175205001.png" alt="image-20210423175205001" style={{zoom: "50%"}} />
+.<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210423175213image-20210423175205001.png" alt="image-20210423175205001" style={{zoom: "50%"}} />
 
 排查A->B： 把A->B去掉,那么F=(B->A, B->C,A->C, C->A) 且(A)_+ = AC,不包含B,所以排除嫌疑,保留 
 
@@ -767,7 +767,7 @@ Step2： 对所有的依赖意义排查，找出多余的
 
 分解之后可以自然连接结合起来
 
-.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423190506image-20210423180119935.png" alt="image-20210423180119935" style={{zoom: "60%"}} />
+.<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210423190506image-20210423180119935.png" alt="image-20210423180119935" style={{zoom: "60%"}} />
 
 ### 保持函数依赖
 
@@ -783,7 +783,7 @@ Step3：把每个依赖左边相同的分成一类
 
 Step4：如果候选码没有出现在分类中，把任意一个候选码作为一类
 
-.<img src="https://gitee.com/coronapolvo/images/raw/master/20210423190715image-20210423180657643.png" alt="image-20210423180657643" style={{zoom: "50%"}} />
+.<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210423190715image-20210423180657643.png" alt="image-20210423180657643" style={{zoom: "50%"}} />
 
 
 
@@ -816,7 +816,7 @@ Step4：如果候选码没有出现在分类中，把任意一个候选码作为
 
 ### ER图转关系模式
 
-**![image-20210429152538934](https://gitee.com/coronapolvo/images/raw/master/20210429152543image-20210429152538934.png)**
+**![image-20210429152538934](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210429152543image-20210429152538934.png)**
 
 去看： https://blog.csdn.net/Flora_SM/article/details/84645752 这里讲的非常好！
 

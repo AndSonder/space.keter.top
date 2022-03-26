@@ -5,7 +5,7 @@
 :::
 
 ## DP方法论
-![](https://gitee.com/coronapolvo/images/raw/master/20220204103614.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220204103614.png)
 
 `DP问题的优化`
 
@@ -122,7 +122,7 @@ int main()
 我们可以看到现在的朴素算法需要使用三重for循环，速度很慢，我们可以再进行一波优化。
 先来观察现在的公式：
 
-`f[i][j] = max(f[i-1][j],f[i-1][j-v]+w,f[i-1][j-2v]+2w,f[i-1][j-3v]+3w)`
+`f[i][j] = max(f[i-1][j],f[i-1][j-v]+w,f[i-1][j-2v]+2w,f[i-1][j-3v]+3w,...)`
 
 接下来我们来对比一下`f[i][j-v]`：
 
@@ -135,7 +135,7 @@ int main()
 同样的我们也可以用滚动数组来进行优化：
 `f[j] = max(f[j],f[j-v]+w)`
 
-而且这里还没有01背包的问题，j是从小到大枚举的，j-v一定是小于j的所以都是计算过的没有什么大问题。
+而且这里还没有01背包的问题，j是从小到大枚举的，j-v一定是小于j的所以都是计算过程没有什么大问题。
 
 ```c++
 #include <iostream>
@@ -313,7 +313,7 @@ int main()
 状态表示：集合就是所有以i个数结尾的上升子序列，属性是集合里面每一个上升子序列长度的最大值。
 
 接下来考虑一下要如何进行进行状态计算，首先我们先想一下如何进行集合划分，对于第i个数，那么将会有i-1个情况。如下图所示：
-![](https://gitee.com/coronapolvo/images/raw/master/20220206141442.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220206141442.png)
 你的的上一个数值可能来自于0-i-1中的任何一个，那么就需要在0-i-1中去找到一个最大值。因此状态转移方程可以表示如下：
 $$
 f[i] = max(f[j]+1) \ j =0,1,...,j-1
@@ -357,7 +357,7 @@ int main()
 
 接下来考虑一下如何进行状态计算。
 首先如何对状态进行划分，这套题将集合划分为两个集合会更加的方便理解。
-![](https://gitee.com/coronapolvo/images/raw/master/20220206150524.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220206150524.png)
 对于`a[i] == b[j]`的情况，`f[i][j] = f[i-1][j-1] + 1`
 
 对于`a[i] != b[j]`的情况, `f[i][j] = max(f[i-1][j],f[i][j-1])` 对于第二种情况`f[i-1][j]` 表示不选a[i]选b[j]的情况，`f[i][j-1]` 表示选a[i]不选b[j]的情况。a[i]和b[i]都不选的情况囊括在了这两种情况当中，状态转移方程见代码。
@@ -440,7 +440,7 @@ int main()
 :::tip
 求把N * M 的期盼分割成若干个1 * 2的长方形，有多少种方案？
 
-![](https://gitee.com/coronapolvo/images/raw/master/20220210150931.png)
+![](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20220210150931.png)
 ps：状态压缩的经典应用
 :::
 

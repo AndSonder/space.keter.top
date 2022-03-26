@@ -71,7 +71,7 @@ Similarity (dot product) between First and Third = -0.97
 
 例如，如果我们在一组电影评论中使用了50000个单词的词汇量，我们就可以使用一个Embedding神经网络来学习每个单词的100维Embedding，这个神经网络训练用来预测评论的感伤性(有关此应用程序的详细信息，请参阅此[Google Colab](https://colab.research.google.com/notebooks/mlcc/intro_to_sparse_data_and_embeddings.ipynb?utm_source=mlcc&utm_campaign=colab-external&utm_medium=referral&utm_content=embeddings-colab&hl=en)笔记本）。词汇表中与正面评论相关的词语，如“辉煌”或“优秀”，将在Embedding空间中更接近，因为网络已经了解到这两者都与正面评论相关。
 
-<img src="https://gitee.com/coronapolvo/images/raw/master/20210718103755image-20210718103717614.png" alt="image-20210718103717614" style={{ zoom:"53%"}} />
+<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210718103755image-20210718103717614.png" alt="image-20210718103717614" style={{ zoom:"53%"}} />
 
 在上面给出的图书示例中，我们的监督任务可以是“识别一本书是否是托尔斯泰写的”，由此产生的Embedding将使托尔斯泰写的书彼此更接近。弄清楚如何创建有监督的任务来产生相关的表示是制作Embedding最困难的部分。
 
@@ -116,7 +116,7 @@ model.compile(optimizer = 'Adam', loss = 'binary_crossentropy', metrics = ['accu
 
 Embedding本身并不那么有趣：它们只是数字的向量：
 
-![image-20210718104223694](https://gitee.com/coronapolvo/images/raw/master/20210718104225image-20210718104223694.png)
+![image-20210718104223694](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210718104225image-20210718104223694.png)
 
 但是，Embedding可以用于前面列出的3个目的，对于这个项目，我们主要感兴趣的是推荐基于最近邻的书籍。为了计算相似度，我们取一本查询书，找出它的向量和其他所有书的向量之间的点积(如果我们的Embedding是标准化的，这个点积就是向量之间的余弦距离，范围从-1，最不相似，到+1，最相似。我们也可以用欧几里德距离来衡量相似性）。
 
@@ -133,7 +133,7 @@ Book: Dead Souls                 Similarity: 0.75
 
 （向量与自身之间的余弦相似性必须为1.0）。经过一些降维（见下文），我们可以制作如下图：
 
-![image-20210718104742855](https://gitee.com/coronapolvo/images/raw/master/20210718104748image-20210718104742855.png)
+![image-20210718104742855](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210718104748image-20210718104742855.png)
 
 我们可以清楚地看到学习Embedding的价值！我们现在在维基百科上的每一本书都有50个数字表示，类似的书彼此之间更接近。
 
@@ -143,13 +143,13 @@ Book: Dead Souls                 Similarity: 0.75
 
 我们可以将维基百科上所有书籍的原始37000维，使用神经网络Embedding将它们映射到50维，然后使用TSNE将它们映射到2维。结果如下：
 
-![image-20210718104938054](https://gitee.com/coronapolvo/images/raw/master/20210718104940image-20210718104938054.png)
+![image-20210718104938054](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210718104940image-20210718104938054.png)
 
 （TSNE是一种流形学习技术，它试图将高维数据映射到低维流形，创建一个嵌入，试图保持数据中的局部结构。它几乎只用于可视化，因为输出是随机的，不支持转换新数据。一个新兴的替代方案是统一流形近似和投影，UMAP，它速度更快，并且支持将新数据转换到嵌入空间。
 
 这本身并不是很有用，但一旦我们开始根据不同的书籍特点给它上色，它就会很有见地。
 
-![image-20210718105146989](https://gitee.com/coronapolvo/images/raw/master/20210718105148image-20210718105146989.png)
+![image-20210718105146989](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210718105148image-20210718105146989.png)
 
 我们可以清楚地看到属于同一类型的书的分组。这并不完美，但令人印象深刻的是，我们可以用2个数字来表示维基百科上的所有书籍，这些数字仍然捕捉到了不同流派之间的差异。
 
@@ -159,7 +159,7 @@ Book: Dead Souls                 Similarity: 0.75
 
 静态图的问题是，我们不能真正地研究数据和研究变量之间的分组或关系。为了解决这个问题，TensorFlow开发了projector，这是一个在线应用程序，可以让我们可视化并与嵌入进行交互。目前的结果如下：
 
-![image-20210718105626141](https://gitee.com/coronapolvo/images/raw/master/20210718105627image-20210718105626141.png)
+![image-20210718105626141](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210718105627image-20210718105626141.png)
 
 ## 总结
 
