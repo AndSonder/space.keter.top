@@ -4,5 +4,6 @@
   "useMarkdownLinks": true,
   "promptDelete": true,
   "alwaysUpdateLinks": true,
-  "newLinkFormat": "relative"
+  "newLinkFormat": "relative",
+  "vimMode": true
 }
