@@ -1,6 +1,8 @@
 {
-  "attachmentFolderPath": "algorithm/image",
+  "attachmentFolderPath": "./images",
   "legacyEditor": false,
-  "useMarkdownLinks": false,
-  "promptDelete": false
+  "useMarkdownLinks": true,
+  "promptDelete": true,
+  "alwaysUpdateLinks": true,
+  "newLinkFormat": "relative"
 }
