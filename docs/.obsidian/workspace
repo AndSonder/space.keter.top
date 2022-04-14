@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "b1046bb1920a79ad",
+        "id": "c2fba758914ed24e",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "others/English/3-口语学习资料.md",
+            "file": "deep_learning/基础知识/2-图像分类-KNN与线性分类器.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "others/English/3-口语学习资料.md",
+                "file": "deep_learning/基础知识/2-图像分类-KNN与线性分类器.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "others/English/3-口语学习资料.md"
+                "file": "deep_learning/基础知识/2-图像分类-KNN与线性分类器.md"
               }
             }
           },
@@ -127,19 +127,20 @@
       }
     ],
     "direction": "horizontal",
-    "width": 219
+    "width": 219,
+    "collapsed": true
   },
-  "active": "b1046bb1920a79ad",
+  "active": "c2fba758914ed24e",
   "lastOpenFiles": [
-    "others/English/3-口语学习资料.md",
-    "deep_learning/基础知识/12-深度学习常见问题.md",
-    "algorithm/1-基础算法.md",
-    "algorithm/11-二分查找与二分搜索.md",
-    "deep_learning/目标检测/6-YOLO系列.md",
     "deep_learning/基础知识/2-图像分类-KNN与线性分类器.md",
-    "deep_learning/图像分割/1-FCN.md",
-    "deep_learning/基础知识/5-卷积神经网络.md",
-    "deep_learning/图像分割/2-Deeplab系列.md",
-    "deep_learning/基础知识/6-对于正则化的理解.md"
+    "algorithm/5-DP.md",
+    "algorithm/4-数论.md",
+    "algorithm/99-闫氏DP分析法.md",
+    "react/5-diff.md",
+    "react/3-refs.md",
+    "react/1-bindevent.md",
+    "react/1-state.md",
+    "react/4-lifecycle.md",
+    "react/0-hooks.md"
   ]
 }
