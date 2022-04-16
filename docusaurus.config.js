@@ -9,7 +9,7 @@ const katex = require('rehype-katex');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Notebook',
-  tagline: '一本可以用来垫桌角的笔记本',
+  tagline: '这里是Sonder的宝藏笔记本',
   url: 'https://space.keter.top',
   baseUrl: '/',
   onBrokenLinks: 'throw',
