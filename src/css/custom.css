@@ -152,3 +152,12 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
     min-height: 600px;
   }
 }
+
+html, body {
+  font-family: "Times New Roman", "思源黑体 CN" !important;
+  font-size: 17px !important;
+}
+
+main {
+  font-size: 18.5px !important;
+}
