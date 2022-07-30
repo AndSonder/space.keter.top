@@ -1,5 +1,9 @@
 # DRAEM: Surface Anomaly Detection Network
 
+:::note
+DRÆM – A discriminatively trained reconstruction embedding for surface anomaly detection
+:::
+
 ## BackGround
 
 Visual surface anomaly detection aims to detect local image regions that significantly deviate from normal appearance.
