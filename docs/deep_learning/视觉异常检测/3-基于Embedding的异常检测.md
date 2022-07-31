@@ -18,9 +18,13 @@
 :::note
 SPADE本身不是CVPR的工作，很早就挂在arxiv，但之后一直没有正式发表，最后与其他的创新点结合后在CVPR上发表:
 论文：PANDA: Adapting Pretrained Features for Anomaly Detection and Segmentation (以色列,耶路撒冷希伯来大学)
+
 但这篇文章其实跟SPADE方法本身关系不大了，要了解SPADE方法本身的话，最好参考下面这篇文章：
+
 论文：Sub-Image Anomaly Detection with Deep Pyramid Correspondences
+
 原文地址：https://arxiv.org/abs/2005.02357
+
 代码地址：https://github.com/byungjae89/SPADE-pytorch?utm_source=catalyzex.com
 :::
 
@@ -48,7 +52,9 @@ $$
 
 :::note
 论文：PaDiM: a Patch Distribution Modeling Framework for Anomaly Detection and Localization
+
 论文地址：https://arxiv.org/pdf/2011.08785.pdf
+
 代码地址：https://github.com/xiahaifeng1995/PaDiM-Anomaly-Detection-Localization-master
 :::
 
@@ -72,7 +78,9 @@ $$
 
 :::note
 论文：Towards Total Recall in Industrial Anomaly Detection (图宾根大学，亚马逊)
+
 论文地址：https://arxiv.org/pdf/2106.08265v1.pdf
+
 代码地址：https://github.com/hcw-00/PatchCore_anomaly_detection
 :::
 
@@ -105,6 +113,7 @@ PatchCore在测试仍然采用`KNN`来衡量异常得分，为了提升检测效
 
 :::note
 论文：Focus Your Distribution: Coarse-to-Fine Non-Contrastive Learning for Anomaly Detection and Localization (商汤)
+
 论文地址：https://arxiv.org/pdf/2110.04538.pdf
 :::
 
@@ -173,6 +182,7 @@ $$
 
 :::note
 论文：Multiresolution Knowledge Distillation for Anomaly Detection（谢里夫科技大学）
+
 原文地址：https://openaccess.thecvf.com/content/CVPR2021/papers/Salehi_Multiresolution_Knowledge_Distillation_for_Anomaly_Detection_CVPR_2021_paper.pdf
 :::
 
