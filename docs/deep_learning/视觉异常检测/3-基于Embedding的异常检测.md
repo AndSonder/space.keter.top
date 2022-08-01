@@ -147,8 +147,11 @@ $$
 
 ### Uninformed Students（CVPR20）
 
+:::note
 论文：Uninformed Students: Student–Teacher Anomaly Detection with Discriminative Latent Embeddings（MVTec Software GmbH - MVTec AD数据集作者团队）
+
 论文地址：https://openaccess.thecvf.com/content_CVPR_2020/papers/Bergmann_Uninformed_Students_Student-Teacher_Anomaly_Detection_With_Discriminative_Latent_Embeddings_CVPR_2020_paper.pdf
+:::
 
 主要的思想如上图所示，利用一个`Teacher`网络指导多个`Student`网络进行学习，在测试时，通过比较T网络与S网络之间输出的差异来判断是否异常。【注意：本文的T和S采用相同的网络结构】
 
