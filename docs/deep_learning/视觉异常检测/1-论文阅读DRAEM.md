@@ -53,7 +53,7 @@ DRAEM does **not require simulations to realistically reflect the real anomaly a
 
 ## Conclusion
 
-提出了一种判别训练的重构异常嵌入模型。该网络能够定位异常噪声，并从噪声图像中重建无异常图像。但是使用两个较为大型的网络，检测的速度肯定会非常的慢（一个encoder-decoder和一个U-net结构的网络），但是该篇提出的用神经网络去学习决策边界的方法确实有一定的借鉴意义
+提出了一种判别训练的重构异常嵌入模型。该网络能够定位异常噪声，并从噪声图像中重建无异常图像。但是使用两个较为大型的网络，检测的速度肯定会非常的慢（一个encoder-decoder和一个U-net结构的网络），但是该篇提出的用神经网络去学习决策边界的方法确实有一定的借鉴意义。
 
 ![图 3](images/7c81cc64984f18d04f1e7d35b496abff9cb38226a16b5079702edf33c2f123f8.png)  
 
