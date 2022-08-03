@@ -161,3 +161,9 @@ html, body {
 main {
   font-size: 18.5px !important;
 }
+
+img {
+  clear: both !important;
+  display: block !important;
+  margin: auto !important;
+}
