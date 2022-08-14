@@ -4,7 +4,6 @@
 
 Generator是一个网络，这个网络定义了一个概率分布 $p_G$。 给生成器一个输入（比如一个正态分布的输入$z$），生成器就会生成一个概率分布 $p_G(x),x=G(x)$。我们希望让生成的概率分布$p_G(x)$和数据的分布$p_{data}(x)$尽可能的相似。
 
-![图 5](images/c4f1b782c30ccefaee53b218fbe92bfa1d73bbfcf0d4fcde24e34d9e7f91925b.png)  
 
 
 假设现在我们有很多的样本 $\left\{x^{1}, x^{2}, \ldots, x^{m}\right\}$ from $P_{\text {data }}(x)$ ，那么Generator的优化目标就是：
@@ -125,7 +124,7 @@ $$
 带入到Generator的优化目标中可得：
 
 $$
-\log _{6}\left(x^{i}\right)=\log \pi\left(G^{-1}\left(x^{i}\right)\right)+\log \mid \operatorname{det}(J_{G^{-1}})|
+\log \left(x^{i}\right)=\log \pi\left(G^{-1}\left(x^{i}\right)\right)+\log \mid \operatorname{det}(J_{G^{-1}})|
 $$
 
 一切看起来很美好，但是计算上面的式子也是需要一定的条件的：

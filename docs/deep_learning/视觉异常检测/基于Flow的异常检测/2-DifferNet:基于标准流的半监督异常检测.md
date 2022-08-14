@@ -42,5 +42,49 @@ $$
 
 ### 训练
 
-训练的主要目的是让$f_{NF}$能够学习到参数，让$$
+训练的主要目的是让$f_{NF}$能够学习到参数，参照change of variables的公式，以及在介绍 flow-based 生成器的文章中可以比较自然的得出 DifferNet 的损失函数如下所示：
+
+$$
+\begin{array}{r}
+\log p_{Y}(y)=\log p_{Z}(z)+\log \left|\operatorname{det} \frac{\partial z}{\partial y}\right| \\
+\mathcal{L}(y)=\frac{\|z\|_{2}^{2}}{2}-\log \left|\operatorname{det} \frac{\partial z}{\partial y}\right|
+\end{array}
+$$
+
+如果单看 $\mathcal{L}(y)$ 的话，我们可能会认为这个损失函数会让 $z$ 无限趋近于0。 但是因为后面还有一个 Jacobian 矩阵，如果 $||z||$ 趋近于0，那么 Jacobian 矩阵的行列式就会趋近于无穷。所以不需要担心这个损失函数会让模型输出的全为0。 但是 $||z||$ 的大小还是会被压制。
+
+### 打分函数
+
+异常检测中很重要的一件事情就是要得到该图像的异常得分。 DifferNet 的打分函数也是比较简单粗暴，就是对网络的输出取一个-log（其实是一个似然估计），然后取里面的平均值作为异常得分。如果异常得分大于某个阈值就认定为异常图像，如果小于某个阈值就认为是一个正常图像。打分函数的定义如下：
+
+$$
+\tau(x)=\mathbb{E}_{T_{i} \in \mathcal{T}}\left[-\log p_{Z}\left(f_{\mathrm{NF}}\left(f_{\mathrm{ex}}\left(T_{i}(x)\right)\right)\right)\right]
+$$
+
+![图 17](images/709c18e67ae8ddd95af918b113720c95be6b22c9510f415ae0a387b2478f2782.png)  
+
+
+### 定位
+
+DifferNet 并没有针对图像的位置信息进行优化，但是却可以对异常的区域进行定位。 主要的思路就是将Loss反向传播后的在图像上的梯度作为 Anomaly map。其主要代码如下：
+
+```python 
+emb = model(inputs)
+loss = get_loss(emb, model.nf.jacobian(run_forward=False))
+loss.backward()
+
+grad = inputs.grad.view(-1, c.n_transforms_test, *inputs.shape[-3:])
+grad = grad[labels > 0]
+```
+
+## 总结
+
+这篇论文中提出了DifferNet这个异常检测的框架，主要的思路是用 Normalizing flow 的方法来进行多尺度特征密度估计。 使用损失函数的似然估计作为异常得分，使用图像的梯度作为Anomaly map。这篇应该算是第一篇把 Normalizing flow 用在异常检测领域的文章。但是使用AlexNet作为特征提取器明显会让图像损失掉多尺度的信息，如果能保留多尺度的信息那么效果应该会更好，下一篇Cflow就对这个缺点进行了优化。
+
+
+
+
+
+
+
 
