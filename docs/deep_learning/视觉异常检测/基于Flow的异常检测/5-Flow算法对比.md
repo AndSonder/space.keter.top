@@ -13,86 +13,52 @@
 ![图 1](images/4aaaaa96419a32e7216baa9314cc93afa4d62a8c34e653a7ffb21310a9ded9e3.png)  
 
 
-## 代码实现
+## 实现细节
 
-首先从代码上来看看这几个Flow模型的差别：
+这三篇论文的实验部分都很充分，下面总结一下能从实验部分读出的点
 
-###  Normalize Block 
+### FastFlow
 
-#### 1、Fast flow
+1、对于 vit 和 ResNet18 的 Backbone，只使用3x3卷积不使用1x1卷积效果更好，对于WideResnet50，使用3x3卷积搭配1x1卷积效果会更好
 
-```python 
-def create_fast_flow_block(
-        input_dimensions: List[int],
-        conv3x3_only: bool,
-        hidden_ratio: float,
-        flow_steps: int,
-        clamp: float = 2.0,
-) -> SequenceINN:
-    """Create NF Fast Flow Block.
+2、之前有一个疑问，就是Normalizing Flow生成的是一个单高斯分布的模型还是一个多高斯分布的模型，通过下图可以了解到生成的多高斯分布的模型
 
-    This is to create Normalizing Flow (NF) Fast Flow model block based on
-    Figure 2 and Section 3.3 in the paper.
+![图 1](images/e50d46f9b1a96d1b8aff00b5ce9b69fd0d73634382d00a4a9d4c4ed1513c6517.png)  
 
-    Args:
-        input_dimensions (List[int]): Input dimensions (Channel, Height, Width)
-        conv3x3_only (bool): Boolean whether to use conv3x3 only or conv3x3 and conv1x1.
-        hidden_ratio (float): Ratio for the hidden layer channels.
-        flow_steps (int): Flow steps.
-        clamp (float, optional): Clamp. Defaults to 2.0.
+3、WideResNet 中卷积层之间中间层的大小会影响准确度
 
-    Returns:
-        SequenceINN: FastFlow Block.
-    """
-    nodes = SequenceINN(*input_dimensions)
-    for i in range(flow_steps):
-        if i % 2 == 1 and not conv3x3_only:
-            kernel_size = 1
-        else:
-            kernel_size = 3
-        nodes.append(
-            AllInOneBlock,
-            subnet_constructor=subnet_conv_func(kernel_size, hidden_ratio),
-            affine_clamping=clamp,
-            permute_soft=False,
-        )
-    return nodes
-```
+![图 2](images/1e1b6635c552014d6684ee7990a3cc3eadb86aab36251516abb7dab86c422ca0.png)  
 
-#### 2、CFlow
+4、数据增强可以让Image-level AUC有一定提升
 
-```python 
-def cflow_head(
-    condition_vector: int, coupling_blocks: int, clamp_alpha: float, n_features: int, permute_soft: bool = False
-) -> SequenceINN:
-    """Create invertible decoder network.
+5、MVTec 的数据大多数的是对齐的，对于其他模型把图片上下左右平移可能会影响模型的精度
 
-    Args:
-        condition_vector (int): length of the condition vector
-        coupling_blocks (int): number of coupling blocks to build the decoder
-        clamp_alpha (float): clamping value to avoid exploding values
-        n_features (int): number of decoder features
-        permute_soft (bool): Whether to sample the permutation matrix :math:`R` from :math:`SO(N)`,
-            or to use hard permutations instead. Note, ``permute_soft=True`` is very slow
-            when working with >512 dimensions.
+6、FastFlow 经常对于背景有误识别
 
-    Returns:
-        SequenceINN: decoder network block
-    """
-    coder = SequenceINN(n_features)
-    logger.info("CNF coder: %d", n_features)
-    for _ in range(coupling_blocks):
-        coder.append(
-            AllInOneBlock,
-            cond=0,
-            cond_shape=(condition_vector,),
-            subnet_constructor=subnet_fc,
-            affine_clamping=clamp_alpha,
-            global_affine_type="SOFTPLUS",
-            permute_soft=permute_soft,
-        )
-    return coder
-```
+7、在别人复现的FastFlow的代码里面，使用vit的Backbone其实效果并不是很好，反而要比WideResNet差
 
-#### 3、CS-Flow 
+### CFlow-AD
+
+1、这篇文章发现，MVTec这个数据集每个类别在不同的缩放大小下会得到不同的AUC （所以他们就取每个类别去不同输入大小下最高的）
+
+2、由于使用了多个分支，对不同stage的元素都用NF进行了处理，所以难免它的运行速度会比较慢
+
+3、CFlow-AD 这篇论文发现使用512输入的MobileNetv3作为特征提取模块可以有更好的效果
+
+4、增加Normalizing FLow的Coupling Layer会获得更好的效果
+
+### CS-Flow
+
+1、Coupling Layer的数量达到4之后性能会到达饱和状态
+
+
+## 一些问题与想法
+
+1、大部分的模型自己实际跑的时候跑不到论文里面的精度（用官方的代码）
+
+2、使用Normalizing Flow去做异常检测还没扩展了视频异常检测领域
+
+
+
+
 
