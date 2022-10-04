@@ -154,9 +154,20 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 
 html, body {
-  font-family: Optima-Regular, Optima, PingFangTC-Light,PingFangSC-light, PingFangTC-light !important;
+  font-family: Optima-Regular, Optima, PingFangSC-light, PingFangSC-Light !important;
   font-size: 17px !important;
 }
+
+h2 {
+  font-weight: bold;
+  color: rgb(64, 184, 250);
+}
+
+h3 {
+  color: #40b8fa;
+  font-family: Optima-Regular, Optima, PingFangSC-light, PingFangSC-Light !important;
+}
+
 
 main {
   font-size: 18.5px !important;
@@ -166,4 +177,20 @@ img {
   clear: both !important;
   display: block !important;
   margin: auto !important;
+}
+
+h4 {
+  font-size: 21px !important;
+  font-family: Optima-Regular, Optima, PingFangSC-light, PingFangSC-Light !important;
+  color: #3f4546;
+}
+
+h5{
+  font-size: 18.5px !important;
+  font-family: Optima-Regular, Optima, PingFangSC-light, PingFangSC-Light !important;
+}
+
+.katex
+{
+  font-size: 20px !important;
 }
