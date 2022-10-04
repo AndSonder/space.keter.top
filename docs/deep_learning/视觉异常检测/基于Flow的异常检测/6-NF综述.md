@@ -121,7 +121,7 @@ $$
 ##### 非仿射神经网络变换 (Non-affine neural network transformers)
 
 $$
-\tau\left(\mathrm{z}_i ; \boldsymbol{h}_i\right)=w_{i 0}+\sum_{k=1}^{\mathrm{I}} w_{i k} \sigma\left(\alpha_{i k} \mathrm{z}_i+\beta_{i k}\right) \quad$ where $\quad \boldsymbol{h}_i=\left\{w_{i 0}, \ldots, w_{i K}, \alpha_{i k}, \beta_{i k}\right\}
+\tau\left(\mathrm{z}_i ; \boldsymbol{h}_i\right)=w_{i 0}+\sum_{k=1}^K w_{i k} \sigma\left(\alpha_{i k} \mathrm{z}_i+\beta_{i k}\right) \quad \text { where } \quad \boldsymbol{h}_i=\left\{w_{i 0}, \ldots, w_{i K}, \alpha_{i k}, \beta_{i k}\right\}
 $$
 
 不像上面连续使用 $K$ 次变换, 而是直接使用 $K$ 个单调增函数 $\sigma(\cdot)$ 的雉组合(conic combinations), $\mathrm{h}$ 中的参数皆大于0。其实就是给仿射变换加上一个`激活函数`, 再`线性组合` K种不同参数下的结果。一般使用反向传播优化参数, 缺点是该变换往往不可逆, 或者只能不断迭代求逆。
@@ -204,8 +204,101 @@ Coupling Layer 也是目前最常用的变换函数
 
 :::
 
+### 线性流 Linear Flows
 
+在自回归流中输出 $z_i$ 只依赖于 $z_{<=i}$, 但元素的排列顺序有时是对模型的学习有影响的，一种解决输入输入元素排列组合的方法是线性流，简单来说就是一个矩阵的变换：
 
+$$
+z' = \mathbf{W}\mathbf{z}
+$$
 
+雅克比矩阵就是 $\mathbf{W}$ 本身，我们需要保证 $\mathbf{W}$ 是可逆的，从而易于求逆和求解行列式
 
+### 残差流 Residual Flows
+
+残差流的计算公式如下：
+
+$$
+\mathbf{z}^{\prime}=\mathbf{z}+g_\phi(\mathbf{z})
+$$
+
+$g_\phi$ 是一个输出 D维向量的神经网络, 我们需要对其加以合适的限制, 以让其可逆
+
+#### Contractive residual flows
+
+构建满足 `Lipschitz` 连续条件，且 `Lipschitz` 常数小于1的变换$\mathbf{F}$
+
+#### Residual flows based on the matrix determinant lemma
+
+$A$ 为 $D \times D$ 的可逆矩阵, $V 、 W$ 为 $D \times M$ 的矩阵, $M<D$, 有矩阵行列式引理如下
+
+$$
+\operatorname{det}\left(\mathbf{A}+\mathbf{V} \mathbf{W}^{\top}\right)=\operatorname{det}\left(\mathbf{I}+\mathbf{W}^{\top} \mathbf{A}^{-1} \mathbf{V}\right) \operatorname{det} \mathbf{A}
+$$
+
+如果 $\mathrm{A}$ 是对角阵的话计算量从左式的 $\mathcal{O}\left(D^3+D^2 M\right)$ 降到了 $\mathcal{O}\left(M^3+M^2 D\right)$
+
+##### Planar flow 
+
+Planar flow 是一个单层神经网络，只有一个神经元 w
+
+$$
+\begin{aligned}
+\mathbf{z}^{\prime} &=\mathbf{z}+\mathbf{v} \sigma\left(\mathbf{w}^{\top} \mathbf{z}+b\right) \\
+J_{f_\phi}(\mathbf{z}) &=\mathbf{I}+\sigma^{\prime}\left(\mathbf{w}^{\top} \mathbf{z}+b\right) \mathbf{v} \mathbf{w}^{\top} \\
+\operatorname{det} J_{f_\phi}(\mathbf{z}) &=1+\sigma^{\prime}\left(\mathbf{w}^{\top} \mathbf{z}+b\right) \mathbf{w}^{\top} \mathbf{v}
+\end{aligned}
+$$
+
+$\sigma$ 是一个可微的激活函数例如 $\tanh$, 假设 $\sigma^{\prime}$ 处处大于 0 , 且有上界 $S$, 则当 $\mathbf{w}^{\top} \mathbf{v}>-\frac{1}{S}$ 时, 雅 可比行列式大于 0
+
+##### Sylvester flow
+
+将 Planar flow 推广到有 M 个神经元 W 就是 Sylvester flow $, \mathbf{V} \in \mathbb{R}^{D \times M}, \mathbf{W} \in \mathbb{R}^{D \times M}$, $\mathbf{b} \in \mathbb{R}^M, \mathrm{~S}(\mathbf{z})$ 是对角矩阵, 元素是 $\sigma^{\prime}\left(\mathbf{W}^{\top} \mathbf{z}+\mathbf{b}\right)$ 的对角线上的元素
+
+$$
+\begin{aligned}
+\mathbf{z}^{\prime} &=\mathbf{z}+\mathbf{V} \sigma\left(\mathbf{W}^{\top} \mathbf{z}+\mathbf{b}\right) \\
+J_{f_\phi}(\mathbf{z}) &=\mathbf{I}+\mathbf{V S}(\mathbf{z}) \mathbf{W}^{\top} \\
+\operatorname{det} J_{f_\phi}(\mathbf{z}) &=\operatorname{det}\left(\mathbf{I}+\mathbf{S}(\mathbf{z}) \mathbf{W}^{\top} \mathbf{V}\right)
+\end{aligned}
+$$
+
+## 构建标准化流（二）：连续时间的变换
+
+假设标准化流有无数个连续的变换，即经过了无穷多个step的transformer，我们把这个step叫做时间，连续时间流可以通过下式构建：
+
+$$
+\frac{d \mathbf{z}_t}{d t}=g_\phi\left(t, \mathbf{z}_t\right)
+$$
+
+神经网络 $g$ 接受时间 $t$ 和状态 $\mathbf{u}_t$ 作为输入, 输出 $z$ 关于 $t$ 的导数, 我们可以通过求积分来得到变换的结果
+
+$$
+\mathbf{x}=\mathbf{z}_{t_1}=\mathbf{u}+\int_{t=t_0}^{t_1} g_\phi\left(t, \mathbf{z}_t\right) d t
+$$
+
+逆变换为:
+
+$$
+\mathbf{u}=\mathbf{z}_{t_0}=\mathbf{x}+\int_{t=t_1}^{t_0} g_\phi\left(t, \mathbf{z}_t\right) d t=\mathbf{x}-\int_{t=t_0}^{t_1} g_\phi\left(t, \mathbf{z}_t\right) d t
+$$
+
+log 概率密度的导数可写为:
+
+$$
+\frac{d \log p\left(\mathbf{z}_t\right)}{d t}=-\operatorname{Tr}\left\{J_{g_\phi(t,)}\left(\mathbf{z}_t\right)\right\}
+$$
+
+一种近似求迹的方法如下, $v$ 是均值为 0 , 协方差矩阵为单位阵的向量
+
+$$
+\operatorname{Tr}\left\{J_{g_\phi(t, \cdot)}\left(\mathbf{z}_t\right)\right\} \approx \mathbf{v}^{\top} J_{g_\phi(t, \cdot)}\left(\mathbf{z}_t\right) \mathbf{v}
+$$
+
+对 log 概率密度积分，可以得到 $p_x$ 与 $p_u$ 的关系式：
+
+$$
+\log p_{\mathrm{x}}(\mathbf{x})=\log p_{\mathrm{u}}(\mathbf{u})-\int_{t=t_0}^{t_1} \operatorname{Tr}\left\{J_{g_\phi(t, \cdot)}\left(\mathbf{z}_t\right)\right\} d t
+$$
 

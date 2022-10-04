@@ -154,7 +154,7 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 
 html, body {
-  font-family: "Times New Roman", "思源黑体 CN" !important;
+  font-family: Optima-Regular, Optima, PingFangTC-Light,PingFangSC-light, PingFangTC-light !important;
   font-size: 17px !important;
 }
 
