@@ -14,7 +14,7 @@
 
 ### Normalizing Flow’s properties
 
-假设有一变量 $\mathbf{u}$, 服从分布 $\mathbf{u} \sim p_u(\mathbf{u})$, 有一变换 $T, \mathbf{x}=T(\mathbf{u}), p_u(\mathbf{u})$ 是已知的一种简单分 布, 变换 $T$ 可逆, 且 $T$ 与 $T^{-1}$ 都可微分。 对于一个Normalizing Flow来说 $\mathbf{x}$ 和 $\mathbf{u}$ 需要满足下面的性质：
+假设有一变量 $\mathbf{u}$, 服从分布 $\mathbf{u} \sim p_u(\mathbf{u})$, 有一变换 $T, \mathbf{x}=T(\mathbf{u}), p_u(\mathbf{u})$ 是已知的一种简单分 布, 变换 $T$ 可逆, 且 $T$ 与 $T^{-1}$ 都可微分。 对于一个 Normalizing Flow 来说 $\mathbf{x}$ 和 $\mathbf{u}$ 需要满足下面的性质：
 
 1、$\mathbf{x}$ 与 $\mathbf{u}$ 必须维度相同，因为只有维度相同，下面的变换 $T$ 才可能可逆
 
@@ -68,7 +68,7 @@ T &=T_K \circ \cdots \circ T_1 \\
 \end{aligned}
 $$
 
-我们可以将每个 $T_k$ 或 $T_k^{-1}$ 都设为一个参数为 $\phi_k$ 的神经网络, 下面用 $f_{\phi_k}$ 来统一表示这两者, 但 是这带来的问题是, 我们必须保证该神经网络是可逆的, 并且能够容易计算, 否则, 上述的 正向 $\mathrm{KL}$ 散度需要变换 $T_k$ 来做sampling, 逆向 $\mathrm{KL}$ 散度需要 $T_k^{-1}$ 来evaluating desity, 如果变 换 $f_{\phi_k}$ 的逆不存在或不易求, 则density evaluation或sampling将是效率极低的, 甚至无法 处理的。至于是否要求 $f_{\phi_k}$ 有高效的求逆方法、 $f_{\phi_k}$ 到底是使用 $T_k$ 还是 $T_k^{-1}$, 则由具体的使用目 的决定。下面忽略下标 $\mathrm{k}$, 使用 $f_\phi$ 表示神经网络, $\mathrm{z}$ 表示输入, $\mathrm{z}$ 表示输出。
+我们可以将每个 $T_k$ 或 $T_k^{-1}$ 都设为一个参数为 $\phi_k$ 的神经网络, 下面用 $f_{\phi_k}$ 来统一表示这两者, 但 是这带来的问题是, 我们必须保证该神经网络是可逆的, 并且能够容易计算, 否则, 上述的 正向 $\mathrm{KL}$ 散度需要变换 $T_k$ 来做sampling, 逆向 $\mathrm{KL}$ 散度需要 $T_k^{-1}$ 来evaluating desity, 如果变 换 $f_{\phi_k}$ 的逆不存在或不易求, 则density evaluation或sampling将是效率极低的, 甚至无法 处理的。至于是否要求 $f_{\phi_k}$ 有高效的求逆方法、 $f_{\phi_k}$ 到底是使用 $T_k$ 还是 $T_k^{-1}$, 则由具体的使用目 的决定。下面忽略下标 $\mathrm{k}$, 使用 $f_\phi$ 表示神经网络, $\mathrm{x}$ 表示输入, $\mathrm{z}$ 表示输出。
 
 ### 自回归流 Autoregressive flows
 
@@ -166,7 +166,7 @@ RNN 被广泛用于在自回归模型条件分布中去共享参数。基于 RNN
 
 另一种参数共享，但是不依赖 RNN 的方式是通过 mask 来实现的。 这种方法使用一个单一，经典的前馈神经网络来实现 conditioner, 将 $\mathbf{z}$ 作为输入， 一次性输出整个序列 $h_1,...,h_D$ 。唯一的要求是这个网络必须服从 conditioner 的自回归结构：$h_i$ 不能依赖 $z_{>=i}$。
 
-为了让 $h_i$ 不能依赖 $\mathbf{z}_{>=i}$, 可以通过将神经网络中这些连接给去掉, 方式是给矩阵中这些位置乘上0, 就像「Transformer」中的 self-attention 在计算 softmax 时用负无穷 mask 掉上三角的注意力权重, 达到 future blind 的目的。但该方法的一大缺点是求逆时的计算量是正向计算的D倍（但是这种缺点对于 Flow 来说就不存在）。
+为了让 $h_i$ 不能依赖 $\mathbf{z}_{>=i}$, 可以通过将神经网络中这些连接给去掉, 方式是给矩阵中这些位置乘上0, 就像「Transformer」中的 self-attention 在计算 softmax 时用负无穷 mask 掉上三角的注意力权重, 达到 future blind 的目的。但该方法的一大缺点是求逆时的计算量是正向计算的D倍（**但是这种缺点对于只需要正向的应用来说就不存在**）。
 
 上面的计算过程是: 开始不知道 $z$, 随机初始化一个, 但是 $z_0$ 是任意的, 也就是我们可以直接得到 $\mathrm{h}_1$, 然后用 $z_1^{\prime}$ 与它计算出 $z_1$, 纠正随机初始化的 $z$ 的第 1 个元素, 之后以此类推, 第 $D$ 次迭代后, $z$ 被完全纠正。Masked conditioner 每次只能使用 $z(<\mathrm{i})$, 即只能计算出$h_i$。开始直接能得到$h_1$ , 计算出 $z_1$ 后, 再让 $z_1$ 通过 conditioner 函数得到 $h_2$ , 再用公式计算 $z_2$, 以此类推。这里一共计算了 $D$ 次 $c$, 而在正向计算时只用一次, 求逆时计算代价是正向的 D 倍, 对高维数据来说无法接受。一种解决办法是类似于牛顿法的更新公式(我们要求使 $f(z)=z^{\prime}$ 成立的 $z$, 即求 $g(z)=f(z)-z^{\prime}$ 的零点, 那么更新公式 $z=z-a * g(z) / g^{\prime}(z)=z-a *$ $\left.\left(f(z)-z^{\prime}\right) / J\right)$
 

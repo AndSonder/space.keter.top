@@ -103,6 +103,12 @@ const config = {
                         position: "left"
                     },
                     {
+                      to: "/docs/cpp/类基础",
+                      activeBasePath: '/docs/cpp',
+                      label: "CPP",
+                      position: "left"
+                    },
+                    {
                         to: "/docs/courses/操作系统/课程笔记",
                         activeBasePath: '/docs/courses',
                         label: "Courses",
