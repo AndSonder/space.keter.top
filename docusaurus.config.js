@@ -103,7 +103,7 @@ const config = {
                         position: "left"
                     },
                     {
-                      to: "/docs/cpp/类基础/类的声明和定义",
+                      to: "/docs/cpp/类的声明和定义",
                       activeBasePath: '/docs/cpp',
                       label: "C++",
                       position: "left"
