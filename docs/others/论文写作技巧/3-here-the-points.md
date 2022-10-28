@@ -8,7 +8,18 @@
 
 ### PUT YOURSELF IN THEIR SHOES
 
-想写出一个好的总结，你需要先放下自己的观点，站在别人的角度上去思考。 这就像 “believe game” 一样，你尝试去融入到别人的世界观中，即使你不太同意他们的观点，你也要尝试去理解他们的观点。 作为一个作者，你在表述别人的观点时，你需要让读者看出来自己的想法。
+想写出一个好的总结，你需要先放下自己的观点，站在别人的角度上去思考。 这就像 “believe game” 一样，你尝试去融入到别人的世界观中，即使你不太同意他们的观点，你也要尝试去理解他们的观点。 作为一个作者，你在表述别人的观点时，你需要让读者看出来自己的想法。 看看下面的这个例子：
+
+```
+David Zinczenko's article "Don't Blame the Eater" is nothing morethan an angry rant in which he accuses the fast-food companiesof an evil conspiracy to make people fat. I disagree because thesecompanies have to make money. . . .
+```
+
+如果你看过 Zinczenko 写的原文，你就会发现上面的话对 Zinczenko 的观点进行了扭曲。 虽然 Zinczenko 确实认为快餐行业的做法导致人们发胖，但他从来没有 “angry”，他也没有暗示快餐行业是怀着邪恶的意图密谋让人们发胖。
+
+还有一个问题就是上面的这段话只用了一句去介绍 Zinczenko 的观点，然后就直接引入了自己的观点。 这个作者急于去给出反对的观点，以至于他不仅仅扭曲了 Zinczenko 的观点，还对 Zinczenko 的文章给出了非常肤浅的讲解。  
+
+
+
 
 
 
