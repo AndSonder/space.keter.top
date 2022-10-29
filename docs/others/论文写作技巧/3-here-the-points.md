@@ -16,8 +16,15 @@ David Zinczenko's article "Don't Blame the Eater" is nothing morethan an angry r
 
 如果你看过 Zinczenko 写的原文，你就会发现上面的话对 Zinczenko 的观点进行了扭曲。 虽然 Zinczenko 确实认为快餐行业的做法导致人们发胖，但他从来没有 “angry”，他也没有暗示快餐行业是怀着邪恶的意图密谋让人们发胖。
 
-还有一个问题就是上面的这段话只用了一句去介绍 Zinczenko 的观点，然后就直接引入了自己的观点。 这个作者急于去给出反对的观点，以至于他不仅仅扭曲了 Zinczenko 的观点，还对 Zinczenko 的文章给出了非常肤浅的讲解。  
+还有一个问题就是上面的这段话只用了一句去介绍 Zinczenko 的观点，然后就直接引入了自己的观点。 这个作者急于去给出反对的观点，以至于他不仅仅扭曲了 Zinczenko 的观点，还对 Zinczenko 的文章给出了非常肤浅的讲解。 当然了，很多时候由于重要性的问题，使用一句话或者两句话去介绍别人的工作反而是你需要的。 在自然，科学的领域使用一句或者两句话去总结别人的工作是很正常的做法，如下面这个例子：
 
+```
+Several studies (Crackle, 2012; Pop, 2007; Snap, 2006) suggest thatthese policies are harmless; moreover, other studies (Dick, 2011;Harry, 2007; Tom, 2005) argue that they even have benefits.
+```
+
+### KNOW WHERE YOU ARE GOING
+
+虽然写一个好的总结需要你去带入到别人的观点中，但是这并不意味着你需要忽略你自己的看法。 一个好的总结的应该是配合你的文章去表达的你的观点的。
 
 
 
