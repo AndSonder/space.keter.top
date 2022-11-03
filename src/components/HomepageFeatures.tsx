@@ -33,7 +33,7 @@ const FeatureList: FeatureItem[] = [
     image: '/img/undraw_docusaurus_react.svg',
     description: (
       <>
-        An undergraduate at GUET. Study with his friends everyday.
+        A graduate student at UESTC. Study with his friends everyday.
       </>
     ),
   },
