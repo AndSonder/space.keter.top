@@ -62,11 +62,17 @@ Derived from bene("well, good") + -ficus (suffix denoting making).
 synonym: Goodwill, Compassion, Altruism
 
 - Goodwill: 善意
-- Compassion: 同情
+- Compassion: 同情, 怜悯 com(together) + passion(passus 苦难经历)
 - Altruism: 无私
+- Sympathy:  同情心
+- empathy: 共情心
 - Benevolence: 善意, 但是实际用的时候会让人感觉居高临下
 
+
+
 etymology:
+
+bene（好, good） + volo/velle (will 意愿) => Goodwill
 
 from Old French benivolence (Modern French bienveillance) and directly from Latin benevolentia "good feeling, good will, kindness,"
 
