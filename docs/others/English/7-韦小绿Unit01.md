@@ -2,11 +2,18 @@
 
 ## BENE
 
+:::tip
+
 `BENE` is Latin for "well"
 
 A benefit is a good result or effect. Something beneficial produces good results or effects.
 
 The Latin root can be heard in other languages as well: "Good" or "Fine!" in Spanish is "Bueno"; in Franch, it's "Bon!";
+
+:::
+
+
+
 
 ### Benediction
 
@@ -78,11 +85,16 @@ from Old French benivolence (Modern French bienveillance) and directly from Lati
 
 ## AM 
 
+:::tip
+
 `AM` comes from the Latin amare, “to love.”
 
 The Roman god of love was known by two different names, Cupid and Amor. 
 
 Amiable means “friendly or good-natured,” and amigo is Spanish for “friend.”
+
+:::
+
 
 ### amicable
 
@@ -133,6 +145,68 @@ In love，Have a crush on someone，（be）Fond of someone or something
 > A lover, often secret, not allowed by law or custom.
 
 synonym: Lover （向他人介绍自己的恋人时，切勿用lover！！！）
+
+## Bell
+
+:::tip
+
+BELL comes from the Latin word meaning “war.” Bellona was the little-known Roman goddess of war; her husband, Mars, was the god of war.
+
+:::
+
+
+### autebellum
+
+> Existing before a war, especially before the American Civil War (1861–65).
+
+aute => before 
+
+anti => against 
+
+When World War I was over, the French nobility found it impossible to return to their extravagant antebellum way of life.
+
+Even countries that win a war often end up worse off than they had been before, and the losers almost always do. So antebellum often summons up images of ease, elegance, and entertainment that disappeared in the postwar years. In the American South, the antebellum way of life depended on a social structure, based on slavery, that collapsed after the Civil War; Margaret Mitchell's Gone with the Wind shows the nostalgia and bitterness felt by wealthy Southerners after the war more than the relief and anticipation experienced by those released from slavery. In Europe, World War I shattered the grand life of the upper classes, even in victorious France and Britain, and changed society hugely in the space of just four years. 
+
+
+- Pre-Civil War：特指美国内战（1820–1860）之前
+- Prewar：泛指战争之前，或特指二战之前
+- Prior to the war：特指某个战争之前
+- Antebellum：可泛指战争之前，也可特指美国内战之前
+
+### Bellicose, Belligerent
+
+> Bellicose 是好斗的，Belligerent 是好战的
+
+- antagonistc: 敌对的，对视的, anta -> anti => against 
+- aggressive: 侵略的, ag -> ad => 向前  gred => to walk 
+- hostile: 有敌意的
+
+
+
+![图 1](images/9aa80f9664113237841b340680cc2aeb9986fd04f7ca3d90d49fd030ffbaa7ca.png)  
+
+### Rebellion
+
+> Open defiance and opposition, sometimes armed, to a person or thing in authority.
+
+A student rebellion that afternoon in Room 13 resulted in the new substitute teacher racing out of the building in tears.
+
+Plenty of teenagers rebel against their parents in all kinds of ways. But a rebellion usually involves a group. Armed rebellions are usually put down by a country's armed forces, or at least kept from expanding beyond a small area. The American War of Independence was first viewed by the British as a minor rebellion that would soon run its course, but this particular rebellion led to a full-fledged revolution—that is, the overthrow of a government. Rebellion, armed or otherwise, has often alerted those in power that those they control are very unhappy.
+
+synonym: uprising，disobedience ，defiance
+
+- uprising：起义 （强调正义性）
+- disobedience： 拒绝服从, 不遵从, 不作为 （disobey）
+- defiance：公开拒绝服从
+- Rebellion：从反抗到造反、从青春期叛逆到反政府武装 (re => 反)
+
+
+
+
+
+
+
+
 
 
 
