@@ -200,6 +200,59 @@ synonym: uprising，disobedience ，defiance
 - defiance：公开拒绝服从
 - Rebellion：从反抗到造反、从青春期叛逆到反政府武装 (re => 反)
 
+## PAC
+
+> PAC is related to the Latin words for “agree” and “peace.” 
+
+涉及到3个词根
+
+- PAX: 和平 harmony , happiness  
+- PACERE: 和解/达成一致 come to an agreement 
+- PACTUM: agreement 
+
+### Pacify
+
+(1) To soothe anger or agitation. (2) To subdue by armed action.
+
+>  It took the police hours to pacify the angry demonstrators.
+
+Someone stirred up by a strong emotion can usually be pacified by some kind words and the removal of its causes. Unhappy babies are often given a rubber pacifier for sucking to make them stop crying. During the Vietnam War, pacification of an area meant using armed force to drive out the enemy, which might be followed by bringing the local people over to our side by building schools and providing social services. But an army can often bring “peace” by pure force, without soothing anyone's emotions.
+
+synonym: soothe，relieve，soften
+
+- soothe：哄好, 慰藉
+- relieve：减轻痛苦 （Re + Leve[left]） 释怀
+- soften： 软化
+- Pacify：不做就可能动武
+
+### Pacifist
+
+A person opposed to war or violence, especially someone who refuses to bear arms or to fight, on moral or religious grounds.
+
+> Her grandfather had fought in the Marines in World War II, but in his later years he had become almost a pacifist, opposing every war for one reason or another.
+
+synonym: peacemonger，dove，peacemaker，pacificist
+
+- peacemonger：贬义，不现实、不顾名誉
+- dove：鸽派，息事宁人
+- peacemaker：中性
+- appeasement: 绥[妥协]靖[安定]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
