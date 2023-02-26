@@ -111,13 +111,13 @@ sudo apt-get install proxychains4
 编辑配置文件：
 
 ```bash
-sudo vim /etc/proxychains.conf
+sudo vim /etc/proxychains4.conf
 ```
 
 修改为
 
 ```bash
-socks5 127.0.0.1 7890
+socks4 127.0.0.1 7890
 ```
 
 ## 测试
