@@ -46,6 +46,7 @@ time make -j$(nproc)
 pip3.7 install python/dist/paddlepaddle_gpu-0.0.0-cp37-cp37m-linux_x86_64.whl --force-reinstall
 
 python3.7 /home/paddle/python/paddle/fluid/tests/unittests/ir/inference/test_trt_convert_elementwise.py
+python3.7 /home/paddle/python/paddle/fluid/tests/unittests/ir/inference/test_trt_convert_pad3d.py
+python3.7 /home/paddle/python/paddle/fluid/tests/unittests/ir/inference/test_trt_convert_temporal_shift.py
+python3.7 /home/paddle/python/paddle/fluid/tests/unittests/ir/inference/test_trt_convert_pad.py
 ```
-
-
