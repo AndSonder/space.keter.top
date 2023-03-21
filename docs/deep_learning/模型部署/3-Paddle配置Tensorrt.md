@@ -50,3 +50,15 @@ python3.7 /home/paddle/python/paddle/fluid/tests/unittests/ir/inference/test_trt
 python3.7 /home/paddle/python/paddle/fluid/tests/unittests/ir/inference/test_trt_convert_temporal_shift.py
 python3.7 /home/paddle/python/paddle/fluid/tests/unittests/ir/inference/test_trt_convert_pad.py
 ```
+
+## sh 脚本
+
+```bash
+#!/bin/bash
+time cmake .. -DTENSORRT_ROOT=/usr -DPY_VERSION=3.7 -DWITH_GPU=ON -DWITH_PYTHON=ON -DWITH_TENSORRT=ON
+chmod -R 777 ./
+chmod -R 777 ../
+time make -j$(nproc)
+pip install python/dist/paddlepaddle_gpu-0.0.0-cp37-cp37m-linux_x86_64.whl --force-reinstall
+python /home/paddle/python/paddle/fluid/tests/unittests/ir/inference/test_trt_convert_pad3d.py
+```
