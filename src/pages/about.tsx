@@ -21,17 +21,10 @@ interface FriendData {
 }
 
 function githubPic(name: string) {
-  return `https://github.yuuza.net/${name}.png`;
+  return `https://github.com/${name}.png`;
 }
 
 var friendsData: FriendData[] = [
-  {
-    pic: githubPic("lideming"),
-    name: "lideming",
-    intro: "Building random things with Deno, Node and .NET Core.",
-    url: "https://yuuza.net/",
-    note: "我的大学同学, 全栈/APEX/R6/CSGO/BFV。",
-  },
   {
     pic: githubPic("Therainisme"),
     name: "Therainisme",
@@ -51,7 +44,7 @@ var friendsData: FriendData[] = [
     name: "PommesPeter",
     intro: "I want to be strong. But it seems so hard.",
     url: "https://blog.pommespeter.com/",
-    note: "科协F4的成员。我大学期间的同事，任我社2019级软件部副部长。主攻方向是基于深度学习技术的图像低照度增强。他找女朋友之前我们常一起吃饭。",
+    note: "科协F4的成员。我大学期间的同事，任我社2019级软件部副部长。科研能力很强，我一般都叫他谢院。",
   },
   {
     pic: githubPic("breezeshane"),
@@ -65,7 +58,7 @@ var friendsData: FriendData[] = [
     name: "PuQing",
     intro: "intro * new",
     url: "https://github.com/AndPuQing",
-    note: "啊对对对",
+    note: "感觉什么都会的一个人，百度PPDE的大佬，我们经常叫他梁教授。",
   },
   {
     pic: githubPic("VisualDust"),
@@ -73,7 +66,14 @@ var friendsData: FriendData[] = [
     intro: "Rubbish CVer | Poor LaTex speaker | Half stack developer | 键圈躺尸砖家",
     url: "https://focus.akasaki.space",
     note: "科协F4成员。我大学时期同事，可以轻松的做到我们做不到的事情，吊打其他F4成员，键盘资深专家。我经常克隆他的电子产品。",
-  },
+    },
+    {
+        pic: githubPic("sanbuphy"),
+        name: "sanbuphy",
+        intro: "算法工程师，想要用极致性能优化打通DL应用的最后一公里",
+        url: "https://www.aispacewalk.cn/",
+        note: "百度PFCC成员，对技术非常有热情的大佬。对模型部署底层加速、高性能系统、操作系统很感兴趣。",
+    }
 ];
 
 function Friends() {
