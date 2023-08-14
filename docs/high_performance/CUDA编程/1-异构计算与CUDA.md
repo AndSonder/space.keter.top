@@ -195,4 +195,5 @@ int main()
 ## Reference 
 
 [1] [如何用通俗易懂的话解释异构计算？](https://www.zhihu.com/question/63207620)
+
 [2] [【CUDA 基础】1.1 异构计算与CUDA](https://face2ai.com/CUDA-F-1-1-异构计算-CUDA/)
