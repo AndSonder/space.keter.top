@@ -37,13 +37,13 @@ var friendsData: FriendData[] = [
     name: "Zerorains",
     intro: "life is but a span, I use python",
     url: "https://blog.zerorains.top",
-    note: "科协F4的成员。科协恶霸(x)。主攻方向是基于深度学习技术图像分割。他不太喜欢看我抽卡。",
+    note: "科协F4的成员。科协恶霸(x)。主攻方向是深度学习高性能计算，喜欢摸鱼。",
   },
   {
     pic: githubPic("PommesPeter"),
     name: "PommesPeter",
-    intro: "I want to be strong. But it seems so hard.",
-    url: "https://blog.pommespeter.com/",
+    intro: "Blessed with good gradient. associated in @sanyuankexie",
+    url: "https://blog.pommespeter.space/",
     note: "科协F4的成员。我大学期间的同事，任我社2019级软件部副部长。科研能力很强，我一般都叫他谢院。",
   },
   {
@@ -65,7 +65,7 @@ var friendsData: FriendData[] = [
     name: "VisualDust",
     intro: "Rubbish CVer | Poor LaTex speaker | Half stack developer | 键圈躺尸砖家",
     url: "https://focus.akasaki.space",
-    note: "科协F4成员。我大学时期同事，可以轻松的做到我们做不到的事情，吊打其他F4成员，键盘资深专家。我经常克隆他的电子产品。",
+    note: "科协F4成员。我大学时期同事，可以轻松的做到我们做不到的事情，吊打其他F4成员，键盘资深专家。我经常克隆他的电子产品。出国留学佬",
     },
     {
         pic: githubPic("sanbuphy"),

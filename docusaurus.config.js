@@ -91,6 +91,12 @@ const config = {
                         position: "left",
                     },
                     {
+                        to: "/docs/high_performance/CUDA编程/异构计算与CUDA",
+                        activeBasePath: '/docs/high_performance',
+                        label: "高性能计算",
+                        position: "left",
+                    },
+                    {
                         to: "/docs/math/tutor",
                         activeBasePath: '/docs/math',
                         label: "Math",
