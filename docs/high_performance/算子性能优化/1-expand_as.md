@@ -1,4 +1,4 @@
-# 为 Paddle 优化 Lerp Op 在 GPU 上的计算性能
+# 为Paddle优化Lerp在GPU上的计算性能
 
 :::tip
 
