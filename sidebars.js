@@ -97,7 +97,7 @@ const sidebars = {
                     dirName: 'high_performance/CUDA编程'
                 },
             ],
-        }
+        },
         {
             type: 'category',
             label: '算子性能优化',
