@@ -11,7 +11,7 @@ function HomepageHeader() {
   return (
       <header className={clsx('hero', styles.heroBanner)}>
           <div className="container">
-              <img src="https://welljuly.obs.cn-north-4.myhuaweicloud.com/picture/logo.png" alt="" />
+              <img src="img/book.png" alt="" />
               <h1 className="hero__title">{siteConfig.title}</h1>
               <p className="hero__subtitle">{siteConfig.tagline}</p>
               <div className={styles.buttons}>
