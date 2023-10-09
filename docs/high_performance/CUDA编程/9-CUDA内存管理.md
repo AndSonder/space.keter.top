@@ -186,5 +186,133 @@ __shared__ int sharedMemory[BLOCK_SIZE][BLOCK_SIZE + 1];
 
 在本节中，我们学习了如何最优地利用共享内存，它既提供读取又提供写入的功能，类似于一个临时存储区。但有时，数据是只读输入，不需要写入访问。在这种情况下，GPU提供了一种称为纹理内存（texture memory）的优化内存。我们将在后续文章中详细介绍它，以及它为开发人员提供的其他优势。在接下来的部分，我们将介绍只读数据的处理方法。
 
+### 只读缓存
+
+只读数据对GPU中的所有线程可见。对于GPU来说，此数据被标记为只读，这意味着对此数据的任何更改将导致内核中的未指定行为。另一方面，CPU对此数据具有读和写访问权限。在本节中，我们将提供如何利用只读缓存的详细信息，借助一个图像处理代码示例，进行图像调整。
+
+这种缓存也被称为纹理缓存（texture cache）。虽然用户可以显式调用纹理API来利用只读缓存，但在最新的GPU架构中，开发人员可以在不显式使用CUDA纹理API的情况下利用这个缓存。通过最新的CUDA版本和像Volta这样的GPU，标记为 `const __restrict__` 的内核指针参数被标记为只读数据，可以通过只读缓存数据路径进行传递。开发人员还可以使用 `__ldg` 内置函数来强制加载到此缓存中。
+
+只读数据在算法要求**整个warp读取相同地址/数据**时表现最佳。纹理缓针对二维（2D）和三维（3D）数据的局部性进行了优化。这意味着它能够更有效地处理对于连续的2D或3D数据访问的情况，从而提高性能。由于线程属于相同的warp，从具有2D和3D局部性的纹理地址读取数据往往会实现更好的性能。
+
+下面，让我们看一个关于图形缩放的算法，以演示纹理内存的使用。
+
+图像缩放需要对二维图像像素进行插值。纹理提供了这两个功能（插值和高效访问二维局部性）。使用纹理内存的图像缩放算法如下：
+
+这段代码（[完整代码](https://github.com/PacktPublishing/Learn-CUDA-Programming/blob/master/Chapter02/02_memory_overview/05_image_scaling/image_scaling.cu)）用于创建并配置CUDA纹理对象，让我一步一步解释并给出详细注释：
+
+首先需要指定纹理：
+
+```cpp
+struct cudaResourceDesc resDesc;
+memset(&resDesc, 0, sizeof(resDesc));
+resDesc.resType = cudaResourceTypeArray;
+resDesc.res.array.array = cu_array;
+```
+- `cudaResourceDesc` 是一个用于描述CUDA资源的结构体。在这里，我们创建一个 `resDesc` 结构体实例。
+- 使用 `memset` 函数将 `resDesc` 结构体的内存清零，以确保所有字段都初始化为零。
+- `resDesc.resType = cudaResourceTypeArray;` 指定了资源的类型为数组（`cudaResourceTypeArray`），这意味着我们将使用数组作为纹理资源。
+- `resDesc.res.array.array = cu_array;` 将数组 `cu_array` 分配给 `resDesc` 结构体的 `array` 字段，这个数组将被用作纹理资源。
+
+第二步，需要指定纹理对象的参数。
+
+```cpp
+struct cudaTextureDesc texDesc;
+memset(&texDesc, 0, sizeof(texDesc));
+texDesc.addressMode[0] = cudaAddressModeClamp;
+texDesc.addressMode[1] = cudaAddressModeClamp;
+texDesc.filterMode = cudaFilterModePoint;
+texDesc.readMode = cudaReadModeElementType;
+texDesc.normalizedCoords = 0;
+```
+- `cudaTextureDesc` 是一个结构体，用于描述纹理对象的参数。在这里，我们创建一个 `texDesc` 结构体实例。
+- 使用 `memset` 函数将 `texDesc` 结构体的内存清零，以确保所有字段都初始化为零。
+- `texDesc.addressMode[0] = cudaAddressModeClamp;` 和 `texDesc.addressMode[1] = cudaAddressModeClamp;` 分别设置了纹理的 x 和 y 方向的地址模式为 Clamp 模式。Clamp 模式表示当纹理坐标超出范围时，将其夹紧到边界值，而不是循环或镜像。
+- `texDesc.filterMode = cudaFilterModePoint;` 设置了纹理过滤模式为 Point 模式，这意味着在获取纹理值时不进行插值。
+- `texDesc.readMode = cudaReadModeElementType;` 设置了纹理的读取模式为 ElementType 模式，这表示每个像素被读取为其原始数据类型，而不进行插值。
+- `texDesc.normalizedCoords = 0;` 将规范化坐标设置为 0，这意味着纹理坐标不被规范化为 [0.0, 1.0] 范围内的值。
+
+第三步创建纹理对象。
+
+```cpp
+cudaTextureObject_t texObj = 0;
+cudaCreateTextureObject(&texObj, &resDesc, &texDesc, NULL);
+```
+- `cudaTextureObject_t` 是纹理对象的类型。
+- 我们创建一个名为 `texObj` 的纹理对象，并初始化为零。
+- `cudaCreateTextureObject` 函数用于创建纹理对象，它接受四个参数：纹理对象指针（`&texObj`）、资源描述符（`&resDesc`）、纹理描述符（`&texDesc`）和可选的额外参数（这里是 `NULL`）。这个函数将根据提供的描述符创建一个纹理对象，并将其赋值给 `texObj`。
+
+上面这一部分代码的主要目的是为GPU上的纹理创建一个纹理对象，并配置其参数，以便在后续的CUDA内核中使用。这个纹理对象可以让内核从纹理内存中读取数据，根据指定的参数进行过滤和插值。
+
+在创建和配置纹理对象之后，我们需要在内核中使用它。下面是内核函数的代码：
+
+```cpp
+__global__ void createResizedImage(unsigned char *imageScaledData, int scaled_width, float scale_factor, cudaTextureObject_t texObj)
+{
+  // 获取当前线程的在网格中的x和y坐标，以及计算线程在输出图像中的索引
+  const unsigned int tidX = blockIdx.x*blockDim.x + threadIdx.x;
+  const unsigned int tidY = blockIdx.y*blockDim.y + threadIdx.y;
+  const unsigned index = tidY*scaled_width+tidX;
+      
+  // Step 4: 从CUDA内核中的纹理引用中读取纹理内存
+  imageScaledData[index] = tex2D<unsigned char>(texObj,(float)  (tidX*scale_factor),(float)(tidY*scale_factor));
+}
+```
+
+### GPU中的寄存器
+
+CPU和GPU架构之间的一个主要区别是GPU相对于CPU具有丰富的寄存器资源。这个有助于GPU线程将大部分数据存储在寄存器中，从而减少上下文切换的延迟。因此，对寄存器内存的优化变得至关重要。
+
+寄存器的作用范围限定在单个线程内部。在GPU的线程块中，每个启动的线程都拥有自己的私有变量副本，这意味着每个线程可以访问自己的私有变量，但无法访问其他线程的私有变量。例如，如果启动了一个包含1,000个线程的内核，那么每个线程都将拥有其私有变量的独立副本。
+
+在内核中声明为局部变量的变量存储在寄存器中，中间计算结果也通常存储在寄存器中。每个GPU多处理器（SM）都具有一组固定数量的寄存器。在编译过程中，编译器（nvcc）会尝试找到每个线程所需的最佳寄存器数量。
+
+如果寄存器数量不足，通常发生在CUDA内核较大且包含许多局部变量和中间计算时，数据将被推送到本地内存，该本地内存可能位于L1/L2高速缓存中，甚至位于内存层次结构中较低的位置，例如全局内存。这个过程被称为寄存器溢出。**通常建议不要声明大量不必要的局部变量**。如果寄存器资源限制了可以在多处理器上调度的线程数，开发者可能需要考虑重新组织代码，将内核拆分为两个或更多部分，以优化性能。
+
+在vecAdd内核中声明的变量通常存储在寄存器内存中。而作为内核参数传递的A、B和C等变量指向全局内存，但这些变量的值本身可以存储在共享内存或寄存器中，具体取决于GPU架构。下图显示了UDA内存层次结构以及不同变量类型的默认存储位置。
+
+![picture 4](images/4c4d8442fdd0a20356b5ead4f855d7ff658f41cc42c31cbbb2e43f88c2570c11.png)  
+
+### 固定内存
+
+现在，让我们回顾一下数据的传输路径，即从CPU内存到GPU寄存器，最终由GPU核心进行计算。尽管GPU具有更高的计算性能和更高的内存带宽，但应用程序获得的整体加速可能会受限于CPU内存和GPU内存之间的数据传输速度。这种数据传输是通过总线、链路或协议完成的，例如PCIe（适用于Intel和AMD等CPU架构）或NVLink（适用于OpenPower Foundation等CPU架构）。
+
+为了克服这些瓶颈，建议采用以下技巧和指南：
+
+- 尽量减少主机和设备之间传输的数据量
+- 通过使用固定内存，实现主机和设备之间更高的带宽是非常重要的
+- 将小型传输批量处理为一个大传输。这有助于减少调用数据传输CUDA API所涉及的延迟，根据系统配置的不同，这个延迟可能在几微秒到几毫秒之间
+- 应用程序可以利用异步数据传输来重叠内核执行和数据传输的时间
+
+默认情况下，被称为malloc()的内存分配API分配的内存类型是可分页的。这意味着，如果需要，将内存映射为页面的部分可以被其他应用程序或操作系统本身交换出去。因此，大多数设备，包括GPU以及类似InfiniBand等设备，它们也连接到PCIe总线上，要求在传输数据之前将内存固定，以确保GPU能够访问它。默认情况下，GPU不会访问可分页内存。因此，当发起内存传输时，CUDA驱动程序会分配临时的固定内存，将数据从默认的可分页内存复制到这个临时的固定内存，然后通过设备内存控制器（DMA）将数据传输到GPU设备。
+
+这个额外的步骤不仅增加了延迟，还可能导致所请求的页面被传输到GPU内存，而这些页面可能已被交换出去，需要重新加载到GPU内存中。
+
+为了了解使用固定内存的影响，让我们尝试编译和运行一段示例代码，这段代码已经作为CUDA示例的一部分提供：
+
+- 准备GPU应用程序，该代码位于 `<CUDA_SAMPLES_DIR>/1_Utilities/bandwidthTest` 目录下。
+- 使用make命令编译应用程序。
+- 运行可执行文件以测试可分页内存和固定内存两种模式，命令如下所示：
+
+```bash
+$ make
+$ ./bandwidthTest --mode=shmoo --csv --memory=pageable > pageable.csv
+$ ./bandwidthTest --mode=shmoo --csv --memory=pinned > pinned.csv
+```
+
+性能的影响可以从带宽测试的输出中看出，结果如下图所示。x轴表示传输的数据量（以KB为单位），y轴表示实际达到的带宽（以MB/秒为单位）。
+
+![picture 5](images/60941f81d325ee8fb176433c030a85b7522807df61368a0f09619fbe1f94ff12.png)  
+
+![picture 6](images/3d36daaccad8d94d1e94adcbbac0e125fa3b1b3cbe6dae289826d396dc73f922.png)  
+
+第一个图表显示的是主机到设备的数据传输，而第二个图表显示的是设备到主机的数据传输。可以看到，最大可实现的带宽约为12 GB/秒。尽管PCIe Gen3的理论带宽为16 GB/秒，但实际可达到的范围约为12 GB/秒。可实现的带宽高度依赖于系统因素（主板、CPU、PCIe拓扑等）的不同。
+
+对于固定内存，带宽在较小的数据传输尺寸时始终较高，而对于较大的数据尺寸，可分页内存的带宽在一定程度上与之相当，这是因为驱动程序和DMA引擎开始应用重叠等概念来优化传输。**尽管建议尽量使用固定内存，但过度使用也有不利影响**。将整个系统内存都分配为固定内存可能会降低整体系统性能，因为这会占用其他应用程序和操作系统任务所需的页面。固定内存的适当大小高度依赖于应用程序和系统，没有通用的公式可供使用。最佳性能参数需要在可用系统上测试应用程序来选择。
+
+此外，值得注意的是，新的互连技术，如NVLink，为受数据传输限制的应用程序提供了更高的带宽和更低的延迟。
+
+
+
+
 
 
