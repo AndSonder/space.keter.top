@@ -186,7 +186,7 @@ __shared__ int sharedMemory[BLOCK_SIZE][BLOCK_SIZE + 1];
 
 在本节中，我们学习了如何最优地利用共享内存，它既提供读取又提供写入的功能，类似于一个临时存储区。但有时，数据是只读输入，不需要写入访问。在这种情况下，GPU提供了一种称为纹理内存（texture memory）的优化内存。我们将在后续文章中详细介绍它，以及它为开发人员提供的其他优势。在接下来的部分，我们将介绍只读数据的处理方法。
 
-### 只读缓存
+## 只读缓存
 
 只读数据对GPU中的所有线程可见。对于GPU来说，此数据被标记为只读，这意味着对此数据的任何更改将导致内核中的未指定行为。另一方面，CPU对此数据具有读和写访问权限。在本节中，我们将提供如何利用只读缓存的详细信息，借助一个图像处理代码示例，进行图像调整。
 
@@ -258,7 +258,7 @@ __global__ void createResizedImage(unsigned char *imageScaledData, int scaled_wi
 }
 ```
 
-### GPU中的寄存器
+## GPU中的寄存器
 
 CPU和GPU架构之间的一个主要区别是GPU相对于CPU具有丰富的寄存器资源。这个有助于GPU线程将大部分数据存储在寄存器中，从而减少上下文切换的延迟。因此，对寄存器内存的优化变得至关重要。
 
@@ -272,7 +272,7 @@ CPU和GPU架构之间的一个主要区别是GPU相对于CPU具有丰富的寄�
 
 ![picture 4](images/4c4d8442fdd0a20356b5ead4f855d7ff658f41cc42c31cbbb2e43f88c2570c11.png)  
 
-### 固定内存
+## 固定内存
 
 现在，让我们回顾一下数据的传输路径，即从CPU内存到GPU寄存器，最终由GPU核心进行计算。尽管GPU具有更高的计算性能和更高的内存带宽，但应用程序获得的整体加速可能会受限于CPU内存和GPU内存之间的数据传输速度。这种数据传输是通过总线、链路或协议完成的，例如PCIe（适用于Intel和AMD等CPU架构）或NVLink（适用于OpenPower Foundation等CPU架构）。
 
@@ -311,7 +311,172 @@ $ ./bandwidthTest --mode=shmoo --csv --memory=pinned > pinned.csv
 
 此外，值得注意的是，新的互连技术，如NVLink，为受数据传输限制的应用程序提供了更高的带宽和更低的延迟。
 
+## 统一内存
 
+简单来说，统一内存（UM）为用户提供了一个单一内存空间的视图，所有GPU和CPU都可以访问该内存空间。下面的图说明了这一点：
+
+![picture 7](images/cdbdf069be17ea9c5298287fe2289e0c826c420ca11b203cb1ce2a4f9523c981.png)  
+
+在本节中，我们将介绍如何使用UM，优化它，并突出使用它的主要优点。与全局内存访问一样，如果以不连贯的方式执行，会导致性能不佳，如果未正确使用UM功能，也会导致应用程序整体性能下降。
+
+### 统一内存的页面分配和传输
+
+让我们从UM的简单实现开始。下面的代码演示了这个概念的基本用法。代码中的关键变化是使用 `cudaMallocManaged()` API来分配内存，而不是使用malloc，如下面的代码片段所示：
+
+```cpp
+float *x, *y;
+int size = N * sizeof(float);
+...
+cudaMallocManaged(&x, size);
+cudaMallocManaged(&y, size);
+...
+for (int ix = 0; ix < N; ix++) {
+    x[ix] = rand() % 10;
+    y[ix] = rand() % 20;
+}
+add<<<numBlocks, blockSize>>>(x, y, N);
+```
+
+我们会发现x和y变量都只被分配一次，并且指向统一内存。同一个指针被发送到GPU的 `add<<<>>>()` 内核，并在CPU中使用for循环进行初始化。统一内存那么好用？不需要跟踪指针是指向CPU内存还是GPU内存。但这是否意味着我们一定能获得良好的性能或传输速度？未必，因此让我们尝试深入挖掘，通过对这段代码进行分析，如下面的截图所示：
+
+![picture 8](images/7531686df24ae017eab434bc500841ae7db4f5c2a060ce8428f9ecc474453581.png)  
+
+不出所料，大部分时间都花在add<<<>>>内核上。让我们尝试理论上计算带宽。使用以下公式计算带宽：
+
+带宽 = 字节 / 秒 = (3 * 4,194,304 字节 * 1e-9 字节/GB) / 2.6205e-3s = 5 GB/s
+
+为什么我们需要关注内存带宽呢？这是因为该应用程序受到内存限制，它执行了三次内存操作，而仅有一次加法操作。因此，内存性能才是更应该关注的问题。
+
+从Pascal架构开始，`cudaMallocManaged()` 不再直接分配物理内存，而是基于首次访问原则来分配内存。如果GPU首次访问变量，页面将被分配并映射到GPU的页表；反之，如果CPU首次访问变量，页面将被分配并映射到CPU上。在我们的代码中，x和y变量在CPU上用于初始化，因此页面被分配给了CPU。在 `add<<<>>>` 内核中，当访问这些变量时，会触发页面错误，导致页面迁移时间被计入内核执行时间。这是导致内核执行时间增加的根本原因。下面，让我们一起看一下页面迁移的过程。
+
+页面迁移的操作顺序如下：
+
+1. 首先，我们需要在GPU和CPU上为新页面分配内存（基于首次访问原则）。如果页面不在，并且没有映射到其他页面，将触发设备页表页面错误。例如，当GPU尝试访问位于页面2中的 $^*x$，而该页面当前映射到CPU内存时，将发生页面错误。请参考下面的示意图：
+
+![picture 9](images/f5447c6e3e34032cab084eee5b1bdf7355f8e30ee4d604fd886865c353ea3398.png)  
+
+2. 接下来，在CPU上取消映射旧页面，如下图所示：
+
+![picture 10](images/dbf0ae51c055876b9033c291f17ad1fdbe28b29e62fd21f9dbca04790b499ae4.png)  
+
+3. 然后，数据从CPU复制到GPU，如下图所示：
+
+![picture 11](images/a7ed73c13ab79024a99390afad6c82b67239799945fd987f6fb4ae7211046914.png)  
+
+4. 最后，在GPU上映射新页面，同时在CPU上释放旧页面，如下图所示：
+
+![picture 12](images/091d485468ef0a7f0b3410f5b5bb8102e943d494668e98366fb34de598764756.png)  
+
+GPU中的后备缓冲区（TLB）类似于CPU中的TLB，负责将物理地址翻译为虚拟地址。**当发生页面错误时，相应SM的TLB被锁定**。这意味着新的指令将被阻塞，直到前述步骤完成并最终解锁TLB。这是为了保持内部SM内存视图的一致性和协调性。驱动程序负责去除这些重复操作、更新映射，并传输页面数据。正如之前提到的，所有这些操作时间都会添加到总内核执行时间中。
+
+现在，我们已经理解了问题所在，那么解决方案是什么呢？解决方法有两种：
+
+1. 在GPU上创建一个初始化内核，以确保在 `add<<<>>>` 内核运行期间不会发生页面错误。然后，我们将通过使用每页一组的概念来优化页面错误。
+
+2. 进行数据预取操作。
+
+### 初始化内核
+
+```cpp
+__global__ void init(int n, float *x, float *y) {
+    int index = threadIdx.x + blockIdx.x * blockDim.x;
+    int stride = blockDim.x * gridDim.x;
+    for (int i = index; i < n; i += stride) {
+        x[i] = 1.0f;
+        y[i] = 2.0f;
+    }
+}
+```
+
+我们通过在GPU内部添加一个用于初始化数组的内核。当在init<<<>>>内核中首次访问时，页面将被分配并映射到GPU内存。让我们看一下这段代码的分析结果输出，其中包括初始化内核的分析结果：
+
+再次使用nvprof分析可得：
+
+![picture 13](images/1a0bfe5a40f25ad84a92e53bab64bc555af1f74fa15fcf5f5dbfc3e4c08888c5.png)  
+
+add<<<>>>内核的时间已减少到18微秒。这实际上给了我们以下内核带宽：
+
+带宽 = 字节 / 秒 = (3 * 4,194,304 字节 * 1e-9 字节/GB) / 18.84e-6s = 670 GB/s
+
+这个带宽与非统一内存情况下的预期相符。正如我们从前面的初步实现中看到的，分析输出中没有主机到设备的行为。add<<<>>>内核的时间减少了，但init<<<>>>内核并没有成为占用最多时间的热点。这是因为我们在init<<<>>>内核中首次访问内存。
+
+### 数据预取操作
+
+数据预取基本上是对驱动程序的提示，用于在设备使用数据之前预取我们认为会使用的数据。CUDA提供了一个称为 `cudaMemPrefetchAsync()` 的预取API来实现这一目的。
+
+```cpp
+// 分配统一内存 -- 可由CPU或GPU访问
+cudaMallocManaged(&x, N * sizeof(float));
+cudaMallocManaged(&y, N * sizeof(float));
+
+// 在主机上初始化x和y数组
+for (int i = 0; i < N; i++) {
+    x[i] = 1.0f;
+    y[i] = 2.0f;
+}
+
+// 预取内存到GPU
+cudaGetDevice(&device);
+cudaMemPrefetchAsync(x, N * sizeof(float), device, NULL);
+cudaMemPrefetchAsync(y, N * sizeof(float), device, NULL);
+
+// 执行add<<<>>>内核
+add<<<numBlocks, blockSize>>>(N, x, y);
+
+// 预取内存到CPU
+cudaMemPrefetchAsync(y, N * sizeof(float), cudaCpuDeviceId, NULL);
+
+// 在访问主机之前等待GPU完成
+cudaDeviceSynchronize();
+
+// 计算最大误差
+for (int i = 0; i < N; i++)
+    maxError = fmax(maxError, fabs(y[i] - 3.0f));
+
+```
+
+![picture 14](images/c6898e59bc3a0d23a2f4f3dc54572b4fb1b62affeef2521c4e875fb4014ea0f3.png)  
+
+
+add<<<>>> 内核提供了我们期望的带宽。统一内存是一个不断发展的功能，随着每个CUDA版本和GPU架构的发布而发生变化。建议访问最新的CUDA编程指南（https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#um-unified-memory-programming-hd）
+
+
+UM不仅提供了编程的便利性（不需要使用CUDA API来显式管理内存）,手动移动数据很容易出错，并需要调整内存大小。使用UM的一个关键优势之一是过度订阅（over-subscription）。与CPU内存相比，GPU内存相对有限。Volta卡V100每个GPU提供的最大内存为32 GB。借助UM，可以将多个GPU内存片段与CPU内存一起视为一个大内存。例如，具有16个Volta GPU的NVIDIA DGX2机器，总共提供了323 GB的内存，可以视为具有最大512 GB大小的GPU内存集合。对于计算流体力学（CFD）和分析等应用程序来说，这些优势是巨大的。以前，很难将问题规模适应GPU内存，现在却成为可能。
+
+此外，高速互连技术（如NVLink和NVSwitch）的出现使GPU之间的传输变得更快，带宽更高，延迟更低。这意味着，使用统一内存可以获得更高的性能！
+
+数据预取与指定数据实际位置的API是结合使用的，对于需要同时访问相同数据的多个处理器非常有帮助。在这种情况下使用的API名称是 `cudaMemAdvice()` 。因此，通过深入了解您的应用程序，您可以使用这些 API 来优化访问。当前API接受的一些建议包括：
+
+- `cudaMemAdviseSetReadMostly`：顾名思义，表示数据基本上是只读的。驱动程序创建数据的只读副本，从而减少页面错误。但需要注意，数据仍然可以被写入。在这种情况下，页面副本会失效，除了写入内存的设备之外。
+
+    ```cpp
+    // Sets the data readonly for the GPU
+    cudaMemAdvise(data, N, ..SetReadMostly, processorId);
+    mykernel<<<..., s>>>(data, N);
+    ```
+
+- `cudaMemAdviseSetPreferredLocation`：这个建议将数据的首选位置设置为属于设备的内存。设置首选位置不会立即导致数据迁移到该位置。例如，下面的代码中，`mykernel<<<>>>` 将会引发页面错误，并在CPU上直接映射数据。驱动程序会尽量阻止数据迁移出设置的首选位置。
+
+    ```cpp
+    cudaMemAdvise(input, N, ..PreferredLocation, processorId);
+    mykernel<<<..., s>>>(input, N);
+    ```
+
+- `cudaMemAdviseSetAccessedBy`：这个建议表示数据将由设备访问。设备将在CPU内存中创建数据的直接映射，不会生成页面错误。
+
+    ```cpp
+    cudaMemAdvise(input, N, ..SetAccessedBy, processorId);
+    mykernel<<<..., s>>>(input, N);
+    ```
+
+## 总结
+
+本文，我们介绍了不同类型的GPU内存。详细探讨了全局内存、纹理内存、共享内存以及寄存器。此外，我们还研究了GPU内存演进所带来的新特性，比如统一内存，它有助于提升程序员的生产效率。最后，我们还讨论了如何使用统一内存来优化应用程序的性能。
+
+## 参考
+
+- [Learn CUDA Programming](https://github.com/PacktPublishing/Learn-CUDA-Programming/tree/master)
+- [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html)
 
 
 
