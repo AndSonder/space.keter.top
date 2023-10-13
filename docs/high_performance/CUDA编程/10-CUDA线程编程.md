@@ -205,5 +205,150 @@ foo_kernel() {
 }
 ```
 
+### 并行规约
+
+规约 reduction 是一种简单但实用的算法，用于获得多个参数之间的共同参数。这项任务可以按顺序或并行执行。在涉及到并行处理到并行架构时，并行规约是获取直方图、均值或其他统计值的最快方式。
+
+以下图表展示了顺序规约和并行规约之间的差异：
+
+![picture 5](images/35331aab007d4bc5dea9df8d039ac09f941bb8a1e4625963d120cb572f824d28.png)  
+
+:::tip
+
+规约"（reduction）是指一种算法，用于从一组参数中计算出一个共同的结果或值。这个共同的结果通常是通过将输入参数进行某种操作（例如求和、求平均值、获得直方图等）得到的。规约算法可以用于在并行计算中从多个输入参数中获取单个输出值，而且可以在顺序或并行计算中执行。
+
+:::
+
+
+通过将规约任务并行执行，可以将总步骤数量降低到对数级别。现在，让我们开始在GPU上实现这个并行规约算法。首先，我们将使用全局内存实现一个简单设计。然后，我们将实现另一个使用共享内存的规约版本。通过比较这两种实现，我们将讨论性能差异是由什么引起的。
+
+#### 使用全局内存的规约
+
+规约计算的第一个基本方法是使用并行的CUDA线程，并通过全局内存共享规约计算结果。对于每次迭代，CUDA核心通过将其大小减小一半，从全局内存中获取累积值。下图显示了在全局内存数据共享的情况下进行的朴素并行规约计算：
+
+![picture 6](images/66dce5a862e66717956a198138bbd30a4bc5079e825326f4f8775028e0e40e03.png)  
+
+然而，在CUDA中，这种方法速度较慢，因为它浪费了全局内存的带宽，没有充分利用更快的on-chip 内存。为了获得更好的性能，建议使用共享内存来节省全局内存带宽并减少内存提取延迟。稍后，我们将讨论这种方法如何浪费带宽。
+
+现在，让我们来实现这个规约计算。首先，我们将编写规约计算的核心函数，如下所示：
+
+```cpp
+__global__ void naive_reduction_kernel(float *data_out, float *data_in, int stride, int size) {
+    int idx_x = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx_x + stride < size)
+        data_out[idx_x] += data_in[idx_x + stride];
+}
+```
+
+我们将在不断减小步长大小的情况下迭代调用核心函数，直到步长大小为1，如下所示：
+
+```cpp
+void naive_reduction(float *d_out, float *d_in, int n_threads, int size) {
+    int n_blocks = (size + n_threads - 1) / n_threads;
+    for (int stride = 1; stride < size; stride *= 2)
+        naive_reduction_kernel<<<n_blocks, n_threads>>>(d_out, d_in, stride, size);
+}
+```
+
+在这个实现中，核心代码通过跨步地址寻址从设备内存中提取数据，并输出一个规约计算的结果。主机代码触发每一步的规约计算核心，并参数大小减小一半。**由于CUDA不能保证线程块和多流处理器之间的操作同步，所以我们无法在内部Kernel中使用循环**。
+
+#### 使用共享内存的规约
+
+在优化并行降低计算时，共享内存是一个关键概念，它可以显著提高性能。接下来，我们将讨论如何有效使用共享内存来改进降低计算性能。
+
+在这个规约操作中，每个CUDA线程块对输入值进行规约，CUDA线程使用共享内存共享数据。为了进行适当的数据更新，它们使用块级内在同步函数`__syncthreads()`。然后，下一个迭代操作基于先前的规约结果。其设计如下图所示，显示了使用共享内存的并行规约：
+
+![picture 7](images/af2ff0f46bd4555d1ab0f02f655037f3f64bd95027a651f11f54be1f381fb75b.png)  
+
+黄色虚线框表示了CUDA线程块的操作范围。在这个设计中，每个CUDA线程块输出一个规约结果。
+
+块级规约允许每个CUDA线程块进行规约并输出单个规约输出。因为它不需要我们在全局内存中保存中间结果，CUDA内核可以将过渡值存储在共享内存中。这个设计有助于节省全局内存带宽并减少内存延迟。
+
+接下来，我们将编写内核函数，如下所示：
+
+```cuda
+__global__ void reduction_kernel(float* d_out, float* d_in,
+  unsigned int size) {
+  unsigned int idx_x = blockIdx.x * blockDim.x + threadIdx.x;
+  extern __shared__ float s_data[];
+  s_data[threadIdx.x] = (idx_x < size) ? d_in[idx_x] : 0.f;
+  __syncthreads();
+  // 进行规约
+  for (unsigned int stride = 1; stride < blockDim.x; stride *= 2) {
+    // 线程同步规约
+    if ( (idx_x % (stride * 2)) == 0 )
+      s_data[threadIdx.x] += s_data[threadIdx.x + stride];
+    __syncthreads();
+  }
+  if (threadIdx.x == 0)
+    d_out[blockIdx.x] = s_data[0];
+}
+```
+
+然后，我们将调用内核函数，如下所示：
+
+```cuda
+void reduction(float *d_out, float *d_in, int n_threads, int size)
+{
+  cudaMemcpy(d_out, d_in, size * sizeof(float),
+  cudaMemcpyDeviceToDevice);
+  while(size > 1) {
+    int n_blocks = (size + n_threads - 1) / n_threads;
+    reduction_kernel
+    <<< n_blocks, n_threads, n_threads * sizeof(float), 0 >>>
+    (d_out, d_out, size);
+    size = n_blocks;
+ }
+}
+```
+
+在这段代码中，我们提供了n_threads * sizeof (float)字节，因为每个CUDA线程将共享每个字节的一个变量。这有助于更好地理解并行规约操作的实现过程。分配足够大的内存是为了确保每个线程能够安全地存储和访问共享的数据，以便进行并行规约操作。如果不提供足够的内存，代码可能会崩溃。
+
+#### 比较两种规约实现
+
+为了比较两种规约实现的性能，我们将使用以下代码调用两个规约函数：
+
+```cuda
+// 初始化计时器
+StopWatchInterface *timer;
+sdkCreateTimer(&timer);
+sdkStartTimer(&timer);
+
+... 执行代码 ...
+
+// 获取经过的时间
+cudaDeviceSynchronize(); // 阻塞主机，直到GPU完成工作
+sdkStopTimer(&timer);
+
+// 获取执行时间（微秒）
+float execution_time_ms = sdkGetTimerValue(&timer)
+
+// 终止计时器
+sdkDeleteTimer(&timer);
+```
+
+现在，我们可以比较两个并行规约操作的执行时间。性能可能会根据GPU和实现环境的不同而有所变化。分别运行以下命令进行全局规约和使用共享内存的规约操作：
+
+```shell
+# 使用全局内存进行规约
+$ nvcc -run -m64 -gencode arch=compute_70,code=sm_70 -I /usr/local/cuda/samples/common/inc -o reduction_global
+./reduction_global.cpp reduction_global_kernel.cu
+
+# 使用共享内存进行规约
+$ nvcc -run -m64 -gencode arch=compute_70,code=sm_70 -I /usr/local/cuda/samples/common/inc -o reduction_shared
+./reduction_shared.cpp reduction_shared_kernel.cu
+```
+
+使用我的Tesla V100 PCIe卡，两种规约操作的估计性能如下。元素数量为$2^24$：
+
+| 操作方式                     | 估计时间（毫秒） | 加速比   |
+| ----------------------------- | ----------------- | -------- |
+| 原始方法（使用全局内存规约） | 4.609             | 1.0x     |
+| 使用共享内存进行规约       | 0.624             | 7.4x     |
+
+从这个结果可以看出，使用共享内存的规约操作速度非常快。第一个实现版本位于global_reduction.cu中，第二个版本位于shared_reduction.cu中（位于书本的git仓库中）。
+
+通过将规约操作与共享内存相结合，我们显著提高了性能。然而，我们不能确定这是我们可以获得的最大性能，也不清楚我们的应用程序存在什么瓶颈。为了分析这一点，我们将在下一部分中讨论性能限制因素。
+
 
 
