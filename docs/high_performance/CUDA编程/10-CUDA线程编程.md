@@ -339,7 +339,7 @@ $ nvcc -run -m64 -gencode arch=compute_70,code=sm_70 -I /usr/local/cuda/samples/
 ./reduction_shared.cpp reduction_shared_kernel.cu
 ```
 
-使用我的Tesla V100 PCIe卡，两种规约操作的估计性能如下。元素数量为$2^24$：
+使用我的Tesla V100 PCIe卡，两种规约操作的估计性能如下。元素数量为$2^{24}$：
 
 | 操作方式                     | 估计时间（毫秒） | 加速比   |
 | ----------------------------- | ----------------- | -------- |
@@ -350,5 +350,131 @@ $ nvcc -run -m64 -gencode arch=compute_70,code=sm_70 -I /usr/local/cuda/samples/
 
 通过将规约操作与共享内存相结合，我们显著提高了性能。然而，我们不能确定这是我们可以获得的最大性能，也不清楚我们的应用程序存在什么瓶颈。为了分析这一点，我们将在下一部分中讨论性能限制因素。
 
+### 减少CUDA线程的分歧效应
 
+在单指令多线程（SIMT）执行模型中，线程被分为32个一组，每组称为一个warp。如果一个warp遇到条件语句或分支，它的线程可能会分散并串行执行每个条件。这被称为分支分歧，对性能有显著影响。
+
+下图展示了CUDA线程分歧效应。不在空闲状态的CUDA线程会降低GPU线程的有效利用率。随着分支部分的增多，GPU调度吞吐量变得低效。因此，我们需要避免或减少这种warp分歧效应。我们可以选择以下几种选项：
+
+1. 通过处理不同warp来执行分支部分以避免分歧
+2. 对分支部分进行协同访问以减少warp中的分支
+3. 缩短分支部分，仅保留关键部分进行分支
+4. 重新排列数据（例如，转置、协同访问等）
+5. 使用协作组中的tiled_partition对组进行分区
+6. 将分歧视为性能瓶颈
+
+#### 将分歧视为性能瓶颈
+
+从前面的优化中，我们会发现有关计算分析中分歧分支引发的不高效内核警告，如下所示：
+
+![picture 8](images/ed23c9a87eca339cebdf4db6864d2ff47a69d80cd56cd73fc47f3ce1f3a4ff49.png)  
+
+73.4%意味着我们的操作路径并不高效。我们可以确定分歧地址是问题，也就是代码中的if语句：
+
+```cpp
+if ( (idx_x % (stride * 2)) == 0 )
+    s_data[threadIdx.x] += s_data[threadIdx.x + stride];
+```
+
+当涉及到减少地址分歧时，我们可以选择其中一种CUDA线程索引策略：
+
+1. 交织式寻址
+2. 顺序寻址
+
+##### 交织式寻址
+
+在这种策略中，连续的CUDA线程使用交织寻址策略获取输入数据。与之前的版本相比，CUDA线程通过增加步幅值来访问输入数据。以下图展示了CUDA线程如何与减少项交织：
+
+![picture 9](images/f76d5b964c070a8568e8967599a5119a907b128140edc6a79118119930ff19b3.png)  
+
+
+交织寻址可以实现如下：
+
+```cpp
+__global__ void interleaved_reduction_kernel(float* g_out, float* g_in, unsigned int size)
+{
+  unsigned int idx_x = blockIdx.x * blockDim.x + threadIdx.x;
+  extern __shared__ float s_data[];
+  s_data[threadIdx.x] = (idx_x < size) ? g_in[idx_x] : 0.f;
+  __syncthreads();
+  // 执行减少操作
+  // 交织寻址
+  for (unsigned int stride = 1; stride < blockDim.x; stride *= 2) {
+    int index = 2 * stride * threadIdx.x;
+    if (index < blockDim.x)
+      s_data[index] += s_data[index + stride];
+    __syncthreads();
+  }
+  // for (unsigned int stride = 1; stride < blockDim.x; stride *= 2) {
+  //   // 线程同步规约
+  //   if ( (idx_x % (stride * 2)) == 0 )
+  //     s_data[threadIdx.x] += s_data[threadIdx.x + stride];
+  //   __syncthreads();
+  // }
+  if (threadIdx.x == 0)
+    g_out[blockIdx.x] = s_data[0];
+}
+```
+
+在Tesla V100上，测得的内核执行时间为0.446毫秒。这比之前的版本慢，因为在这种方法中，每个线程块没有充分利用。通过对其性能进行分析，我们可以得到更多详细信息。
+
+现在我们将尝试另一种寻址方法，该方法旨在使每个线程块计算更多数据。
+
+##### 顺序寻址
+
+![picture 10](images/39870ff7d8c65ba8b19c9ce60966564db674c62b79393e07a32517964410275a.png)  
+
+现在，让我们编写一个使用顺序寻址的内核：
+
+```cpp
+__global__ void sequantial_reduction_kernel(float *g_out, float *g_in, unsigned int size)
+{
+  unsigned int idx_x = blockIdx.x * blockDim.x + threadIdx.x;
+  extern __shared__ float s_data[];
+  s_data[threadIdx.x] = (idx_x < size) ? g_in[idx_x] : 0.f;
+  __syncthreads();
+  // 执行减少操作
+  // 顺序寻址
+  for (unsigned int stride = blockDim.x / 2; stride > 0; stride >>= 1)
+  {
+    if (threadIdx.x < stride)
+      s_data[threadIdx.x] += s_data[threadIdx.x + stride];
+    __syncthreads();
+  }
+  if (threadIdx.x == 0)
+    g_out[blockIdx.x] = s_data[0];
+}
+```
+
+运行以下命令来编译上述代码：
+
+```cpp
+$ nvcc -run -m64 -gencode arch=compute_70,code=sm_70 -
+I/usr/local/cuda/samples/common/inc -o reduction ./reduction.cpp
+./reduction_kernel_sequential.cu
+```
+
+在Tesla V100 GPU上，测得的执行时间为0.378毫秒，略快于前一策略（0.399毫秒）。
+
+### 性能建模和限制器平衡
+
+在性能限制器分析之后，尽管限制器分析显示每种资源都得到了充分利用，但是我们当前的性能降低问题还是受限于内存带宽导致的计算延迟。下面我们将讨论为什么会出现这个问题，以及我们如何通过遵循Roofline性能模型来解决这个问题。
+
+#### Roofline模型
+
+Roofline模型是一种直观的可视化性能分析模型，用于在并行处理单元上提供给定计算内核的估计性能。基于该模型，并行编程中的开发人员可以确定算法应该被限制的边界，并确定应该优化的部分。
+
+以下图形展示了Roofline模型的示例：
+
+![picture 11](images/c109f7cff75d58843c35b842f48a647cd02b01e10aa1cfaf1f53ce04827e29e2.png)  
+
+倾斜的部分表示内存受限，而平坦的部分表示算术受限。每个并行算法和实现都有自己的Roofline模型，因为它们具有不同的计算能力和内存带宽。通过这个模型，可以根据算法的操作强度（flops/bytes）对其进行放置。如果实现不符合该模型的预期性能，我们可以确定该版本的代码受延迟的限制。
+
+考虑到我们并行规约的复杂性，它必须受限于内存带宽。换句话说，它的操作强度较低，因此我们的策略应该尽可能最大化内存带宽。
+
+因此，我们需要确认我们的规约函数是如何性能带宽的。下图显示了全局内存的带宽使用情况：
+
+![picture 12](images/b444f394cb5b4d59fbd4c0fbaf486cb6d5d171ba3783e2119d1076b050af1e17.png)  
+
+正如我们从这个图表中看到的那样，我们没有充分利用全部的内存带宽。在 Tesla V100 GPU上，程序的总带宽为 343.376 GB/s，由于这款GPU使用的是 900 GB/s 带宽的HBM2内存，因此大约只使用了带宽的三分之一。下面就让我们来看看如何增加程序的内存带宽占用。
 
