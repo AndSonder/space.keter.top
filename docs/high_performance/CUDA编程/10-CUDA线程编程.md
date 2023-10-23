@@ -254,7 +254,7 @@ void naive_reduction(float *d_out, float *d_in, int n_threads, int size) {
 
 #### 使用共享内存的规约
 
-在优化并行降低计算时，共享内存是一个关键概念，它可以显著提高性能。接下来，我们将讨论如何有效使用共享内存来改进降低计算性能。
+在优化并行规约计算时，共享内存是一个关键概念，它可以显著提高性能。接下来，我们将讨论如何有效使用共享内存来改进规约计算性能。
 
 在这个规约操作中，每个CUDA线程块对输入值进行规约，CUDA线程使用共享内存共享数据。为了进行适当的数据更新，它们使用块级内在同步函数`__syncthreads()`。然后，下一个迭代操作基于先前的规约结果。其设计如下图所示，显示了使用共享内存的并行规约：
 
@@ -478,4 +478,58 @@ Roofline模型是一种直观的可视化性能分析模型，用于在并行处
 
 
 正如我们从这个图表中看到的那样，我们没有充分利用全部的内存带宽。在 Tesla V100 GPU上，程序的总带宽为 343.376 GB/s，由于这款GPU使用的是 900 GB/s 带宽的HBM2内存，因此大约只使用了带宽的三分之一。下面就让我们来看看如何增加程序的内存带宽占用。
+
+#### 通过网格跨度循环最大化内存带宽
+
+接下来我们将探讨如何通过一种简单的方法最大化内存带宽。这种方法涉及到使用CUDA线程来累积输入数据并启动归约操作。以前，我们的归约实现是以输入数据的大小为起点。但现在，我们将使用一组CUDA线程迭代访问输入数据，而这个组的大小将成为我们核函数的网格大小。这种迭代方式被称为网格跨度循环。这种技术以有效控制多个CUDA核心。
+
+下面的代码展示了更新后的归约核函数：
+
+```cpp
+__global__ void reduction_kernel(float *g_out, float *g_in, unsigned int size) {
+    unsigned int idx_x = blockIdx.x * blockDim.x + threadIdx.x;
+    extern __shared__ float s_data[];
+    float input = 0.f;
+
+    // 使用网格跨度循环累积输入数据并保存到共享内存
+    for (int i = idx_x; i < size; i += blockDim.x * gridDim.x)
+        input += g_in[i];
+
+    s_data[threadIdx.x] = input;
+    __syncthreads();
+
+    // 执行归约操作
+    for (unsigned int stride = blockDim.x / 2; stride > 0; stride >>= 1) {
+        if (threadIdx.x < stride)
+            s_data[threadIdx.x] += s_data[threadIdx.x + stride];
+        __syncthreads();
+    }
+
+    if (threadIdx.x == 0)
+        g_out[blockIdx.x] = s_data[0];
+}
+```
+
+现在，我们需要确定核函数的网格大小。为了使我们的GPU代码在不同的GPU目标上运行，我们必须在运行时确定它们的大小。此外，我们需要充分利用GPU中的所有多处理器。CUDA C提供了相关的函数来实现这一目标。我们可以使用cudaOccupancyMaxActiveBlocksPerMultiprocessor()函数来获取多处理器上的最大活动块数，并使用cudaDeviceGetAttribute()函数来获取目标GPU上的多处理器数量。下面的代码展示了如何使用这些函数并调用核函数：
+
+```cpp
+int reduction(float *g_outPtr, float *g_inPtr, int size, int n_threads) {
+    int num_sms;
+    int num_blocks_per_sm;
+    
+    cudaDeviceGetAttribute(&num_sms, cudaDevAttrMultiProcessorCount, 0);
+    cudaOccupancyMaxActiveBlocksPerMultiprocessor(&num_blocks_per_sm, reduction_kernel, n_threads, n_threads * sizeof(float));
+    
+    int n_blocks = min(num_blocks_per_sm * num_sms, (size + n_threads - 1) / n_threads);
+    
+    reduction_kernel<<<n_blocks, n_threads, n_threads * sizeof(float), 0>>>(g_outPtr, g_inPtr, size);
+    reduction_kernel<<<1, n_threads, n_threads * sizeof(float), 0>>>(g_outPtr, g_inPtr, n_blocks);
+    
+    return 1;
+}
+```
+
+这个函数还有一个额外的修改，为了避免过多的计算开销，它额外启动了一次带有单个块的 `reduction_kernel()` 函数。
+
+最终，通过这些优化，更新后的归约性能在Tesla V100上达到了0.278毫秒，比之前的方法快了约100毫秒。
 
