@@ -205,7 +205,7 @@ foo_kernel() {
 }
 ```
 
-### 并行规约
+## 并行规约
 
 规约 reduction 是一种简单但实用的算法，用于获得多个参数之间的共同参数。这项任务可以按顺序或并行执行。在涉及到并行处理到并行架构时，并行规约是获取直方图、均值或其他统计值的最快方式。
 
@@ -222,7 +222,7 @@ foo_kernel() {
 
 通过将规约任务并行执行，可以将总步骤数量降低到对数级别。现在，让我们开始在GPU上实现这个并行规约算法。首先，我们将使用全局内存实现一个简单设计。然后，我们将实现另一个使用共享内存的规约版本。通过比较这两种实现，我们将讨论性能差异是由什么引起的。
 
-#### 使用全局内存的规约
+### 使用全局内存的规约
 
 规约计算的第一个基本方法是使用并行的CUDA线程，并通过全局内存共享规约计算结果。对于每次迭代，CUDA核心通过将其大小减小一半，从全局内存中获取累积值。下图显示了在全局内存数据共享的情况下进行的朴素并行规约计算：
 
@@ -252,7 +252,7 @@ void naive_reduction(float *d_out, float *d_in, int n_threads, int size) {
 
 在这个实现中，核心代码通过跨步地址寻址从设备内存中提取数据，并输出一个规约计算的结果。主机代码触发每一步的规约计算核心，并参数大小减小一半。**由于CUDA不能保证线程块和多流处理器之间的操作同步，所以我们无法在内部Kernel中使用循环**。
 
-#### 使用共享内存的规约
+### 使用共享内存的规约
 
 在优化并行规约计算时，共享内存是一个关键概念，它可以显著提高性能。接下来，我们将讨论如何有效使用共享内存来改进规约计算性能。
 
@@ -304,7 +304,7 @@ void reduction(float *d_out, float *d_in, int n_threads, int size)
 
 在这段代码中，我们提供了n_threads * sizeof (float)字节，因为每个CUDA线程将共享每个字节的一个变量。这有助于更好地理解并行规约操作的实现过程。分配足够大的内存是为了确保每个线程能够安全地存储和访问共享的数据，以便进行并行规约操作。如果不提供足够的内存，代码可能会崩溃。
 
-#### 比较两种规约实现
+### 比较两种规约实现
 
 为了比较两种规约实现的性能，我们将使用以下代码调用两个规约函数：
 
@@ -350,7 +350,7 @@ $ nvcc -run -m64 -gencode arch=compute_70,code=sm_70 -I /usr/local/cuda/samples/
 
 通过将规约操作与共享内存相结合，我们显著提高了性能。然而，我们不能确定这是我们可以获得的最大性能，也不清楚我们的应用程序存在什么瓶颈。为了分析这一点，我们将在下一部分中讨论性能限制因素。
 
-### 减少CUDA线程的分歧效应
+## 减少CUDA线程的分歧效应
 
 在单指令多线程（SIMT）执行模型中，线程被分为32个一组，每组称为一个warp。如果一个warp遇到条件语句或分支，它的线程可能会分散并串行执行每个条件。这被称为分支分歧，对性能有显著影响。
 
@@ -363,7 +363,7 @@ $ nvcc -run -m64 -gencode arch=compute_70,code=sm_70 -I /usr/local/cuda/samples/
 5. 使用协作组中的tiled_partition对组进行分区
 6. 将分歧视为性能瓶颈
 
-#### 将分歧视为性能瓶颈
+### 将分歧视为性能瓶颈
 
 从前面的优化中，我们会发现有关计算分析中分歧分支引发的不高效内核警告，如下所示：
 
@@ -381,7 +381,7 @@ if ( (idx_x % (stride * 2)) == 0 )
 1. 交织式寻址
 2. 顺序寻址
 
-##### 交织式寻址
+#### 交织式寻址
 
 在这种策略中，连续的CUDA线程使用交织寻址策略获取输入数据。与之前的版本相比，CUDA线程通过增加步幅值来访问输入数据。以下图展示了CUDA线程如何与减少项交织：
 
@@ -420,7 +420,7 @@ __global__ void interleaved_reduction_kernel(float* g_out, float* g_in, unsigned
 
 现在我们将尝试另一种寻址方法，该方法旨在使每个线程块计算更多数据。
 
-##### 顺序寻址
+#### 顺序寻址
 
 ![picture 10](images/39870ff7d8c65ba8b19c9ce60966564db674c62b79393e07a32517964410275a.png)  
 
@@ -456,11 +456,11 @@ I/usr/local/cuda/samples/common/inc -o reduction ./reduction.cpp
 
 在Tesla V100 GPU上，测得的执行时间为0.378毫秒，略快于前一策略（0.399毫秒）。
 
-### 性能建模和限制器平衡
+## 性能建模和限制器平衡
 
 在性能限制器分析之后，尽管限制器分析显示每种资源都得到了充分利用，但是我们当前的性能降低问题还是受限于内存带宽导致的计算延迟。下面我们将讨论为什么会出现这个问题，以及我们如何通过遵循Roofline性能模型来解决这个问题。
 
-#### Roofline模型
+### Roofline模型
 
 Roofline模型是一种直观的可视化性能分析模型，用于在并行处理单元上提供给定计算内核的估计性能。基于该模型，并行编程中的开发人员可以确定算法应该被限制的边界，并确定应该优化的部分。
 
@@ -479,7 +479,7 @@ Roofline模型是一种直观的可视化性能分析模型，用于在并行处
 
 正如我们从这个图表中看到的那样，我们没有充分利用全部的内存带宽。在 Tesla V100 GPU上，程序的总带宽为 343.376 GB/s，由于这款GPU使用的是 900 GB/s 带宽的HBM2内存，因此大约只使用了带宽的三分之一。下面就让我们来看看如何增加程序的内存带宽占用。
 
-#### 通过网格跨度循环最大化内存带宽
+### 通过网格跨度循环最大化内存带宽
 
 接下来我们将探讨如何通过一种简单的方法最大化内存带宽。这种方法涉及到使用CUDA线程来累积输入数据并启动归约操作。以前，我们的归约实现是以输入数据的大小为起点。但现在，我们将使用一组CUDA线程迭代访问输入数据，而这个组的大小将成为我们核函数的网格大小。这种迭代方式被称为网格跨度循环。这种技术以有效控制多个CUDA核心。
 
@@ -532,4 +532,75 @@ int reduction(float *g_outPtr, float *g_inPtr, int size, int n_threads) {
 这个函数还有一个额外的修改，为了避免过多的计算开销，它额外启动了一次带有单个块的 `reduction_kernel()` 函数。
 
 最终，通过这些优化，更新后的归约性能在Tesla V100上达到了0.278毫秒，比之前的方法快了约100毫秒。
+
+### 平衡输入/输出吞吐量
+
+从分析结果中可以看出，本地变量“input”存在大量的加载/存储请求。这种大规模I/O对线程块的调度产生了操作依赖性的影响。在当前的数据累积过程中，最糟糕的是它对设备内存存在依赖性。因此，我们将使用额外的寄存器来发出更多的加载指令以减轻这种依赖性。以下的代码展示了我们如何实现这一点：
+
+```c++
+// 定义一个常数NUM_LOAD，表示每个线程块中处理的数据元素数量
+#define NUM_LOAD 4
+
+// CUDA核函数，用于执行归约操作
+__global__ void reduction_kernel(float *g_out, float *g_in, unsigned int size)
+{
+    // 计算每个线程的全局唯一索引
+    unsigned int idx_x = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // 声明一个共享内存数组s_data，用于存储临时数据
+    extern __shared__ float s_data[];
+
+    // 声明一个数组input，用于暂存加载的数据
+    float input[NUM_LOAD] = {0.f};
+
+    // 使用网格步进循环累积输入数据并保存到共享内存
+    for (int i = idx_x; i < size; i += blockDim.x * gridDim.x * NUM_LOAD)
+    {
+        for (int step = 0; step < NUM_LOAD; step++)
+        {
+            // 加载数据并累积到input数组
+            input[step] += (i + step * blockDim.x * gridDim.x < size) ? g_in[i + step * blockDim.x * gridDim.x] : 0.f;
+        }
+    }
+
+    // 对input数组进行归约操作，将结果存储在input[0]中
+    for (int i = 1; i < NUM_LOAD; i++)
+    {
+        input[0] += input[i];
+    }
+
+    // 将input[0]存储到共享内存s_data中
+    s_data[threadIdx.x] = input[0];
+
+    // 等待所有线程完成对s_data的写入操作
+    __syncthreads();
+
+    // 执行归约操作，将结果递减到s_data[0]
+    for (unsigned int stride = blockDim.x / 2; stride > 0; stride >>= 1)
+    {
+        if (threadIdx.x < stride)
+        {
+            s_data[threadIdx.x] += s_data[threadIdx.x + stride];
+        }
+        // 等待所有线程完成对s_data的更新操作
+        __syncthreads();
+    }
+
+    // 当线程块中的第一个线程(threadIdx.x == 0)完成归约后，将结果写入全局内存
+    if (threadIdx.x == 0)
+    {
+        g_out[blockIdx.x] = s_data[0];
+    }
+}
+```
+
+这段代码使用了三个额外的寄存器来收集全局内存数据。变量“NUM_LOAD”的值可能会因GPU的不同而有所变化，因为它受到GPU的内存带宽和CUDA核心数量的影响。
+
+当使用Tesla V100卡运行以下命令时，获得的性能为0.264毫秒:
+
+```c++
+$ nvcc -run -m64 -gencode arch=compute_70,code=sm_70 -I/usr/local/cuda/samples/common/inc -o reduction ./reduction.cpp ./reduction_kernel_opt.cu
+```
+
+
 
