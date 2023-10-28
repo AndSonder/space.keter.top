@@ -16,7 +16,7 @@ Paddle 通过 Strategy 和 Engine 等模块支持流水线并行。用户只需�
 
 Engine 是 Paddle 中用于支持流水线并行的高层API (`python/paddle/distributed/auto_parallel/static/engine.py`)
 
-Engine提供了高层封装,整合了自动并行转换、执行调度等关键流程。通过 Strategy 配置流水线策略, Engine 可以自动对模型进行流水线切分,生成分段程序;然后组织分布式执行, 大幅降低使用门槛。
+Engine提供了高层封装,整合了自动并行转换、执行调度等关键流程。通过 Strategy 配置流水线策略, Engine 可以自动对模型进行流水线切分,生成分段Program; 然后组织分布式执行, 大幅降低使用门槛。
 
 后面我们将详细介绍Engine中流水线并行的自动编排与执行流程的核心代码实现。
 
@@ -59,7 +59,7 @@ def main():
 
 ## 自动编排阶段
 
-Engine在接收到用户定义的流水线并行策略后,会自动完成训练程序的并行编排。下面我们以 Engine 中的 `_prepare_program` 方法作为基线, 来看看具体的实现逻辑。
+Engine在接收到用户定义的流水线并行策略后,会自动完成训练 Program 的并行编排。下面我们以 Engine 中的 `_prepare_program` 方法作为基线, 来看看具体的实现逻辑。
 
 `_prepare_program()` 方法主要包含模型的构建、规划、并行化和初始化等过程。它的代码如下:
 
@@ -84,18 +84,25 @@ def _prepare_program(self, mode, init_parameters=True):
 1. _build() 方法会构建计算图。在动态图模式下,会调用to_static方法将动态图转为静态图;在静态图模式下, 会直接构建静态计算图。
 2. _plan() 方法会进行并行策略的规划,生成并行方案。
 3. _parallel() 方法会根据并行方案对模型进行并行化改造。 
-4. _init_comm() 方法会实例化程序中的通信操作。
+4. _init_comm() 方法会实例化 Program 中的通信操作。
 5. _initialize() 方法会进行参数初始化等操作,完成并行环境的准备。
 
 其中 `_build()`、`_plan()` 和 `_parallel()` 是核心的模型构建和并行化过程。`_init_comm()` 和 `_initialize()` 则主要是进行并行环境的初始化。
 
 `_prepare_program()` 方法被 `fit()`、`evaluate()`、`predict()` 等调用, 目的是在训练/验证/预测前构建并准备好并行执行的环境。这样后续的训练循环等就可以直接在这个环境下高效地运行了。
 
-### 串行程序的构建
+### 串行 program 的构建
 
-_build()函数是AutoParallel中的模型构建过程,它会构建计算图来表示模型。 `_build` 函数首先检测当前的执行模式，以确定是动态图还是静态图模式。如果当前处于动态图模式，函数会进入这个分支。在动态图模式下，模型的构建是动态的，因此需要创建一个 `ProgramHelper` 实例，该实例帮助构建动态图。它包括创建前向计算图、计算损失和度量指标等。在静态图模式下，模型的计算图是静态的，因此函数会克隆原始的静态计算图，并创建占位符（placeholder）用于输入数据和标签。
+:::tip
+
+PaddlePaddle 的 Program 是一个计算图，它描述了一个深度学习模型的结构和计算过程。 ([Program 介绍](https://space.keter.top/docs/high_performance/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91/%E9%9D%99%E6%80%81%E5%9B%BE%E7%BB%84%E7%BD%91%E8%BF%87%E7%A8%8B#%E4%BB%80%E4%B9%88%E6%98%AF-program))
+
+:::
+
+_build()函数是 AutoParallel 中的模型构建过程, 它会构建计算图来表示模型。 `_build` 函数首先检测当前的执行模式，以确定是动态图还是静态图模式。如果当前处于动态图模式，函数会进入这个分支。在动态图模式下，模型的构建是动态的，因此需要创建一个 `ProgramHelper` 实例，该实例帮助构建动态图。它包括创建前向计算图、计算损失和度量指标等。在静态图模式下，模型的计算图是静态的，因此函数会克隆原始的静态计算图，并创建占位符（placeholder）用于输入数据和标签。
 
 ```python
+# From python/paddle/distributed/auto_parallel/static/engine.py
 def _build(self, mode):
     # 检查当前是否在动态图模式，或者已经处于动态图模式
     if in_dynamic_mode() or self._dygraph_mode:
@@ -112,11 +119,11 @@ def _build(self, mode):
             self._inputs_spec,
             self._labels_spec,
         )
-        # 构建前向计算主程序
+        # 构建前向计算主Program
         with utils.unique_name.guard():
             self.program_helper.build_program(mode)
 
-        # 获取具体的计算图（Concrete Program）以及静态图模式下的主程序和启动程序
+        # 获取具体的计算图（Concrete Program）以及静态图模式下的主Program和启动Program
         self.concrete_program = self.program_helper.concrete_program
         serial_main_prog = self.program_helper.main_program
         serial_startup_prog = self.program_helper.startup_program
@@ -140,9 +147,9 @@ def _build(self, mode):
         outputs = []
         metrics = []
         self._losses = []
-        # 克隆原始静态主程序
+        # 克隆原始静态主Program
         serial_main_prog = self._orig_main_prog.clone()
-        # # 克隆原始静态启动程序
+        # 克隆原始静态启动Program
         serial_startup_prog = self._orig_startup_prog.clone()  
         if not self._skip_build:
             with static.program_guard(
@@ -191,6 +198,7 @@ def _build(self, mode):
 如果启用了分布式数据并行，函数会将输入数据和标签的占位符根据数据并行策略进行分割，以支持数据的并行处理。
 
 ```python 
+# From python/paddle/distributed/auto_parallel/static/engine.py
     # 获取默认的分布式上下文，该上下文包含了关于分布式训练的配置信息
     default_ctx = get_default_distributed_context()
 
@@ -221,6 +229,7 @@ def _build(self, mode):
 函数构建完成后，返回的是一个包含所有构建信息的 `DistributedContext` 对象。这个对象包括前向计算图、启动计算图、优化器、损失函数、输入占位符、输出变量、度量指标等，以支持分布式训练和数据并行。
 
 ```python 
+# From python/paddle/distributed/auto_parallel/static/engine.py
     # 定义 feed_vars 字典，用于存储输入和标签的占位符
     feed_vars = {"inputs": self._inputs, "labels": self._labels}
 
@@ -241,14 +250,14 @@ def _build(self, mode):
         self._model,  # 当前模型
         self._losses,  # 损失函数的变量
         self._strategy,  # 分布式策略配置
-        serial_main_prog  # 主程序
+        serial_main_prog  # 主Program
     )
 
     # 创建分布式上下文对象，并将其存储在 self._dist_contexts[mode] 中
-    # 该上下文包括主程序、启动程序、优化器、损失函数、输入占位符、输出变量、集群配置、策略配置以及 JSON 配置
+    # 该上下文包括主Program、启动Program、优化器、损失函数、输入占位符、输出变量、集群配置、策略配置以及 JSON 配置
     self._dist_contexts[mode] = DistributedContext(
-        serial_main_prog,  # 主程序
-        serial_startup_prog,  # 启动程序
+        serial_main_prog,  # 主Program
+        serial_startup_prog,  # 启动Program
         self._optimizer,  # 优化器
         self._losses,  # 损失函数的变量
         feed_vars,  # 输入占位符
@@ -261,8 +270,8 @@ def _build(self, mode):
     # 创建另一个分布式上下文对象，并将其存储在 self._fwd_dist_contexts[mode] 中
     # 这个上下文对象与前一个对象类似，用于前向计算
     self._fwd_dist_contexts[mode] = DistributedContext(
-        serial_main_prog,  # 主程序
-        serial_startup_prog,  # 启动程序
+        serial_main_prog,  # 主Program
+        serial_startup_prog,  # 启动Program
         self._optimizer,  # 优化器
         self._losses,  # 损失函数的变量
         feed_vars,  # 输入占位符
@@ -275,11 +284,118 @@ def _build(self, mode):
     # 设置当前模式的梯度缩放因子，根据分布式策略配置中的 gradient_scale
     self._dist_contexts[mode].gradient_scale = self._strategy.gradient_scale
 
-    # 创建当前模式的前向主程序的克隆，以备后续使用
+    # 创建当前模式的前向 program 的克隆，以备后续使用
     self._fwd_main_progs[mode] = serial_main_prog.clone()
 ```
 
 我们可以注意到 `auto_utils.set_recompute_segments` 用于设置需要重新计算的分段。这个函数的目的是配置计算图中的重新计算分段，以便在分布式训练中可以选择性地重新计算这些分段，从而提高性能和降低通信开销。这在大规模深度学习模型的分布式训练中非常有用。这里不做详细介绍，感兴趣的小伙伴可以自行阅读源码。
+
+### 生成并行策略
+
+_plan() 函数是 AutoParallel 中的规划过程,它会生成并行执行的详细方案。下面是 `_plan()` 函数的代码:
+
+```python
+# From python/paddle/distributed/auto_parallel/static/planner_v2.py
+def _plan(self, mode):
+    if self._planned_mode is None:
+        # 如果之前没有规划模式，将当前模式设置为已规划的模式
+        self._planned_mode = mode  
+    elif self._strategy.auto_mode != "semi":
+        # 如果策略的自动模式不是 "semi"，则初始化分布上下文
+        # "semi" 表示半自动模式，即用户可以自定义一些规划信息
+        self._init_dist_context(mode)  
+
+    # 创建一个名为 Planner 的对象，用于规划分布式计算任务
+    self._planners[mode] = Planner(mode, self._dist_contexts[mode])
+    self._planners[mode].plan()
+
+    # 推断数据并行的相关信息
+    inputs_var = self._dist_contexts[mode].serial_feed_vars["inputs"]
+    labels_var = self._dist_contexts[mode].serial_feed_vars["labels"]
+    block = self._dist_contexts[mode].serial_main_program.global_block()
+    feed_list = []
+
+    # 获取用于数据并行的 feed 列表
+    for var in inputs_var + labels_var:
+        if var.name in block.vars:
+            feed_list.append(block.vars[var.name])
+
+    self._dp_world_sizes = []  # 存储数据并行的设备数量
+    self._dp_ranks = []  # 存储数据并行的设备id
+
+    # 遍历 feed 列表，获取数据并行的设备数量和设备id
+    for feed_var in feed_list:
+        dp_world_size, dp_rank = auto_utils.get_input_split_info(
+            self._cur_rank, feed_var, self._dist_contexts[mode]
+        )
+        self._dp_world_sizes.append(dp_world_size)
+        self._dp_ranks.append(dp_rank)
+```
+
+
+`Planner` 类是 `AutoParallel` 中实现自动并行规划的核心类,它的主要作用是生成并行方案并完成计算图的分布式标注。plan() 是 Planner 最关键的方法。
+
+```python 
+# From python/paddle/distributed/auto_parallel/static/planner_v2.py
+def plan(self):
+    # 获取日志记录器，用于记录日志信息
+    logger = get_logger(logging.INFO)
+    
+    # 初始化变量 path
+    path = None
+
+    # 如果存在 JSON 配置，尝试获取 "tuner_load_path" 键对应的值作为 path
+    if self._dist_context._json_config:
+        try:
+            path = self._dist_context._json_config["tuner_load_path"]
+        except:
+            path = None
+
+    # 检查 path 是否存在以及是否是有效的文件路径
+    if path and os.path.exists(path):
+        # 加载已有的并行方案相关逻辑
+        ...
+
+    # 如果没有加载分布式属性
+    if not self._load:
+        if self._strategy.auto_mode != "semi":
+            self._parallel_tuner.tune()
+        else:
+            # 完成前向注释
+            self._completer.complete_forward_annotation()
+
+    # 根据环境变量 "PADDLE_AUTO_PARALLEL_STAGE" 来判断是否执行
+    if os.getenv("PADDLE_AUTO_PARALLEL_STAGE", "run") != "run":
+        sys.exit()
+
+    # 解析前向子块
+    self._dist_context.block_state.parse_forward_blocks(
+        self._dist_context.serial_main_program
+    )
+```
+
+`Planner` 的 `plan()` 方法首先会检查是否存在已有的并行方案。如果存在，它会加载已有的并行方案，否则根据自动并行策略进行自动规划。我们可以看到，自动规划的核心是 `self._parallel_tuner.tune()` 和 `self._completer.complete_forward_annotation()`。
+
+`self._parallel_tuner.tune()` 的作用是自动搜寻最优的并行策略。它会构建搜索空间,然后通过评估不同的并行方案,选择总体执行时间最短的方案作为最终的并行策略。
+
+`self._completer.complete_forward_annotation()` 的作用是补全计算图中的并行属性,完成并行化。如果在semi模式下,直接使用用户定义的并行属性进行补全。否则使用使用tune函数优化得到的最优策略进行补全。在 `tune()` 方法中也会调用 `complete_forward_annotation()`。
+
+:::tip
+
+分布式标注(Distributed Annotation)指在分布式训练的计算图上,给操作符(Operators)和张量(Tensors)添加分布式属性的过程。这些分布式属性用于指导程序如何将运算分配到不同的设备上执行。Paddle Complete 类的作用就是完成计算图的分布式标注,给图中的操作符和张量添加分布式属性。比如 `complete_forward_annotation()` 中主要包括一下分布式标记：
+
+- process_mesh: 进程网格,描述了操作符将运行在哪些进程上。
+- dims_mapping: 维度映射表,描述了张量在不同进程间如何分割。
+- impl_type: 实现类型,表示具体的分布式实现算法。
+- impl_idx: 实现索引,用于区分不同的实现。
+
+:::
+
+### 并行化改造
+
+
+
+
 
 
 
