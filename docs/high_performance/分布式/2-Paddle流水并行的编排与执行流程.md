@@ -333,7 +333,7 @@ def _plan(self, mode):
 ```
 
 
-`Planner` 类是 `AutoParallel` 中实现自动并行规划的核心类,它的主要作用是生成并行方案并完成计算图的分布式标注。plan() 是 Planner 最关键的方法。
+Planner 类是 AutoParallel 中实现自动并行规划的核心类,它的主要作用是生成并行方案并完成计算图的分布式标注。plan() 是 Planner 最关键的方法。
 
 ```python 
 # From python/paddle/distributed/auto_parallel/static/planner_v2.py
@@ -374,7 +374,7 @@ def plan(self):
     )
 ```
 
-`Planner` 的 `plan()` 方法首先会检查是否存在已有的并行方案。如果存在，它会加载已有的并行方案，否则根据自动并行策略进行自动规划。我们可以看到，自动规划的核心是 `self._parallel_tuner.tune()` 和 `self._completer.complete_forward_annotation()`。
+Planner 的 `plan()` 方法首先会检查是否存在已有的并行方案。如果存在，它会加载已有的并行方案，否则根据自动并行策略进行自动规划。我们可以看到，自动规划的核心是 `self._parallel_tuner.tune()` 和 `self._completer.complete_forward_annotation()`。
 
 `self._parallel_tuner.tune()` 的作用是自动搜寻最优的并行策略。它会构建搜索空间,然后通过评估不同的并行方案,选择总体执行时间最短的方案作为最终的并行策略。
 
@@ -395,14 +395,674 @@ def plan(self):
 
 
 
+### 流水线编排
+
+上面已经提到过，在初始化 engine 类的时候会传入 `strategy` 参数，这个参数是一个 `auto.Strategy` 类的实例，用于配置流水线并行的策略。在 Strategy 类中，有一个 `pipeline` 属性，用于指定流水并行的编排模式。
+
+在 Parallelizer 执行 `parallel` 时候会在 `_apply_post_optimization` 中将编排模式（schedule_mode）保存到 `main_program._pipeline_opt["standalone_opt"]` 中。这个属性会在 ExecutorCache 中的 `_get_program_and_executor` 中被读取，用于编排Program。下面是相关代码：
+
+```python
+# python/paddle/base/executor.py
+new_program = program.clone()
+if (
+    new_program._pipeline_opt
+    and "standalone_opt" in new_program._pipeline_opt
+):
+    from paddle.distributed.passes.pipeline_scheduler_pass import (
+        apply_pass,
+    )
+
+    standalone_opt = new_program._pipeline_opt["standalone_opt"]
+    pass_name = standalone_opt["schedule_mode"]
+    plan = apply_pass(
+        new_program, new_program, pass_name, standalone_opt
+    )
+```
+
+在 `apply_pass` 中会调用 `FThenB` 或者 `1F1B` 的编排策略，将 `main_program` 切分成多个子 Program。下面是 `apply_pass` 的相关代码：
+
+```python 
+def apply_pass(main_program, startup_program, pass_name, pass_attr={}):
+    assert pass_name in [
+        "FThenB",
+        "1F1B",
+        "Eager1F1B",
+    ], f"pipeline scheduler only support FThenB, 1F1B and Eager1F1B, but recieve {pass_name}"
+
+    if pass_name == "1F1B":
+        pass_attr["enable_backward_forward_overlap"] = int(
+            os.environ.get("FLAGS_1f1b_backward_forward_overlap", 0)
+        )
+
+    # 初始化 pipeline_scheduler pass
+    pipeline_pass = new_pass("pipeline_scheduler_" + pass_name, pass_attr)
+    pass_context = PassContext()
+    # 编排的主要入口
+    pipeline_pass.apply([main_program], [startup_program], pass_context)
+    # 获取编排后的 plan
+    plan = pass_context.get_attr("plan")
+    return plan
+```
+
+编排的主要入口是 `pipeline_pass.apply`，`FThenB` 和 `1F1B` 的核心代码在 `pipeline_scheduler_pass.py` 中，其中还使用了一些继承类。下面我们先来梳理一下类之间的继承关系。其中主要涉及到的类包括：PassBase、PipelinePassBase、PipelineFThenBPass和Pipeline1F1BPass。
+
+PassBase 是所有Pass的基类，PipelinePassBase 是所有流水线编排Pass的基类，PipelineFThenBPass 和 Pipeline1F1BPass 分别是 FThenB 和 1F1B 的编排Pass。
+
+```python
+PassBase - PipelinePassBase - PipelineFThenBPass
+                            - Pipeline1F1BPass
+```
+
+在 PassBase 中定义了 `apply` 方法，`apply` 来方法中又进一步封装了 `_apply_impl` 和 `_apply_single_impl` 方法。PipelinePassBase 中重写了 `_apply_single_impl` 方法:
+
+```python 
+# python/paddle/distributed/passes/pipeline_pass_base.py
+def _apply_single_impl(self, main_program, startup_program, context):
+    """
+    执行并行计算的具体实现逻辑
+
+    Args:
+        main_program (Program): 主Program。
+        startup_program (Program): 启动Program。
+        context (PassContext): Pass的上下文信息。
+    """
+    # 获取到拆分后的子Program和对应的类型
+    job_types, sub_programs = self._partial_programs(main_program)
+
+    jobs = self._create_job_list()
+
+    type_to_program = dict(zip(job_types, sub_programs))
+    set_skip_gc_vars(
+        self.get_attr("num_micro_batches"), type_to_program, jobs
+    )
+
+    for type in type_to_program.keys():
+        type_to_program[type] = type_to_program[type].desc
+    plan = core.Plan(jobs, type_to_program)
+    context.set_attr("plan", plan)
+```
+
+可以看到进行编排的核心逻辑在 `_partial_programs` 和 `_create_job_list` 中，不同的编排策略会有不同的实现。下面我们来看看 `FThenB` 和 `1F1B` 的实现。
+
+#### FThenB 编排策略
+
+FThenB 编排的实现逻辑在 PipelineFThenBPass 类中实现，它继承自 PipelinePassBase 类。PipelineFThenBPass 中重写了 `_partial_programs` 和 `_create_job_list` 方法。 `_partial_programs` 方法的实现逻辑如下
+
+```python
+# python/paddle/distributed/passes/pipeline_scheduler_pass.py
+def _partial_programs(self, program):
+    """
+    将主Program进行拆分，还可以实现前向和后向的计算任务重叠以提高计算效率。
+
+    Args:
+        program (Program): 主Program。
+
+    Returns:
+        tuple: 包含两个列表，第一个列表包含子Program的类型（如LR、FORWARD、BACKWARD、OPT），第二个列表包含相应的子Program。
+    """
+    # 注意：标志 "enable_send_recv_overlap" 可能会增加GPU的保留内存。
+    enable_send_recv_overlap = self.get_attr("enable_send_recv_overlap")
+    types = [LR, FORWARD, BACKWARD, OPT]
+
+    # 获取前向和后向子Program的列表
+    sub_program_list = _program_for_fthenb_and_1f1b(
+        program, enable_send_recv_overlap
+    )
+    return types, sub_program_list
+```
+
+其中 `_program_for_fthenb_and_1f1b` 的主要作用是将主Program进行拆分，还可以实现前向和后向的计算任务重叠以提高计算效率。 这里我们暂时不讨论任务重叠的实现，只关注拆分的实现逻辑。下面是 `_program_for_fthenb_and_1f1b` 的实现逻辑：
+
+```python
+# python/paddle/distributed/passes/pipeline_scheduler_pass.py
+def _program_for_fthenb_and_1f1b(program, enable_send_recv_overlap=False):
+    # 为fthenb和1f1bProgram创建子Program列表
+
+    if enable_send_recv_overlap:
+        # 如果启用了发送接收操作的重叠，调用函数以进行重叠
+        _overlap_send_recv(program)
+    else:
+        # 否则，插入同步操作以确保顺序执行
+        _insert_sync_for_fthenb_1f1b(program)
+
+    # 创建四个子Program，分别用于LR、FORWARD、BACKWARD和OPT任务
+    lr_prog = Program()
+    fwd_prog = Program()
+    bwd_prog = Program()
+    opt_prog = Program()
+
+    # 分割Program并将操作添加到各个子Program中
+    def _split_ops(block):
+        # 根据操作的角色将操作分成四类：LR、FORWARD、BACKWARD和OPT
+        lr_ops = []
+        fwd_ops = []
+        bwd_ops = []
+        opt_ops = []
+        for op in src_block.ops:
+            if is_lr_sched_op(op):
+                lr_ops.append(op)
+            elif is_forward_op(op):
+                fwd_ops.append(op)
+            elif is_backward_op(op):
+                bwd_ops.append(op)
+            elif is_optimize_op(op):
+                opt_ops.append(op)
+            else:
+                raise ValueError(
+                    "The op role: "
+                    + str(op.attr('op_role'))
+                    + " isn't one of LRSched, Forward, Backward or Optimizer."
+                )
+        return lr_ops, fwd_ops, bwd_ops, opt_ops
+
+    def _add_ops_into_block(src_block, dst_block, ops):
+        # 将操作添加到指定的子Program块中
+        for op in ops:
+            _create_program(src_block, dst_block, op)
+
+    for idx, src_block in enumerate(program.blocks):
+        # 遍历主Program的块
+        lr_ops, fwd_ops, bwd_ops, opt_ops = _split_ops(src_block)
+        if idx == 0:
+            # 对于第一个块，添加LR、FORWARD、BACKWARD和OPT操作到相应子Program块
+            lr_block = lr_prog.block(0)
+            _add_ops_into_block(src_block, lr_block, lr_ops)
+
+            fwd_block = fwd_prog.block(0)
+            _add_ops_into_block(src_block, fwd_block, fwd_ops)
+
+            bwd_block = bwd_prog.block(0)
+            _add_ops_into_block(src_block, bwd_block, bwd_ops)
+
+            opt_block = opt_prog.block(0)
+            _add_ops_into_block(src_block, opt_block, opt_ops)
+        else:
+            if len(lr_ops):
+                # 对于后续块，如果有LR操作，创建新的LR子Program块并将LR操作添加到其中
+                lr_block = lr_prog._create_block(
+                    parent_idx=src_block.parent_idx
+                )
+                lr_block._set_forward_block_idx(src_block.forward_block_idx)
+                _add_ops_into_block(src_block, lr_block, lr_ops)
+
+            if len(fwd_ops):
+                # 同样，为FORWARD操作创建新子Program块
+                fwd_block = fwd_prog._create_block(
+                    parent_idx=src_block.parent_idx
+                )
+                fwd_block._set_forward_block_idx(src_block.forward_block_idx)
+                _add_ops_into_block(src_block, fwd_block, fwd_ops)
+
+            if len(bwd_ops):
+                # 为BACKWARD操作创建新子Program块
+                bwd_block = bwd_prog._create_block(
+                    parent_idx=src_block.parent_idx
+                )
+                bwd_block._set_forward_block_idx(src_block.forward_block_idx)
+                _add_ops_into_block(src_block, bwd_block, bwd_ops)
+
+            if len(opt_ops):
+                # 为OPT操作创建新子Program块
+                opt_block = opt_prog._create_block(
+                    parent_idx=src_block.parent_idx
+                )
+                opt_block._set_forward_block_idx(src_block.forward_block_idx)
+                _add_ops_into_block(src_block, opt_block, opt_ops)
+
+        for fetch_op in src_block.ops:
+            if fetch_op.type in ["fetch", "fetch_v2"]:
+                in_name = fetch_op.input_arg_names[0]
+                dst_block = None
+                for block in [lr_block, fwd_block, bwd_block, opt_block]:
+                    if block._find_var_recursive(in_name):
+                        dst_block = block
+                        break
+                if dst_block:
+                    _create_program(src_block, dst_block, fetch_op)
+
+    lr_prog._sync_with_cpp()
+    fwd_prog._sync_with_cpp()
+    bwd_prog._sync_with_cpp()
+    opt_prog._sync_with_cpp()
+
+    lr_prog._rollback()
+    fwd_prog._rollback()
+    bwd_prog._rollback()
+    opt_prog._rollback()
+
+    # 返回四个子Program，依次为LR、FORWARD、BACKWARD和OPT
+    return [lr_prog, fwd_prog, bwd_prog, opt_prog]
+```
+
+其中 `_insert_sync_for_fthenb_1f1b` 的作用是插入同步操作，以实现"F-Then-B"和"1F-1B"流水线并行模式。插入同步操作的主要目的是确保在流水线并行训练中各个阶段（前向传播、后向传播、优化等）的计算流和通信流之间能够协同工作，以保持数据的一致性和正确性。这里我们不做详细介绍，感兴趣的小伙伴可以自行阅读源码 ([_insert_sync_for_fthenb_1f1b](https://github.com/AndSonder/Paddle/blob/1e7798fb1a0f1fdba48c006a17b30303aec8df57/python/paddle/distributed/passes/pass_utils.py#L409-L514))。
+
+`_program_for_fthenb_and_1f1b` 剩下的主要逻辑就是将主Program进行拆分，然后将操作添加到各个子Program中，我们一共有四个子Program，分别用于LR、FORWARD、BACKWARD和OPT任务。
+
+:::note
+
+`_set_forward_block_idx` 是什么？和 `micro-batch id` 有关系吗?
 
 
 
+:::
+
+在获得了 `job_types` 和 `sub_programs` 之后，我们就可以调用 `_create_job_list` 方法来创建 Job 列表。下面是 `_create_job_list` 的实现逻辑：
+
+```python
+# python/paddle/distributed/passes/pipeline_scheduler_pass.py
+def _create_job_list(self):
+    """
+    创建前向-后向流水线并行计算任务的任务列表。
+
+    Returns:
+        list: 包含不同类型计算任务的列表，如LR、FORWARD、BACKWARD、OPT。
+    """
+    # 获取micro-batch的数量，通常由外部传递给流水线并行计算。
+    num_micro_batches = self.get_attr("num_micro_batches")
+
+    # 创建一个空的任务列表，用于存储不同类型的计算任务。
+    job_list = []
+
+    # 创建LR（学习率计算）任务，并将其添加到任务列表中。
+    lr_job = core.Job(LR)
+    job_list.append(lr_job)
+
+    # 为每个micro-batch创建前向计算任务。
+    for i in range(num_micro_batches):
+        forward_job = core.Job(FORWARD)
+        forward_job.set_micro_batch_id(i)
+        job_list.append(forward_job)
+
+    # 为每个micro-batch创建后向计算任务。
+    for i in range(num_micro_batches):
+        backward_job = core.Job(BACKWARD)
+        backward_job.set_micro_batch_id(i)
+        job_list.append(backward_job)
+
+    # 创建一个优化任务，通常在所有micro-batch计算后执行。
+    opt_job = core.Job(OPT)
+    opt_job.set_micro_batch_id(0)  # 通常只有一个优化任务，所以micro-batch次ID为0
+    job_list.append(opt_job)
+
+    # 返回包含不同类型计算任务的任务列表。
+    return job_list
+```
+
+由于 `FThanB` 编排策略就是在所有的 Forward 计算完成之后才会进行 Backward 计算，所以在 `_create_job_list` 中，我们会为每个 micro-batch 创建前向计算任务和后向计算任务。最后添加一个优化任务。 在获取了jobs之后，我们就可以将它们添加到 `plan` 中，然后返回 `plan`。
+
+```python
+# python/paddle/distributed/passes/pipeline_scheduler_pass.py
+def _apply_single_impl(self, main_program, startup_program, context):
+    ...
+    plan = core.Plan(jobs, type_to_program)
+    context.set_attr("plan", plan)
+```
+
+:::note
+
+jobs 和 type_to_program 之间的关系是怎样的？
+
+jobs 是一个列表，包含了不同类型的计算任务，如 LR、FORWARD、BACKWARD、OPT。type_to_program 是一个字典，key 是计算任务的类型，value 是对应的子Program。
+
+:::
+
+#### 1F1B 编排策略
+
+1F1B 的编排策略顾名思义就是一个Forward之后跟一个Backward，这里的Forward和Backward都是指一个 micro-batch 的计算。1F1B 编排的实现逻辑在 Pipeline1F1BPass 类中实现，它继承自 PipelinePassBase 类。Pipeline1F1BPass 中重写了 `_partial_programs` 和 `_create_job_list` 方法。 `_partial_programs` 方法的实现逻辑如下
+
+```python
+def _partial_programs(self, program):
+    # 获取 "enable_send_recv_overlap" 标志，该FLAG可能增加显存消耗。
+    enable_send_recv_overlap = self.get_attr("enable_send_recv_overlap")
+
+    # 定义计算任务的类型列表，包括 LR、FORWARD、BACKWARD 和 OPT。
+    types = [LR, FORWARD, BACKWARD, OPT]
+
+    # 调用 _program_for_fthenb_and_1f1b 函数，根据输入的 program 和 enable_send_recv_overlap 创建子程序。
+    sub_programs = _program_for_fthenb_and_1f1b(program, enable_send_recv_overlap)
+
+    # 获取 "enable_backward_forward_overlap" 标志，用于确定是否启用前向传播和后向传播之间的交叠。
+    enable_backward_forward_overlap = self.get_attr("enable_backward_forward_overlap")
+
+    if enable_backward_forward_overlap:
+        # 如果启用了前向传播和后向传播之间的交叠，记录日志以指示启用。
+        logger.info("Backward forward overlap enabled in 1F1B.")
+
+        # 从子程序列表中获取前向传播和后向传播的程序。
+        forward_program, backward_program = sub_programs[1], sub_programs[2]
+
+        # 调用 _backward_forward_overlap 方法，将前向传播和后向传播的程序进行重组，
+        # 以确保它们可以正确地交替执行。
+        (
+            splitted_backward_job_types,
+            splitted_backward_programs,
+            splitted_forward_job_types,
+            splitted_forward_programs,
+        ) = self._backward_forward_overlap(backward_program, forward_program)
+
+        # 更新计算任务的类型列表和子程序列表，将交叠后的任务类型和程序添加进去。
+        types += splitted_forward_job_types + splitted_backward_job_types
+        sub_programs += (
+            splitted_forward_programs + splitted_backward_programs
+        )
+
+    for i in range(len(types)):
+        logger.debug(
+            f"type = {types[i]}, sub_programs = {sub_programs[i]}\n"
+        )
+    
+    # 记录调试信息，打印在稳定阶段执行的计算任务类型。
+    logger.debug(f"jobs_in_stable_phase = {self.jobs_in_stable_phase}")
+
+    # 返回计算任务类型列表和相应的子程序列表。
+    return types, sub_programs
+```
+
+这里面的 `_backward_forward_overlap` 主要是用于实现前向传播和后向传播之间的交叠，是1F1B调度的优化算法。我们这里不做详细介绍，感兴趣的小伙伴可以自行阅读源码。除了 `_backward_forward_overlap` 之外，1F1B 的 `_partial_programs` 和 FThenB 的 `_partial_programs` 逻辑是一样的，都是调用 `_program_for_fthenb_and_1f1b` 函数，根据输入的 program 和 enable_send_recv_overlap 创建子Program。
+
+下面我们来看看 `_create_job_list` 的实现逻辑：
+
+```python
+# python/paddle/distributed/passes/pipeline_scheduler_pass.py
+def _create_job_list(self):
+    num_micro_batches = self.get_attr("num_micro_batches")
+    pp_stage = self.get_attr("pp_stage")
+    pp_degree = self.get_attr("pp_degree")
+
+    job_list = []
+    lr_job = core.Job(LR)
+    job_list.append(lr_job)
+
+    # 确保micro-batch数大于等于计算任务的度数
+    assert (
+        pp_degree <= num_micro_batches
+    ), "Num of micro batches should larger than or equal to pp degree."
+
+    micro_batch_in_warmup = pp_degree - pp_stage
+    micro_batch_in_1f1b = num_micro_batches - micro_batch_in_warmup
+
+    # 预热阶段
+    forward_micro_batch_id = 0
+    for i in range(micro_batch_in_warmup):
+        forward_job = core.Job(FORWARD)
+        forward_job.set_micro_batch_id(forward_micro_batch_id)
+        job_list.append(forward_job)
+        forward_micro_batch_id += 1
+
+    backward_micro_batch_id = 0
+    for i in range(micro_batch_in_1f1b):
+        # 为稳定阶段中的每个计算任务（BACKWARD和FORWARD）创建对应的任务
+        # 每个micro-batch中都有一个BACKWARD和一个FORWARD计算任务
+        for job_type in self.jobs_in_stable_phase:
+            job = core.Job(job_type)
+            micro_batch_id = (
+                forward_micro_batch_id
+                if job_type.startswith(FORWARD)
+                else backward_micro_batch_id
+            )
+            job.set_micro_batch_id(micro_batch_id)
+            job_list.append(job)
+        forward_micro_batch_id += 1
+        backward_micro_batch_id += 1
+
+    for i in range(micro_batch_in_warmup):
+        backward_job = core.Job(BACKWARD)
+        backward_job.set_micro_batch_id(backward_micro_batch_id)
+        job_list.append(backward_job)
+        backward_micro_batch_id += 1
+
+    # 创建优化任务
+    opt_job = core.Job(OPT)
+    opt_job.set_micro_batch_id(0)
+    job_list.append(opt_job)
+    return job_list
+```
 
 
+可以看到，1F1B 的 `_create_job_list` 和 FThenB 的逻辑略有不同，1F1B 的 `_create_job_list` 中会根据 `pp_stage` 和 `pp_degree` 来确定前向计算任务和后向计算任务的数量。在稳定阶段中，每个 micro-batch 中都有一个 BACKWARD 和一个 FORWARD 计算任务。最后添加一个优化任务。
 
+:::note
+
+为什么需要这个预热阶段？
+
+:::
 
 ## 执行流程
 
+在获取到编排好的 `plan` 之后，我们就可以初始化 `Executor` 对象，然后执行 `Executor` 的 `run` 方法。下面是初始化 `StandaloneExecutor` 对象的代码：
 
+```python
+# python/paddle/base/executor.py
+new_program = program.clone()
+if (
+    new_program._pipeline_opt
+    and "standalone_opt" in new_program._pipeline_opt
+):
+    from paddle.distributed.passes.pipeline_scheduler_pass import (
+        apply_pass,
+    )
+
+    standalone_opt = new_program._pipeline_opt["standalone_opt"]
+    pass_name = standalone_opt["schedule_mode"]
+    plan = apply_pass(
+        new_program, new_program, pass_name, standalone_opt
+    )
+else:
+    ...
+    plan = core.Plan([default_job], type_to_program)
+
+new_exe = _StandaloneExecutor(place, plan, scope)
+return new_program, new_exe
+```
+
+_StandaloneExecutor 是C++端的一个类，下面是它的构造函数：
+
+```cpp
+下面是对提供的代码块的详细注释：
+
+```cpp
+StandaloneExecutor::StandaloneExecutor(const platform::Place& place,
+                                       const interpreter::Plan& plan,
+                                       Scope* scope)
+    : place_(place), plan_(plan), scope_(scope) {
+  // 获取计划中micro-batch的数量。
+  int64_t micro_batch_num = plan_.MicroBatchNum();
+
+  // 调整待等待的强制事件向量的大小，以匹配micro-batch的数量。
+  vec_force_events_to_wait_.resize(micro_batch_num);
+
+  // 为每个micro-batch创建新的 Scope，并将其存储在 micro_batch_scopes_ 中。
+  for (int64_t i = 0; i < micro_batch_num; ++i) {
+    micro_batch_scopes_.emplace_back(&scope->NewScope());
+  }
+
+  // 创建一个用于日志记录的字符串流，显示micro-batch的创建。
+  std::stringstream ss;
+  ss << "Create " << micro_batch_num << " micro_batch_scopes for scope "
+     << scope_ << " : ";
+  for (Scope* scope : micro_batch_scopes_) {
+    ss << scope << ", ";
+  }
+  VLOG(6) << ss.str();
+
+  // 获取计划中的所有Job
+  const auto& jobs = plan_.JobList();
+
+  // 对每个Job执行以下操作。
+  for (const auto& job : jobs) {
+    const std::string& job_type = job->Type();
+    std::shared_ptr<ProgramDesc> program = nullptr;
+    std::shared_ptr<::pir::Program> ir_program = nullptr;
+
+    if (FLAGS_enable_pir_api || FLAGS_enable_new_ir_in_executor) {
+      ir_program = plan_.IrProgram(job_type);
+    } else {
+      program = std::make_shared<ProgramDesc>(*(plan_.Program(job_type)));
+    }
+
+    int64_t micro_batch_id = job->MicroBatchId();
+
+    // 检查micro-batch ID 是否在合理范围内。
+    PADDLE_ENFORCE(
+        micro_batch_id >= 0 && micro_batch_id < micro_batch_num,
+        phi::errors::Unavailable("The micro batch id (%lld) out of bound, "
+                                 "which should be in the range of [0, %lld].",
+                                 micro_batch_id,
+                                 micro_batch_num));
+
+    // 如果存在多个micro-batch并且未启用 PIR API，则设置 Feed 和 Fetch 操作的列属性。
+    if (micro_batch_num > 1 && !FLAGS_enable_pir_api) {
+      SetColAttrForFeedFetchOps(program, micro_batch_num, micro_batch_id);
+    }
+
+    interpreter::ExecutionConfig execution_config;
+    execution_config.create_local_scope = false;
+    execution_config.skip_gc_vars = job->SkipGcVars();
+
+    // 当前仅支持 CPU。
+    // 如果启用新 IR，创建一个包含计算的 IR 程序并将其更新为计划。
+    if (FLAGS_enable_new_ir_in_executor) {
+      ... // 新IR相关代码暂不讨论
+    } else {
+      // 创建 InterpreterCore 并将其存储在 interpretercores_ 中。
+      interpretercores_.emplace_back(
+          std::make_shared<InterpreterCore>(place_,
+                                            program->Block(0),
+                                            micro_batch_scopes_[micro_batch_id],
+                                            execution_config));
+      interpretercores_.back()->SetCopyProgram(program);
+
+      // 设置强制等待事件信息。
+      auto prog_inter = const_cast<ProgramInterpreter*>(
+          static_cast<const ProgramInterpreter*>(
+              interpretercores_.back()->Impl()));
+      prog_inter->SetForceEventsToWaitInfo(
+          &(vec_force_events_to_wait_[micro_batch_id]));
+
+      ...
+      }
+    }
+  }
+}
+```
+
+在初始化的时候，Paddle会为每个job都创建一个 `InterpreterCore` 对象，然后将这些 `InterpreterCore` 对象存储在 `interpretercores_` 中。在后续的执行过程中，Paddle会根据不同job执行不同`InterpreterCore` 对象。初始化了StandaloneExecutor对象之后，我们就可以执行 `run` 方法了。下面是 C++ 端 `run` 方法的实现逻辑：
+
+```cpp
+paddle::framework::FetchList StandaloneExecutor::Run(
+    const std::vector<std::string>& feed_names) {
+  // 创建一个事件记录器，用于跟踪 StandaloneExecutor::run 方法的执行。
+  platform::RecordEvent record_event(
+      "StandaloneExecutor::run", platform::TracerEventType::UserDefined, 1);
+
+  // 获取计划中的所有作业。
+  const auto& jobs = plan_.JobList();
+
+  // 用于跟踪不同类型的作业的第一个出现位置的映射。
+  std::map<std::string, size_t> type_to_first_id;
+
+  // 如果共享构建结果的标志为假，执行以下操作。
+  if (!is_interpretercore_build_result_shared_) {
+    // 为第一个作业设置其类型的映射，并确保所有其他相同类型的作业共享工作队列。
+    type_to_first_id[jobs[0]->Type()] = 0;
+    for (size_t job_idx = 1; job_idx < jobs.size(); ++job_idx) {
+      interpretercores_[job_idx]->ShareWorkQueueFrom(interpretercores_[0]);
+      if (type_to_first_id.count(jobs[job_idx]->Type()) == 0) {
+        type_to_first_id[jobs[job_idx]->Type()] = job_idx;
+      }
+    }
+    // 将共享构建结果的标志设置为真。
+    is_interpretercore_build_result_shared_ = true;
+  }
+
+  // 迭代所有作业。
+  for (size_t job_idx = 0; job_idx < jobs.size(); ++job_idx) {
+    const auto& job = jobs[job_idx];
+    const std::string& job_type = job->Type();
+
+    // 创建一个事件记录器，用于跟踪每个作业的执行。
+    platform::RecordEvent record_event(
+        job_type + "-" + std::to_string(job->MicroBatchId()),
+        platform::TracerEventType::UserDefined,
+        1);
+
+    // 记录详细日志，显示作业的索引、类型和micro-batch ID。
+    VLOG(6) << "Run job (" << job_idx << "), type = " << job_type
+            << ", micro_batch_id =" << job->MicroBatchId();
+
+    // 如果作业类型已经在 type_to_first_id 中，且未启用新 IR，则共享构建结果。
+    if (type_to_first_id.count(job_type) != 0 &&
+        !FLAGS_enable_new_ir_in_executor) {
+      interpretercores_[job_idx]->ShareBuildResultsFrom(
+          interpretercores_[type_to_first_id[job_type]]);
+    }
+
+    // 如果作业的数量大于 1 且作业类型不是 "forward"，则运行作业（使用一个空的临时feed名称列表）。
+    // 否则，运行作业并传递真正的 feed 名称列表。
+    if (jobs.size() > 1 && job_type != "forward") {
+      const std::vector<std::string> tmp_feed_names = {};
+      interpretercores_[job_idx]->Run(tmp_feed_names, /*need_fetch = */ false);
+    } else {
+      interpretercores_[job_idx]->Run(feed_names, /*need_fetch = */ false);
+    }
+  }
+
+  // 记录每个作业的运行时间，如果启用了 CUDA 且自动并行分析器被激活。
+#if defined(PADDLE_WITH_CUDA)
+  if (FLAGS_auto_parallel_profiler) {
+    std::unordered_map<std::string, int> job_type_to_id;
+    for (size_t job_idx = 0; job_idx < jobs.size(); ++job_idx) {
+      const auto& job = jobs[job_idx];
+      const std::string& job_type = job->Type();
+      double start_time, end_time;
+      std::tie(start_time, end_time) =
+          interpretercores_[job_idx]->InterpreterRunTime();
+      if (job_type_to_id.count(job_type) == 0) {
+        job_type_to_id[job_type] = 0;
+      } else {
+        job_type_to_id[job_type] += 1;
+      }
+
+      // 记录每个作业的运行时间信息，以便生成并行流水线时间线。
+      // 作业运行时信息可以通过 "profiler_helper_static.py" 脚本从日志中提取。
+      // 请不要修改这部分，因为它可能会影响正则表达式匹配的结果。
+      VLOG(0) << "Profiler Info: Job (" << job_type_to_id[job_type]
+              << "), type = " << job_type
+              << ", micro_batch_id = " << job->MicroBatchId()
+              << ", job_start_time = " << std::to_string(start_time)
+              << ", job_end_time = " << std::to_string(end_time);
+    }
+  }
+#endif
+
+  // 返回 Fetch Tensors，根据是否启用新 IR 采取不同的操作。
+  if (FLAGS_enable_new_ir_in_executor) {
+    // 创建一个 FetchList，包含需要获取的张量。
+    framework::FetchList fetch_res;
+    for (auto& var_name : fetch_var_names_) {
+      auto* var = scope_->FindVar(var_name);
+      fetch_res.push_back(var->Get<phi::DenseTensor>());
+    }
+
+    return fetch_res;
+  } else {
+    // 获取 "interpreter::kFetchVarName" 变量，其中包含需要返回的 Fetch Tensors。
+    auto* fetch_var = scope_->FindVar(interpreter::kFetchVarName);
+    if (fetch_var) {
+      return std::move(*fetch_var->GetMutable<framework::FetchList>());
+    } else {
+      return {};
+    }
+  }
+}
+```
+
+
+## 疑问
+
+1、为什么感觉最后进行流水编排的时候，前面的build等操作都没有用到呢？
+
+2、通过看代码还是没搞懂paddle是如何做多机多卡的，感觉 `pipeline_scheduler_pass.py` 里面的内容和多卡没啥关系？
+
+3、overleap 优化的部分需要着重看吗？
 
