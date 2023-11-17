@@ -1,4 +1,6 @@
-# Paddle流水并行编排与执行流程
+# Paddle自动并行介绍
+
+> 暂时还没更新完...
 
 ## 简介
 
@@ -637,14 +639,6 @@ def _program_for_fthenb_and_1f1b(program, enable_send_recv_overlap=False):
 其中 `_insert_sync_for_fthenb_1f1b` 的作用是插入同步操作，以实现"F-Then-B"和"1F-1B"流水线并行模式。插入同步操作的主要目的是确保在流水线并行训练中各个阶段（前向传播、后向传播、优化等）的计算流和通信流之间能够协同工作，以保持数据的一致性和正确性。这里我们不做详细介绍，感兴趣的小伙伴可以自行阅读源码 ([_insert_sync_for_fthenb_1f1b](https://github.com/AndSonder/Paddle/blob/1e7798fb1a0f1fdba48c006a17b30303aec8df57/python/paddle/distributed/passes/pass_utils.py#L409-L514))。
 
 `_program_for_fthenb_and_1f1b` 剩下的主要逻辑就是将主Program进行拆分，然后将操作添加到各个子Program中，我们一共有四个子Program，分别用于LR、FORWARD、BACKWARD和OPT任务。
-
-:::note
-
-`_set_forward_block_idx` 是什么？和 `micro-batch id` 有关系吗?
-
-
-
-:::
 
 在获得了 `job_types` 和 `sub_programs` 之后，我们就可以调用 `_create_job_list` 方法来创建 Job 列表。下面是 `_create_job_list` 的实现逻辑：
 
