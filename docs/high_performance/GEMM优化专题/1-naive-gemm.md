@@ -48,3 +48,7 @@ __global__ void sgemm_naive(int M, int N, int K, float alpha, const float *A,
 ![picture 1](images/6f55c7f9531e5efd955eab9a572ef5406733498bc0b50abed0e73985d88c840b.png)  
 
 这个内核在A6000 GPU上处理三个4092$^2$的fp32矩阵大约需要0.5秒。
+
+## 参考文献
+
+1. https://siboehm.com/articles/22/CUDA-MMM

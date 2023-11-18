@@ -777,15 +777,135 @@ paddle::framework::FetchList StandaloneExecutor::Run(
 
 当下的工作大多是可视化出cpu端的各个Job的运行区间。由于gpu任务的异步性，在cpu端启动的Job并不一定在gpu端立即执行，因此**cpu端的可视化并不能直接反映出gpu端的运行情况**。
 
+![picture 8](images/e36dd9884d123d949f5dd7847461757f2d6a30cb2b2cd25aa58dae41c0917ed1.jpg)  
 
 
 ### 可视化实现思路
 
 我们的可视化工具的实现思路是：**在gpu端各个Job结束的时候，打印出Job的类型和结束时间，然后在使用python脚本这些信息，绘制出各个Job的运行区间**。
 
+![picture 9](images/9c0fc9d4f5f7045fac7aafcfa4e9021da7762dc5d3dccb813fc5d8cf134a687d.jpg)  
+
+
 ### 准确定位Job的开始与结束时间
 
 Paddle中所有的计算任务都是在一个流上完成的，这个流我们叫做计算流。为了能够准确定位Job的开始与结束，我们需要找到每个Job中第一个计算算子，和最后一个计算算子，并在第一个计算算子之前插入一个 `cuda stream callback` ，在最后一个计算算子之后插入一个 `cuda callback`。由于 `cuda stream callback` 会等待计算流中前面的任务执行完毕后才会执行，因此我们可以准确的定位出Job的开始时间和结束时间。
+
+前面说到过每个Job都是由一个 `InterpreterCore` 对象来执行的，我们在每个 `InterpreterCore` 对象中使用自定义类来存储Job的开始时间和结束时间。下面是每个 `InterpreterCore` 对象中插入 `cuda stream callback` 和 `cuda callback` 的代码：
+
+```cpp
+// paddle/fluid/framework/new_executor/program_interpreter.cc
+void ProgramInterpreter::RunInstruction(const Instruction& instr_node) {
+    ...
+  try {
+    instr_node.WaitEvent(place_);
+#if defined(PADDLE_WITH_CUDA)
+    if (enable_job_schedule_profiler_) {
+      // 如果timer还没插入开始的callback并且当前的op不是通信op，那么就插入开始的callback
+      if (!calculate_stream_timer_->IsStarted() &&
+          !interpreter::IsCommunicationOp(instr_node)) {
+        VLOG(3) << "Start calculated stream timer from op: " << op->Type();
+        calculate_stream_timer_->Start();
+      }
+    }
+#endif
+    ...
+}
+```
+
+上面的代码给出了在第一个计算算子之前插入 `cuda stream callback` 的逻辑，下面是在最后一个计算算子之后插入 `cuda callback` 的逻辑：
+
+```cpp
+void ProgramInterpreter::ExecuteInstructionList(
+    const std::vector<Instruction>& vec_instr) {
+  ...
+  if (enable_job_schedule_profiler_) {
+    for (int i = vec_instr.size() - 1; i >= 0; --i) {
+      auto& instr_node = vec_instr[i];
+      if (!interpreter::IsCommunicationOp(instr_node)) {
+        // 记录下来最后一个计算op的id
+        VLOG(3) << "Last calculated op type: " << instr_node.OpBase()->Type();
+        last_calculate_instr_id_ = i;
+        break;
+      }
+    }
+  }
+  ...
+}
+
+void ProgramInterpreter::RunInstructionAsync(size_t instr_id) {
+  ...
+  while (!ready_ops.empty()) {
+    instr_id = ready_ops.top();
+    ready_ops.pop();
+    auto& instr_node = vec_instruction_.at(instr_id);
+
+    RunInstruction(instr_node);
+
+#if defined(PADDLE_WITH_CUDA)
+    if (enable_job_schedule_profiler_) {
+      // 给最后一个计算op之后插入一个callback
+      if (instr_id == last_calculate_instr_id_ &&
+          calculate_stream_timer_->IsStarted()) {
+        VLOG(3) << "Stop calculated stream timer from op: "
+                << instr_node.OpBase()->Type();
+        calculate_stream_timer_->Stop();
+      }
+    }
+#endif
+}
+```
+
+当所有的Job都执行完毕之后，我们就可以 `StandAloneExecutor` 的 `Run` 方法中获取到每个Job的开始时间和结束时间了。下面是获取Job开始时间和结束时间的代码：
+
+```cpp
+// paddle/fluid/framework/new_executor/standalone_executor.cc
+paddle::framework::FetchList StandaloneExecutor::Run(
+    const std::vector<std::string>& feed_names,
+    const bool enable_job_schedule_profiler) {
+  ...
+  // record each job's run time
+#if defined(PADDLE_WITH_CUDA)
+  if (enable_job_schedule_profiler) {
+    for (size_t job_idx = 0; job_idx < jobs.size(); ++job_idx) {
+      const auto& job = jobs[job_idx];
+      const std::string& job_type = job->Type();
+      double start_time, end_time;
+      std::tie(start_time, end_time) =
+          interpretercores_[job_idx]->InterpreterRunTime();
+
+      // Note(sonder): Used to record the runtime of each job in order to
+      // generate a parallel pipeline timeline. Job runtime information can be
+      // extracted from the logs using the scripts "profiler_helper_static.py".
+      // Do not modify, as it may affect the results of regular expression
+      // matching.
+      VLOG(0) << "Profiler Info: Job (" << job->MicroBatchId()
+              << "), type = " << job_type
+              << ", micro_batch_id = " << job->MicroBatchId()
+              << ", job_start_time = " << std::to_string(start_time)
+              << ", job_end_time = " << std::to_string(end_time);
+    }
+  }
+#endif
+  ...
+}
+
+// paddle/fluid/framework/new_executor/interpretercore.cc
+std::tuple<double, double> ProgramInterpreter::InterpreterRunTime() {
+  double start_time = 0, end_time = 0;
+#if defined(PADDLE_WITH_CUDA)
+  start_time = calculate_stream_timer_->StartTime();
+  end_time = calculate_stream_timer_->EndTime();
+#endif
+  return std::make_tuple(start_time, end_time);
+}
+```
+
+### 可视化工具的实现
+
+在获取到每个Job的开始时间和结束时间之后，我们就可以使用python脚本来绘制出各个Job的运行区间了。可视化工具的实现思路是将每个Job的开始时间和结束时间保存成Chrome Trace Event的格式，然后使用 `chrome://tracing` 工具来绘制出各个Job的运行区间。以下是绘制效果图：
+
+![picture 10](images/ac0590be474ceb2ce695085a1f2178860592b650d9be2ce428de15ff2b4f93a8.png)  
 
 
 

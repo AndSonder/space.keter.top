@@ -68,3 +68,6 @@ sgemm_coalescing<<<gridDim, blockDim>>>(M, N, K, alpha, A, B, beta, C);
 
 全局内存协同将内存吞吐量从15GB/s提高到110GB/s。性能达到2000GFLOPS，与第一个简单内核的300GFLOPS相比有了很大的改进。对于下一个内核，我们将使用GPU的共享内存，来缓存将被重复使用的数据。
 
+## 参考文献
+
+1. https://siboehm.com/articles/22/CUDA-MMM
