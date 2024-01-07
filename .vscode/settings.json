@@ -6,5 +6,6 @@
 		"iostream": "cpp"
 	},
 	"C_Cpp.errorSquiggles": "Disabled",
-	"dictCompletion.addSpaceAfterCompletion": true
+    "dictCompletion.addSpaceAfterCompletion": true,
+    "mdx-preview.preview.useVscodeMarkdownStyles": false
 }
