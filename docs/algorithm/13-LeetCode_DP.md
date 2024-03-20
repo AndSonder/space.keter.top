@@ -6,6 +6,8 @@
 
 #### [70. 爬楼梯](https://leetcode.cn/problems/climbing-stairs/)
 
+非常经典的爬楼梯问题，可以使用动态规划解决。
+
 ```cpp
 class Solution {
 public:
@@ -23,6 +25,12 @@ public:
 ```
 
 #### [746. 使用最小花费爬楼梯](https://leetcode.cn/problems/min-cost-climbing-stairs/)
+
+在爬楼梯的基础上，增加了花费的限制。
+
+- f[i] 的含义：爬到第 i 级楼梯的最小花费
+- DP 属性：Min
+- 状态转移方程：f[i] = min(f[i - 1] + cost[i - 1], f[i - 2] + cost[i - 2])
 
 ```cpp
 class Solution {
@@ -45,6 +53,10 @@ public:
 
 #### [377. 组合总和 Ⅳ](https://leetcode.cn/problems/combination-sum-iv/)
 
+- f[i] 的含义：和为 i 的方案数
+- DP 属性：Count
+- 状态转移方程：f[i] = sum(f[i - nums[j]])
+
 ```cpp
 class Solution {
 public:
@@ -65,6 +77,12 @@ public:
 ```
 
 #### [2466. 统计构造好字符串的方案数](https://leetcode.cn/problems/count-ways-to-build-good-strings/)
+
+这题不要被题目吓到，其实就是一个爬楼梯问题。
+
+- f[i] 的含义：长度为 i 的字符串的方案数
+- DP 属性：Count
+- 状态转移方程：f[i] = f[i - one] + f[i - zero]
 
 ```cpp
 class Solution {
@@ -87,6 +105,12 @@ public:
 ```
 
 #### [2266. 统计打字方案数](https://leetcode.cn/problems/count-number-of-texts/)
+
+这题也是一个爬楼梯问题。每一个子串都可以用爬楼问题求解出来一个方案数，最后所有的子串的方案数相乘即可。和上面那个组合总和问题类似。
+
+- f[i] 的含义：长度为 i 的字符串的方案数
+- DP 属性：Count
+- 状态转移方程：f[i] = sum(f[i - j])
 
 ```cpp
 class Solution {
@@ -129,6 +153,9 @@ public:
 
 ### [1.2 打家劫舍](https://leetcode.cn/problems/house-robber/)
 
+- f[i] 的含义：偷窃第 i 个房子的最大收益
+- DP 属性：Max
+- 状态转移方程：f[i] = max(f[i - 1], f[i - 2] + nums[i])
 
 ```cpp
 class Solution {
@@ -155,6 +182,10 @@ public:
 ```
 
 ### [740. 删除并获得点数](https://leetcode.cn/problems/delete-and-earn/description/)
+
+- f[i][0] 的含义：不选择第 i 个数的最大收益， f[i][1] 的含义：选择第 i 个数的最大收益
+- DP 属性：Max
+- 状态转移方程：f[i][0] = max(f[i - 1][0], f[i - 1][1]), f[i][1] = f[i - 1][0] + i * cnt[i]
 
 ```cpp
 const int N = 1e4 + 10;
@@ -184,6 +215,14 @@ public:
 
 ### [2320. 统计放置房子的方式数](https://leetcode.cn/problems/count-number-of-ways-to-place-houses/description/)
 
+这题俩侧的房子可以分开看，最后排列组合（方案数相乘）即可。
+
+- f[i] 的含义：在 0 - i 的位置放置房子的方案数
+- DP 属性：Count
+- 状态转移方程：f[i] = f[i - 1] + f[i - 2]
+
+因为房子不能相邻，所以在 i 位置放置房子的方案数等于 i - 2 位置放置房子的方案数加上 i - 1 位置放置房子的方案数，其实就是一个爬楼梯问题换了个皮。
+
 ```cpp
 class Solution {
 public:
@@ -201,7 +240,20 @@ public:
 
 ### [打家劫舍 II](https://leetcode.cn/problems/house-robber-ii/)
 
-```
+这题和上面的打家劫舍问题类似，只不过这次是一个环形的房子，所以我们可以分成两种情况来讨论：
+
+- 偷第一个房子，不偷最后一个房子
+- 不偷第一个房子，偷最后一个房子
+
+俩种情况取最大值即可。
+
+- f[i] 的含义：偷窃第 i 个房子的最大收益
+- g[i] 的含义：不偷窃第 i 个房子的最大收益
+- DP 属性：Max
+- 状态转移方程：f[i] = g[i - 1] + nums[i - 1], g[i] = max(f[i - 1], g[i - 1])
+
+
+```cpp
 class Solution {
 public:
     int rob(vector<int>& nums) {
