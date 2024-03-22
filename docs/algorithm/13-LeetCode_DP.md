@@ -286,3 +286,119 @@ public:
     }
 };
 ```
+
+## 1.3 最大子数组和（最大子段和）
+
+### [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+
+- f[i] 的含义：以 i 结尾的最大子数组和
+- DP 属性：Max
+- 状态转移方程：f[i] = max(f[i - 1] + nums[i], nums[i])
+
+```cpp
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int res = nums[0], f = nums[0];
+        for (int i = 1; i < nums.size();i ++)
+        {
+            f = max(f, 0) + nums[i];
+            res = max(res, f);
+        }
+        return res;
+    }
+};
+```
+
+### [2606. 找到最大开销的子字符串](https://leetcode.cn/problems/find-the-substring-with-maximum-cost/description/)
+
+这题和上面的最大子数组和问题基本一样，只不过这次的数组是一个字符串，而且每个元素都有一个权值。
+
+- f[i] 的含义：以 i 结尾的最大子数组和
+- DP 属性：Max
+- 状态转移方程：f[i] = max(f[i - 1] + s[i] 的 value, s[i] 的 value)
+
+```cpp
+class Solution {
+public:
+    int maximumCostSubstring(string s, string chars, vector<int>& vals) {
+        unordered_map<char, int> hash;
+        for (int i = 0;i < chars.size();i ++) hash[chars[i]] = i;
+
+        s = ' ' + s;
+        int res = 0, f = INT_MIN;
+        for (int i = 1;i < s.size();i ++)
+        {
+            int value = s[i] - 'a' + 1;
+            if (hash.count(s[i]))
+                value = vals[hash[s[i]]];
+            f = max(f, 0) + value;
+            res = max(res, f);
+        }
+        return res;
+    }
+};
+```
+
+
+### [1749. 任意子数组和的绝对值的最大值](https://leetcode.cn/problems/maximum-absolute-sum-of-any-subarray/description/)
+
+这题是思路感觉和打家劫舍2有点像，都是需要求俩种情况的最大值。
+
+- pm 是 positive max，表示以 i 结尾的最大子数组和，nm 是 negative min，表示以 i 结尾的最小子数组和
+- ps 是 positive sum，表示以 i 结尾的正数和，ns 是 negative sum，表示以 i 结尾的负数和
+
+连续和肯定要么是正数和，要么是负数和，所以我们可以分别求出以 i 结尾的最大子数组和和最小子数组和，然后取最大值即可。
+
+
+```cpp
+class Solution {
+public:
+    int maxAbsoluteSum(vector<int>& nums) {
+        int pm = 0, nm = 0;
+        int ps = 0, ns = 0;
+
+        for (auto a: nums)
+        {
+            ps += a;
+            pm = max(pm, ps);
+            ps = max(0, ps);
+            ns += a;
+            nm = min(nm, ns);
+            ns = min(0, ns);
+        }
+        return max(pm, -nm);
+    }
+};
+```
+
+### [1191. K 次串联后最大子数组之和](https://leetcode.cn/problems/k-concatenation-maximum-sum/description/)
+
+```
+typedef long long LL;
+
+const int MOD = 1e9 + 7;
+
+class Solution {
+public:
+    int kConcatenationMaxSum(vector<int>& arr, int k) {
+        LL mx = 0, l = 0, r = 0, sum = 0, s = 0;
+        for (int i = 0; i < arr.size(); i ++ ) {
+            sum += arr[i];
+            l = max(l, sum);
+            s = max(s, 0ll) + arr[i];
+            mx = max(mx, s);
+            if (i + 1 == arr.size()) r = s;
+        }
+
+        if (k == 1) return mx % MOD;
+        if (sum < 0) return max(mx, l + r) % MOD;
+        return max(sum * (LL)(k - 2) + l + r, mx) % MOD;
+    }
+};
+
+```
+
+### [918. 环形子数组的最大和](https://leetcode.cn/problems/maximum-sum-circular-subarray/description/)
+
+
