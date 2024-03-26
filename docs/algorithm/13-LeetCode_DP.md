@@ -151,7 +151,7 @@ public:
 };
 ```
 
-### [1.2 打家劫舍](https://leetcode.cn/problems/house-robber/)
+#### [1.2 打家劫舍](https://leetcode.cn/problems/house-robber/)
 
 - f[i] 的含义：偷窃第 i 个房子的最大收益
 - DP 属性：Max
@@ -444,7 +444,7 @@ public:
 };
 ```
 
-### [2321.拼接数组的最大分数](https://leetcode.cn/problems/maximum-score-of-spliced-array/description/)
+#### [2321.拼接数组的最大分数](https://leetcode.cn/problems/maximum-score-of-spliced-array/description/)
 
 这题难就难在如何把这个问题转化成一个最大子数组和问题。根据题目的要求我们可以知道，需要让最后的数组累加和最大，也就是将两个数组 nums1 和 nums2 的其中一段做互换的累加和最大。
 
@@ -790,3 +790,191 @@ public:
     }
 };
 ```
+
+#### [741. 摘樱桃](https://leetcode.cn/problems/cherry-pickup/description/)
+
+由于正向和反向的路可以被视为等价的，所以我们不妨把这个问题转化成有俩个人同时从 （0, 0）出发，同时走到（n - 1, n - 1），求俩个人摘到的樱桃数和的最大值。
+
+我们用 k 表示走了多少步，第一个人的坐标是 (x1,y1), 第二个人的坐标是 (x2,y2)，当 x1 == x2 的时候，这个时候 y1 和 y2 也是相等的。
+
+定义 $f[k]\left[x_1\right]\left[x_2\right]$ 表示两个人（设为 A 和 B）从 $(0, 0)$ 和 $\left(0, 0\right)$ 同时出发, 分别到达 (x1, k - x2) 和 (x2, k - x1) 摘到的樱桃个数之和的最大值。
+
+1. 都走右边：f[k][x1][x2]
+2. 一个人走右边，一个人走下边：f[k][x1][x2 - 1]
+3. 一个人走下边，一个人走右边：f[k][x1 - 1][x2]
+4. 都走下边：f[k][x1 - 1][x2 - 1]
+
+最后的答案就是 f[2 * n - 2][n - 1][n - 1]。
+
+```cpp
+class Solution {
+public:
+    int cherryPickup(vector<vector<int>>& grid) {
+        int n = grid.size();
+        vector<vector<vector<int>>> f(n * 2 - 1, vector<vector<int>>(n, vector<int>(n, INT_MIN)));
+        f[0][0][0] = grid[0][0];
+        for (int k = 1;k < n * 2 - 1;k ++)
+        {
+            for (int x1 = max(k - n + 1, 0);x1 <= min(k, n - 1); x1++)
+            {
+                int y1 = k - x1;
+                // 走到了障碍物
+                if (grid[x1][y1] == -1) continue;
+                for (int x2 = x1; x2 <= min(k, n - 1); x2 ++)
+                {
+                    int y2 = k - x2;
+                    // 走到了障碍物
+                    if (grid[x2][y2] == -1) continue;
+                    int res = f[k - 1][x1][x2];
+                    if (x1)
+                        res = max(res, f[k - 1][x1 - 1][x2]);
+                    if (x2)
+                        res = max(res, f[k - 1][x1][x2 - 1]);
+                    if (x1 && x2)
+                        res = max(res, f[k - 1][x1 - 1][x2 - 1]);
+                    res += grid[x1][y1];
+                    // 避免俩个人摘到同一个樱桃
+                    if (x1 != x2)
+                        res += grid[x2][y2];
+                    
+                    f[k][x1][x2] = res;
+                }
+            }
+        }
+        return max(f[2 * n - 2][n - 1][n - 1], 0);
+    }
+};
+```
+
+## 3. 背包 问题
+
+### 3.1 0-1 背包问题
+
+物品只能取一次
+
+#### [2915. 和为目标值的最长子序列的长度](https://leetcode.cn/problems/length-of-the-longest-subsequence-that-sums-to-target/)
+
+恰好装满型 0-1 背包，这题属于模板题，如果问题是恰好装满型的话，我们可以把问题转化成一个背包问题，然后求出最大的长度即可。
+
+和普通的 0-1 背包问题对比的话，我们就是外层循环 nums， 内层循环 target，然后求出最大的长度即可。
+
+f[i] 的含义是和为 i 的最长子序列的长度。
+
+它的状态转移方程是：f[i] = max(f[i], f[i - x] + 1)
+
+
+```cpp
+class Solution {
+public:
+    int lengthOfLongestSubsequence(vector<int>& nums, int target) {
+        vector<int> f(target + 1, INT_MIN);
+        f[0] = 0;
+        int s = 0; // 记录前缀和
+        for (int x: nums)
+        {
+            s = min(s + x, target); // 防止 s 超过 target
+            for (int j = s;j >= x;j --)
+            {
+                f[j] = max(f[j], f[j - x] + 1);
+            }
+        }
+        
+        return f[target] > 0 ? f[target] : -1;
+    }
+};
+```
+
+#### [416. 分割等和子集](https://leetcode.cn/problems/partition-equal-subset-sum/description/)
+
+这题其实本质上和上一题一样，只不过这次的 target 是 sum / 2，题目可以转化为是否存在一个子集的合等于 sum / 2。
+
+这里 f 的含义是，是否有一个子集的和等于 i。当然了你也可以用和上题一样的 f 含义。区别是初始化不同和转移方程不同。
+
+```cpp
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum = 0;
+        for (int x: nums) sum += x;
+        if (sum % 2) return false;
+
+        vector<int> f(sum / 2 + 1);
+        f[0] = 1;
+        for (int x: nums)
+        {
+            for (int j = sum / 2;j >= x;j --)
+            {
+                f[j] = min(f[j] + f[j - x], 1);
+            }
+        }
+        return f[sum / 2] > 0;
+    }
+};
+```
+
+#### [494. 目标和](https://leetcode.cn/problems/target-sum/description/)
+
+这题涉及到负数，所以我们需要维护一个偏移量，然后把问题转化成一个 0-1 背包问题。所谓每个数可以取正号或者负号，其实就是一共 2n 个数，然后求和为 target 的方案数。
+
+这里 f[i][j] 的含义是 nums 的前 i 个数，和为 j 的方案数。它的状态可以从 f[i - 1][j - x] 或者 f[i - 1][j + x] 转移过来。
+
+```cpp
+class Solution {
+public:
+    int findTargetSumWays(vector<int>& a, int S) {
+        int n = a.size(), Offset = 1000;
+
+        vector<vector<int>> f(n + 1, vector<int>(2010));
+
+        f[0][Offset] = 1;
+        for (int i = 1;i <= n;i ++)
+        {
+            for (int j = -1000;j <= 1000;j ++)
+            {
+                if (j - a[i - 1] >= -1000)
+                    f[i][j + Offset] += f[i - 1][j - a[i - 1] + Offset];
+                if (j + a[i - 1] <= 1000)
+                    f[i][j + Offset] += f[i - 1][j + a[i - 1] + Offset];
+            }
+        }
+        return f[n][S + Offset];
+    }
+};
+```
+
+#### [2787. 将一个数字表示成幂的和的方案数](https://leetcode.cn/problems/ways-to-express-an-integer-as-sum-of-powers/description/)
+
+和上面的题目基本都是一模一样的，唯一的区别就是 a 需要自己计算一下。
+
+这里 f 的含义是，将 i 表示成幂的和的方案数，属性是 Count。
+
+```cpp
+class Solution {
+public:
+    int numberOfWays(int n, int x) {
+        typedef unsigned long long ULL;
+        const int MOD = 1e9 + 7;
+        vector<ULL> a;
+        int m = 1;
+        while (pow(m, x) <= n)
+        {
+            a.push_back(pow(m, x));
+            m ++;
+        }
+
+        vector<ULL> f(n + 1);
+        f[0] = (ULL)1;
+        for (int i = 1;i <= a.size();i ++)
+        {
+            for (int j = n;j >= a[i - 1];j --)
+            {
+                f[j] += f[j - a[i - 1]];
+            }
+        }
+
+        return f[n] % MOD;
+    }
+};
+```
+
+
