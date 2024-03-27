@@ -977,4 +977,135 @@ public:
 };
 ```
 
+#### [474. 一和零](https://leetcode.cn/problems/ones-and-zeroes/description/)
 
+这道题和经典的背包问题非常相似，但是和经典的背包问题只有一种容量不同，这道题有两种容量，即选取的字符串子集中的 0 和 1 的数量上限。
+
+本来我们应该是用一个三维数组来表示状态，但是我们可以倒序遍历，这样就可以用一个二维数组来表示状态。
+
+f[i][j] 表示在容量为 i 和 j 的情况下，最多可以放多少个字符串。属性是 Count
+
+```cpp
+class Solution {
+public:
+
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<int>> f(m + 1, vector<int>(n + 1));
+
+        for (auto str: strs)
+        {
+            int a = 0, b = 0;
+            for (char c: str)
+                if (c == '0') a ++;
+                else b ++;
+            
+            for (int i = m;i >= a;i --)
+                for (int j = n;j >= b;j --)
+                    f[i][j] = max(f[i][j], f[i-a][j-b] + 1);
+        }
+        return f[m][n];
+    }
+};
+```
+
+#### [1774. 最接近目标价格的甜点成本](https://leetcode.cn/problems/closest-dessert-cost/description/)
+
+这题真的挺难的，我们可以把这个问题转化成一个 0-1 背包问题，我们可以把 toppingCosts 中的每个元素看成是一个物品，然后我们可以选择这个物品或者不选择这个物品。
+
+首先我们先判断一下 baseCosts 中的元素是否大于 target，如果大于 target 的话，那么我们就直接返回这个元素。
+
+然后我们初始化一个 f 数组，f[i] 表示是否可以用 toppingCosts 中的元素组成 i。然后我们遍历 toppingCosts 中的元素，然后更新 f 数组。这个算是 f 的初始化。
+
+然后我们遍历 baseCosts 中的元素，然后我们可以选择 toppingCosts 中的元素，然后更新 f 数组。 注意由于每个配料可以选择 2 次，所以我们需要遍历 2 次。
+
+最后我们遍历一下 f 数组，然后找到最接近 target 的值。
+
+动态规划是用于求解 0-target 之内可能的和的问题, 也就算是求解一个 0-1 背包问题。而且因为这题有可能结果大于 target 所以我们需要记录下来大于 target 的最小值。
+
+```cpp
+class Solution {
+public:
+    int closestCost(vector<int>& baseCosts, vector<int>& toppingCosts, int target) {
+        int x = *min_element(baseCosts.begin(), baseCosts.end());
+        if (x >= target)
+            return x;
+
+        vector<bool> f(target + 1, false);
+        int res = 2 * target - x;
+
+        for (auto &b: baseCosts)
+        {
+            if (b <= target)
+                f[b] = true;
+            else
+                res = min(res, b);
+        }
+
+        for (auto &t : toppingCosts)
+        {
+            for (int c = 0; c < 2; c++)
+            {
+                for (int i = target;i >= 0;i --)
+                {
+                    if (f[i] && i + t > target)
+                        res = min(res, i + t);
+                    if (i - t > 0)
+                        f[i] = f[i] | f[i - t];
+                }
+            }
+        }
+
+        for (int i = 0;i <= res - target;i ++)
+        {
+            if (f[target - i])
+                return target - i;
+        }
+        return res;
+    }
+};
+```
+
+
+### 3.2 完全背包问题
+
+#### [322. 零钱兑换](https://leetcode.cn/problems/coin-change/)
+
+就是一个完全背包的模板，直接套用即可。属性是 Min
+
+```cpp
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int m) {
+        vector<int> f(m + 1, 1e8);
+        f[0] = 0;
+        for (auto c: coins)
+        {
+            for (int j = c; j <= m;j ++)
+                f[j] = min(f[j], f[j - c] + 1);
+        }
+        if (f[m] == 1e8) return -1;
+        return f[m];
+    }
+};
+```
+
+#### [518. 零钱兑换 II](https://leetcode.cn/problems/coin-change-ii/description/)
+
+这题和上面的题目基本一样，只不过这次 DP 的属性是 Count。
+
+```cpp
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        vector<int> f(amount + 1);
+
+        f[0] = 1;
+        for (int coin: coins)
+        {
+            for (int i = coin;i <= amount;i ++)
+                f[i] += f[i - coin];
+        }
+        return f[amount];
+    }
+};
+```
