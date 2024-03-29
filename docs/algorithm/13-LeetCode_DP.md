@@ -1,5 +1,10 @@
 # Leetcode DP 专题
 
+:::tip
+友情提升，所有的题目都是超链接，可以直接点击进入 LeetCode 对应的题目页面。
+:::
+
+
 ## 1. 入门 DP
 
 ### 1.1 爬楼梯
@@ -1109,3 +1114,491 @@ public:
     }
 };
 ```
+
+### 3.3 多重背包
+
+多重背包问题是 0-1 背包问题的一个变种，和 0-1 背包问题不同的是，每种物品有多个。
+
+这个感觉面试应该很少考，大家记住最基础的模板就够了。优化方案的思路是将多重背包问题看做01背包问题来解决。 我们现在假设有4个物品i，我们将物品i进行分组，分组的目的是让分组之后的组别可以任意组合成1-4之间的任意个数的物品i。这里有一个已经存在的定理就是如果想让分组之后的可以组合成1-n中的任何数，只需要按照2的倍数进行分类即可。
+
+先分组，再写一个01背包的模板即可。
+
+```cpp
+#include <iostream>
+using namespace std;
+
+const int N = 25000,M = 2010;
+
+int n,m;
+int v[N],w[N];
+int f[N];
+
+int main()
+{
+    cin >> n >>m;
+    int cnt = 0;
+    for(int i = 1;i<=n;i++)
+    {
+        int a, b ,s;
+        cin >> a >> b >> s;
+        int k = 1;
+        while(k <= s)
+        {
+            cnt ++;
+            v[cnt] = a * k;
+            w[cnt] = b * k;
+            s -= k;
+            k *= 2;
+        }
+        if(s > 0)
+        {
+            cnt ++;
+            v[cnt] = a * s;
+            w[cnt] = b * s;
+        }
+    }
+    n = cnt;
+    for(int i=1;i<=n;i++)
+        for(int j=m;j>=v[i];j--)
+            f[j] =  max(f[j],f[j-v[i]] + w[i]);
+    cout <<  f[m];
+}
+```
+
+
+### 3.4 分组背包
+
+分组背包问题，物品有若干组，每一组物品是互斥的，每组物品只能选一个。
+
+这个问题没有什么要去优化的地方，主要就是状态计算那你注意一下就可以，选择所有情况下空间最大的情况就可以了
+
+枚举的顺序是：
+
+1. 枚举组
+2. 枚举容量，从大到小枚举
+3. 枚举组内的物品
+
+类似的题目基本都是模板题
+
+#### [1155. 掷骰子等于目标和的方法数](https://leetcode.cn/problems/number-of-dice-rolls-with-target-sum/)
+
+这题需要特别注意一个地方，普通的分组背包问题是每组物品可以选也可以不选，但是这题是每组物品必须选一个。
+
+f[i, j] 是不能从 f[i-1, j] 转移过来的，因为这样就不是每组物品必须选一个了。所以在第二轮循环中，我们每次都把 f[j] 给初始化为 0，然后再进行转移。
+
+```cpp
+class Solution {
+public:
+    int numRollsToTarget(int n, int k, int target) {
+        const int MOD = 1e9 + 7;
+
+        vector<int> f(target + 1);
+
+        f[0] = 1;
+        for (int i = 1;i <= n;i ++)
+        {
+            for (int j = target; j >= 0;j --)
+            {
+                f[j] = 0;
+                for (int u = 1;u <= j && u <= k;u ++)
+                {
+                    f[j] = (f[j] + f[j - u]) % MOD;
+                }
+            }
+        }
+        return f[target];
+    }
+};
+```
+
+#### [1981. 最小化目标值与所选元素的差](https://leetcode.cn/problems/minimize-the-difference-between-target-and-chosen-elements/description/)
+
+这题和上面的题目基本一样，只不过这次 DP 的属性是 Count。分组背包的时候我们可以求出来所有的可能的和，然后再去找最接近 target 的值。
+
+需要注意的是，我们首先需要计算一下 `max_sum` ，这个值是所有组中最大的值的和，如果 target 大于等于 `max_sum` 的话，那么我们直接返回 target - `max_sum`。
+
+
+
+```cpp
+class Solution {
+public:
+    int minimizeTheDifference(vector<vector<int>>& mat, int target) {
+        int res = INT_MIN;
+        int m = mat.size(), n = mat[0].size();
+
+        int max_sum = 0;
+        for (auto x: mat)
+        {
+            int max_a = 0;
+            for (int y: x)
+                max_a = max(y, max_a);
+            max_sum += max_a;
+        }
+
+        if (target >= max_sum) return target - max_sum;
+        
+        vector<int> f(max_sum + 1, 0);
+
+        f[0] = 1;
+        for (int i = 1; i <= m;i ++)
+        {
+            for (int j = max_sum;j >= 0;j --)
+            {
+                f[j] = 0;
+                for (int u: mat[i - 1])
+                {
+                    if (j >= u) {
+                        f[j] |= f[j - u];
+                    }
+                }
+            }
+        }
+
+        for (int i = 0;i <= max(target, max_sum - target);i ++)
+        {
+            if (target - i >= 0 && f[target - i]) return i;
+            if (target + i <= max_sum && f[target + i]) return i;
+        }
+        return 0;
+    }
+};
+```
+
+## 4. 线性 DP
+
+### 4.1 最长公共子序列
+
+一般定义 $f[i][j]$ 表示对 $(s[: i], t[: j])$ 的求解结果。
+
+如何对状态进行划分，这道题将集合划分为两个集合会更加的方便理解。
+
+![picture 1](images/083b958b81dbc2e1781393c6d63289376a611326055eabf8a73c4e5a4df3f696.png)  
+
+对于 `a[i] == b[j]` 的情况，`f[i][j] = f[i-1][j-1] + 1`
+
+对于 `a[i] != b[j]` 的情况, `f[i][j] = max(f[i-1][j],f[i][j-1])` 对于第二种情况 `f[i-1][j]` 表示不选 `a[i]` 选 `b[j]` 的情况，`f[i][j-1]` 表示选 `a[i]` 不选 `b[j]` 的情况。`a[i]` 和 `b[i]` 都不选的情况囊括在了这两种情况当中，状态转移方程见代码。
+
+```cpp
+class Solution {
+public:
+    int longestCommonSubsequence(string text1, string text2) {
+        int n = text1.size(), m = text2.size();
+        vector<vector<int> > f(n + 1, vector<int>(m + 1));
+
+        for (int i = 1;i <= n;i ++)
+        {
+            for (int j = 1;j <= m;j ++)
+            {
+                if (text1[i - 1] == text2[j - 1])
+                    f[i][j] = f[i - 1][j - 1] + 1;
+                else
+                    f[i][j] = max(f[i - 1][j], f[i][j - 1]);
+            }
+        }
+        return f[n][m];
+    }
+};
+```
+
+#### [583. 两个字符串的删除操作](https://leetcode.cn/problems/delete-operation-for-two-strings/)
+
+和上题一毛一样，秒了
+
+```cpp
+class Solution {
+public:
+    int minDistance(string text1, string text2) {
+        int n = text1.size(), m = text2.size();
+        vector<vector<int> > f(n + 1, vector<int>(m + 1));
+
+        for (int i = 1;i <= n;i ++)
+        {
+            for (int j = 1;j <= m;j ++)
+            {
+                if (text1[i - 1] == text2[j - 1])
+                    f[i][j] = f[i - 1][j - 1] + 1;
+                else
+                    f[i][j] = max(f[i - 1][j], f[i][j - 1]);
+            }
+        }
+        return n + m - 2 * f[n][m];
+    }
+};
+```
+
+#### [712. 两个字符串的最小ASCII删除和](https://leetcode.cn/problems/minimum-ascii-delete-sum-for-two-strings/description/)
+
+换汤不换药
+
+```cpp
+class Solution {
+public:
+    int minimumDeleteSum(string s1, string s2) {
+        int n = s1.size(), m = s2.size();
+
+        vector<vector<int> > f(n + 1, vector<int>(m + 1));
+
+        for (int i = 1; i <= n;i ++)
+        {
+            for (int j = 1;j <= m;j ++)
+            {
+                if (s1[i - 1] == s2[j - 1])
+                    f[i][j] = f[i-1][j-1] + (int)s1[i - 1];
+                else
+                    f[i][j] = max(f[i-1][j], f[i][j-1]);
+            }
+        }
+
+        int sum = 0;
+        for (char c: s1) sum += (int)c;
+        for (char c: s2) sum += (int)c;
+        return sum - 2 * f[n][m];
+    }
+};
+```
+
+#### [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
+
+状态表示: $f[i, j]$ 表示将 word 1 的前 $i$ 个字符变成 word2 的前 $j$ 个字符, 最少需要进行多少次操作。状态转移，一共有四种情况（假定word的下标从1开始）：
+
+1. 将 $w o r d 1[i]$ 删除或在 $word 2[j]$ 后面添加 $word 1[i]$, 则其操作次数等于 $f[i-1, j]+1$;
+2. 将 $word 2[j]$ 删除或在 $word11[i]$ 后面添加 $w \operatorname{or} d 2[j]$, 则其操作次数等于 $f[i, j-1]+1$;
+3. 如果 $word1[i]=\operatorname{word} 2[j]$, 则其操作次数等于 $f[i-1, j-1]$;
+4. 如果 $word1[i] \neq word 2[j]$, 则其操作次数等于 $f[i-1, j-1]+1$;
+
+时间复杂度分析：状态数 $O\left(n^2\right)$, 状态转移复杂度是 $O(1)$, 所以总时间复杂度是 $O\left(n^2\right)$ 。
+
+
+```cpp
+class Solution {
+public:
+    int minDistance(string text1, string text2) {
+        int n = text1.size(), m = text2.size();
+        vector<vector<int> > f(n + 1, vector<int>(m + 1));
+
+        for (int i = 1; i <= n; i ++ ) f[i][0] = i;
+        for (int j = 1; j <= m; j ++ ) f[0][j] = j;
+
+        for (int i = 1;i <= n;i ++)
+        {
+            for (int j = 1;j <= m;j ++)
+            {
+                f[i][j] = f[i - 1][j - 1] + 
+                    (text1[i - 1] != text2[j - 1]);
+                f[i][j] = min(f[i][j], f[i - 1][j] + 1);
+                f[i][j] = min(f[i][j], f[i][j - 1] + 1);
+            }
+        }
+        return f[n][m];
+    }
+};
+```
+
+#### [97. 交错字符串](https://leetcode.cn/problems/interleaving-string/description/)
+
+状态表示: $f[i][j]$ 表示 $s1$ 的前 $i$ 个字符和 $s2$ 的前 $j$ 个字符是否可以交错组成 $s3$ 的前 $i+j$ 个字符。
+
+状态转移: 如果 $s3[i+j]$ 匹配 $s1[i]$, 则问题就转化成了 $f[i-1][j]$; 如果 $s3[i+j]$ 匹配 $s2[j]$, 则问题就转化成了 $f[i][j-1]$ 。两种情况只要有一种为真, 则 $f[i][j]$ 就为真。
+
+```cpp
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        int n = s1.size(), m = s2.size();
+        if (s3.size() != n + m) return false;
+
+        vector<vector<bool>> f(n + 1, vector<bool>(m + 1));
+        s1 = ' ' + s1, s2 = ' ' + s2, s3 = ' ' + s3;
+        for (int i = 0; i <= n; i ++ )
+        {
+            for (int j = 0; j <= m; j ++ )
+            {
+                if (!i && !j) f[i][j] = true;
+                else
+                {
+                    if (i && s1[i] == s3[i + j]) f[i][j] = f[i - 1][j];
+                    if (j && s2[j] == s3[i + j]) f[i][j] = f[i][j] || f[i][j - 1];
+                }
+            }
+        }
+
+        return f[n][m];
+    }
+};
+```
+
+### 4.2 最长递增子序列（LIS）
+
+#### [300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/description/)
+
+状态表示：集合就是所有以i个数结尾的上升子序列，属性是集合里面每一个上升子序列长度的最大值。
+
+接下来考虑一下要如何进行进行状态计算，首先我们先想一下如何进行集合划分，对于第i个数，那么将会有i-1个情况。如下图所示：
+
+![picture 2](images/9b4086de842debfbfa386272e96cf4ca60d567e955c9854b991dccb6eb890f45.png)  
+
+你的的上一个数值可能来自于0-i-1中的任何一个，那么就需要在0-i-1中去找到一个最大值。因此状态转移方程可以表示如下：
+
+$$
+f[i] = max(f[j]+1) \ j =0,1,...,j-1
+$$
+
+```cpp
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+
+        vector<int> f(n + 1);
+        for (int i = 1;i <= n;i ++)
+        {
+            f[i] = 1;
+            for (int j = 1;j < i;j ++)
+            {
+                if (nums[i - 1] > nums[j - 1])
+                    f[i] = max(f[i], f[j] + 1);
+            }
+        }
+        return *max_element(f.begin(), f.end());
+    }
+};
+```
+
+#### [673. 最长递增子序列的个数](https://leetcode.cn/problems/number-of-longest-increasing-subsequence/description/)
+
+由于需要记录下来最长的长度，所以我们需要维护一个 g 数组，g[i] 表示以 i 结尾的最长递增子序列的长度。
+
+```cpp
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        int n = nums.size();
+
+        vector<int> f(n + 1), g(n + 1);
+        int maxl = 0, cnt = 0;
+
+        for (int i = 1;i <= n;i ++)
+        {
+            f[i] = g[i] = 1;
+            for (int j = 1;j < i;j ++)
+            {
+                if (nums[i - 1] > nums[j - 1])
+                {
+                    if (f[i] < f[j] + 1)
+                    {
+                        f[i] = f[j] + 1;
+                        g[i] = g[j];
+                    } else if (f[i] == f[j] + 1)
+                    {
+                        g[i] += g[j];
+                    }
+                }   
+            }
+
+            if (maxl < f[i]) maxl = f[i], cnt = g[i];
+            else if (maxl == f[i]) cnt += g[i];
+        }
+        return cnt;
+    }
+};
+```
+
+
+## 5. 状态机 DP
+
+一般定义 $f[i][j]$ 表示前缀 $a[: i]$ 在状态 $j$ 下的最优值。一般 $j$ 都很小。代表题目是「买卖股票」系列。
+
+### [121.买卖股票的最佳时机](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/description/)
+
+状态表示：$f[i][j]$ 表示前i天在状态j下的最优值。状态转移方程：$f[i][0] = max(f[i-1][0],f[i-1][1]+prices[i])$，$f[i][1] = max(f[i-1][1],-prices[i])$。
+
+0 表示不持有股票，1 表示持有股票。
+
+```cpp
+class Solution {
+
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> f(n + 1, vector<int>(2));
+
+        f[0][0] = 0, f[0][1] = -1e9;
+        for (int i = 1;i <= n;i ++)
+        {
+            f[i][0] = max(f[i - 1][0], f[i - 1][1] + prices[i - 1]);
+            f[i][1] = max(f[i - 1][1], -prices[i - 1]);
+        }
+        return f[n][0];
+    }
+};
+```
+
+### [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+
+这题其实就是一个贪心的问题，只要今天的价格比昨天的价格高，那么就可以买入，然后卖出。但是我们也可以用状态机 DP 来解决这个问题。
+
+```cpp
+class Solution {
+
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> f(n + 1, vector<int>(2));
+
+        f[0][0] = 0, f[0][1] = -1e9;
+        for (int i = 1;i <= n;i ++)
+        {
+            // 今天不持有股票的情况，可能是昨天不持有股票，或者昨天持有股票，今天卖出
+            f[i][0] = max(f[i - 1][0], f[i - 1][1] + prices[i - 1]);
+            // 今天持有股票的情况，可能是昨天持有股票，或者昨天不持有股票，今天买入
+            f[i][1] = max(f[i - 1][1], f[i - 1][0] - prices[i - 1]);
+        }
+        return f[n][0];
+    }
+};
+```
+
+### [123. 买卖股票的最佳时机 III](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/description/)
+
+先从前往后扫描, 并计算出只买卖一次且第 $i$ 天卖出的最大收益, 最大收益等于第 $i$ 天股票的价格减去前 $i-1$ 天股票价格的最小值。
+扫描过程中用 $f[i]$ 记录前 $i$ 天中买卖一次的最大收益（不一定在第 $i$ 天卖）。
+
+然后枚举第二次交易, 从后往前扫描, 并计算只买卖一次且第 $i$ 天买入的最大收益，最大收益等于第 $i$ 天之后股票价格的最大值减去 第 $i$ 天的价格, 然后加上 $f[i-1]$, 就是第二次交易在 $i$ 天买入，两次交易的总收益的最大值。
+
+枚举过程中维护总收益的最大值即可。
+
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+
+        vector<int> f(n, 0);
+        int minv = INT_MAX;
+        for (int i = 0; i < n; i ++ )
+        {
+            if (i) f[i] = f[i - 1];
+            if (prices[i] > minv)
+                f[i] = max(f[i], prices[i] - minv);
+            minv = min(minv, prices[i]);
+        }
+        int res = f[n - 1];
+        int maxv = INT_MIN;
+        for (int i = n - 1; i > 0; i -- )
+        {
+            if (prices[i] < maxv)
+                res = max(res, maxv - prices[i] + f[i - 1]);
+            maxv = max(maxv, prices[i]);
+        }
+        return res;
+    }
+};
+```
+
+
+
+
+
+
+
+
