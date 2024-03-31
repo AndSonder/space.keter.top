@@ -1595,10 +1595,154 @@ public:
 };
 ```
 
+## 6. 划分型 DP
 
 
+### 6.1 判定能否划分
+
+一般定义 $f[i]$ 表示长为 $i$ 的前缀 $a[: i]$ 能否划分。
+
+枚举最后一个子数组的左端点 $L$, 从 $f[L]$ 转移到 $f[i]$, 并考虑 $a[L: j]$ 是否满足要求。
+
+#### [2369. 检查数组是否存在有效划分](https://leetcode.cn/problems/check-if-there-is-a-valid-partition-for-the-array/description/)
+
+f[i] 可能从 f[i - 2] 转移过来，也可能从 f[i - 3] 转移过来。转移的条件题目已经给出了。
+
+```cpp
+class Solution {
+public:
+    bool validPartition(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> f(n + 1);
+
+        f[0] = 1;
+
+        for (int i = 1;i <= n;i ++)
+        {
+            if (i >= 2)
+            {
+                if (nums[i - 2] == nums[i - 1])
+                    f[i] = f[i - 2];
+            } 
+            if (i >= 3)
+            {
+                if (nums[i - 3] == nums[i - 2] && nums[i - 2] == nums[i - 1])
+                    f[i] = f[i] || f[i - 3];
+                else if (nums[i - 3] + 1 == nums[i - 2] && nums[i - 2] + 1 == nums[i - 1])
+                    f[i] = f[i] || f[i - 3];
+            }
+        }
+        return f[n];
+    }
+};
+```
+
+#### [139. 单词拆分](https://leetcode-cn.com/problems/word-break/)
+
+这题需要结合字符串 hash 去解，为了更加方便的计算字符串 hash，我们最好给 dp 的过程改成从后往前。
+
+```cpp
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& w) {
+        typedef unsigned long long ULL;
+        const int P = 131;
+
+        unordered_set<ULL> S;
+
+        // 把所有的字符串 hash 存储到 S 中
+        for (auto i: w)
+        {
+            ULL h = 0;
+            for (char c: i) h += h * P + c;
+            S.insert(h);
+        }
+
+        int n = s.size();
+        vector<int> f(n + 1);
+
+        f[n] = 1; // 注意这里是从后往前的，所以这里是 1
+
+        for (int i = n - 1;i >= 0;i --)
+        {
+            ULL h = 0;
+            for (int j = i;j < n;j ++)
+            {
+                h += h * P + s[j];
+                if (S.count(h) && f[j + 1])
+                {
+                    f[i] = 1;
+                    break;
+                }
+            }
+        }
+        return f[0];
+    }
+};
+```
 
 
+### 6.2 计算划分个数
 
+计算最少（最多）可以划分出的子数组个数、划分方案数等。
+
+一般定义 $f[i]$ 表示长为 $i$ 的前缀 $a[: i]$ 能否划分。
+
+枚举最后一个子数组的左端点 $L$, 从 $f[L]$ 转移到 $f[i]$, 并考虑 $a[L: j]$ 对最优值的影响。
+
+#### [132. 分割回文串 II](https://leetcode.cn/problems/palindrome-partitioning-ii/description/)
+
+
+要解这一题我们首先先要判断一个子串是不是回文串，这个我们可以用一个二维数组来表示。这一部其实是一个预处理的过程，这个预处理也是用动态规划来解决的。
+
+设 $g(i, j)$ 表示 $s[i . . j]$ 是否为回文串, 那么有状态转移方程:
+
+$$
+g(i, j) = \begin{cases}
+g(i+1, j-1) & s[i] = s[j] \\
+\text{false} & s[i] \neq s[j]
+\end{cases}
+$$
+
+下面我们来看一下状态转移方程，设 $f(i)$ 表示 $s[1 . . i]$ 的最少分割次数, 那么我们就可以枚举 0 到 i 之间的每一个位置 j, 如果 $s[j + 1 . . i]$ 是回文串的话, 那么 $f(i) = \min(f(i), f(j) + 1)$。
+
+如果 $s[j + 1 . . i]$ 是回文串的话，那么 $f(i) = \min(f(i), f(j) + 1)$。因为 $s[j + 1 . . i]$ 是回文串，所以 $s[1 . . i]$ 的最少分割次数就是 $s[1 . . j]$ 的最少分割次数加上 $s[j + 1 . . i]$ 这个回文串。
+
+状态转移方程如下：
+
+$$
+f(i) = \min(f(i), f(j) + 1) \quad \text{if} \quad g(j + 1, i) = \text{true}
+$$
+
+```cpp
+class Solution {
+public:
+    int minCut(string s) {
+        int n = s.size();
+        s = ' ' + s;
+        vector<vector<int> > g(n + 1, vector<int>(n + 1));
+        vector<int> f(n + 1, INT_MAX);
+
+        for (int j = 1;j <= n;j ++)
+            for (int i = 1;i <= n;i ++)
+                if (i == j) g[i][j] = 1;
+                else if (s[i] == s[j])
+                    if (i + 1 > j - 1 || g[i + 1][j - 1])
+                        g[i][j] = 1;
+        
+        for (int i = 1;i <= n;i ++)
+        {
+            if (g[1][i]) f[i] = 0; // 问的是前 i 个字符的最少分割次数
+            else
+            {
+                for (int j = 1;j < i;j ++)
+                    if (g[j + 1][i])
+                        f[i] = min(f[i], f[j] + 1);
+            }
+        }
+        return f[n];
+    }
+};
+```
 
 
