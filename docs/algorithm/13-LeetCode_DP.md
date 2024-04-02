@@ -1746,3 +1746,41 @@ public:
 ```
 
 
+#### [2707. 字符串中的额外字符](https://leetcode.cn/problems/extra-characters-in-a-string/description/)
+
+状态表示 $f[i]$ 表示前 $i$ 个字符的最少分割次数。
+
+初始化 $f[0] = 0$，然后我们枚举 $f[i]$ 的所有可能的情况，如果 $s[j + 1 . . i]$ 在字典中，那么 $f[i] = \min(f[i], f[j])$。
+
+```cpp
+class Solution {
+public:
+    int minExtraChar(string s, vector<string>& dictionary) {
+        int n = s.size();
+        vector<int> f(n + 1, INT_MAX);
+
+        unordered_map<string, int> mp;
+        for (auto s: dictionary)
+            mp[s]++;
+
+        f[0] = 0;
+        for (int i = 1;i <= n;i ++)
+        {
+            f[i] = f[i - 1] + 1;
+            for (int j = i - 1; j >= 0;j --)
+            {
+                if (mp.count(s.substr(j, i - j)))
+                    f[i] = min(f[i], f[j]);
+            }
+        }
+        return f[n];
+    }
+};
+```
+
+#### [2767. 将字符串分割为最少的美丽子字符串](https://leetcode.cn/problems/partition-string-into-minimum-beautiful-substrings/description/)
+
+
+
+
+
