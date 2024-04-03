@@ -1,6 +1,6 @@
 # ZB-VPP 编排代码解读
 
-在上一篇博客中，我们介绍了 Zero Bubble VPP 的编排策略，本篇我们将深入代码，解读 Zero Bubble VPP 的编排实现。其中核心的代码都在 [v_schedule.py](https://github.com/AndSonder/zero-bubble-pipeline-parallelism/blob/56a5ce6ee794315b851483b2d0112cea1251e0b6/megatron/core/pipeline_parallel/v_schedule.py#L46-L516) 中。但是官方的实现，代码实在是有些难懂，给的超链接里面包含了我加的详细注释，希望能帮助大家理解。
+在上一篇博客中，我们介绍了 Zero Bubble VPP 的编排策略，本篇我们将深入代码，解读 Zero Bubble VPP 的编排实现。其中核心的代码都在 [v_schedule.py](https://github.com/AndSonder/zero-bubble-pipeline-parallelism/blob/2efcc0951fb16155cd88d3e7ed69305d1c22962d/megatron/core/pipeline_parallel/v_schedule.py#L46-L516) 中。但是官方的实现，代码实在是有些难懂，给的超链接里面包含了我加的详细注释，希望能帮助大家理解。
 
 ![picture 0](images/ee591cd8cf1acc81e97feb94023f2b73444e963c98ac9f0479998c769ab829e8.png)  
 
