@@ -1778,9 +1778,160 @@ public:
 };
 ```
 
-#### [2767. 将字符串分割为最少的美丽子字符串](https://leetcode.cn/problems/partition-string-into-minimum-beautiful-substrings/description/)
+#### [91. 解码方法](https://leetcode.cn/problems/decode-ways/description/)
+
+这题是一个比较经典的划分类 DP 了，我们可以定义 $f[i]$ 表示前 $i$ 个字符的解码方法的个数。
+
+$f[i]$ 可以从 $f[i - 1]$ 转移过来，也可以从 $f[i - 2]$ 转移过来。但是需要注意的是，从 $f[i - 2]$ 转移过来的时候，需要判断一下 $s[i - 1]$ 和 $s[i - 2]$ 是否可以组成一个合法的数字。
+
+```cpp
+class Solution {
+public:
+    int numDecodings(string s) {
+        int n = s.size();
+        s = ' ' + s;
+        vector<int> f(n + 1);
+
+        f[0] = 1;
+        for (int i = 1;i <= n;i ++)
+        {
+            if (s[i] != '0') 
+                f[i] = f[i - 1];
+
+            if (i > 1 && s[i - 1] != '0' && ((s[i - 1] - '0') * 10 + (s[i] - '0') <= 26)) 
+                f[i] += f[i - 2];
+        }
+        return f[n];
+    }
+};
+```
+
+#### [639. 解码方法 II](https://leetcode.cn/problems/decode-ways-ii/description/)
+
+本题是「91. 解码方法」的进阶题目。算是比较复杂，但是仔细想一想也不是不能写的dp。下面的题解来自于 Leetcode 官方。
+
+对于给定的字符串 $s$, 设它的长度为 $n$, 其中的字符从左到右依次为 $s[1], s[2], \cdots, s[n]$ 。我们可以使用动态规划的方法计算出字符串 $s$ 的解码方法数。
+
+具体地, 设 $f_i$ 表示字符串 $s$ 的前 $i$ 个字符 $s[1 . . i]$ 的解码方法数。在进行状态转移时, 我们可以考虑最后一次解码使用了 $s$ 中的哪些字符, 那么会有下面的两种情况:
+
+- 第一种情况是我们使用了一个字符, 即 $s[i]$ 进行解码, 那么:
+    - 如果 $s[i]$ 为 $*$, 那么它对应着 $[1,9]$ 中的任意一种编码, 有 9 种方案。因此状态转移方程为:
+$$
+f_i=9 \times f_{i-1}
+$$
+    - 如果 $s[i]$ 为 0 , 那么它无法被解码。因此状态转移方程为:
+$$
+f_i=0
+$$
+    - 对于其它的情况, $s[i] \in[1,9]$, 分别对应一种编码。因此状态转移方程为:
+$$
+f_i=f_{i-1}
+$$
+
+- 第二种情况是我们使用了两个字符, 即 $s[i-1]$ 和 $s[i]$ 进行编码。与第一种情况类似, 我们需要进行分类讨论:
+
+    - 如果 $s[i-1]$ 和 $s[i]$ 均为 $*$, 那么它们对应着 $[11,19]$ 以及 $[21,26]$ 中的任意一种编码, 有 15 种方案。因此状态转移方程为:
+$$
+f_i=15 \times f_{i-2}
+$$
+
+    - 如果仅有 $s[i-1]$ 为 $*$, 那么当 $s[i] \in[0,6]$ 时, $s[i-1]$ 可以选择 1 和 2 ; 当 $s[i] \in[7,9]$时, $s[i-1]$ 只能选择 1 。因此状态转移方程为:
+$$
+f_i= \begin{cases}2 \times f_{i-2}, & s[i-1] \in[1,6] \\ f_{i-2}, & s[i-1] \in[7,9]\end{cases}
+$$
+    - 如果仅有 $s[i]$ 为 $*$, 那么当 $s[i-1]$ 为 1 时, $s[i]$ 可以在 $[1,9]$ 中进行选择; 当 $s[i-1]$为 2 时, $s[i]$ 可以在 $[1,6]$ 中进行选择; 对于其余情况, 它们无法被解码。因此状态转移方程为:
+$$
+f_i= \begin{cases}9 \times f_{i-2}, & s[i]=1 \\ 6 \times f_{i-2}, & s[i]=2 \\ 0, & \text { otherwise }\end{cases}
+$$
+    - 如果 $s[i-1]$ 和 $s[i]$ 均不为 $*$, 那么只有 $s[i-1]$ 不为 0 并且 $s[i-1]$ 和 $s[i]$ 组成的数字小于等于 26 时, 它们才能被解码。因此状态转移方程为:
+$$
+f_i= \begin{cases}f_{i-2}, & s[i-1] \neq 0 \wedge \overline{s[i-1] s[i]} \leq 26 \\ 0, & \text { otherwise }\end{cases}
+$$
+将上面的两种状态转移方程在对应的条件满足时进行累加, 即可得到 $f_i$ 的值。在动态规划完成后,最终的答案即为 $f_n$ 。
 
 
+```cpp
+class Solution {
+public:
+    int numDecodings(string s) {
+        typedef unsigned long long ULL;
+        const int MOD = 1e9 + 7;
+
+        int n = s.size();
+        s = ' ' + s;
+        vector<ULL> f(n + 1);
+        f[0] = 1;
+        for (int i = 1;i <= n;i ++)
+        {
+            if (s[i] == '*')
+                f[i] = (9 * f[i - 1]) % MOD;
+            else if (s[i] != '0')
+                f[i] = f[i - 1];
+                
+            if (i > 1)
+            {
+                if (s[i] == '*' && s[i - 1] == '*')
+                    f[i] = (f[i] + f[i - 2] * 15) % MOD;
+                else if (s[i - 1] == '*')
+                {
+                    if (s[i] <= '6')
+                        f[i] = (f[i] + f[i - 2] * 2) % MOD;
+                    else
+                        f[i] = (f[i] + f[i - 2]) % MOD;
+                }
+                else if (s[i] == '*')
+                {
+                    if(s[i - 1] == '1')
+                        f[i] = (f[i] + f[i - 2] * 9) % MOD;
+                    else if (s[i - 1] == '2')
+                        f[i] = (f[i] + f[i - 2] * 6) % MOD;
+                } else if (s[i - 1] != '0'){
+                    if (((s[i - 1] - '0') * 10 + (s[i] - '0')) <= 26)
+                        f[i] = (f[i - 2] + f[i]) % MOD;
+                }
+            }
+        }
+        return f[n];
+    }
+};
+```
+
+#### [LCR 165. 解密数字](https://leetcode.cn/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/description/)
+
+这题和解码方法是一样的，只不过这里的数字是从 0 开始的。而且没有复杂的判断，秒了。
+
+```cpp
+class Solution {
+public:
+    int crackNumber(int ciphertext) {
+        vector<int> a;
+        while (ciphertext)
+        {
+            a.push_back(ciphertext % 10);
+            ciphertext /= 10;
+        }
+
+        int n = a.size();
+
+        a.push_back(0);
+        reverse(a.begin(), a.end());
+        
+        vector<int> f(n + 1);
+        f[0] = 1;
+
+        for (int i = 1;i <= n;i ++)
+        {
+            f[i] += f[i - 1];
+
+            if (i > 1 && a[i - 1] != 0 && a[i - 1] * 10 + a[i] < 26)
+            {
+                f[i] += f[i - 2];
+            }
+        }
+        return f[n];
+    }
+};
+```
 
 
 
