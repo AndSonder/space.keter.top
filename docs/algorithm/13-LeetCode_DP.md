@@ -1933,5 +1933,168 @@ public:
 };
 ```
 
+#### [1105. 填充书架](https://leetcode.cn/problems/filling-bookcase-shelves/description/)
+
+![picture 3](images/4d59cf8e6f33af26b961372147cda5cd6796132ef6aca1be1273ca01e4bd0357.png)  
+
+f[i] 的表示是前 i 本书的最小高度和。那么 f[i] 可以被划分成两个部分，前 j - 1 本书的最小高度和和第 j 到 i 本书的最小高度和。状态转移方程如下：
+
+$$
+f[i] = \min(f[j - 1] + h) \quad \text{if} \quad w_1 + w_2 + \cdots + w_j \leq L
+$$
+
+
+
+```cpp
+class Solution {
+public:
+    int minHeightShelves(vector<vector<int>>& books, int shelfWidth) {
+        int n = books.size();
+        vector<int> f(n + 1, 1e8);
+
+        f[0] = 0;
+
+        for (int i = 1;i <= n;i ++)
+        {
+            int s = 0, h = 0;
+            for (int j = i;j >= 1;j --)
+            {
+                s += books[j - 1][0];
+                if (s > shelfWidth) break;
+
+                h = max(h, books[j - 1][1]);
+                f[i] = min(f[j - 1] + h, f[i]);
+            }
+        }
+        
+        return f[n];
+    }
+};
+```
+
+### 约束划分个数
+
+将数组分成 (恰好/至多) $k$ 个连续子数组, 计算与这些子数组有关的最优值。
+
+一般定义 $f[i][j]$ 表示将长为 $j$ 的前缀 $a[: j]$ 分成 $i$ 个连续子数组所得到的最优解。
+
+枚举最后一个子数组的左端点 $L$, 从 $f[i-1][L]$ 转移到 $f[i][j]$, 并考虑 $a[L: j]$ 对最优解的影响。
+
+#### [410. 分割数组的最大值](https://leetcode-cn.com/problems/split-array-largest-sum/)
+
+
+- 状态表示：f[i, j]
+    - nums[0...i] 划分 j 次最小分割子数组的最大和
+    - 属性：Max
+- 状态计算
+    - f[i][j] = min(f[i][j], max(f[k][j - 1], sum[i] - sum[k])) for k in [0, i)
+    - f[i][j] 可以从 f[k][j - 1] 转移过来，表示前 k 个数分成 j - 1 个子数组，最大和为 f[k][j - 1]，那么剩下的 i - k 个数分成一个子数组，最大和为 sum[i] - sum[k]。sum 是前缀和数组。
+- 初始化
+    - f[0][0] = 0
+
+```cpp
+class Solution {
+public:
+    int splitArray(vector<int>& nums, int m) {
+        typedef unsigned long long ULL;
+        int n = nums.size();
+        vector<vector<ULL>> f(n + 1, vector<ULL>(m + 1, INT_MAX));
+        vector<ULL> sum(n + 1);
+
+        for (int i = 0;i < n;i ++)
+        {
+            sum[i + 1] = nums[i] + sum[i];
+        }
+
+        f[0][0] = 0;
+        for (int i = 1;i <= n;i ++)
+        {
+            for (int j = 1;j <= m;j ++)
+            {
+                for (int k = 0; k < i;k ++)
+                {
+                    f[i][j] = min(f[i][j], max(f[k][j - 1], sum[i] - sum[k]));
+                }
+            }
+        }
+        return f[n][m];
+    }
+};
+```
+
+#### [1043. 分隔数组以得到最大和](https://leetcode.cn/problems/partition-array-for-maximum-sum/)
+
+非常标准的线性 DP
+
+- 状态表示 f[i]
+    - f[i] 表示前 i 个数的所有操作方案
+    - 属性：Max
+- 状态计算
+    - 最后一段的长度最大为 k， 状态可以有 k 种转移
+    - f[i] = max(f[i], f[i - j] + (i - j + 1) * max(nums[i - j + 1...i])), for j in [1, k]
+
+
+```cpp
+class Solution {
+public:
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n = arr.size();;
+
+        vector<int> f(n + 1);
+
+        for (int i = 1;i <= n;i ++)
+        {
+            for (int j = 1, v = 0;j <= k && j <= i;j ++)
+            {
+                v = max(v, arr[i - j]);
+                f[i] = max(f[i], f[i - j] + v * j);
+            }
+        }
+        return f[n];
+    }
+};
+```
+
+
+#### [813. 最大平均值和的分组](https://leetcode.cn/problems/largest-sum-of-averages/)
+
+- 状态表示 f[i][j]
+    - f[i][j] 表示前 i 个数分成 j 个子数组的最大平均值和
+    - 属性：Max
+- 状态计算
+    - f[i][j] = max(f[i][j], f[k][j - 1] + (sum[i] - sum[k]) / (i - k)), for k in [0, i)
+    - f[i][j] 可以从 f[k][j - 1] 转移过来，表示前 k 个数分成 j - 1 个子数组，最大平均值和为 f[k][j - 1]，那么剩下的 i - k 个数分成一个子数组，最大平均值和为 (sum[i] - sum[k]) / (i - k)。sum 是前缀和数组。
+
+```cpp
+class Solution {
+public:
+    double largestSumOfAverages(vector<int>& A, int m) {
+        int n = A.size();
+        vector<int> s(n + 1);
+        for (int i = 1; i <= n; i ++ ) s[i] = s[i - 1] + A[i - 1];
+        vector<vector<double>> f(n + 1, vector<double>(m + 1, -1e9));
+        f[0][0] = 0;
+        for (int i = 1; i <= n; i ++ )
+            for (int j = 1; j <= m; j ++ )
+                for (int k = 0; k < i; k ++ )
+                    f[i][j] = max(f[i][j], f[k][j - 1] + (s[i] - s[k]) / (double)(i - k));
+        return f[n][m];
+    }
+};
+```
+
+
+:::note
+
+1043 和 813 很类似，为什么 813 要用二维的状态表示，而 1043 只用了一维的状态表示呢？
+
+因为 1043 只需要计算前 i 个数的最大值，而 813 需要计算前 i 个数分成 j 个子数组的最大平均值和。这两者的区别在于 813 需要考虑分组的问题，而 1043 只需要考虑最大值的问题。
+
+:::
+
+
+
+
+
 
 
