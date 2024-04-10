@@ -2093,6 +2093,38 @@ public:
 :::
 
 
+### 不相交区间
+
+#### [2830. 销售利润最大化](https://leetcode.cn/problems/maximize-the-profit-as-the-salesman/description/)
+
+- 状态表示 f[i]
+    - f[i] 表示前 i 个区间的最大利润
+    - 属性：Max
+- 状态计算
+    - f[i] = max(f[i], f[j] + profit[i]), for j in [0, i) and end[j] <= start[i]
+    - f[i] 可以从 f[j] 转移过来，表示前 j 个区间的最大利润，那么加上第 i 个区间的利润 profit[i]，如果 end[j] <= start[i]。
+
+```cpp
+class Solution {
+public:
+    int maximizeTheProfit(int n, vector<vector<int>>& offers) 
+    {
+        vector<vector<pair<int, int>>> groups(n);
+        for (auto &offer: offers)
+            groups[offer[1]].emplace_back(offer[0], offer[2]);
+        
+        vector<int> f(n + 1);
+        for (int end = 0; end < n; end ++)
+        {
+            f[end + 1] = f[end];
+            for (auto &[start, gold]: groups[end])
+                f[end + 1] = max(f[end + 1], f[start] + gold);
+        }
+        return f[n];
+    }
+};
+```
+
 
 
 
