@@ -1972,7 +1972,7 @@ public:
 };
 ```
 
-### 约束划分个数
+### 6.3 约束划分个数
 
 将数组分成 (恰好/至多) $k$ 个连续子数组, 计算与这些子数组有关的最优值。
 
@@ -2093,7 +2093,7 @@ public:
 :::
 
 
-### 不相交区间
+### 6.4 不相交区间
 
 #### [2830. 销售利润最大化](https://leetcode.cn/problems/maximize-the-profit-as-the-salesman/description/)
 
