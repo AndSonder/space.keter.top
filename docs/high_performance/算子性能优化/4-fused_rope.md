@@ -111,15 +111,15 @@ $$
 
 $$
 f_q(x_m, m) = \begin{pmatrix}
-\cos m\theta & -\sin m\theta \
+\cos m\theta & -\sin m\theta \\
 \sin m\theta & \cos m\theta
 \end{pmatrix}
 \begin{pmatrix}
-W_q^{(1,1)} & W_q^{(1,2)} \
+W_q^{(1,1)} & W_q^{(1,2)} \\
 W_q^{(2,1)} & W_q^{(2,2)}
 \end{pmatrix}
 \begin{pmatrix}
-x_m^{(1)} \
+x_m^{(1)} \\
 x_m^{(2)}
 \end{pmatrix}
 $$
@@ -128,15 +128,15 @@ $$
 
 $$
 f_k(x_m, m) = \begin{pmatrix}
-\cos m\theta & -\sin m\theta \
+\cos m\theta & -\sin m\theta \\
 \sin m\theta & \cos m\theta
 \end{pmatrix}
 \begin{pmatrix}
-W_k^{(1,1)} & W_k^{(1,2)} \
+W_k^{(1,1)} & W_k^{(1,2)} \\
 W_k^{(2,1)} & W_k^{(2,2)}
 \end{pmatrix}
 \begin{pmatrix}
-x_n^{(1)} \
+x_n^{(1)} \\
 x_n^{(2)}
 \end{pmatrix}
 $$
@@ -148,11 +148,11 @@ g(x_m, x_n, m - n) = \begin{pmatrix}
 q_m^{(1)} & q_m^{(2)}
 \end{pmatrix}
 \begin{pmatrix}
-\cos((m - n)\theta) & -\sin((m - n)\theta) \
+\cos((m - n)\theta) & -\sin((m - n)\theta) \\
 \sin((m - n)\theta) & \cos((m - n)\theta)
 \end{pmatrix}
 \begin{pmatrix}
-k_n^{(1)} \
+k_n^{(1)} \\
 k_n^{(2)}
 \end{pmatrix}
 $$
@@ -172,28 +172,28 @@ $$
 内积满足线性量加性，因此任意偶数维的 RoPE 都可以表示为二维情形的拼接，即：
 
 $$
-R_{\Theta, m}^d = 
-\begin{pmatrix}
-\cos m\theta_0 & -\sin m\theta_0 & 0 & 0 & \cdots & 0 & 0 \
-\sin m\theta_0 & \cos m\theta_0 & 0 & 0 & \cdots & 0 & 0 \
-0 & 0 & \cos m\theta_1 & -\sin m\theta_1 & \cdots & 0 & 0 \
-0 & 0 & \sin m\theta_1 & \cos m\theta_1 & \cdots & 0 & 0 \
-\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \
-0 & 0 & 0 & 0 & \cdots & \cos m\theta_{d/2-1} & -\sin m\theta_{d/2-1} \
-0 & 0 & 0 & 0 & \cdots & \sin m\theta_{d/2-1} & \cos m\theta_{d/2-1}
-\end{pmatrix}
+\begin{equation}
+\boldsymbol{R}_{\Theta, m}^d=\left(\begin{array}{ccccccc}
+\cos m \theta_1 & -\sin m \theta_1 & 0 & 0 & \cdots & 0 & 0 \\
+\sin m \theta_1 & \cos m \theta_1 & 0 & 0 & \cdots & 0 & 0 \\
+0 & 0 & \cos m \theta_2 & -\sin m \theta_2 & \cdots & 0 & 0 \\
+0 & 0 & \sin m \theta_2 & \cos m \theta_2 & \cdots & 0 & 0 \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & 0 & 0 & \cdots & \cos m \theta_{d / 2} & -\sin m \theta_{d / 2} \\
+0 & 0 & 0 & 0 & \cdots & \sin m \theta_{d / 2} & \cos m \theta_{d / 2}
+\end{array}\right)
+\end{equation}
 $$
 
 $$
-\Theta = \left{ \theta_i = 10000^{-2(i-1)/d}, i \in [1, 2, \ldots, d/2] \right}
+\Theta = { \theta_i = 10000^{-2(i-1)/d} \mid i \in [1, 2, \ldots, d/2] }
 $$
 
 将 RoPE 应用到前面公式 (4) 的 Self-Attention 计算，可以得到包含相对位置信息的 Self-Attention：
 
 $$
-q_m^T k_n = \left( R_{\Theta, m}^d W_q x_m \right)^T \left( R_{\Theta, n}^d W_k x_n \right) = x_m^T W_q^T R_{\Theta, m}^d^T R_{\Theta, n}^d W_k x_n
+q_m^T k_n = ( R_{\Theta, m}^d W_q x_m )^T ( R_{\Theta, n}^d W_k x_n ) = x_m^T W_q^T (R_{\Theta, m}^d)^T R_{\Theta, n}^d W_k x_n
 $$
-
 其中：
 
 $$
