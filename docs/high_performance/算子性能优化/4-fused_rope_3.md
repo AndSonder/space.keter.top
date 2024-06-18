@@ -30,7 +30,25 @@ def compute_mixed_cis(freqs: torch.Tensor, t_x: torch.Tensor, t_y: torch.Tensor,
         freqs_y = (t_y.unsqueeze(-1) @ freqs[1].unsqueeze(-2)).view(N, num_heads, -1).permute(1, 0, 2)
         freqs_cis = torch.polar(torch.ones_like(freqs_x), freqs_x + freqs_y)
     return freqs_cis
+```
 
+`compute_mixed_cis` 函数的主要功能是计算二维频率分量，并将其转换为极坐标形式的复数。在这里，`freqs` 是一个包含两个频率分量的张量，`t_x` 和 `t_y` 是两个张量，分别表示 x 和 y 方向的位置编码。`num_heads` 表示注意力头的数量。`freqs_x` 和 `freqs_y` 分别表示 x 和 y 方向的频率分量，计算公式如下：
+
+$$
+\begin{equation}
+\mathbf{R}(n, t)=e^{i\left(\theta_t^x p_n^x+\theta_t^y p_n^y\right)}
+\end{equation}
+$$
+
+其中，$p_n^x$ 和 $p_n^y$ 分别表示 x 和 y 方向的位置编码，$\theta_t^x$ 和 $\theta_t^y$ 分别表示 x 和 y 方向的频率分量。
+
+在计算混合可学习频率时，首先将 `t_x` 和 `t_y` 与 `freqs` 的两个频率分量进行点积运算，然后将结果转换为复数形式。最后，将 x 和 y 方向的频率分量相加，得到最终的频率分量。这样的计算方式可以更好地处理对角方向的问题，提高模型的性能。
+
+为什么这样的计算方式可以更好地处理对角方向的问题呢？这是因为在二维输入中，对角方向的位置编码是由 x 和 y 方向的位置编码共同决定的。因此，通过将 x 和 y 方向的频率分量相加，可以更好地捕捉到对角方向的位置信息，从而提高模型的性能。
+
+RoPE 原论文中给出的二维 RoPE 的计算方法如下：
+
+```
 # 原 RoPE 计算方法
 def compute_axial_cis(dim: int, end_x: int, end_y: int, theta: float = 100.0):
     freqs_x = 1.0 / (theta ** (torch.arange(0, dim, 4)[: (dim // 4)].float() / dim))
@@ -61,8 +79,7 @@ $$
 
 但是我们看下代码实现，其实是分别计算了 x 和 y 方向的 RoPE，然后 concat 在一起。
 
-
-### 3.2 实验验证
+### 3.3 实验验证
 
 实验部分，研究在ViT和Swin Transformer架构上进行了一系列的测试，验证了2D RoPE的有效性。在ImageNet-1k数据集上进行的多分辨率分类测试显示，2D RoPE在高分辨率图像上的外推性能显著提高。特别是在目标检测和语义分割任务中，使用2D RoPE的ViT和Swin Transformer在MS-COCO和ADE20k数据集上表现出色，显著提升了性能。
 
@@ -74,9 +91,7 @@ Swin Transformer
 
 ![picture 1](images/5b7996f59de804c721062fb04846941d5f16abf7912ebd68f106ce4a36e3bf53.png)  
 
-### 3.3 计算成本
 
-尽管RoPE的计算公式较为复杂，但其计算成本相对于整体计算量是可以忽略的。在推理过程中，旋转矩阵是预先计算的，只有Hadamard积是实际推理所需的唯一计算操作。通过对注意力矩阵的分析，发现RoPE-Mixed在中间层的注意力距离和熵值较高，这表明RoPE-Mixed能够使注意力机制与更多远距离和不同的令牌进行交互，从而提升了整体性能。
 
 ## 4. 总结
 
