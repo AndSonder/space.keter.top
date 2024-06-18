@@ -360,6 +360,19 @@ __device__ __forceinline__ void rotate_half(
 
 VectorizedFusedRopeWithRotateHalfKernel 与 VectorizedFusedRopeWithRotateEveryTwoKernel 的主要区别在于旋转操作的实现方式。rotate_half 函数对输入向量的前半部分和后半部分进行旋转操作，而 rotate_every_two 函数则对每两个相邻元素进行旋转操作。通过这种方式，FusedRopeKernel 实现了高效的并行计算，增强了模型对位置信息的感知能力。
 
+
+## 1.3 是否支持 2-D 数据
+
+Paddle 的 FusedRopeKernel 实现主要针对一维旋转位置嵌入（RoPE）。在 VectorizedFusedRopeWithRotateEveryTwoKernel 内核中，正弦和余弦值的计算方法是 get_sin_cos_by_passed_values 和 get_sin_cos_by_rotary_base，这些方法计算的是沿着单一维度的旋转角度。计算的是沿着序列长度维度（seq_len）的旋转角度。计算正弦和余弦值的公式中，pos_seq 只涉及一个维度的序列位置。
+
+rotate_every_two 函数对两个相邻元素进行旋转操作的实现也是基于一维数据的。
+
+**扩展到二维 Rope 的潜在问题**
+
+- 正弦和余弦值的计算：目前的实现仅计算一个维度的旋转角度。对于二维 RoPE，需要分别计算两个维度的旋转角度。
+- 旋转操作：目前的旋转操作仅对两个相邻元素进行旋转。对于二维 RoPE，需要对两个维度分别进行旋转操作，这将涉及更复杂的数据访问和计算逻辑。
+
+
 ## 2. OneFlow 中的实现
 
 
@@ -569,6 +582,12 @@ if (k_index < param.rotary_size) {
 }
 ```
 
+### 2.3 支持 2-D 数据
+
+
+
+
+
 ## 3. Torch 中的实现
 
 Pytorch 直接用 python 实现了 RoPE 的逻辑。在 PyTorch 中，旋转位置嵌入（RoPE）通过一个名为 RotaryPositionalEmbeddings 的模块实现。这个模块负责初始化和缓存正弦和余弦值，并在前向传播时将这些值应用于输入张量。
@@ -672,6 +691,90 @@ class RotaryPositionalEmbeddings(nn.Module):
         x_out = x_out.flatten(3)
         return x_out.type_as(x)
 ```
+
+## 4. GPT-Neox/apex 中的实现
+
+GPT-NeoX 仓库的实现代码在 `megatron/fused_kernels/fused_rotary_positional_embedding.h` 中，主要逻辑在 `fused_rope_forward` 中。
+
+:::note
+
+GPT Neox 中的实现源自于 Nvidia 的 apex 库
+
+:::
+
+### 4.1 fused_rope_forward 函数
+
+```cpp
+template <typename scalar_t>
+__global__ void fused_rope_forward(const int h,
+                                   const int d,
+                                   const int d2,
+                                   const int stride_s,
+                                   const int stride_b,
+                                   const int stride_h,
+                                   const int stride_d,
+                                   const int o_stride_s,
+                                   const int o_stride_b,
+                                   const int o_stride_h,
+                                   const int o_stride_d,
+                                   const scalar_t* src,
+                                   const float* freqs,
+                                   scalar_t* dst)
+```
+
+首先，通过 blockIdx.x 和 blockIdx.y 获取当前线程块在s和b维度的索引，即 s_id 和 b_id。接着，计算当前线程块在源张量中的起始偏移量，`offset_block = s_id * stride_s + b_id * stride_b`，以及在目标张量中的起始偏移量，`offset_block_dst = s_id * o_stride_s + b_id * o_stride_b`。
+
+```cpp
+    int s_id = blockIdx.x, b_id = blockIdx.y;
+    int offset_block = s_id * stride_s + b_id * stride_b;
+    int offset_block_dst = s_id * o_stride_s + b_id * o_stride_b;
+```
+
+接下来在d2范围内使用线程的x维度索引遍历。sincosf 函数计算给定频率对应的正弦和余弦值，存储在 v_sin 和 v_cos 中。
+
+```cpp
+#pragma unroll
+    for (int d_id = threadIdx.x; d_id < d2; d_id += blockDim.x) {
+        float v_cos, v_sin;
+        sincosf(freqs[s_id * d2 + d_id], &v_sin, &v_cos);
+```
+
+sincosf 函数是 CUDA 数学库的一部分，用于计算正弦和余弦值。它在 cuda_runtime.h 头文件中定义。
+
+下面在 h 范围内使用线程的 y 维度索引遍历。计算当前元素在源张量和目标张量中的偏移量，分别为 offset_src 和 offset_dst。从源张量中读取当前元素的值存储在 v_src 中。计算旋转后的值 v_src_rotate，根据 d_id 的位置确定旋转方向。将旋转后的值存储到目标张量中，使用正弦和余弦值进行线性组合。
+
+```cpp
+#pragma unroll
+        for (int h_id = threadIdx.y; h_id < h; h_id += blockDim.y) {
+            int offset_src = offset_block + h_id * stride_h + d_id * stride_d;
+            int offset_dst = offset_block_dst + h_id * o_stride_h + d_id * o_stride_d;
+            scalar_t v_src = src[offset_src];
+            scalar_t v_src_rotate = (d_id + d2 / 2 < d2)
+                                        ? -src[offset_src + (d2 / 2) * stride_d]
+                                        : src[offset_src + (d2 / 2 - d2) * stride_d];
+            dst[offset_dst] = v_src * (scalar_t)v_cos + v_src_rotate * (scalar_t)v_sin;
+        }
+```
+
+最后处理剩余的深度值（如果 d 大于 d2），在h范围内使用线程的y维度索引遍历。计算当前行在源张量和目标张量中的起始偏移量，分别为 offset_head 和 offset_head_dst。在剩余的深度范围内使用线程的x维度索引遍历，直接将源张量的值复制到目标张量中。
+
+```cpp
+    if (d > d2) {
+#pragma unroll
+        for (int h_id = threadIdx.y; h_id < h; h_id += blockDim.y) {
+            int offset_head = offset_block + h_id * stride_h;
+            int offset_head_dst = offset_block_dst + h_id * o_stride_h;
+#pragma unroll
+            for (int d_id = d2 + threadIdx.x; d_id < d; d_id += blockDim.x) {
+                dst[offset_head_dst + d_id * o_stride_d] = src[offset_head + d_id * stride_d];
+            }
+        }
+    }
+}
+```
+
+
+
 
 
 ## 4. 总结
