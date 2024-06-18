@@ -582,12 +582,6 @@ if (k_index < param.rotary_size) {
 }
 ```
 
-### 2.3 支持 2-D 数据
-
-
-
-
-
 ## 3. Torch 中的实现
 
 Pytorch 直接用 python 实现了 RoPE 的逻辑。在 PyTorch 中，旋转位置嵌入（RoPE）通过一个名为 RotaryPositionalEmbeddings 的模块实现。这个模块负责初始化和缓存正弦和余弦值，并在前向传播时将这些值应用于输入张量。
