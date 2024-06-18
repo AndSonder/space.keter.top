@@ -44,6 +44,23 @@ def compute_axial_cis(dim: int, end_x: int, end_y: int, theta: float = 100.0):
     return torch.cat([freqs_cis_x, freqs_cis_y], dim=-1)
 ```
 
+针对原 Rope 的计算方法，可以补充说一点： **从一维RoPE推广到二维RoPE，和单纯地把每个方向当作一维RoPE再concat(和传统三角式位置编码的扩展方法一样)是等价的**
+
+二维RoPE的解如下：
+
+$$
+\begin{equation}
+\boldsymbol{R}_{x, y}=\left(\begin{array}{cc:cc}
+\cos x \theta & -\sin x \theta & 0 & 0 \\
+\sin x \theta & \cos x \theta & 0 & 0 \\
+\hdashline 0 & 0 & \cos y \theta & -\sin y \theta \\
+0 & 0 & \sin y \theta & \cos y \theta
+\end{array}\right)
+\end{equation}
+$$
+
+但是我们看下代码实现，其实是分别计算了 x 和 y 方向的 RoPE，然后 concat 在一起。
+
 
 ### 3.2 实验验证
 
