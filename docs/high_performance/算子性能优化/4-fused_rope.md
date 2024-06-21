@@ -264,7 +264,7 @@ def precompute_freqs_cis(dim: int, seq_len: int, theta: float = 10000.0):
     # 则 freqs_cis = [cos(x) + sin(x)i, cos(y) + sin(y)i]
     freqs_cis = torch.polar(torch.ones_like(freqs), freqs) 
     return freqs_cis
-
+    
 # 旋转位置编码计算
 def apply_rotary_emb(
     xq: torch.Tensor,
