@@ -56,9 +56,6 @@ def compute_axial_cis(dim: int, end_x: int, end_y: int, theta: float = 100.0):
     freqs_y = 1.0 / (theta ** (torch.arange(0, dim, 4)[: (dim // 4)].float() / dim))
 
     t_x, t_y = init_t_xy(end_x, end_y)
-    print(freqs_x)
-    print(freqs_y)
-    print(freqs_x.shape, freqs_y.shape)
     freqs_x = torch.outer(t_x, freqs_x)
     freqs_y = torch.outer(t_y, freqs_y)
     freqs_cis_x = torch.polar(torch.ones_like(freqs_x), freqs_x)
@@ -158,6 +155,8 @@ class RoPEAttention(Attention):
             self.freqs_cis = freqs_cis
 
     def forward(self, x):
+        # N: number of patches
+        # C: channels, the embedding dimension
         B, N, C = x.shape
         qkv = (
             self.qkv(x)
