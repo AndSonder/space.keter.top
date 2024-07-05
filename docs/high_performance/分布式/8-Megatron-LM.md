@@ -51,7 +51,7 @@ $$
 Y = Y_1 + Y_2 
 $$
 
-在前向传播中，首先将输入矩阵 $X$ 分割为 $X_1$ 和 $X_2$。分别计算 $X_1 A_1$ 和 $X_2 A_2$，得到 $Y_1$ 和 $Y_2$。然后通过 all-reduce 将 $Y_1$ 和 $Y_2$ 相加，得到最终输出 $Y$。在反向传播中，梯度 $\frac{\partial L}{\partial Y}$被分割为$\frac{\partial L}{\partial Y_1}$和$\frac{\partial L}{\partial Y_2}$，由于 all-reduce 的特性，这些梯度是相同的。每个设备分别计算自己的梯度 $\frac{\partial L}{\partial X_i}$，最后通过 all-gather，将梯度 $\frac{\partial L}{\partial X_i}$ 聚合，得到完整的梯度 $\frac{\partial L}{\partial X}$。
+在前向传播中，首先将输入矩阵 $X$ 分割为 $X_1$ 和 $X_2$。分别计算 $X_1 A_1$ 和 $X_2 A_2$，得到 $Y_1$ 和 $Y_2$。然后通过 all-reduce 将 $Y_1$ 和 $Y_2$ 相加，得到最终输出 $Y$。在反向传播中，梯度 $\frac{\partial L}{\partial Y}$ 被分割为 $\frac{\partial L}{\partial Y_1}$ 和 $\frac{\partial L}{\partial Y_2}$ ，由于 all-reduce 的特性，这些梯度是相同的。每个设备分别计算自己的梯度 $\frac{\partial L}{\partial X_i}$ ，最后通过 all-gather，将梯度 $\frac{\partial L}{\partial X_i}$ 聚合，得到完整的梯度 $\frac{\partial L}{\partial X}$。
 
 
 ![picture 2](images/67429e80b295c9aacffc49e9080af71191389271a79b617b314e8599d00a4438.png)  
@@ -59,7 +59,7 @@ $$
 
 ### 2.2 Column Parallel Linear Layer
 
-在列并行的线性层中，权重矩阵 $A$被分割成两个子矩阵$A_1$和$A_2$，这种分割在列方向上进行，即 $A = [A_1, A_2]$。输入矩阵 $X$保持不变，然后分别与两个子矩阵$A_1$和$A_2$进行矩阵乘法计算，得到中间输出$Y_1$和$Y_2$：
+在列并行的线性层中，权重矩阵 $A$ 被分割成两个子矩阵 $A_1$ 和 $A_2$，这种分割在列方向上进行，即  $A = [A_1, A_2]$ 。输入矩阵 $X$ 保持不变，然后分别与两个子矩阵 $A_1$ 和 $A_2$ 进行矩阵乘法计算，得到中间输出 $Y_1$ 和 $Y_2$：
 
 $$
 Y_1 = X A_1
@@ -69,15 +69,15 @@ $$
 Y_2 = X A_2
 $$
 
-最终的输出 $Y$是$Y_1$和$Y_2$ 的组合，通过 all-gather 实现：
+最终的输出 $Y$ 是 $Y_1$ 和 $Y_2$ 的组合，通过 all-gather 实现：
 
 $$
 Y = [Y_1, Y_2]
 $$
 
-在前向传播中，计算步骤如下：输入矩阵 $X$保持不变，分别计算$X A_1$和$X A_2$，得到 $Y_1$和$Y_2$。然后通过 all-reduce 操作将 $Y_1$和$Y_2$组合，得到最终输出$Y$。
+在前向传播中，计算步骤如下：输入矩阵 $X$ 保持不变，分别计算 $X A_1$ 和 $X A_2$，得到 $Y_1$ 和 $Y_2$。然后通过 all-reduce 操作将 $Y_1$ 和 $Y_2$ 组合，得到最终输出 $Y$。
 
-在反向传播中，梯度传播的步骤如下：梯度 $\frac{\partial L}{\partial Y}$被分割为$\frac{\partial L}{\partial Y_1}$和$\frac{\partial L}{\partial Y_2}$，然后分别传递给对应的子矩阵部分。由于全收集操作的特性，反向传播中的梯度计算如下：每个设备分别计算自己的梯度 $\frac{\partial L}{\partial X_i}$，并通过 all-reduce，将梯度 $\frac{\partial L}{\partial X_i}$聚合，得到完整的梯度$\frac{\partial L}{\partial X}$。
+在反向传播中，梯度传播的步骤如下：梯度 $\frac{\partial L}{\partial Y}$ 被分割为 $\frac{\partial L}{\partial Y_1}$ 和 $\frac{\partial L}{\partial Y_2}$ ，然后分别传递给对应的子矩阵部分。由于全收集操作的特性，反向传播中的梯度计算如下：每个设备分别计算自己的梯度 $\frac{\partial L}{\partial X_i}$，并通过 all-reduce，将梯度 $\frac{\partial L}{\partial X_i}$ 聚合，得到完整的梯度 $\frac{\partial L}{\partial X}$ 。
 
 ![picture 3](images/3e710efc2d64bc571b8dbeea8932cb97d0e42dcb571abe4185024f0adcb8a059.png)  
 
@@ -106,7 +106,7 @@ $$
 \text{GeLU}(X_1A_1 + X_2A_2) \neq \text{GeLU}(X_1A_1) + \text{GeLU}(X_2A_2)
 $$
 
-所以对于第一个 MLP 层，不能直接使用行并行的方式进行计算。我们只能按列进行切分。第二个 MLP 模块之后没有 Gelu 激活函数，所以可以按行进行切分。而且也只能按照行进行切分，因为我们需要把第一个 MLP 模块的输出作为第二个 MLP 模块的输入[^3]。第一个 MLP 模块的输出是俩个不一样的部分 $Y_1$和$Y_2$，所以不能直接按列进行切分。整个过程的计算流程如下：
+所以对于第一个 MLP 层，不能直接使用行并行的方式进行计算。我们只能按列进行切分。第二个 MLP 模块之后没有 Gelu 激活函数，所以可以按行进行切分。而且也只能按照行进行切分，因为我们需要把第一个 MLP 模块的输出作为第二个 MLP 模块的输入[^3]。第一个 MLP 模块的输出是俩个不一样的部分 $Y_1$ 和 $Y_2$，所以不能直接按列进行切分。整个过程的计算流程如下：
 
 $$
 \begin{aligned}
@@ -149,11 +149,11 @@ V & = X W_V \\
 \end{aligned}
 $$
 
-其中 $Q$、$K$、$V$分别是 Query、Key 和 Value 矩阵，$W_Q$、$W_K$、$W_V$ 分别是 Query、Key 和 Value 的权重矩阵，$d_k$ 是 Key 的维度。在 Self-Attention 模块中，$Q$、$K$、$V$ 都是输入矩阵$X$ 乘以对应的权重矩阵得到的。
+其中 $Q$、$K$、$V$分别是 Query、Key 和 Value 矩阵，$W_Q$、$W_K$、$W_V$ 分别是 Query、Key 和 Value 的权重矩阵，$d_k$ 是 Key 的维度。在 Self-Attention 模块中，$Q$、$K$、$V$ 都是输入矩阵 $X$ 乘以对应的权重矩阵得到的。
 
 Transformer 模型中的 Multi-Head Attention 层由多个自注意力块组成。每个自注意力头都可以独立计算，最后，再将结果拼接（concat）起来。也就是说，可以把每个头的参数放到一块GPU上[^4]。
 
-在 MHA 层，对三个参数矩阵Q，K，V，按照“列切割” ，每个头放到一块GPU上，做并行计算。对线性层 B，按照“行切割” 。
+在 MHA 层，对三个参数矩阵 Q，K，V，按照“列切割” ，每个头放到一块 GPU 上，做并行计算。对线性层 B，按照“行切割” 。
 
 完整流程可以看下图：
 
