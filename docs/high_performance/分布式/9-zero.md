@@ -1,6 +1,6 @@
 # ZeRO 论文阅读
 
-:::
+:::tip
 
 ZeRO: Memory Optimizations Toward Training Trillion Parameter Models[^1]
 
