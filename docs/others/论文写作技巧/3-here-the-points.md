@@ -10,7 +10,7 @@
 
 想写出一个好的总结，你需要先放下自己的观点，站在别人的角度上去思考。 这就像 “believe game” 一样，你尝试去融入到别人的世界观中，即使你不太同意他们的观点，你也要尝试去理解他们的观点。 作为一个作者，你在表述别人的观点时，你需要让读者看出来自己的想法。 看看下面的这个例子：
 
-```
+```plain
 David Zinczenko's article "Don't Blame the Eater" is nothing morethan an angry rant in which he accuses the fast-food companiesof an evil conspiracy to make people fat. I disagree because thesecompanies have to make money. . . .
 ```
 
@@ -18,7 +18,7 @@ David Zinczenko's article "Don't Blame the Eater" is nothing morethan an angry r
 
 还有一个问题就是上面的这段话只用了一句去介绍 Zinczenko 的观点，然后就直接引入了自己的观点。 这个作者急于去给出反对的观点，以至于他不仅仅扭曲了 Zinczenko 的观点，还对 Zinczenko 的文章给出了非常肤浅的讲解。 当然了，很多时候由于重要性的问题，使用一句话或者两句话去介绍别人的工作反而是你需要的。 在自然，科学的领域使用一句或者两句话去总结别人的工作是很正常的做法，如下面这个例子：
 
-```
+```plain
 Several studies (Crackle, 2012; Pop, 2007; Snap, 2006) suggest thatthese policies are harmless; moreover, other studies (Dick, 2011;Harry, 2007; Tom, 2005) argue that they even have benefits.
 ```
 

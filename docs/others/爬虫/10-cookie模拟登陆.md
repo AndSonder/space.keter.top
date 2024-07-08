@@ -1,18 +1,18 @@
-# cookie模拟登陆
+# cookie 模拟登陆
 
-## 方法1 利用cookie
-```
+## 方法 1 利用 cookie
+```plain
 1、先登录成功1次,获取到携带登陆信息的Cookie（处理headers） 
 2、利用处理的headers向URL地址发请求
 ```
 
-## 方法2 利用requests.get()中cookies参数
-```
+## 方法 2 利用 requests.get()中 cookies 参数
+```plain
 1、先登录成功1次,获取到cookie,处理为字典
 2、res=requests.get(xxx,cookies=cookies)
 ```
-## 方法3  利用session会话保持
-```
+## 方法 3  利用 session 会话保持
+```plain
 1、实例化session对象
       session = requests.session()
 2、先post : session.post(post_url,data=post_data,headers=headers)

@@ -1,22 +1,22 @@
-# URL地址编码
+# URL 地址编码
 
 ## 为什么要进行编码？
-在百度中搜索：b站你可以看到上方的url是这样的 
+在百度中搜索：b 站你可以看到上方的 url 是这样的 
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200304191442336.png)
 
 可以看到`bai.com/s?`之后还有很多以&相连的东西，大部分是我们用不到打，但是可以看到一个`wd=b站`
 
-把其他的东西删去只留下`https://www.baidu.com/s?wd=b站`还是可以正常访问的。但是如果你去复制的话得到的是`https://www.baidu.com/s?wd=b%E7%AB%99`可以知道url是不支持中文的会对其进行编码，你在网页可以看到只是因为浏览器给你解码了。
+把其他的东西删去只留下`https://www.baidu.com/s?wd=b站`还是可以正常访问的。但是如果你去复制的话得到的是`https://www.baidu.com/s?wd=b%E7%AB%99`可以知道 url 是不支持中文的会对其进行编码，你在网页可以看到只是因为浏览器给你解码了。
 
-当我们需要获取百度搜索的b站的内容时就需要对我们的url也进行编码了
+当我们需要获取百度搜索的 b 站的内容时就需要对我们的 url 也进行编码了
 
-##  URL地址编码模块
+##  URL 地址编码模块
 
  ### 模块名及导入
 - **模块**
 
-```
+```plain
 # 模块名
 urllib.parse
 
@@ -27,9 +27,9 @@ from urllib import parse
 
 - **作用**
 
-给URL地址中查询参数进行编码
+给 URL 地址中查询参数进行编码
 
-```
+```plain
 编码前：https://www.baidu.com/s?wd=美女
 编码后：https://www.baidu.com/s?wd=%E7%BE%8E%E5%A5%B3
 ```
@@ -37,9 +37,9 @@ from urllib import parse
 ### 常用方法
 `urllib.parse.urlencode({dict})`
 
-- **URL地址中一个查询参数**
+- **URL 地址中一个查询参数**
 
-```
+```plain
 # 查询参数：{'wd' : '美女'}
 # urlencode编码后：'wd=%e7%be%8e%e5%a5%b3'
 
@@ -49,9 +49,9 @@ result = urllib.parse.urlencode(query_string)
 # result: 'wd=%e7%be%8e%e5%a5%b3'
 ```
 
-- **URL地址中多个查询参数**
+- **URL 地址中多个查询参数**
 
-```
+```plain
 from urllib import parse
 params = {
 	'wd' : '美女',
@@ -62,9 +62,9 @@ url = 'http://www.baidu.com/s?{}'.format(params)
 print(url)
 ```
 
-- **拼接URL地址的3种方式**
+- **拼接 URL 地址的 3 种方式**
 
-```
+```plain
 # 1、字符串相加
   baseurl = 'http://www.baidu.com/s?'
   params = 'wd=%E7XXXX&pn=20'
@@ -82,9 +82,9 @@ print(url)
 
 - **练习**
 
-在360中输入要搜索的内容，把响应内容保存到本地文件
+在 360 中输入要搜索的内容，把响应内容保存到本地文件
 
-这年头，百度搜索和bing搜索这种简单的小爬虫都用不了了，无奈欺负欺负360搜索吧
+这年头，百度搜索和 bing 搜索这种简单的小爬虫都用不了了，无奈欺负欺负 360 搜索吧
 
 ```python
 from urllib import parse

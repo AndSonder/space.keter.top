@@ -1,4 +1,4 @@
-# 韦小绿Unit01
+# 韦小绿 Unit01
 
 ## BENE
 
@@ -24,7 +24,7 @@ synonym: Favor, blessing, invocation
 - Favor: 好意
 - Blessing: 特殊的 Favor，e.g. The blessing for freedom 
 - Invocation: 祈求神的 blessing 
-- Benediction: 可以「invocation的仪式」，也可以「善意的行为」和「祝愿」
+- Benediction: 可以「invocation 的仪式」，也可以「善意的行为」和「祝愿」
 
 etymology: 
 
@@ -144,7 +144,7 @@ In love，Have a crush on someone，（be）Fond of someone or something
 
 > A lover, often secret, not allowed by law or custom.
 
-synonym: Lover （向他人介绍自己的恋人时，切勿用lover！！！）
+synonym: Lover （向他人介绍自己的恋人时，切勿用 lover！！！）
 
 ## Bell
 
@@ -204,7 +204,7 @@ synonym: uprising，disobedience ，defiance
 
 > PAC is related to the Latin words for “agree” and “peace.” 
 
-涉及到3个词根
+涉及到 3 个词根
 
 - PAX: 和平 harmony , happiness  
 - PACERE: 和解/达成一致 come to an agreement 
@@ -214,7 +214,7 @@ synonym: uprising，disobedience ，defiance
 
 (1) To soothe anger or agitation. (2) To subdue by armed action.
 
->  It took the police hours to pacify the angry demonstrators.
+> It took the police hours to pacify the angry demonstrators.
 
 Someone stirred up by a strong emotion can usually be pacified by some kind words and the removal of its causes. Unhappy babies are often given a rubber pacifier for sucking to make them stop crying. During the Vietnam War, pacification of an area meant using armed force to drive out the enemy, which might be followed by bringing the local people over to our side by building schools and providing social services. But an army can often bring “peace” by pure force, without soothing anyone's emotions.
 
