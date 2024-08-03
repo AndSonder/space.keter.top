@@ -71,7 +71,7 @@ Similarity (dot product) between First and Third = -0.97
 
 例如，如果我们在一组电影评论中使用了50000个单词的词汇量，我们就可以使用一个Embedding神经网络来学习每个单词的100维Embedding，这个神经网络训练用来预测评论的感伤性(有关此应用程序的详细信息，请参阅此[Google Colab](https://colab.research.google.com/notebooks/mlcc/intro_to_sparse_data_and_embeddings.ipynb?utm_source=mlcc&utm_campaign=colab-external&utm_medium=referral&utm_content=embeddings-colab&hl=en)笔记本）。词汇表中与正面评论相关的词语，如“辉煌”或“优秀”，将在Embedding空间中更接近，因为网络已经了解到这两者都与正面评论相关。
 
-<img src="https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210718103755image-20210718103717614.png" alt="image-20210718103717614" style={{ zoom:"53%"}} />
+
 
 在上面给出的图书示例中，我们的监督任务可以是“识别一本书是否是托尔斯泰写的”，由此产生的Embedding将使托尔斯泰写的书彼此更接近。弄清楚如何创建有监督的任务来产生相关的表示是制作Embedding最困难的部分。
 
@@ -116,7 +116,7 @@ model.compile(optimizer = 'Adam', loss = 'binary_crossentropy', metrics = ['accu
 
 Embedding本身并不那么有趣：它们只是数字的向量：
 
-![image-20210718104223694](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210718104225image-20210718104223694.png)
+
 
 但是，Embedding可以用于前面列出的3个目的，对于这个项目，我们主要感兴趣的是推荐基于最近邻的书籍。为了计算相似度，我们取一本查询书，找出它的向量和其他所有书的向量之间的点积(如果我们的Embedding是标准化的，这个点积就是向量之间的余弦距离，范围从-1，最不相似，到+1，最相似。我们也可以用欧几里德距离来衡量相似性）。
 
@@ -157,9 +157,7 @@ Book: Dead Souls                 Similarity: 0.75
 
 ### Bonus:交互式可视化
 
-静态图的问题是，我们不能真正地研究数据和研究变量之间的分组或关系。为了解决这个问题，TensorFlow开发了projector，这是一个在线应用程序，可以让我们可视化并与嵌入进行交互。目前的结果如下：
-
-![image-20210718105626141](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210718105627image-20210718105626141.png)
+静态图的问题是，我们不能真正地研究数据和研究变量之间的分组或关系。为了解决这个问题，TensorFlow开发了projector，这是一个在线应用程序，可以让我们可视化并与嵌入进行交互。
 
 ## 总结
 

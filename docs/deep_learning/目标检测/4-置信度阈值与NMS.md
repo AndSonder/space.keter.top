@@ -133,7 +133,7 @@ def unique(tensor):
 
 bbox_iou的第二个参数是由多个box组成的张量。`我们将objectness最高的box作为预测值，计算其他box和他的iou值。`
 
-![bbox-3](https://sonder-images.oss-cn-beijing.aliyuncs.com/img/20210819183952bbox-3.png)
+
 
 
 

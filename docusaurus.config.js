@@ -97,12 +97,6 @@ const config = {
                         position: "left",
                     },
                     {
-                        to: "/docs/math/tutor",
-                        activeBasePath: '/docs/math',
-                        label: "Math",
-                        position: "left"
-                    },
-                    {
                         to: "/docs/algorithm/基础算法",
                         activeBasePath: '/docs/algorithm',
                         label: "Algorithm",
@@ -113,12 +107,6 @@ const config = {
                       activeBasePath: '/docs/cpp',
                       label: "C++",
                       position: "left"
-                    },
-                    {
-                        to: "/docs/courses/操作系统/课程笔记",
-                        activeBasePath: '/docs/courses',
-                        label: "Courses",
-                        position: "left"
                     },
                     {
                         to: "/docs/others/环境保护大使/配置detectron2环境",
