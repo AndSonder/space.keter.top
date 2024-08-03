@@ -91,7 +91,7 @@ const config = {
                         position: "left",
                     },
                     {
-                        to: "/docs/high_performance/CUDA编程/异构计算与CUDA",
+                        to: "/docs/high_performance/CUDA编程/intro",
                         activeBasePath: '/docs/high_performance',
                         label: "HPC&DS",
                         position: "left",
