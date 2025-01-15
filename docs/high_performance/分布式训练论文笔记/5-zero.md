@@ -20,13 +20,20 @@ ZeRO 是微软提出的用于将数据并行运用到超大规模的神经网络
 2. Gradients：梯度，用于更新模型参数。
 3. Parameters：模型参数。
 
-在传统数据并行下, 每个进程都使用同样参数来进行训练。每个进程也会持有对 Optimizer States 的完整拷贝, 同样占用了大量显存。在混合精度场景下, 以参数量为 $\Psi$ 的模型和 Adam optimzier 为例, Adam 需要保存: - Float16 的 参数和 梯度 的备份。这两项分别消耗了 $2 \Psi$ 和 $2 \Psi$ Bytes 内存; (1 Float16 =2 Bytes) - Float32 的 参数, Momentum, Variance 备份, 对应到 3 份 $4 \Psi$ 的内存占用。(1 Float 32=4 Bytes)。 最终需要 $2 \Psi+2 \Psi+K \Psi=16 \Psi$ bytes 的显存。一个 7.5B 参数量的模型, 就需要至少 120GB 的显存空间才能装下这些 Model States 。当数据并行时, 这些重复的 Model States 会在 N 个 GPU 上复制 N 份[^4]。
+在传统数据并行下, 每个进程都使用同样参数来进行训练。每个进程也会持有对 Optimizer States 的完整拷贝, 同样占用了大量显存。在混合精度场景下, 以参数量为 $\Psi$ 的模型和 Adam optimzier 为例, Adam 需要保存: 
+
+- Float16 的 参数和 梯度 的备份。这两项分别消耗了 $2 \Psi$ 和 $2 \Psi$ Bytes 内存; (1 Float16 =2 Bytes) 
+- Float32 的 参数, Momentum, Variance 备份, 对应到 3 份 $4 \Psi$ 的内存占用。(1 Float 32=4 Bytes)。 最终需要 $2 \Psi+2 \Psi+K \Psi=16 \Psi$ bytes 的显存。一个 7.5B 参数量的模型, 就需要至少 120GB 的显存空间才能装下这些 Model States 。当数据并行时, 这些重复的 Model States 会在 N 个 GPU 上复制 N 份[^4]。
 
 ZeRO 在数据并行的基础上，对冗余的 Model State 进行了优化，接下来我们将详细介绍 ZeRO。
 
 ## 3. ZeRO 的三个级别
 
-ZeRO 有三个级别，分别对应对 Model States 不同程度的分割： - ZeRO-1：分割 Optimizer States； - ZeRO-2：分割 Optimizer States 与 Gradients； - ZeRO-3：分割 Optimizer States、Gradients 与 Parameters[^4]。
+ZeRO 有三个级别，分别对应对 Model States 不同程度的分割： 
+
+- ZeRO-1：分割 Optimizer States； 
+- ZeRO-2：分割 Optimizer States 与 Gradients； 
+- ZeRO-3：分割 Optimizer States、Gradients 与 Parameters[^4]。
 
 ![picture 0](images/788e6753e3bb1c22c3cd79bc4245959b390f85dd0bbfd416c6dbafdd7048f3ad.png)  
 
