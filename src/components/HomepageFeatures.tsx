@@ -11,11 +11,11 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Me as Cver',
+    title: 'Me as Engineer',
     image: '/img/undraw_docusaurus_mountain.svg',
     description: (
       <>
-        Focusing on Deep learning technique for Computer Vision. Also know me as a poor Latex speaker.
+        Focusing on distributed training systems and high-performance computing (HPC).
       </>
     ),
   },
@@ -24,7 +24,7 @@ const FeatureList: FeatureItem[] = [
     image: '/img/undraw_docusaurus_tree.svg',
     description: (
       <>
-        Using Python and C++. Learning Java and Golang.
+        Using Python and C++.
       </>
     ),
   },
