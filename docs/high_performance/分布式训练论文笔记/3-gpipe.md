@@ -41,6 +41,6 @@ Gpipe 是一种新的并行方法，可以同时解决数据并行和模型并�
 
 
 
-[^1]: https://space.keter.top/docs/high_performance/%E5%88%86%E5%B8%83%E5%BC%8F/Paddle%E5%B9%B6%E8%A1%8C%E7%BC%96%E6%8E%92%E4%B8%8E%E6%89%A7%E8%A1%8C
+[^1]: https://space.keter.host/docs/high_performance/%E5%88%86%E5%B8%83%E5%BC%8F/Paddle%E5%B9%B6%E8%A1%8C%E7%BC%96%E6%8E%92%E4%B8%8E%E6%89%A7%E8%A1%8C
 
 [^2]: https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/06_distributed_training/data_parallel/recompute_cn.html#qianxiangzhongjisuan

@@ -6,7 +6,7 @@
 pandoc -s 2-test.md -o test.docx --reference-doc reference.docx
 ```
 
-点击下载：[reference.docx](https://blog.keter.top/docs/reference.docx)
+点击下载：[reference.docx](https://blog.keter.host/docs/reference.docx)
 
 ---
 

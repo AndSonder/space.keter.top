@@ -10,7 +10,7 @@ const katex = require('rehype-katex');
 const config = {
   title: 'Notebook',
   tagline: '这里是Sonder的宝藏笔记本',
-  url: 'https://space.keter.top',
+  url: 'https://space.keter.host',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

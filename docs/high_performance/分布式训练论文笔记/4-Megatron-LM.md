@@ -175,6 +175,6 @@ Megatron-LM 是 NVIDIA 发布的一个大规模语言模型训练工具，它是
 
 
 [^1]: https://github.com/NVIDIA/Megatron-LM
-[^2]: https://space.keter.top/docs/high_performance/%E5%88%86%E5%B8%83%E5%BC%8F/Paddle%E5%B9%B6%E8%A1%8C%E7%BC%96%E6%8E%92%E4%B8%8E%E6%89%A7%E8%A1%8C#%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%A1%8C
+[^2]: https://space.keter.host/docs/high_performance/%E5%88%86%E5%B8%83%E5%BC%8F/Paddle%E5%B9%B6%E8%A1%8C%E7%BC%96%E6%8E%92%E4%B8%8E%E6%89%A7%E8%A1%8C#%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%A1%8C
 [^3]: https://www.mltalks.com/posts/3016692145/
 [^4]: https://juejin.cn/post/7269698032655728640
