@@ -9,7 +9,7 @@
 :::
 
 
-飞桨支持静态图与动态图两种训练方式。对于静态图而言，执行网络的前向过程只会将相应的Operator加入到计算图中，需要通过执行器来实际调用计算逻辑。 以下面的代码为例，可以看到静态图的训练代码可以大致分为两部分：组网和执行。
+飞桨支持静态图与动态图两种训练方式。对于静态图而言，执行网络的前向过程只会将相应的 Operator 加入到计算图中，需要通过执行器来实际调用计算逻辑。 以下面的代码为例，可以看到静态图的训练代码可以大致分为两部分：组网和执行。
 
 ```python
 import numpy as np
@@ -77,7 +77,7 @@ with program_guard(main_program, startup_program):
 
 :::tip
 
-静态图的特点是在执行前就已经获得了网络的全部信息，而program就是保存网络信息的对象。
+静态图的特点是在执行前就已经获得了网络的全部信息，而 program 就是保存网络信息的对象。
 
 :::
 
@@ -182,7 +182,7 @@ message VarDesc {
 }
 ```
 
-Python侧也有接口类Variable：
+Python 侧也有接口类 Variable：
 
 ```python 
 # python/paddle/fluid/framework.py
@@ -205,7 +205,7 @@ class Variable(metaclass=VariableMetaClass):
 
 ```
 
-`OpDesc` 用于描述网络中的运算，其成员包括输入输出以及op的属性：
+`OpDesc` 用于描述网络中的运算，其成员包括输入输出以及 op 的属性：
 
 ```cpp
 // paddle/fluid/framework/op_desc.h
@@ -241,9 +241,9 @@ Paddle 中的 Proto 是 Protocol Buffer 的简称，是一种轻便高效的结�
 
 :::
 
-总结：总的来说，`Program` 的基本表示为 `OpDesc` 和 `VarDesc`，分别代表**运算逻辑和参与运算的数据**，`BlockDesc` 是基础的组织结构，通过 `Block Desc` 的组织来实现控制流(if、while、recurrent等)，`ProgramDesc` 是整体表示，也是用户使用静态图的接口。他们都是C++对象，被封装到Python侧的类中方便调用。
+总结：总的来说，`Program` 的基本表示为 `OpDesc` 和 `VarDesc`，分别代表**运算逻辑和参与运算的数据**，`BlockDesc` 是基础的组织结构，通过 `Block Desc` 的组织来实现控制流(if、while、recurrent 等)，`ProgramDesc` 是整体表示，也是用户使用静态图的接口。他们都是 C++对象，被封装到 Python 侧的类中方便调用。
 
-## Program 怎么组成？
+## Program 怎么组成
 
 前面介绍了 `Program` 的代码结构，那么 `Program` 到底是如何被构建出来的呢 ？
 
@@ -312,11 +312,11 @@ else: # 静态图模式
 return res
 ```
 
-这里首先创建了两个变量，用于保存矩阵相乘和加法的结果，接着添加了矩阵乘法和加法算子。和 `paddle.static.data` 的流程相似，不同点在于一是向当前block而非global_block添加，二需要求梯度。
+这里首先创建了两个变量，用于保存矩阵相乘和加法的结果，接着添加了矩阵乘法和加法算子。和 `paddle.static.data` 的流程相似，不同点在于一是向当前 block 而非 global_block 添加，二需要求梯度。
 
 #### 单个 Op 的添加过程
 
-这里全连接层是由两个Op组合而成的，单个算子添加的过程如 `matmul_v2` 的添加过程如下：
+这里全连接层是由两个 Op 组合而成的，单个算子添加的过程如 `matmul_v2` 的添加过程如下：
 
 ```python
 LayerHelper.append_op()
@@ -346,7 +346,7 @@ self.ops.append(op)
 最后 `Operator.__init__` 中会根据该 `Op` 是否为 `kernel op` 调用 `infer_var_type` 和 `infer_shape` 推导变量 meta 信息。
 
 
-### 反向过程是如何进行的？
+### 反向过程是如何进行的
 
 如图为 `optimizer.minimize(loss)` 前后的 `Program`。
 
@@ -356,10 +356,10 @@ self.ops.append(op)
 | - | - |
 | ![picture 1](images/a47c430c5352c906287c0874b23bba919d9bf82a36aefc5a994a37352dd3fd6a.png)  | ![picture 2](images/86c9eb879ae68584bb419c70ff25cd1abf2271c550e6d188f00a6b03fd6b61cd.png) |
 
-`optimizer.minimize(loss)` 会在 `loss` 的前面添加反向算子，增加的op主要分为三类：
+`optimizer.minimize(loss)` 会在 `loss` 的前面添加反向算子，增加的 op 主要分为三类：
 
 1. fill_constant
-2. 前向op对应的反向op
+2. 前向 op 对应的反向 op
 3. 优化器 op
 
 优化器 `op minimize` 函数的实现如下：
@@ -388,32 +388,32 @@ def minimize(
     return optimize_ops, params_grads
 ```
 
-主要分为两步，第一步添加前向op对应的反向op，第二步添加优化器op。
+主要分为两步，第一步添加前向 op 对应的反向 op，第二步添加优化器 op。
 
-#### 添加反向op
+#### 添加反向 op
 
 `backward` 函数主要添加反向 op，实现逻辑如下：
 
 1、为每个 `block` 根据其所含 `var` 的 `stop_gradient` 属性设置 `no_grad_dict`
 
-2、初始化对应反向 `block target_grad_block`，对于控制流的子 block，这是个新的 block，否则是主block自己
+2、初始化对应反向 `block target_grad_block`，对于控制流的子 block，这是个新的 block，否则是主 block 自己
 
 3、从当前 `loss op` 所在 block 开始，确定到主 block 的路径，进而确定反向过程包含的所有 block
 
-4、在 `target_grad_block` 中添加 `fill_constantop`，初始值设为1，作为起始梯度
+4、在 `target_grad_block` 中添加 `fill_constantop`，初始值设为 1，作为起始梯度
 
-- 遍历所有相关block
-	- 找到所有当前block中需要计算的前向op _find_op_path
-	- 找到当前block中梯度的起始变量
-- 反向遍历op，从起始变量开始将所有相关op加入
-	- _find_no_grad_vars获取与梯度计算无关的变量
-	- _append_backward_ops_为每个前向op添加对应反向op并进行梯度聚合
-	- _append_backward_vars_添加反向var并调用反向op的infer_var_type和_infer_shape
-	- 确定前向parameter对应的梯度，得到param_and_grads
+- 遍历所有相关 block
+	- 找到所有当前 block 中需要计算的前向 op _find_op_path
+	- 找到当前 block 中梯度的起始变量
+- 反向遍历 op，从起始变量开始将所有相关 op 加入
+	- _find_no_grad_vars 获取与梯度计算无关的变量
+	- _append_backward_ops_为每个前向 op 添加对应反向 op 并进行梯度聚合
+	- _append_backward_vars_添加反向 var 并调用反向 op 的 infer_var_type 和_infer_shape
+	- 确定前向 parameter 对应的梯度，得到 param_and_grads
 
 :::note
 
-在 Paddle 中，反向Op是由前向Op自动生成的，用于计算梯度。反向Op的输入是前向Op的输出和梯度，输出是前向Op的输入和梯度。 反向Op的作用是计算梯度，用于更新网络参数。
+在 Paddle 中，反向 Op 是由前向 Op 自动生成的，用于计算梯度。反向 Op 的输入是前向 Op 的输出和梯度，输出是前向 Op 的输入和梯度。 反向 Op 的作用是计算梯度，用于更新网络参数。
 
 :::
 
@@ -444,11 +444,11 @@ def apply_gradients(self, params_grads):
 
 主要分为三步：
 
-1. append_gradient_clip_ops 设置梯度截断，添加相应op
-2. append_regularization_ops 设置梯度正则化，添加相应op
-3. _create_optimization_pass 添加优化器op，具体的实现根据优化器的不同会有所区别
+1. append_gradient_clip_ops 设置梯度截断，添加相应 op
+2. append_regularization_ops 设置梯度正则化，添加相应 op
+3. _create_optimization_pass 添加优化器 op，具体的实现根据优化器的不同会有所区别
 
-总的来说，Python侧的静态图组网过程是这样的：
+总的来说，Python 侧的静态图组网过程是这样的：
 
 1. 用户调用组建网络相关接口，如 `paddle.nn.Linear`
 2. 框架将 `Linear` 相关的 `Op` 和变量添加到 `main_program` 和 `startup_program` 中
@@ -457,11 +457,11 @@ def apply_gradients(self, params_grads):
 
 ## 总结
 
-这篇文章主要讲解飞桨使用静态图训练网络中执行器的执行细节，同时也会简单说明静态图的组网过程。在飞桨设计上，把一个神经网络定义成一段类似程序的描述，就是在用户写程序的过程中，就定义了模型表达及计算。 举例来说，假设用户写了一行代码：`y=x+1`。在静态图模式下，运行此代码只会往计算图中插入一个 `Tensor` 加 1 的`Operator`，此时 `Operator` 并未真正执行，无法获得y的计算结果。但在动态图模式下，所有 `Operator` 均是即时执行的，运行完代码后 `Operator` 已经执行完毕，用户可直接获得y的计算结果。
+这篇文章主要讲解飞桨使用静态图训练网络中执行器的执行细节，同时也会简单说明静态图的组网过程。在飞桨设计上，把一个神经网络定义成一段类似程序的描述，就是在用户写程序的过程中，就定义了模型表达及计算。 举例来说，假设用户写了一行代码：`y=x+1`。在静态图模式下，运行此代码只会往计算图中插入一个 `Tensor` 加 1 的`Operator`，此时 `Operator` 并未真正执行，无法获得 y 的计算结果。但在动态图模式下，所有 `Operator` 均是即时执行的，运行完代码后 `Operator` 已经执行完毕，用户可直接获得 y 的计算结果。
 
 飞桨支持静态图与动态图两种训练方式。对于静态图而言，执行网络的前向过程只会将相应的 `Operator` 加入到计算图中，需要通过执行器来实际调用计算逻辑。以下面的代码为例，可以看到静态图的训练代码可以大致分为两部分：组网和执行。
 
-在C++侧，飞桨使用了一个名为Executor的类来实现静态图的执行器。Executor是一个封装了多个计算核心的类，它可以在CPU或GPU上运行计算任务。在执行过程中，Executor会将组网后的模型进行编译优化，并将优化后的计算图传递给计算核心进行计算。 Paddle 里一个计算任务就是一个 Program。
+在 C++侧，飞桨使用了一个名为 Executor 的类来实现静态图的执行器。Executor 是一个封装了多个计算核心的类，它可以在 CPU 或 GPU 上运行计算任务。在执行过程中，Executor 会将组网后的模型进行编译优化，并将优化后的计算图传递给计算核心进行计算。 Paddle 里一个计算任务就是一个 Program。
 
 `Program` 是飞桨中用于描述神经网络模型的对象。一个 `Program` 对应一个神经网络模型。在静态图模式下，用户需预先定义完整的网络结构，再对网络结构进行编译优化后，才能执行获得计算结果。在飞桨设计上，把一个神经网络定义成一段类似程序的描述，就是在用户写程序的过程中，就定义了模型表达及计算。 用户可以通过组网和执行两个过程来完成静态图模式下的训练。
 

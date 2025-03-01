@@ -56,9 +56,9 @@ loss_data, = exe.run(compiled_prog, feed={"X": x}, fetch_list=[loss.name])
 
 :::
 
-`exe = Executor(place)` 的作用是初始化一些变量，没有特别重要的内容，特别是这里并没有真正的创建执行器。 下面直接来看run方法的执行流程。
+`exe = Executor(place)` 的作用是初始化一些变量，没有特别重要的内容，特别是这里并没有真正的创建执行器。 下面直接来看 run 方法的执行流程。
 
-```
+```plain
 # https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/fluid/executor.py#L1449
 Executor.run
 -> Executor._run_impl
@@ -106,7 +106,7 @@ if self._enable_interpreter_core and _can_use_interpreter_core(program, self.pla
 
 :::
 
-对于 `Program` 和 `Executor`，是存在 `cache` 机制的，对于同一个 `Program`，我们会缓存它的执行器，缓存的key结构如下： `program.desc.cached_hash_str() + _get_program_cache_key(feed, fetch_list)` 这里key分为两部分，第一部分是 `ProgramDesc` 中 `cached_hash_str` 字段。
+对于 `Program` 和 `Executor`，是存在 `cache` 机制的，对于同一个 `Program`，我们会缓存它的执行器，缓存的 key 结构如下： `program.desc.cached_hash_str() + _get_program_cache_key(feed, fetch_list)` 这里 key 分为两部分，第一部分是 `ProgramDesc` 中 `cached_hash_str` 字段。
 
 ```cpp
 // https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/fluid/framework/program_desc.cc#L260
@@ -142,10 +142,10 @@ def _get_program_and_executor(self, cached_data):
     return new_program, new_exe
 ```
 
-在新建过程中，有两个对Program的修改：
+在新建过程中，有两个对 Program 的修改：
 
 1. 添加了`feed`和`fetch op`。对每个`feed`变量，都会添加一个`feed op`到`global block`；对每个`fetch`变量，都会添加一个`fetch`变量到`global block`。
-2. 对`Program`开启了`inplace`和`addto`两个`pass`。这两个`pass`均与inplace`相关。
+2. 对`Program`开启了`inplace`和`addto`两个`pass`。这两个`pass`均与 inplace`相关。
 
 :::note
 
@@ -170,7 +170,7 @@ loss_data, = exe.run(train_program, feed={"X": x}, fetch_list=[loss.name])
 
 ### 静态图相关概念
 
-在解释静态图的执行过程之前，先来梳理一下之前涉及的一些与静态图相关的概念。首先对于静态图表示来说，最重要的是这些Desc后缀的类，它们是静态图的**表示核心**。在Python侧，我们为这些Desc定义了相应的接口类，便于在python侧进行组网操作。
+在解释静态图的执行过程之前，先来梳理一下之前涉及的一些与静态图相关的概念。首先对于静态图表示来说，最重要的是这些 Desc 后缀的类，它们是静态图的**表示核心**。在 Python 侧，我们为这些 Desc 定义了相应的接口类，便于在 python 侧进行组网操作。
 
 在静态图执行的时候，这里的 `OpDesc` 和 `VarDesc` 就不能直接拿来使用了。因为它们缺少了重要的运行时信息，`VarDesc` 是不持有内存的，也就不保存数据。`OpDesc` 中是没有 `kernel` 相关的信息的，因而也不能得到具体的运算逻辑。运行时我们需要接触的两个对应的类型分别是 `Variable` 和 `OperatorBase`，它们分别持有了数据和计算逻辑。**执行器的关键一步就是从这里静态图的描述信息到运行信息的转化**。
 
@@ -178,12 +178,12 @@ loss_data, = exe.run(train_program, feed={"X": x}, fetch_list=[loss.name])
 
 ### StandaloneExecutor
 
-执行器的任务是根据给定的 `ProgramDesc`，执行其中包含的Op，返回最后的结果。执行器需要处理的事情：
+执行器的任务是根据给定的 `ProgramDesc`，执行其中包含的 Op，返回最后的结果。执行器需要处理的事情：
 
 1. 变量(Variable)的创建、管理与释放
 2. 算子(OperatorBase)的创建、调度执行
 
-现存的执行器有Executor、PE和新执行器。这里我们以新执行器的执行流程为主，其他执行器目前都不推荐使用了。新执行器的正式名称是 `StandaloneExecutor`。
+现存的执行器有 Executor、PE 和新执行器。这里我们以新执行器的执行流程为主，其他执行器目前都不推荐使用了。新执行器的正式名称是 `StandaloneExecutor`。
 
 ```cpp
 class StandaloneExecutor {
@@ -197,7 +197,7 @@ private:
 }
 ```
 
-其中 `place` 是指定的运算设备，`prog_` 是新执行器需要执行的 `Program`，`InterpreterCore` 是调度的核心。 这里的 `interpretercores_` 类型是`std::unordered_map<std::string, std::shared_ptr<InterpreterCore>>`，用于缓存 `InterpreterCore`。缓存的key的结构是 `feed:$feed,fetch:$fetch,scope:$scope`
+其中 `place` 是指定的运算设备，`prog_` 是新执行器需要执行的 `Program`，`InterpreterCore` 是调度的核心。 这里的 `interpretercores_` 类型是`std::unordered_map<std::string, std::shared_ptr<InterpreterCore>>`，用于缓存 `InterpreterCore`。缓存的 key 的结构是 `feed:$feed,fetch:$fetch,scope:$scope`
 
 :::note
 
@@ -208,7 +208,7 @@ InterpreterCore 是一个解释器，它可以解释 PaddlePaddle 的程序并�
 `StandaloneExecutor` 首先尝试从 `interpretercores_` 中查询是否已经存在相应的核心，如果没有就新建一个，否则返回已存在的核心。并在 `run` 方法中调用该核心执行 `Program`，因此新执行器的核心类其实是 `InterpreterCore`，`StandaloneExecutor` 本身的作用很小。 
 
 
-InterpreterCore的主要成员变量如下:
+InterpreterCore 的主要成员变量如下:
 
 ![图 1](images/f4c24e176141555d124731de3d40d6f191c340de9efed66dd59952334328630f.png)  
 
@@ -257,7 +257,7 @@ paddle::framework::FetchList InterpreterCore::Run(
 }
 ```
 
-`InterpreterCore` 的执行有两个分支，一种是尚未 `build` 执行 `build` 过程，另一种是 `build` 完成直接执行 `instruction` 的 `list`。需要说明的是，在 `build` 过程中，会顺序的调用每个op run一次，因此对于一个刚创建的 `InterpreterCore`，不需要连续调用两次 `run` 方法，一次 `build`，一次运行。 最后 `return` 的时候，在 `scope` 中查找名叫 `fetch` 的变量，返回该变量给用户。
+`InterpreterCore` 的执行有两个分支，一种是尚未 `build` 执行 `build` 过程，另一种是 `build` 完成直接执行 `instruction` 的 `list`。需要说明的是，在 `build` 过程中，会顺序的调用每个 op run 一次，因此对于一个刚创建的 `InterpreterCore`，不需要连续调用两次 `run` 方法，一次 `build`，一次运行。 最后 `return` 的时候，在 `scope` 中查找名叫 `fetch` 的变量，返回该变量给用户。
 
 :::note
 
@@ -269,7 +269,7 @@ paddle::framework::FetchList InterpreterCore::Run(
 
 新执行器的执行过程过程可以分为两步：
 
-1. 预分析阶段：静态化运行时信息，分析变量生命周期，Op的依赖分析
+1. 预分析阶段：静态化运行时信息，分析变量生命周期，Op 的依赖分析
 2. 调度执行阶段：异步调度、跨流同步、算子执行、依赖更新、变量回收
 
 ## 预分析阶段
@@ -278,7 +278,7 @@ paddle::framework::FetchList InterpreterCore::Run(
 
 为什么需要预分析的阶段？
 
-预分析的主要核心作用就是：考虑执行一个Op需要哪些信息？哪些信息是可以复用的。
+预分析的主要核心作用就是：考虑执行一个 Op 需要哪些信息？哪些信息是可以复用的。
 
 :::
 
@@ -348,7 +348,7 @@ is_build_ = true;
 
 为什么需要 BuildVariableScope ？
 
-一个网络在执行的时候有几个关键点，一个是计算（Op），第二个就是数据，数据也就是变量。第三个就是数据在运行的时候，管理数据的东西叫做 Scope。所以在第一轮构建的时候，就需要把这几个东西构建起来。 现在的 Scope 都被处理成了列表的形式，也就是处理成 `vector` 的类型，这样我们在索引的时候就非常快。 但是这个东西其实现在也没有在用了，我们现在用回了最原始的 Scope，因为我们的执行器是会做缓存的，所有的变量都有指针，这些指针都会缓存到了 context 里面（Op在执行的时候都是通过一个 context 的数据结构去存储它）。 Op 在计算的时候直接从 Context 里面取就可以了。 BuildVariableScope 这部分的代码在后续也会被清理掉。
+一个网络在执行的时候有几个关键点，一个是计算（Op），第二个就是数据，数据也就是变量。第三个就是数据在运行的时候，管理数据的东西叫做 Scope。所以在第一轮构建的时候，就需要把这几个东西构建起来。 现在的 Scope 都被处理成了列表的形式，也就是处理成 `vector` 的类型，这样我们在索引的时候就非常快。 但是这个东西其实现在也没有在用了，我们现在用回了最原始的 Scope，因为我们的执行器是会做缓存的，所有的变量都有指针，这些指针都会缓存到了 context 里面（Op 在执行的时候都是通过一个 context 的数据结构去存储它）。 Op 在计算的时候直接从 Context 里面取就可以了。 BuildVariableScope 这部分的代码在后续也会被清理掉。
 
 :::
 
@@ -444,9 +444,9 @@ struct OpFuncNode {
 
 这一步的主要逻辑如下：
 
-**1、CreatorOps为每个Op实例化对应的OperatorBase**
+**1、CreatorOps 为每个 Op 实例化对应的 OperatorBase**
 
-**2、控制流op的内部变量的gc设置**
+**2、控制流 op 的内部变量的 gc 设置**
 
 如果前向 op 中的变量会被反向 op 用到，那么该变量最终会被设置为 skip_gc_vars，跳过 gc 步骤。
 
@@ -527,7 +527,7 @@ GetUnusedVars(const BlockDesc& block,
 ```
 
 
-**4、 为每个op创建对应的OpFuncNode**
+**4、 为每个 op 创建对应的 OpFuncNode**
 
 第一步需要创建 `BuildVariableMap`
 
@@ -548,7 +548,7 @@ Scope* local_scope_{nullptr};
 std::vector<std::pair<std::string, int>> data_transfer_added_vars_;
 ```
 
-VariableScope的作用和scope类似，区别在于它通过vector管理而非map。
+VariableScope 的作用和 scope 类似，区别在于它通过 vector 管理而非 map。
 
 ### Convert
 
@@ -557,7 +557,7 @@ Convert 这一步主要完成了下面几件事情：
 
 1. 依赖分析，构建调度关系： Convert 需要对计算图进行解析和分析，构建出每个算子的调度关系和执行顺序，以保证正确的计算顺序和结果。它会将每个算子与它的输入和输出之间的依赖关系分析出来，以构建执行图。
 2. 计算变量生存周期： Convert 还需要分析计算图中每个变量在程序的哪个阶段使用，以确定它的生存周期，从而确定内存使用策略。例如，对于只在某个算子中使用的中间结果，可以采用动态内存分配策略，而对于前向传播结果和反向传播结果等持久化结果，则需要采用静态内存分配策略。
-3. 缓存 Context： 在执行模型之前，需要将模型中的变量传输到设备上，这个过程称为上下文转换，如从CPU到GPU或多GPU之间。 Convert 还需要缓存中间变量和算子的 Context，以加速上下文转换和提高模型的训练和推理效率。
+3. 缓存 Context： 在执行模型之前，需要将模型中的变量传输到设备上，这个过程称为上下文转换，如从 CPU 到 GPU 或多 GPU 之间。 Convert 还需要缓存中间变量和算子的 Context，以加速上下文转换和提高模型的训练和推理效率。
 4. 运行时的依赖计数和引用计数： Convert 将根据构建执行图的依赖关系，为每个变量进行依赖计数和引用计数的设置。这样一来，当某个变量不再被使用时，可以及时回收对应的内存空间，从而避免内存泄漏问题。
 
 在 Paddle 的代码里 Convert 的实现是在 `InterpreterCore::Convert` 里面，下面我们来分析一下这个函数的实现。
@@ -592,11 +592,11 @@ for (size_t i = 0; i < vec_meta_info.size(); ++i) {
 
 #### BuildOperatorDependences
 
-这一步的作用是进行依赖分析，最终目标是建立 Instruction 之间的 `DAG图`，便于后续并行调度。Instruction 中包含了上一步中建立的 OpFuncNode 作为成员变量，它是调度的一个基础单位。 Instruction的图结构是一种邻接链表的方式存储的，每个节点存储他能到达邻居节点。我们希望确定如果一个op执行完了，接下来哪些op的输入准备好了，怎么去调度这些op。
+这一步的作用是进行依赖分析，最终目标是建立 Instruction 之间的 `DAG图`，便于后续并行调度。Instruction 中包含了上一步中建立的 OpFuncNode 作为成员变量，它是调度的一个基础单位。 Instruction 的图结构是一种邻接链表的方式存储的，每个节点存储他能到达邻居节点。我们希望确定如果一个 op 执行完了，接下来哪些 op 的输入准备好了，怎么去调度这些 op。
 
 :::note 
 
-DAG图是有向无环图（Directed Acyclic Graph）的简称，它是一种图论结构。DAG图是一些点和线的集合，其中点表示计算或操作，线表示它们之间的依赖关系。
+DAG 图是有向无环图（Directed Acyclic Graph）的简称，它是一种图论结构。DAG 图是一些点和线的集合，其中点表示计算或操作，线表示它们之间的依赖关系。
 
 :::
 
@@ -630,7 +630,7 @@ class Instruction {
 
 一个 `Instruction` 的后继节点按照这两个 Op 的关系被分为三类，这三类后继节点在调度时不会有特殊处理。这一步的最终目的就是完成这个数据结构的构建，用于后续的并行调度中。整体过程可以大致分为两步：
 
-1. 依赖分析：确定Op执行的先后关系
+1. 依赖分析：确定 Op 执行的先后关系
 2. 调度策略：确定后继节点的调度类型
 
 ```cpp
@@ -696,7 +696,7 @@ void InterpreterCore::BuildOperatorDependences() {
 
 1. 对计算图进行依赖分析，构建节点之间的依赖关系，为每个算子设置相应的依赖计数和引用计数；
 2. 根据计算节点的类型（同步/异步），将下一步节点列表分为同步和异步两种类型；
-3. 确定op的依赖计数, 即入度数
+3. 确定 op 的依赖计数, 即入度数
 
 ##### 依赖分析
 
@@ -740,28 +740,28 @@ const std::map<size_t, std::set<size_t>>& DependencyBuilder::Build(
 
 那么 DAG 是如何构建的呢？ DAG 的构建主要遵循以下规则：
 
-1. 情况1
+1. 情况 1
 
-```
+```plain
 A writes X
 B reads X
 then A -> B
 ```
 
-2. 情况2
+2. 情况 2
 
-```
+```plain
 //some other ops writes X
 A reads X
 B writes X
 then A -> B
 ```
 
-此时依然要保证A在B前面执行，因为A读取的值不应该是B写入的值
+此时依然要保证 A 在 B 前面执行，因为 A 读取的值不应该是 B 写入的值
 
-3. 情况3
+3. 情况 3
 
-```
+```plain
  A writes X
 //some other ops reads X
 B writes X
@@ -776,19 +776,19 @@ then A -> B
 
 :::tip
 
-什么情况下两个Op的执行需要同步？
+什么情况下两个 Op 的执行需要同步？
 
-当它们存在依赖关系又可能异步执行的时候，比如 A writes x, B reads x 这种关系的时候。这时候需要保证B执行的时候A已经执行完了。
+当它们存在依赖关系又可能异步执行的时候，比如 A writes x, B reads x 这种关系的时候。这时候需要保证 B 执行的时候 A 已经执行完了。
 
 :::
 
 ![picture 4](images/e160602a0ba82510878630e65b19c4314e9b782c5222311ee0a25f5dc10d64a2.png)  
 
-新执行器会按下面的分类把Op分为三类，后续调度时的逻辑略有不同。
+新执行器会按下面的分类把 Op 分为三类，后续调度时的逻辑略有不同。
 
 1. direct_run：串行情况，表示可以在当前线程直接拉起，不需要切换线程。目前包含如下 4 种情况： `a. GPU -> GPU(same stream) b. CPU -> CPU c. CPU -> H2D d. D2H -> CPU`
-2. synchornize_run： 并行，后续Intruction是个昂贵的同步等待操作，建议放到单独一个线程执行，如： `a. GPU -> D2H`，因为 GPUKernel很快拉起后，可能在stream排队，下游D2H需要等待数据，且此操作是个sync操作
-3. event_run：并行，后续 Instruction 与当前Op不属于一个stream流，需要额外处理 `a. H2D -> GPU b. GPU -> GPU(different stream)`
+2. synchornize_run： 并行，后续 Intruction 是个昂贵的同步等待操作，建议放到单独一个线程执行，如： `a. GPU -> D2H`，因为 GPUKernel 很快拉起后，可能在 stream 排队，下游 D2H 需要等待数据，且此操作是个 sync 操作
+3. event_run：并行，后续 Instruction 与当前 Op 不属于一个 stream 流，需要额外处理 `a. H2D -> GPU b. GPU -> GPU(different stream)`
 
 
 
@@ -807,15 +807,15 @@ then A -> B
 
 预分析阶段有三个主要任务：
 
-1. 静态化信息：context缓存、运行时的数据类型转换改为插入op、kernel的选择
-2. 分析变量生命周期，确定在op执行结束后需要检查哪些变量的引用计数
-3. 依赖分析，确定在op执行结束后需要检查哪些op的依赖计数
+1. 静态化信息：context 缓存、运行时的数据类型转换改为插入 op、kernel 的选择
+2. 分析变量生命周期，确定在 op 执行结束后需要检查哪些变量的引用计数
+3. 依赖分析，确定在 op 执行结束后需要检查哪些 op 的依赖计数
 
 ## 调度执行阶段
 
 InterpreterCore 在 build 结束后的执行逻辑中，需要关注的比较重要的部分要两点：
 
-1. 后继op的调度执行
+1. 后继 op 的调度执行
 2. 多流同步下的显存回收
 
 ```cpp
@@ -938,7 +938,7 @@ void InterpreterCore::RunInstructionAsync(size_t instr_id) {
 ```
 
 
-可以看到这里首先在一个空的执行队列中压入当前需要执行的 Op，然后开始执行 for 循环，运行当前 op，在运行完成后这里如果发现现在没有需要执行的 Op 了，那么就会调用 `notify`，通知其他线程和主线程结束。如果还有未完成 Op，进入`RunNextInstructions`，向执行队列中加入新的Op或把他们调度到别的地方去。
+可以看到这里首先在一个空的执行队列中压入当前需要执行的 Op，然后开始执行 for 循环，运行当前 op，在运行完成后这里如果发现现在没有需要执行的 Op 了，那么就会调用 `notify`，通知其他线程和主线程结束。如果还有未完成 Op，进入`RunNextInstructions`，向执行队列中加入新的 Op 或把他们调度到别的地方去。
 
 
 ```cpp
@@ -984,7 +984,7 @@ void InterpreterCore::RunNextInstructions(const Instruction& instr,
 
 ### 单个 Op 的执行过程
 
-这部分逻辑位于RunInstructionAsync中，但是和调度无关。下面是相关代码：
+这部分逻辑位于 RunInstructionAsync 中，但是和调度无关。下面是相关代码：
 
 ```cpp
 void InterpreterCore::RunInstruction(const Instruction& instr_node) {
@@ -1134,19 +1134,19 @@ void InterpreterCore::RunOperator(const Instruction& instr_node) {
 }
 ```
 
-具体来说，它首先获取当前算子以及它所需要运行的设备；然后根据算子是否有kernel，分别进行shape推导和计算
+具体来说，它首先获取当前算子以及它所需要运行的设备；然后根据算子是否有 kernel，分别进行 shape 推导和计算
 
 它执行以下几个步骤：
 
-1. 首先通过instrnode获取需要运行的operator，并获取它所需要的设备。
-2. 根据此operator的类型，判断它是否具有kernel。
-    - 如果不是 `OperatorWithKernel` 类型，则说明此 `operator` 不需要运行kernel，只需要运行 `RunImpl` 函数即可。
-    - 如果是 `OperatorWithKernel` 类型，则需要进行shape推导和计算, 运行infershape函数推导出每个输入输出的shape。若该 operator 的所有 kernel 都必须计算 runtime shape，则直接跳过 shape 推导。最后通过`platform::RecordOpInfoSupplement`函数收集关于此operator的信息，供后续跟踪和调试。
-3. 根据命令行参数 FLAGS_newexecutor_use_inplace 判断是否启用 inplace。 若启用，则将所有inplace的变量的结果从 transformed_tensor 转移回 original_tensor。
-4. 运行 operator 的 kernel 函数。如果 operator 没有 kernel，直接运行 Run 函数。 如果 operator 有 kernel：若 kernel 是 `phi::kernel`，则需要检查它是否是函数类型，然后分别为执行上下文和kernel构建 phi kernel context。如果不是 phi kernel，则直接运行 kernel 的运算函数。
+1. 首先通过 instrnode 获取需要运行的 operator，并获取它所需要的设备。
+2. 根据此 operator 的类型，判断它是否具有 kernel。
+    - 如果不是 `OperatorWithKernel` 类型，则说明此 `operator` 不需要运行 kernel，只需要运行 `RunImpl` 函数即可。
+    - 如果是 `OperatorWithKernel` 类型，则需要进行 shape 推导和计算, 运行 infershape 函数推导出每个输入输出的 shape。若该 operator 的所有 kernel 都必须计算 runtime shape，则直接跳过 shape 推导。最后通过`platform::RecordOpInfoSupplement`函数收集关于此 operator 的信息，供后续跟踪和调试。
+3. 根据命令行参数 FLAGS_newexecutor_use_inplace 判断是否启用 inplace。 若启用，则将所有 inplace 的变量的结果从 transformed_tensor 转移回 original_tensor。
+4. 运行 operator 的 kernel 函数。如果 operator 没有 kernel，直接运行 Run 函数。 如果 operator 有 kernel：若 kernel 是 `phi::kernel`，则需要检查它是否是函数类型，然后分别为执行上下文和 kernel 构建 phi kernel context。如果不是 phi kernel，则直接运行 kernel 的运算函数。
 5. 将 inplace 变量的结果传回 original_tensor。
 
-可以看到新执行器在Op运行时少了很多准备工作，这里主要是Context的准备和数据转换相关逻辑。 接下来分析GC部分 `CheckGC` 。
+可以看到新执行器在 Op 运行时少了很多准备工作，这里主要是 Context 的准备和数据转换相关逻辑。 接下来分析 GC 部分 `CheckGC` 。
 
 ```cpp
 void InterpreterCore::CheckGC(const Instruction& instr) {
@@ -1183,17 +1183,17 @@ void InterpreterCore::CheckGC(const Instruction& instr) {
 这里的代码主要包含两部分：
 
 1. `Record StreamGC`，为了多流下的 `FastGC` 服务
-2. 更新变量的引用计数，回收引用计数为0的变量
+2. 更新变量的引用计数，回收引用计数为 0 的变量
 
 代码中 `RecordStreamGC` 为了 `提前回收显存服务` 的。如果 `kernel1` 和 `kernel2` 使用同一个 `stream` 执行，那么在 `kernel1` 还没跑完的时候就可以标记 `kernel1` 使用的内存已经被释放，然后 `kernel2` 就可以直接使用这部分显存。这样做的前提是要保证释放的显存不会分配给其他 `kernel` 使用，因此这里在分配内存时，不同 `stream` 会有不同的独立显存块分配。 ???
 
-新执行器默认会的GC策略FastGC会在Op执行结束后回收变量，对于异步类型的Op而言，上面提到提前释放不需要特殊实现就可实现，但是注意到这种提前释放需要一个重要前提，就是前后的kernel必须使用同一个stream执行。 如果stream是同一个，那么这里不需要做特殊处理，直接GC回收即可。但是如果stream不是同一个，那么就需要插入cudaEvent同步。
+新执行器默认会的 GC 策略 FastGC 会在 Op 执行结束后回收变量，对于异步类型的 Op 而言，上面提到提前释放不需要特殊实现就可实现，但是注意到这种提前释放需要一个重要前提，就是前后的 kernel 必须使用同一个 stream 执行。 如果 stream 是同一个，那么这里不需要做特殊处理，直接 GC 回收即可。但是如果 stream 不是同一个，那么就需要插入 cudaEvent 同步。
 
 #### 多流同步实例
 
-**1、同一个stream 的FastGC**
+**1、同一个 stream 的 FastGC**
 
-```
+```plain
 A：Y = f(X)
 B: M = f(Y)
 C: N = f(Y)
@@ -1201,26 +1201,26 @@ C: N = f(Y)
 
 ![picture 6](images/517ea6357a4508b21da57d6eccd40b28a7225f64902d1064d86092618eb3d244.png)  
 
-**2、不同stream直接FastGC引起的冲突**
+**2、不同 stream 直接 FastGC 引起的冲突**
 
 ![picture 7](images/15d0e06101a2c95a35fa5eb9f28066e87e1189369ee9ccf95c2b84afa1dda594.png)  
 
-**3、A->B、A->C stream_ananlyser插入同步事件的逻辑**
+**3、A->B、A->C stream_ananlyser 插入同步事件的逻辑**
 
 ![picture 8](images/c320e874678facc6c1edea06e359251f894feef95fbb646a60ac087f6df302c0.png)  
 
-注意到上面的例子中有个问题，`M = fc(Y)` 在 `Y=fc(X) 未执行完之前就开始执行了，这种情况下调度的正确性是由之前的 `stream_ananlyser` 来保证的。 举例来说，这里检测到Y和M有依赖关系，而它们的 stream 又不是同一个，就会插入 cudaEvent 进行同步。
+注意到上面的例子中有个问题，`M = fc(Y)` 在 `Y=fc(X) 未执行完之前就开始执行了，这种情况下调度的正确性是由之前的`stream_ananlyser` 来保证的。 举例来说，这里检测到 Y 和 M 有依赖关系，而它们的 stream 又不是同一个，就会插入 cudaEvent 进行同步。
 
 ![picture 9](images/3dbd03a88f630fa2d1bef40b22ee4bb78d1ad9c1d218eebc6d4cf6a25f2bae7a.png)  
 
-**4、A->B、A->C RecordStreamGC插入同步事件的逻辑**
+**4、A->B、A->C RecordStreamGC 插入同步事件的逻辑**
 
 ![picture 10](images/c6d38ae8b79bdfeea39770e391a26adb28ecd1088c1672d18427c1c4138ae2ff.png)  
 
 
 ## 小节
 
-1、调度后继op，将其加入到对应类型的线程池中
+1、调度后继 op，将其加入到对应类型的线程池中
 
 2、 执行算子
 

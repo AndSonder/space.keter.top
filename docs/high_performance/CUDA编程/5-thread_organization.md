@@ -2,7 +2,7 @@
 
 :::note
 
-在编写CUDA程序时，使用合适的网格和块大小正确的组织线程可以提高程序的性能。本文中我们通过向量的加法来介绍如何组织并行线程。
+在编写 CUDA 程序时，使用合适的网格和块大小正确的组织线程可以提高程序的性能。本文中我们通过向量的加法来介绍如何组织并行线程。
 
 :::
 
@@ -14,7 +14,7 @@
 
 ![picture 0](images/be90e2866cafa9fa50231a70367de27a8f4db16edc60c7acdf21be27203553d9.png)  
 
-其中 `ix` 和 `iy` 是线程的索引，也叫做全局地址。局部地址就是 `threadIdx.x` 和 `threadIdx.y` 。谭升的博客里面有个非常形象的比喻：同一个小区，A栋有16楼，B栋也有16楼，A栋和B栋就是 `blockIdx`，而16就是 `threadIdx` 啦。 将线程的全局地址和不同的数据对应就可以让不同的线程计算不同的数据了。
+其中 `ix` 和 `iy` 是线程的索引，也叫做全局地址。局部地址就是 `threadIdx.x` 和 `threadIdx.y` 。谭升的博客里面有个非常形象的比喻：同一个小区，A 栋有 16 楼，B 栋也有 16 楼，A 栋和 B 栋就是 `blockIdx`，而 16 就是 `threadIdx` 啦。 将线程的全局地址和不同的数据对应就可以让不同的线程计算不同的数据了。
 
 虽然上面的图可以很好的帮助我们理解线程模型，但是在设备内存和主机内存中数据都是以一维数组的形式存储的，所以我们需要将线程的全局地址转换成一维数组的索引。比如一个 8x6 的数组的存储方法就如下图所示。
 
@@ -191,12 +191,12 @@ dim3 grid_2((nx + block_2.x - 1) / block_2.x, ny);
 
 ![picture 3](images/f144940374992420799132efa03ae3eecc4d2dc4d0f06fda84296c9153e417ed.png)  
 
-观察结果没有多大差距，但是明显比CPU快了很多，而且最主要的是我们本文用不同的线程组织模式都得到了正确结果。
+观察结果没有多大差距，但是明显比 CPU 快了很多，而且最主要的是我们本文用不同的线程组织模式都得到了正确结果。
 
 
 ## 参考资料
 
-1. [CUDA C编程权威指南](https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=CUDA%20C%E7%BC%96%E7%A8%8B%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97&fenlei=256&rsv_pq=0xfed4a61a000e3772&rsv_t=0d02lKS%2Blx%2BdvIVO447ej8nu1F1JZ2R2sUUEGNoSYLiNj3M8QV7s%2FscVGcDD&rqlang=en&rsv_enter=1&rsv_dl=tb&rsv_sug3=2&rsv_sug1=2&rsv_sug7=101&rsv_sug2=0&rsv_btype=i&prefixsug=%2526lt%253BUDA%2520%2526lt%253B%25E7%25BC%2596%25E7%25A8%258B%25E6%259D%2583%25E5%25A8%2581%25E6%258C%2587%25E5%258D%2597&rsp=9&inputT=4428&rsv_sug4=4428)
+1. [CUDA C 编程权威指南](https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=CUDA%20C%E7%BC%96%E7%A8%8B%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97&fenlei=256&rsv_pq=0xfed4a61a000e3772&rsv_t=0d02lKS%2Blx%2BdvIVO447ej8nu1F1JZ2R2sUUEGNoSYLiNj3M8QV7s%2FscVGcDD&rqlang=en&rsv_enter=1&rsv_dl=tb&rsv_sug3=2&rsv_sug1=2&rsv_sug7=101&rsv_sug2=0&rsv_btype=i&prefixsug=%2526lt%253BUDA%2520%2526lt%253B%25E7%25BC%2596%25E7%25A8%258B%25E6%259D%2583%25E5%25A8%2581%25E6%258C%2587%25E5%258D%2597&rsp=9&inputT=4428&rsv_sug4=4428)
 2. [【CUDA 基础】2.2 给核函数计时](https://face2ai.com/CUDA-F-2-2-%E6%A0%B8%E5%87%BD%E6%95%B0%E8%AE%A1%E6%97%B6/)
 
 

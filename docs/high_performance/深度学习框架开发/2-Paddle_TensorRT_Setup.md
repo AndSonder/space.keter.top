@@ -22,11 +22,11 @@ sudo apt-get update
 sudo apt-get install -y nvidia-docker2
 sudo pkill -SIGHUP dockerd
 ```
-### 拉取Docker镜像
+### 拉取 Docker 镜像
 
 :::tip
 
-拉取镜像，注意一定要拉取带有TensorRT的镜像，否则后续无法使用TensorRT。
+拉取镜像，注意一定要拉取带有 TensorRT 的镜像，否则后续无法使用 TensorRT。
 
 :::
 

@@ -4,9 +4,9 @@
 
 在 CUDA 编程中，内存管理一直是一个关键的问题。随着计算需求的增加，对于高效的内存分配和释放变得更加重要。CUDA 11.2 引入了 Stream-Ordered Memory Allocator，这是一项创新的内存管理技术，为 GPU 计算提供了更好的性能和效率。
 
-在CUDA编程中，显存的分配和释放是一个复杂而关键的任务。传统的内存管理方法可能导致内存碎片化、数据传输瓶颈等问题，影响程序的性能。Stream-Ordered Memory Allocator 旨在解决这些问题，提供更灵活、高效的内存管理方式。
+在 CUDA 编程中，显存的分配和释放是一个复杂而关键的任务。传统的内存管理方法可能导致内存碎片化、数据传输瓶颈等问题，影响程序的性能。Stream-Ordered Memory Allocator 旨在解决这些问题，提供更灵活、高效的内存管理方式。
 
-Stream-Ordered Memory Allocator 通过引入内存池概念和异步内存管理，使得程序能够更好地适应异步计算和多Stream操作，提高了内存分配和释放的效率。本文将深入介绍 Stream-Ordered Memory Allocator 的核心概念和其在CUDA编程中的作用。
+Stream-Ordered Memory Allocator 通过引入内存池概念和异步内存管理，使得程序能够更好地适应异步计算和多 Stream 操作，提高了内存分配和释放的效率。本文将深入介绍 Stream-Ordered Memory Allocator 的核心概念和其在 CUDA 编程中的作用。
 
 ## 2. Stream Ordering Efficiency
 
@@ -24,13 +24,13 @@ Stream-Ordered Memory Allocator 在内存管理中引入了对 Stream Ordering �
 
 ## 3. Stream-Ordered Memory Allocator
 
-Stream-Ordered Memory Allocator(SOMA)是一种基于CUDA的内存分配器，它可以在多个流中并行分配和释放内存。
+Stream-Ordered Memory Allocator(SOMA)是一种基于 CUDA 的内存分配器，它可以在多个流中并行分配和释放内存。
 
-我们知道，CUDA程序中的内存分配和释放（`cudaMalloc`和`cudaFree`）是非常昂贵的，因为它们需要与主机端的内存分配和释放进行同步。为了解决这个问题，SOMA提出了一种新的内存分配和释放机制，它可以在多个流中并行分配和释放内存，从而减少了内存分配和释放的开销。
+我们知道，CUDA 程序中的内存分配和释放（`cudaMalloc`和`cudaFree`）是非常昂贵的，因为它们需要与主机端的内存分配和释放进行同步。为了解决这个问题，SOMA 提出了一种新的内存分配和释放机制，它可以在多个流中并行分配和释放内存，从而减少了内存分配和释放的开销。
 
-Stream-Ordered Memory Allocator 引入了两个关键的异步内存管理函数：`cudaMallocAsync` 和`cudaFreeAsync`。这两个函数允许开发者在异步流中进行内存分配和释放操作，从而更好地与GPU任务的异步执行进行协同工作。
+Stream-Ordered Memory Allocator 引入了两个关键的异步内存管理函数：`cudaMallocAsync` 和`cudaFreeAsync`。这两个函数允许开发者在异步流中进行内存分配和释放操作，从而更好地与 GPU 任务的异步执行进行协同工作。
 
-下面是一个示例代码，展示了如何使用这两个函数，并通过合适的事件依赖关系实现Stream-Ordered的内存管理：
+下面是一个示例代码，展示了如何使用这两个函数，并通过合适的事件依赖关系实现 Stream-Ordered 的内存管理：
 
 ```cpp
 // 使用cudaMallocAsync进行异步内存分配
@@ -64,7 +64,7 @@ cudaFreeAsync(ptr, streamD);
 
 上述代码示例演示了在不同的 CUDA Streams 中，如何使用 cudaMallocAsync 和 cudaFreeAsync 进行异步内存分配和释放。其中，通过使用事件依赖关系，保证了在释放内存之前，所有对内存的访问都已经完成。
 
-这种操作方式使得程序能够更灵活地在不同Streams中执行任务，同时确保内存的顺序访问。这是 Stream-Ordered Memory Allocator 的核心思想，通过充分利用 CUDA Streams 的并行性，提高了内存管理的效率。
+这种操作方式使得程序能够更灵活地在不同 Streams 中执行任务，同时确保内存的顺序访问。这是 Stream-Ordered Memory Allocator 的核心思想，通过充分利用 CUDA Streams 的并行性，提高了内存管理的效率。
 
 下图展示了上述代码中不同 Stream 中的任务执行顺序：
 
@@ -73,11 +73,11 @@ cudaFreeAsync(ptr, streamD);
 
 ## 4. Memory pools
 
-在 Stream-Ordered Memory Allocator中，引入了内存池的概念，这是一项关键的优化策略，用于提高内存分配和释放的效率。
+在 Stream-Ordered Memory Allocator 中，引入了内存池的概念，这是一项关键的优化策略，用于提高内存分配和释放的效率。
 
 内存池是一块预先分配的内存区域，它在程序初始化阶段被分配，并在整个程序生命周期内用于动态分配和释放内存。Stream-Ordered Memory Allocator 通过引入内存池，避免了频繁的内存分配和释放操作，减少了内存碎片化，提高了内存管理效率。
 
-在CUDA中，每个设备都有一个默认池的概念，可以使用 `cudaDeviceGetDefaultMemPool` 查询其句柄。内存池通过`cudaMemPool_t`句柄来表示，这是对内存池的抽象。通过使用这个句柄，开发者可以显式地创建自己的内存池，并直接使用它们，也可以将其设置为设备的当前池并间接使用它们。
+在 CUDA 中，每个设备都有一个默认池的概念，可以使用 `cudaDeviceGetDefaultMemPool` 查询其句柄。内存池通过`cudaMemPool_t`句柄来表示，这是对内存池的抽象。通过使用这个句柄，开发者可以显式地创建自己的内存池，并直接使用它们，也可以将其设置为设备的当前池并间接使用它们。
 
 ```cpp
 // 获取设备的默认内存池句柄
@@ -89,7 +89,7 @@ cudaDeviceGetDefaultMemPool(&defaultPool);
 
 当默认池被设置为设备的当前池时，它充当当前池，可以在没有显式指定池参数的情况下，供`cudaMallocAsync`调用使用。
 
-如果由于内存池的碎片而无法满足 `cudaMallocAsync` 的内存分配请求，CUDA驱动程序会通过**将池中未使用的内存重新映射到GPU虚拟地址空间的连续部分来对池进行碎片整理**。这种操作避免了昂贵的系统调用，同时降低了应用程序的内存占用。
+如果由于内存池的碎片而无法满足 `cudaMallocAsync` 的内存分配请求，CUDA 驱动程序会通过**将池中未使用的内存重新映射到 GPU 虚拟地址空间的连续部分来对池进行碎片整理**。这种操作避免了昂贵的系统调用，同时降低了应用程序的内存占用。
 
 ```cpp
 cudaMallocAsync(ptr1, size1, stream);  // 从池中分配新的内存
@@ -121,9 +121,9 @@ for (int i = 0; i < 100; i++) {
 
 上述示例演示了如何通过设置释放阈值，使得未使用的内存在同步操作之后保持不变，从而实现内存的重用，提高内存分配性能。
 
-内存池的灵活性和配置选项使得 Stream-Ordered Memory Allocator能够更好地适应不同的应用场景，从而提供更高效的内存管理。
+内存池的灵活性和配置选项使得 Stream-Ordered Memory Allocator 能够更好地适应不同的应用场景，从而提供更高效的内存管理。
 
-CUDA驱动程序还可以使用启发式方法在没有明确指定的显式依赖项的情况下重用内存。但是，这种启发式方法可能增加应用程序的不确定性，因此可以在每个池的基础上禁用。以下是一个禁用的示例：
+CUDA 驱动程序还可以使用启发式方法在没有明确指定的显式依赖项的情况下重用内存。但是，这种启发式方法可能增加应用程序的不确定性，因此可以在每个池的基础上禁用。以下是一个禁用的示例：
 
 ```cpp
 int enable = 0;
@@ -136,4 +136,4 @@ cudaMemPoolSetAttribute(mempool, cudaMemPoolReuseAllowInternalDependencies, &ena
 
 ## 5. 总结
 
-Stream-Ordered Memory Allocator 是一种创新的内存管理技术，它通过引入内存池和异步内存管理，提高了内存分配和释放的效率。通过充分利用 CUDA Streams 的并行性，它能够更好地适应异步计算和多Stream操作，提高了内存管理的效率。Pytorch 和 Paddle 等深度学习框架已经开始使用 Stream-Ordered Memory Allocator，以提高程序的性能和效率。下一篇文章将介绍 Paddle 中是如何引用 Stream-Ordered Memory Allocator 的。
+Stream-Ordered Memory Allocator 是一种创新的内存管理技术，它通过引入内存池和异步内存管理，提高了内存分配和释放的效率。通过充分利用 CUDA Streams 的并行性，它能够更好地适应异步计算和多 Stream 操作，提高了内存管理的效率。Pytorch 和 Paddle 等深度学习框架已经开始使用 Stream-Ordered Memory Allocator，以提高程序的性能和效率。下一篇文章将介绍 Paddle 中是如何引用 Stream-Ordered Memory Allocator 的。

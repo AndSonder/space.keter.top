@@ -169,7 +169,7 @@ void ConcatInferMeta(const std::vector<MetaTensor*>& x,
 
 新增算子 `Kernel` 在 `paddle/phi/kernels` 目录中完成，基本目录结构如下：
 
-```
+```plain
 paddle/phi/kernels
 ./ (根目录放置设备无关的 kernel 声明和实现)
 ./cpu（仅放置 cpu 后端的 kernel 实现）

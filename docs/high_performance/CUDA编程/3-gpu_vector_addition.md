@@ -1,12 +1,12 @@
-# 动手实现一个基于GPU的向量加法
+# 动手实现一个基于 GPU 的向量加法
 
 :::note
 
-本文中将结合前面的代码，介绍如何编译和执行CUDA程序。并写一个在GPU上执行的向量加法程序。
+本文中将结合前面的代码，介绍如何编译和执行 CUDA 程序。并写一个在 GPU 上执行的向量加法程序。
 
 :::
 
-## 基于GPU的向量加法
+## 基于 GPU 的向量加法
 
 首先第一步先引入需要用到的头文件
 
@@ -15,7 +15,7 @@
 #include <cuda_runtime.h>
 ```
 
-然后为什么我们需要一个错误检查的宏，这个宏可以帮助我们检查CUDA API调用是否成功，如果失败，它会打印出错误信息。这个宏在上一篇文章中已经介绍过了，这里就不再赘述了。
+然后为什么我们需要一个错误检查的宏，这个宏可以帮助我们检查 CUDA API 调用是否成功，如果失败，它会打印出错误信息。这个宏在上一篇文章中已经介绍过了，这里就不再赘述了。
 
 ```c
 #define CHECK(call)
@@ -169,7 +169,7 @@ int main(int argc, char **argv)
     cudaMemcpy(gpuRef, d_C, nBytes, cudaMemcpyDeviceToHost);
 ```
 
-然后我们需要调用我们的CPU函数来计算结果，这里我们需要传入三个参数，第一个参数是一个指针，这个指针指向的是第一个向量，第二个参数是一个指针，这个指针指向的是第二个向量，第三个参数是一个指针，这个指针指向的是第三个向量，这里我们需要将第三个向量的结果保存到这个指针指向的内存中，最后一个参数是一个`unsigned int`类型的变量，这个变量用来指定我们的向量的长度。
+然后我们需要调用我们的 CPU 函数来计算结果，这里我们需要传入三个参数，第一个参数是一个指针，这个指针指向的是第一个向量，第二个参数是一个指针，这个指针指向的是第二个向量，第三个参数是一个指针，这个指针指向的是第三个向量，这里我们需要将第三个向量的结果保存到这个指针指向的内存中，最后一个参数是一个`unsigned int`类型的变量，这个变量用来指定我们的向量的长度。
 
 ```c
     // add vector at host side for result checks
@@ -362,7 +362,7 @@ int main(int argc, char **argv)
 ## 参考资料
 
 1. [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html)
-2. [【CUDA 基础】2.0 CUDA编程模型概述（二）](https://face2ai.com/CUDA-F-2-1-CUDA%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B02/)
+2. [【CUDA 基础】2.0 CUDA 编程模型概述（二）](https://face2ai.com/CUDA-F-2-1-CUDA%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B02/)
 
 
 

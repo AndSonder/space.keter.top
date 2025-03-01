@@ -91,7 +91,7 @@ const config = {
                         position: "left",
                     },
                     {
-                        to: "/docs/high_performance/分布式训练基础知识/分布式训练",
+                        to: "/docs/high_performance/分布式训练基础知识/Distributed_Training",
                         activeBasePath: '/docs/high_performance',
                         label: "HPC&DS",
                         position: "left",
