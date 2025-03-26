@@ -905,15 +905,7 @@ std::tuple<double, double> ProgramInterpreter::InterpreterRunTime() {
 
 在获取到每个 Job 的开始时间和结束时间之后，我们就可以使用 python 脚本来绘制出各个 Job 的运行区间了。可视化工具的实现思路是将每个 Job 的开始时间和结束时间保存成 Chrome Trace Event 的格式，然后使用 `chrome://tracing` 工具来绘制出各个 Job 的运行区间。以下是绘制效果图：
 
-![picture 10](images/ac0590be474ceb2ce695085a1f2178860592b650d9be2ce428de15ff2b4f93a8.png)  
-
-
-
-
-
-
-
-
+![picture 0](images/c55cef100e4e6c2ad6892362ca73a48bfc102e389db91f440eff650e8a06cc2e.png)
 
 
 
