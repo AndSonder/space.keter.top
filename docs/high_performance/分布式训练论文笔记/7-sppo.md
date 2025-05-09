@@ -8,7 +8,7 @@
 
 正是在这样的背景下，一种旨在攻克超长序列 LLM 训练难题的新型框架——SPPO (Adaptive Sequence Pipeline Parallel Offloading) 应运而生。SPPO 是一个创新的 LLM 训练框架，其核心目标在于通过自适应的序列感知卸载 (Sequence-aware Offloading)、两级激活管理 (Two-level Activation Management) 以及自适应的流水线并行调度 (Adaptive Pipeline Scheduling) 与多路复用序列分区 (Multiplexed Sequence Partitioning)，来极致优化长序列训练过程中的显存使用效率和计算资源利用率，从而在有限的硬件资源下，实现更长序列、更大规模模型的有效训练。
 
-本文将作为一份深度技术指南，带领各位读者一同深入 SPPO 的设计哲学与实现精髓。我们将从超长序列训练的核心瓶颈出发，详细剖析 SPPO 如何巧妙地应对这些挑战，重点解读其两大核心创新——自适应 Offloading 与自适应流水线调度的具体机制与原理，并通过翔实的实验结果验证其卓越性能。希望通过本文，能让各位对 SPPO 有一个全面而透彻的理解。
+下面我们将从超长序列训练的核心瓶颈出发，详细剖析 SPPO 如何巧妙地应对这些挑战，重点解读其两大核心创新——自适应 Offloading 与自适应流水线调度的具体机制与原理，并通过翔实的实验结果验证其卓越性能。
 
 ## 2. SPPO 框架：破局超长序列训练的新思路
 
