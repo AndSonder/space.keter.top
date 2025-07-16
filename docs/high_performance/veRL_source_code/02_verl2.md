@@ -189,7 +189,7 @@ class RayWorkerGroup(WorkerGroup):
 
 我们将以一次 PPO 迭代为例，用一张 端到端的数据流图 来追踪 DataProto 的演变过程。
 
-![picture 0](images/8d3108ec743308349192d5ae44a2fece6d8279ef1ce52823f9833ba33be633b7.png)  
+![picture 0](images/ppo.png)  
 
 RayPPOTrainer 的 fit() 循环从 `train_dataloader` 中取出一个 `batch_dict`。这个字典通常只包含 `input_ids`、`attention_mask` 等表示 prompt 的基本信息。这些信息被封装成第一个版本的 DataProto 对象。
 
