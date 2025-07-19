@@ -44,33 +44,78 @@ def make_minibatch_iterator(self, data: DataProto) -> Iterator:
 
 这个迭代器通过 `torch.randperm` 在每个 epoch 开始时都打乱数据顺序，然后按 `ppo_mini_batch_size` 切分数据，确保了后续训练的随机性。
 
+这里的 `ppo_mini_batch_size` 构成了 veRL 数据处理层级中的一环：它定义了**一次模型参数更新**所用的数据量。而在它之上，还有一个更大的 `data.train_batch_size` ，负责定义**一次经验收集采样的总样本数**；在它之下，还有一个更小的 `ppo_micro_batch_size_per_gpu`，用于在显存不足时，将 mini-batch 进一步拆分以实现梯度累积。
+
 ### 2.2. 定义优化目标
 
-对于每一个 mini-batch，我们都需要计算一个损失，来指导模型应该朝哪个方向优化。在 `update_policy` 方法内部，定义了 loss func。
-
+对于每一个 mini-batch，我们都需要计算一个损失，来指导模型应该朝哪个方向优化。在 `update_policy` 方法中，将执行具体的损失计算逻辑的逻辑委托给了 Megatron 引擎，而 优化目标 `loss_func` 的逻辑则在 `forward_backward_batch` 中定义：
 
 ```python
-# verl/workers/actor/megatron_actor.py -> MegatronPPOActor.update_policy
-def update_policy(self, dataloader: Iterator) -> dict:
-    # ...
-    def loss_func(loss_mask, output_tensor):
-        # output_tensor 是模型前向传播的输出
-        # ...
-        # 1. 计算策略损失 (Policy Loss)
-        loss = self.compute_policy_loss(data_batch, output_tensor)
-        # 2. 计算熵损失 (Entropy Loss)
-        entropy_loss = self.compute_entropy_loss(data_batch, output_tensor)
-        # 3. 计算 KL 损失 (KL Loss)
-        kl_loss = self.compute_kl_loss(data_batch, output_tensor)
+# verl/workers/actor/megatron_actor.py -> MegatronPPOActor.forward_backward_batch
+def forward_backward_batch(self, data: DataProto, ...):
+    # ... (数据预处理，切分 micro-batch)
 
-        # 4. 将所有损失加权求和
-        loss = loss + entropy_loss * self.config.entropy_loss_coef + kl_loss * self.kl_ctl.value
+    # 1. 从 Megatron-Core 获取“全权代理”函数
+    forward_backward_func = get_forward_backward_func()
+
+    # 2. 定义核心的损失计算逻辑 (这才是真正的 loss_func)
+    def loss_func(output, data, meta_info):
+        # 从模型输出中获取新的 log_prob
+        log_prob = output["log_probs"][:, -response_length - 1 : -1].contiguous()
+
+        # 从输入数据中获取旧的 log_prob 和 advantages
+        old_log_prob = data["old_log_probs"]
+        advantages = data["advantages"]
+        response_mask = data["attention_mask"][..., -response_length:].to(bool)
+
+        # a. 计算策略损失 (Policy Loss) - 调用 core_algos 中的辅助函数
+        pg_loss, _, _, _ = core_algos.compute_policy_loss(
+            old_log_prob=old_log_prob,
+            log_prob=log_prob,
+            advantages=advantages,
+            response_mask=response_mask,
+            # ... 其他配置
+        )
+        policy_loss = pg_loss
+
+        # b. 计算熵损失 (Entropy Loss)
+        if calculate_entropy:
+            entropy = output["entropy"][:, -response_length - 1 : -1].contiguous()
+            entropy_loss = core_algos.agg_loss(loss_mat=entropy, loss_mask=response_mask, ...)
+            policy_loss = policy_loss - self.config.entropy_coeff * entropy_loss
+
+        # c. 计算 KL 损失 (KL Loss)
+        if self.config.use_kl_loss:
+            ref_log_prob = data["ref_log_prob"]
+            kld = core_algos.kl_penalty(logprob=log_prob, ref_logprob=ref_log_prob, ...)
+            kl_loss = core_algos.agg_loss(loss_mat=kld, loss_mask=response_mask, ...)
+            policy_loss = policy_loss + kl_loss * self.config.kl_loss_coef
+
+        return policy_loss, { ... metrics ... }
+
+    # 3. 定义单步的前向传播逻辑
+    def forward_step(batch_iter, model):
+        # ... (准备模型输入)
+        output = forward_fn(model, ...) # 调用 Megatron 模型的前向传播
+        # 将损失函数与当前批次的数据绑定后返回
+        return output, partial(loss_func, data=batch, meta_info={...})
+
+    # 4. 将 forward_step 和数据，委托给 Megatron 的调度器执行
+    losses_reduced = forward_backward_func(
+        forward_step_func=forward_step,
+        data_iterator=batch_generator,
+        model=self.actor_module,
         # ...
-        return loss, {"loss": loss}
+    )
     # ...
+    return losses_reduced
 ```
 
 这个函数封装了 PPO 算法的精髓：它将核心的 策略损失、用于鼓励探索的 熵损失 以及用于稳定训练的 KL 损失 组合在一起，形成一个最终的、用于反向传播的标量 loss。
+
+值得注意的是，计算策略损失时的一个关键输入是 `old_log_probs`。这并非直接来自 Rollout 阶段，而是由 RayPPOTrainer 在训练前通过调用 `actor_rollout_wg.compute_log_prob` **重新计算**得来的。
+
+这样做是为了矫正 PPO 在多轮 mini-batch 更新中产生的“策略漂移”问题。由于模型在处理完第一个 mini-batch 后权重就已改变，后续 mini-batch 实际上是在进行 Off-Policy 学习。因此，必须在训练循环开始前，获取一个当前策略下精准的 `log_prob` 作为基准，才能通过重要性采样正确地计算损失，保证算法的稳定性。
 
 ### 2.3. 将优化目标委托给分布式引擎
 
@@ -78,21 +123,20 @@ def update_policy(self, dataloader: Iterator) -> dict:
 
 ```python
 # verl/workers/actor/megatron_actor.py -> MegatronPPOActor.update_policy
-# ...
-# 1. 从 Megatron 获取一个“全权代理”函数
-forward_backward_func = get_forward_backward_func(...)
-
-# 2. 遍历 mini-batch 数据
-for data_batch in dataloader:
+def update_policy(self, dataloader: Iterable[DataProto]) -> dict:
     # ...
-    # 3. 调用“全权代理”，将我们的 loss_func 作为“指令”传入
-    loss_dict = forward_backward_func(
-        forward_step_func=self.forward_step,
-        model=self.actor_module,
-        loss_func=loss_func, # <--- 核心：将损失函数委托给底层引擎
-        ...
-    )
-# ...
+    for data in dataloader:
+        # ... (省略了 zero_grad 等准备工作)
+
+        # 调用一个封装了所有分布式计算的函数
+        metric_micro_batch = self.forward_backward_batch(
+            data,
+            calculate_entropy=True,
+            # ... 其他参数
+        )
+
+        # ... (执行 optimizer.step)
+    # ...
 ```
 
 这个 `forward_backward_func` 是 Megatron 提供的一个高阶函数，它接管了所有的分布式计算细节。我们只需要提供一个损失函数，Megatron 就会负责把它分发到所有的 GPU 上，进行并行计算和梯度同步。
@@ -253,7 +297,10 @@ async def wake_up(self):
 
 在张量并行场景下，权重会被分到多个 GPU 上。`per_tensor_generator` 会先将权重通信回完整的状态，然后再将其转换为 SGLang 所需的格式。转换的时候。它的 格式 可能仍然与 SGLang 的要求不符。比如 Megatron 中会将 Q，K，V 三个张量合并成一个，而 SGLang 需要它们分开。`weight_converter` 就是负责这种转换的工具。
 
-`per_tensor_generator` 将 “组装” 和 “翻译” 封装在一个 Python 生成器中。它处理完一个权重（例如 wte），就立刻通过 `yield` 将其 `(name, tensor)` 对产出，然后 `update_weights` 方法就立刻消费它，将其注入 SGLang 并可能释放内存。然后 `per_tensor_generator` 再去处理下一个权重。
+`per_tensor_generator` 将 “组装” 和 “翻译” 封装在一个 Python 生成器中。它处理完一个权重（例如 wte），就立刻通过 `yield` 将其 `(name, tensor)` 对产出，然后 `update_weights` 方法就立刻消费它，但它并**不直接通过网络传输庞大的张量数据**。这正是 veRL “零拷贝”魔法的核心所在。
+
+在 `update_weights` 内部，每个张量都会经过 `MultiprocessingSerializer.serialize(tensor)` 的处理。这是 sglang 提供的一个高效序列化工具，它内部封装了一个 ForkingPickler，会将 CUDA 张量序列化为一个轻量级的 **“句柄元组” (Handle Tuple)**。 这个元组不包含任何实际的权重数据，而是包含了在另一个进程中“重建”此张量所需的一切元信息：**类型、形状、步长，以及最关键的 CUDA IPC 句柄**。SGLang 引擎在接收端通过反序列化，利用这些 IPC 句柄直接创建出指向同一块物理显存的新张量对象。
+
 
 veRL 的论文中提到了一种利用训练并行组（PP/DP）来优化权重同步的通信方案。然而，在当前的代码中，这套逻辑已被移除（具体见
   PR #1444 (https://github.com/volcengine/verl/pull/1444)）。
@@ -271,12 +318,3 @@ ShardingManager 在其中扮演了关键的“粘合剂”角色，通过 `with`
 这引发了我们更深层次的思考：**一个高性能框架的价值，究竟是“自己实现一切”，还是“更好地组织与调度”？** veRL 显然选择了后者。
 
 后续的文章中，我们将继续深入 veRL 的 Worker 体系，看看 CriticWorker 和 RewardModelWorker 是如何被实现的。
-
-
-
-
-
-
-
-
-
